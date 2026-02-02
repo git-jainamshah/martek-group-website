@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function AbstractsPage() {
   return (
-    <div className="pt-20 section-padding">
+    <div className="pt-24 section-padding">
       <div className="container-custom">
         <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-8 text-center">
           Abstracts

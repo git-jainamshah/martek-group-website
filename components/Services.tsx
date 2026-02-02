@@ -1,120 +1,84 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { 
-  Code, 
-  TrendingUp, 
-  Share2, 
-  Search, 
-  DraftingCompass,
-  ArrowRight 
-} from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 
 const services = [
   {
-    icon: Code,
-    title: 'Web Development & Digital Branding',
-    description: 'Create stunning, responsive websites that represent your brand perfectly. From custom web applications to e-commerce solutions, we build digital experiences that convert visitors into customers.',
-    features: ['Custom Website Design', 'E-commerce Solutions', 'Brand Identity', 'UI/UX Design', 'Performance Optimization'],
-    color: 'primary'
+    title: 'Web Development',
+    description: 'We build digital experiences that convert.',
+    features: ['Custom Website Design', 'E-commerce Solutions', 'Brand Identity', 'UI/UX Design', 'Performance Optimization']
   },
   {
-    icon: TrendingUp,
     title: 'Data & Analytics',
-    description: 'Harness the power of your data. We provide comprehensive analytics solutions to understand your audience, track performance, and make data-driven decisions that drive growth.',
-    features: ['Data Analysis', 'Performance Tracking', 'Custom Dashboards', 'Business Intelligence', 'Reporting'],
-    color: 'secondary'
+    description: 'Harness the power of your data to drive growth.',
+    features: ['Data Analysis', 'Performance Tracking', 'Custom Dashboards', 'Business Intelligence', 'Reporting']
   },
   {
-    icon: Share2,
-    title: 'Social Media Marketing',
-    description: 'Build a strong online presence across all social platforms. Our strategic social media campaigns increase brand awareness, engage your audience, and drive meaningful connections.',
-    features: ['Content Strategy', 'Community Management', 'Social Media Advertising', 'Influencer Outreach', 'Brand Awareness'],
-    color: 'primary'
+    title: 'Social Media',
+    description: 'Strategic campaigns that build connections.',
+    features: ['Content Strategy', 'Community Management', 'Social Media Advertising', 'Influencer Outreach', 'Brand Awareness']
   },
   {
-    icon: Search,
-    title: 'SEO & Digital Ads',
-    description: 'Get found online with our proven SEO strategies and targeted advertising campaigns. Increase your visibility, attract qualified leads, and maximize your ROI.',
-    features: ['SEO Optimization', 'PPC Campaigns', 'Google Ads', 'Local SEO', 'Conversion Optimization'],
-    color: 'secondary'
+    title: 'SEO & Ads',
+    description: 'Maximize visibility and attract qualified leads.',
+    features: ['SEO Optimization', 'PPC Campaigns', 'Google Ads', 'Local SEO', 'Conversion Optimization']
   },
   {
-    icon: DraftingCompass,
-    title: 'Engineering Drawings',
-    description: 'Professional mechanical and civil engineering drawings with precision and attention to detail. From initial concepts to detailed blueprints, we deliver accurate technical documentation.',
-    features: ['CAD Drawings', 'Technical Specifications', '3D Modeling', 'Blueprint Design', 'Engineering Consultation'],
-    color: 'primary'
+    title: 'Engineering',
+    description: 'Precision drafting and technical documentation.',
+    features: ['CAD Drawings', 'Technical Specifications', '3D Modeling', 'Blueprint Design', 'Engineering Consultation']
   },
 ]
 
 export default function Services() {
   return (
-    <section id="services" className="section-padding bg-white">
+    <section id="services" className="section-padding bg-background text-foreground">
       <div className="container-custom">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="mb-20"
         >
-          <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">
-            Our Services
+          <h2 className="text-4xl md:text-6xl font-light mb-8 uppercase tracking-tight">
+            Our <span className="font-bold">Capabilities</span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Comprehensive solutions to elevate your business in the digital age
-          </p>
+          <div className="h-px w-full bg-border"></div>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service, index) => {
-            const Icon = service.icon
-            const colorClasses = service.color === 'primary' 
-              ? 'bg-primary-100 text-primary-600' 
-              : 'bg-secondary-100 text-secondary-600'
-            
-            return (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 group"
-              >
-                <div className={`${colorClasses} w-16 h-16 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                  <Icon className="w-8 h-8" />
-                </div>
-                
-                <h3 className="text-xl font-bold text-gray-900 mb-3">
+        <div className="space-y-0">
+          {services.map((service, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="grid grid-cols-1 md:grid-cols-12 gap-8 py-12 border-b border-border hover:bg-muted/30 transition-colors duration-300 px-4 -mx-4 rounded-lg group"
+            >
+              <div className="md:col-span-5">
+                <h3 className="text-2xl md:text-3xl font-bold uppercase tracking-wide text-foreground group-hover:text-primary transition-colors">
                   {service.title}
                 </h3>
-                
-                <p className="text-gray-600 mb-6 leading-relaxed">
+              </div>
+              <div className="md:col-span-7">
+                <p className="text-xl text-muted-foreground mb-6 font-light">
                   {service.description}
                 </p>
-
-                <ul className="space-y-2 mb-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2">
                   {service.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-start text-sm text-gray-600">
-                      <span className="text-primary-600 mr-2">✓</span>
+                    <div key={idx} className="flex items-center text-sm text-gray-500 font-medium uppercase tracking-wider">
+                      <span className="w-1.5 h-1.5 bg-primary rounded-full mr-3"></span>
                       {feature}
-                    </li>
+                    </div>
                   ))}
-                </ul>
-
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center text-primary-600 font-semibold hover:text-primary-700 transition-colors group-hover:translate-x-1 duration-300"
-                >
-                  Learn More
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Link>
-              </motion.div>
-            )
-          })}
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
 
         <motion.div
@@ -122,11 +86,14 @@ export default function Services() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="text-center mt-12"
+          className="mt-20 text-center"
         >
-          <Link href="/contact" className="btn-primary text-lg px-8 py-4 inline-flex items-center space-x-2">
-            <span>Get Started Today</span>
-            <ArrowRight className="w-5 h-5" />
+          <Link
+            href="/contact"
+            className="inline-flex items-center space-x-3 text-foreground border border-border px-8 py-4 rounded-full hover:bg-foreground hover:text-background transition-all duration-300 uppercase tracking-widest text-sm font-bold"
+          >
+            <span>Start a Project</span>
+            <ArrowRight className="w-4 h-4" />
           </Link>
         </motion.div>
       </div>

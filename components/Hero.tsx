@@ -2,13 +2,12 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Video Background */}
-      <div className="absolute inset-0 z-0 bg-gradient-to-br from-primary-900 via-primary-800 to-secondary-900">
+    <section className="relative h-[75vh] min-h-[500px] flex items-center overflow-hidden">
+      {/* Video/Image Background */}
+      <div className="absolute inset-0 z-0">
         <video
           autoPlay
           loop
@@ -18,76 +17,50 @@ export default function Hero() {
         >
           <source src="/assets/homepage-banner-bg.mp4" type="video/mp4" />
         </video>
-        {/* Overlay for better text readability */}
-        <div className="absolute inset-0 bg-black/40"></div>
+        {/* Darker overlay for professional contrast */}
+        <div className="absolute inset-0 bg-black/60"></div>
       </div>
 
-      {/* Content */}
-      <div className="container-custom section-padding relative z-10">
-        <div className="text-center max-w-4xl mx-auto">
+      {/* Content - Left Aligned & Professional */}
+      <div className="container-custom section-padding relative z-10 w-full">
+        <div className="max-w-3xl">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-              Your Digital Partner is here.
+            <h1 className="text-4xl md:text-6xl lg:text-7xl text-white mb-6 leading-tight tracking-tight font-bold">
+              Engineering <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-gray-400">
+                Digital Excellence.
+              </span>
             </h1>
-            
-            <p className="text-xl md:text-2xl lg:text-3xl text-white/90 mb-12 leading-relaxed font-light">
-              Internet has made us all popular,<br />
-              But now it's time to be relevant.
+
+            <p className="text-base md:text-xl text-gray-300 mb-8 max-w-xl font-light leading-relaxed">
+              We transform complex business challenges into elegant digital solutions.
+              Your partner for <span className="text-white font-medium underline decoration-dotted decoration-gray-400 underline-offset-4">growth</span>, <span className="text-white font-medium underline decoration-dotted decoration-gray-400 underline-offset-4">innovation</span>, and <span className="text-white font-medium underline decoration-dotted decoration-gray-400 underline-offset-4">scale</span>.
             </p>
-          </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-          >
-            <Link 
-              href="/contact" 
-              className="bg-white text-primary-600 hover:bg-gray-100 font-semibold py-4 px-8 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-lg flex items-center space-x-2"
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+              className="flex flex-col sm:flex-row items-start gap-4"
             >
-              <span>Launch Now</span>
-              <ArrowRight className="w-5 h-5" />
-            </Link>
-            <Link 
-              href="/contact" 
-              className="bg-transparent border-2 border-white text-white hover:bg-white/10 font-semibold py-4 px-8 rounded-lg transition-all duration-200 text-lg"
-            >
-              Call to Action
-            </Link>
+              <Link
+                href="/contact"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-4 px-10 rounded-full transition-all duration-300 text-sm tracking-widest uppercase shadow-lg hover:shadow-primary/20 hover:-translate-y-1"
+              >
+                Get Free Quote Now
+              </Link>
+              <Link
+                href="/services"
+                className="bg-white/5 backdrop-blur-md border border-white/20 hover:bg-white hover:text-black text-white font-bold py-4 px-10 rounded-full transition-all duration-300 text-sm tracking-widest uppercase hover:-translate-y-1"
+              >
+                Our Capabilities
+              </Link>
+            </motion.div>
           </motion.div>
-
-          {/* Stats Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="grid grid-cols-3 gap-8 mt-16 max-w-2xl mx-auto"
-          >
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-white mb-2">0</div>
-              <div className="text-white/80 text-sm md:text-base">Projects</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-white mb-2">0</div>
-              <div className="text-white/80 text-sm md:text-base">Clients</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-white mb-2">0</div>
-              <div className="text-white/80 text-sm md:text-base">Years</div>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce z-10">
-        <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
-          <div className="w-1 h-3 bg-white/50 rounded-full mt-2"></div>
         </div>
       </div>
     </section>

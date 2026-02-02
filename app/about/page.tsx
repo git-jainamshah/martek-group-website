@@ -1,111 +1,117 @@
-import { Metadata } from 'next'
+'use client'
+
 import { Award, Users, Target, Heart, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
-
-export const metadata: Metadata = {
-  title: 'About Us - Martek Group',
-  description: 'Learn about Martek Group - your trusted partner for digital solutions and engineering services. We combine expertise, innovation, and dedication to deliver exceptional results.',
-}
+import PageHero from '@/components/PageHero'
+import AnimatedGridBackground from '@/components/AnimatedGridBackground'
+import { motion } from 'framer-motion'
 
 export default function AboutPage() {
+  const values = [
+    {
+      icon: Target,
+      title: 'Precision Execution',
+      description: 'We measure twice and cut once. Every line of code is written with a purpose, focusing on performance and maintainability.'
+    },
+    {
+      icon: Heart,
+      title: 'Radical Transparency',
+      description: 'No hidden fees, no "black box" processes. You verify our code, see our roadmap, and know exactly where we stand.'
+    },
+    {
+      icon: Users,
+      title: 'Extension of Your Team',
+      description: 'We don\'t act like a vendor. We embed ourselves in your vision, caring about your product\'s success as much as you do.'
+    },
+    {
+      icon: Award,
+      title: 'Future-Proof By Design',
+      description: 'We build MVPs that are ready to scale. No throwaway code—your foundation is built to handle your future success.'
+    }
+  ]
+
   return (
-    <div className="pt-20">
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary-600 to-secondary-600 text-white section-padding">
-        <div className="container-custom text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">
-            About Martek Group
-          </h1>
-          <p className="text-xl text-primary-50 max-w-3xl mx-auto">
-            Transforming businesses through innovative digital solutions and engineering excellence
-          </p>
-        </div>
-      </section>
+    <div className="bg-background min-h-screen transition-colors duration-300">
+      <PageHero
+        title="About Martek Group"
+        subtitle="Bringing enterprise-grade engineering to startups and modern brands."
+        backgroundComponent={<AnimatedGridBackground />}
+      />
 
       {/* Mission Section */}
-      <section className="section-padding bg-white">
-        <div className="container-custom">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 text-center">
-              Our Mission
+      <section className="section-padding bg-background relative overflow-hidden transition-colors duration-300">
+        <div className="container-custom relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="max-w-4xl mx-auto text-center"
+          >
+            <h2 className="text-3xl md:text-5xl font-bold mb-8 tracking-tight text-foreground">
+              Built for Speed & Scale
             </h2>
-            <p className="text-xl text-gray-600 leading-relaxed mb-8">
-              At Martek Group, we believe in the power of digital transformation. Our mission is to help businesses 
-              of all sizes leverage technology and engineering expertise to achieve their goals, reach their audience, 
-              and drive sustainable growth.
+            <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed mb-12 font-light">
+              We founded Martek Group to bridge the gap between "fast but messy" freelancers and "perfect but slow" big agencies. We are a lean team of senior engineers who build robust digital products without the fluff.
             </p>
-            <p className="text-lg text-gray-600 leading-relaxed">
-              We combine creative design, technical expertise, and strategic thinking to deliver solutions that not 
-              only meet your current needs but also scale with your business. Whether you're looking to establish 
-              a digital presence, optimize your online performance, or create professional engineering documentation, 
-              we're here to help.
-            </p>
-          </div>
+            <div className="text-lg text-muted-foreground leading-relaxed space-y-6">
+              <p>
+                We don't just write code; we architect solutions that can handle your next 10x growth stage. We believe in direct communication, rapid iteration, and code quality that sleeps well at night.
+              </p>
+            </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Values Section */}
-      <section className="section-padding bg-gray-50">
+      <section className="section-padding bg-muted/30 border-t border-border transition-colors duration-300">
         <div className="container-custom">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center">
-            Our Values
-          </h2>
-          
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-3xl md:text-5xl font-bold text-foreground mb-16 text-center tracking-tight"
+          >
+            Our Core Principles
+          </motion.h2>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Target className="w-8 h-8 text-primary-600" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Excellence</h3>
-              <p className="text-gray-600">
-                We strive for excellence in every project, delivering quality that exceeds expectations.
-              </p>
-            </div>
-            
-            <div className="text-center">
-              <div className="bg-secondary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Heart className="w-8 h-8 text-secondary-600" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Integrity</h3>
-              <p className="text-gray-600">
-                Honest communication, transparent processes, and ethical business practices guide everything we do.
-              </p>
-            </div>
-            
-            <div className="text-center">
-              <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Users className="w-8 h-8 text-primary-600" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Collaboration</h3>
-              <p className="text-gray-600">
-                We work closely with our clients, listening to their needs and partnering for success.
-              </p>
-            </div>
-            
-            <div className="text-center">
-              <div className="bg-secondary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Award className="w-8 h-8 text-secondary-600" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Innovation</h3>
-              <p className="text-gray-600">
-                We stay ahead of trends, using cutting-edge technology and creative solutions.
-              </p>
-            </div>
+            {values.map((value, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="bg-background border border-border p-8 rounded-xl hover:shadow-lg transition-all duration-300 group"
+              >
+                <div className="bg-primary/10 w-16 h-16 rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary transition-colors duration-300">
+                  <value.icon className="w-8 h-8 text-primary group-hover:text-white transition-colors duration-300" />
+                </div>
+                <h3 className="text-xl font-bold text-foreground mb-3">{value.title}</h3>
+                <p className="text-muted-foreground leading-relaxed font-light text-sm">
+                  {value.description}
+                </p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="section-padding bg-white">
+      <section className="section-padding bg-primary text-white">
         <div className="container-custom text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Let's Work Together
+          <h2 className="text-3xl md:text-5xl font-bold mb-6 tracking-tight">
+            Partner with Excellence
           </h2>
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Ready to transform your business? Get in touch and let's discuss how we can help you achieve your goals.
+          <p className="text-xl text-white/90 mb-10 max-w-2xl mx-auto font-light">
+            Engage with our consultants today to architect the future of your enterprise.
           </p>
-          <Link href="/contact" className="btn-primary text-lg px-8 py-4 inline-flex items-center space-x-2">
-            <span>Get Your Free Quote</span>
+          <Link
+            href="/contact"
+            className="inline-flex items-center space-x-2 bg-white text-primary px-10 py-5 rounded-full font-bold uppercase tracking-widest hover:bg-gray-100 transition-all hover:-translate-y-1 shadow-xl"
+          >
+            <span>Initiate Consultation</span>
             <ArrowRight className="w-5 h-5" />
           </Link>
         </div>

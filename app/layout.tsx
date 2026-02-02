@@ -4,7 +4,7 @@ import './globals.css'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
-const ubuntu = Ubuntu({ 
+const ubuntu = Ubuntu({
   subsets: ['latin'],
   weight: ['300', '400', '500', '700'],
   variable: '--font-ubuntu',
@@ -33,13 +33,18 @@ export const metadata: Metadata = {
   viewport: 'width=device-width, initial-scale=1',
 }
 
+import { ThemeProvider } from '@/components/theme-provider'
+import ScrollToTop from '@/components/ScrollToTop'
+
+// ... existing imports
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="canonical" href="https://www.martekgroup.com" />
         <script
@@ -65,11 +70,19 @@ export default function RootLayout({
         />
       </head>
       <body className={ubuntu.className}>
-        <Navbar />
-        <main className="min-h-screen">
-          {children}
-        </main>
-        <Footer />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Navbar />
+          <main className="min-h-screen">
+            {children}
+          </main>
+          <Footer />
+          <ScrollToTop />
+        </ThemeProvider>
       </body>
     </html>
   )
