@@ -1,130 +1,451 @@
-# Martek Group Website
+# 🚀 Martek Group Website
 
-A modern, responsive business website built with Next.js, TypeScript, and Tailwind CSS.
+A modern, professional business website built with cutting-edge web technologies. Features a responsive design, dark mode support, dynamic animations, and comprehensive project showcases.
 
-## Features
+[![Next.js](https://img.shields.io/badge/Next.js-14.2-black?style=flat-square&logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38bdf8?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
 
-- ✅ Fully responsive design (mobile, tablet, desktop)
-- ✅ SEO optimized with meta tags and structured data
-- ✅ Modern UI with smooth animations
+## 📋 Table of Contents
+
+- [Quick Start](#-quick-start-one-command-setup)
+- [Tech Stack](#-tech-stack)
+- [Features](#-features)
+- [Manual Setup](#-manual-setup)
+- [Project Structure](#-project-structure)
+- [Development](#-development)
+- [Deployment](#-deployment)
+- [Version Control](#-version-control)
+
+## ⚡ Quick Start (One Command Setup)
+
+Clone and set up the entire project with a single command:
+
+```bash
+git clone https://github.com/git-jainamshah/martek-group-website.git && cd martek-group-website && chmod +x setup.sh && ./setup.sh
+```
+
+This will:
+- ✅ Clone the repository
+- ✅ Check for Node.js and npm
+- ✅ Install all dependencies automatically
+- ✅ Start the development server
+- ✅ Open your browser to http://localhost:3000
+
+### Alternative: Quick Start Script
+
+If you prefer to run the setup separately:
+
+```bash
+# Clone the repository
+git clone https://github.com/git-jainamshah/martek-group-website.git
+cd martek-group-website
+
+# Run the automated setup
+./setup.sh
+```
+
+## 🛠 Tech Stack
+
+### Frontend Framework
+- **Next.js 14.2** - React framework with App Router for server-side rendering and optimal performance
+- **React 18.3** - Component-based UI library with hooks and modern features
+- **TypeScript 5.3** - Type-safe development with enhanced IDE support
+
+### Styling & UI
+- **Tailwind CSS 3.4** - Utility-first CSS framework for rapid UI development
+- **Framer Motion 11.0** - Production-ready animation library for smooth transitions
+- **Lucide React 0.344** - Beautiful, consistent icon library with 1000+ icons
+- **next-themes 0.4.6** - Perfect dark mode support with system preference detection
+
+### Forms & Validation
+- **React Hook Form 7.50** - Performant form handling with built-in validation
+
+### Development Tools
+- **ESLint 8.56** - Code quality and consistency
+- **PostCSS 8.4** - CSS transformations and optimizations
+- **Autoprefixer 10.4** - Automatic vendor prefixing for cross-browser compatibility
+
+## ✨ Features
+
+### 🎨 Design & UX
+- ✅ Fully responsive design (mobile, tablet, desktop, 4K)
+- ✅ Dark mode / Light mode toggle with persistent preferences
+- ✅ Smooth animations and transitions using Framer Motion
+- ✅ Modern glassmorphism and gradient effects
+- ✅ Video backgrounds and dynamic visual elements
+- ✅ Animated grid backgrounds and spotlight effects
+- ✅ Scroll-to-top button for better navigation
+
+### 📄 Pages & Content
+- ✅ Homepage with hero section and service overview
+- ✅ Services page with detailed offerings
+- ✅ Projects showcase with case studies
+- ✅ Individual project pages (Analytics, Engineering, Web Development)
+- ✅ About page with company information
+- ✅ Pricing packages with detailed comparisons
 - ✅ Contact form with validation
-- ✅ Service packages and pricing
+- ✅ Privacy policy and Terms of service
+- ✅ Blog section
+- ✅ Custom 404 error page
+
+### 🚀 Performance & SEO
+- ✅ SEO optimized with meta tags and Open Graph
+- ✅ Structured data (JSON-LD) for rich snippets
+- ✅ Automatic sitemap generation
+- ✅ Robots.txt configuration
 - ✅ Fast loading with Next.js optimization
-- ✅ Accessible and user-friendly
+- ✅ Image optimization and lazy loading
+- ✅ Code splitting and tree shaking
 
-## Tech Stack
+### 💼 Business Features
+- ✅ Contact form with React Hook Form validation
+- ✅ Service package comparisons
+- ✅ Project portfolio with modals
+- ✅ Client testimonials section
+- ✅ Call-to-action sections throughout
+- ✅ Efficiency charts and statistics
+- ✅ Project timelines and case studies
 
-- **Next.js 14** - React framework with App Router
-- **TypeScript** - Type-safe development
-- **Tailwind CSS** - Utility-first CSS framework
-- **Framer Motion** - Smooth animations
-- **React Hook Form** - Form handling and validation
-- **Lucide React** - Modern icon library
+## 📦 Manual Setup
 
-## Getting Started
+If the automated setup doesn't work, follow these steps:
 
 ### Prerequisites
 
-- Node.js 18+ installed
-- npm or yarn package manager
+Ensure you have the following installed:
+- **Node.js** 18.0 or higher ([Download](https://nodejs.org/))
+- **npm** 9.0 or higher (comes with Node.js)
+- **Git** ([Download](https://git-scm.com/))
 
-### Installation
-
-1. Install dependencies:
+Check your versions:
 ```bash
-npm install
+node --version  # Should be v18.0.0 or higher
+npm --version   # Should be 9.0.0 or higher
+git --version   # Any recent version
 ```
 
-2. Run the development server:
-```bash
-npm run dev
-```
+### Installation Steps
 
-3. Open [http://localhost:3000](http://localhost:3000) in your browser.
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/git-jainamshah/martek-group-website.git
+   cd martek-group-website
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+   This will install all required packages listed in `package.json`
+
+3. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open your browser**
+   Navigate to [http://localhost:3000](http://localhost:3000)
 
 ### Build for Production
 
 ```bash
+# Create an optimized production build
 npm run build
+
+# Start the production server
 npm start
 ```
 
-## Project Structure
+### Other Commands
 
-```
-├── app/
-│   ├── about/          # About page
-│   ├── contact/        # Contact page
-│   ├── pricing/        # Pricing page
-│   ├── services/       # Services page
-│   ├── globals.css     # Global styles
-│   ├── layout.tsx      # Root layout
-│   └── page.tsx        # Homepage
-├── components/         # React components
-│   ├── Navbar.tsx
-│   ├── Footer.tsx
-│   ├── Hero.tsx
-│   ├── Services.tsx
-│   └── ...
-└── public/            # Static assets
+```bash
+# Run ESLint to check code quality
+npm run lint
+
+# Format code (if you add Prettier)
+npm run format
 ```
 
-## Key Pages
+## 📁 Project Structure
 
-- **Home** (`/`) - Main landing page with hero, services, and CTA
-- **Services** (`/services`) - Detailed service descriptions
-- **Pricing** (`/pricing`) - Package options and pricing
-- **About** (`/about`) - Company information
-- **Contact** (`/contact`) - Contact form and information
+```
+martek-group-website/
+├── app/                          # Next.js App Router
+│   ├── about/                    # About page
+│   ├── abstracts/                # Abstracts/summaries page
+│   ├── blogs/                    # Blog listing page
+│   ├── case-studies/             # Case studies page
+│   ├── contact/                  # Contact page with form
+│   ├── pricing/                  # Pricing packages page
+│   ├── privacy/                  # Privacy policy page
+│   ├── projects/                 # Project showcase pages
+│   │   ├── analytics-tagging/    # Analytics project details
+│   │   ├── engineering-drawings/ # Engineering project details
+│   │   └── web-development/      # Web dev project details
+│   ├── services/                 # Services page
+│   ├── terms/                    # Terms of service page
+│   ├── globals.css               # Global styles and Tailwind imports
+│   ├── layout.tsx                # Root layout with metadata
+│   ├── page.tsx                  # Homepage
+│   ├── not-found.tsx             # Custom 404 page
+│   ├── robots.ts                 # Robots.txt generation
+│   └── sitemap.ts                # Sitemap generation
+│
+├── components/                   # Reusable React components
+│   ├── AnimatedGridBackground.tsx    # Animated grid effect
+│   ├── BottomSection.tsx            # Bottom CTA section
+│   ├── BrightGridBackground.tsx     # Light theme grid
+│   ├── ContactForm.tsx              # Contact form with validation
+│   ├── CTASection.tsx               # Call-to-action component
+│   ├── DarkTechBackground.tsx       # Dark theme background
+│   ├── EfficiencyChart.tsx          # Data visualization chart
+│   ├── Footer.tsx                   # Site footer
+│   ├── Hero.tsx                     # Homepage hero section
+│   ├── ModeToggle.tsx               # Dark/light mode switcher
+│   ├── Navbar.tsx                   # Navigation bar
+│   ├── PageHero.tsx                 # Reusable page hero component
+│   ├── PresentationStats.tsx        # Statistics display
+│   ├── PricingPackages.tsx          # Pricing comparison cards
+│   ├── ProjectCard.tsx              # Project preview card
+│   ├── ProjectModal.tsx             # Project detail modal
+│   ├── ProjectTimeline.tsx          # Project timeline view
+│   ├── ScrollToTop.tsx              # Scroll to top button
+│   ├── ServiceDetail.tsx            # Service detail cards
+│   ├── Services.tsx                 # Services overview
+│   ├── SpotlightRevealBackground.tsx # Spotlight effect
+│   ├── Testimonials.tsx             # Client testimonials
+│   ├── theme-provider.tsx           # Theme context provider
+│   ├── VideoBackground.tsx          # Video background component
+│   └── WhyChooseUs.tsx              # Features section
+│
+├── public/                       # Static assets
+│   └── assets/                   # Images, videos, logos
+│       ├── analytics-bg.mp4              # Background video
+│       ├── blogs-banner-bg.jpg           # Blog banner
+│       ├── business-services-banner-bg.jpg
+│       ├── contact-us-banner-bg.jpg
+│       ├── contact-us-form.jpg
+│       ├── engineering-drawings-bg.mp4
+│       ├── homepage-banner-bg.mp4
+│       ├── martek-group-header.png       # Logo header
+│       ├── martek-offical-logo.png       # Full logo
+│       ├── martek-only-logo.png          # Icon logo
+│       ├── office-dark-hero.png
+│       ├── sample-project-bg.jpg
+│       └── web-dev-bg.mp4
+│
+├── .eslintrc.json                # ESLint configuration
+├── .gitignore                    # Git ignore rules
+├── .vercelignore                 # Vercel deployment ignore
+├── next.config.js                # Next.js configuration
+├── package.json                  # Project dependencies and scripts
+├── package-lock.json             # Locked dependency versions
+├── postcss.config.js             # PostCSS configuration
+├── tailwind.config.ts            # Tailwind CSS configuration
+├── tsconfig.json                 # TypeScript configuration
+├── setup.sh                      # Automated setup script
+├── start-local.sh                # Local development script
+├── DEPLOYMENT.md                 # Deployment instructions
+├── QUICK_DEPLOY.md               # Quick deployment guide
+└── README.md                     # This file
+```
 
-## Customization
+## 💻 Development
 
-### Update Contact Information
+### Running Locally
 
-Edit the contact details in:
-- `components/Footer.tsx`
-- `app/contact/page.tsx`
-- `components/ContactForm.tsx`
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) to view in your browser. The page auto-updates as you edit files.
 
-### Modify Services
+### Making Changes
 
-Update service information in:
-- `components/Services.tsx`
-- `components/ServiceDetail.tsx`
+1. Create a new branch for your feature:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
 
-### Adjust Colors
+2. Make your changes and test thoroughly
 
-Modify the color scheme in `tailwind.config.ts` under the `theme.extend.colors` section.
+3. Commit your changes:
+   ```bash
+   git add .
+   git commit -m "Description of your changes"
+   ```
 
-## SEO Features
+4. Push to GitHub:
+   ```bash
+   git push origin feature/your-feature-name
+   ```
 
-- Meta tags for all pages
-- Structured data (JSON-LD)
-- Semantic HTML
-- Open Graph tags
-- Twitter Card tags
-- Sitemap ready (add sitemap generation)
+### Key Development Files
 
-## Form Submission
+- **Styling**: Edit `tailwind.config.ts` for theme customization
+- **Global CSS**: Modify `app/globals.css` for site-wide styles
+- **Navigation**: Update `components/Navbar.tsx` for menu items
+- **Contact Info**: Edit `components/Footer.tsx` and `app/contact/page.tsx`
+- **Services**: Modify `components/Services.tsx` and `app/services/page.tsx`
 
-The contact form currently logs to console. To enable actual form submission:
+## 🌐 Deployment
 
-1. Create an API route at `app/api/contact/route.ts`
-2. Update the form submission in `components/ContactForm.tsx`
-3. Add email service (e.g., SendGrid, Resend) or database storage
+### Deploy to Vercel (Recommended)
 
-## Deployment
+1. Push your code to GitHub (already set up!)
+2. Visit [vercel.com](https://vercel.com)
+3. Import your repository: `git-jainamshah/martek-group-website`
+4. Vercel will auto-detect Next.js and configure everything
+5. Click "Deploy"
 
-The site can be deployed to:
-- **Vercel** (recommended for Next.js)
-- **Netlify**
-- **AWS Amplify**
-- Any hosting service that supports Node.js
+Your site will be live in minutes with automatic deployments on every push!
 
-## Support
+### Alternative Platforms
 
-For questions or support, contact info@martekgroup.com
+- **Netlify**: Connect GitHub repo and deploy
+- **AWS Amplify**: Use the Amplify Console
+- **Cloudflare Pages**: Import from GitHub
+- **Self-hosted**: Use `npm run build` and `npm start` on your server
 
-## License
+## 🔄 Version Control
+
+This project uses Git for version control. All changes are automatically tracked.
+
+### Viewing History
+
+```bash
+# View commit history
+git log --oneline
+
+# View changes in a specific file
+git log -p path/to/file.tsx
+
+# View who changed what
+git blame path/to/file.tsx
+```
+
+### Rolling Back Changes
+
+```bash
+# Undo uncommitted changes to a file
+git checkout -- path/to/file.tsx
+
+# Undo last commit (keeps changes)
+git reset --soft HEAD~1
+
+# View all commits and choose one to revert to
+git log --oneline
+git checkout <commit-hash>
+```
+
+### Creating Backups
+
+```bash
+# Create a new branch for backup
+git branch backup-branch-name
+
+# List all branches
+git branch -a
+```
+
+### Syncing with GitHub
+
+```bash
+# Pull latest changes from GitHub
+git pull origin main
+
+# Push your changes to GitHub
+git push origin main
+
+# Check sync status
+git status
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📝 Customization Guide
+
+### Changing Colors
+
+Edit `tailwind.config.ts`:
+```typescript
+theme: {
+  extend: {
+    colors: {
+      primary: '#your-color',
+      secondary: '#your-color',
+    }
+  }
+}
+```
+
+### Adding New Pages
+
+1. Create a new folder in `app/`: `app/new-page/`
+2. Add `page.tsx` in that folder
+3. Update navigation in `components/Navbar.tsx`
+
+### Modifying Contact Form
+
+Edit `components/ContactForm.tsx` to:
+- Add/remove form fields
+- Change validation rules
+- Update submission logic
+
+### Updating Services
+
+Edit `components/Services.tsx` and `app/services/page.tsx` to:
+- Add new services
+- Update descriptions
+- Change pricing
+
+## 🐛 Troubleshooting
+
+### Port 3000 Already in Use
+
+```bash
+# Kill process on port 3000
+npx kill-port 3000
+
+# Or use a different port
+PORT=3001 npm run dev
+```
+
+### Module Not Found Errors
+
+```bash
+# Clear cache and reinstall
+rm -rf node_modules package-lock.json
+npm install
+```
+
+### Build Errors
+
+```bash
+# Clear Next.js cache
+rm -rf .next
+npm run build
+```
+
+## 📧 Support
+
+For questions, issues, or support:
+- 📧 Email: info@martekgroup.com
+- 🐛 Issues: [GitHub Issues](https://github.com/git-jainamshah/martek-group-website/issues)
+- 📖 Documentation: [Next.js Docs](https://nextjs.org/docs)
+
+## 📄 License
 
 © 2024 Martek Group. All rights reserved.
+
+---
+
+**Built with ❤️ using Next.js, TypeScript, and Tailwind CSS**
+
+🌟 Don't forget to star this repo if you find it helpful!
