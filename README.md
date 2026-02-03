@@ -326,9 +326,29 @@ This project uses Git for version control. All changes are automatically tracked
 
 This displays:
 - Serial number for each version
+- Version number (v1.0.X format)
 - Commit hash
 - Date of change
 - Quick summary of changes
+
+**Advanced viewing options:**
+```bash
+./view-versions.sh -n 5          # Show last 5 commits
+./view-versions.sh --all         # Show all commits
+./view-versions.sh --detailed    # Show with author & file stats
+./view-versions.sh --compact     # Minimal view
+./view-versions.sh --help        # See all options
+```
+
+**🎨 Customize the appearance:**
+```bash
+./customize-versions.sh
+```
+Interactive tool to customize:
+- Color schemes (blue, green, purple, rainbow)
+- Table styles (default, compact, detailed, minimal)
+- Display options (show/hide authors, file stats)
+- Default number of commits to display
 
 **View detailed changelog:**
 ```bash

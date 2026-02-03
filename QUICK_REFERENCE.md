@@ -14,13 +14,46 @@ Your go-to guide for common tasks and commands.
 This shows you exactly what you asked for:
 
 ```
-Sr#   Commit       Date                 Summary
-──────────────────────────────────────────────────────────────
-1     90ea98c      3 weeks ago          Initial commit - Martek...
-2     1258458      24 hours ago         Add complete features
-3     e715635      37 minutes ago       Initial commit
+Sr#   Version   Commit     Date                 Summary
+────────────────────────────────────────────────────────────────
+1     v1.0.0    90ea98c    3 weeks ago          Initial commit - Martek...
+2     v1.0.1    1258458    24 hours ago         Add complete features
+3     v1.0.2    e715635    37 minutes ago       Initial commit
 ...
 ```
+
+### 🎨 NEW! Customization Options
+
+**Show last 5 commits only:**
+```bash
+./view-versions.sh -n 5
+```
+
+**Show all commits:**
+```bash
+./view-versions.sh --all
+```
+
+**Detailed view with author and file stats:**
+```bash
+./view-versions.sh --detailed
+```
+
+**Compact minimal view:**
+```bash
+./view-versions.sh --compact
+```
+
+**Interactive customization tool:**
+```bash
+./customize-versions.sh
+```
+This lets you:
+- Change color scheme (blue/green/purple/rainbow)
+- Change table style (default/compact/detailed/minimal)
+- Toggle author display
+- Set default number of commits to show
+- Preview changes before saving
 
 ### Detailed Changelog
 ```bash

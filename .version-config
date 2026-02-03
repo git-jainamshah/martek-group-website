@@ -1,0 +1,66 @@
+# ========================================
+# Version Viewer Configuration File
+# ========================================
+# Edit this file to customize how your version history looks!
+# After editing, just run: ./view-versions.sh
+
+# ===== APPEARANCE SETTINGS =====
+
+# Table Style Options:
+#   "default"  - Standard table with version numbers, commits, dates, and summaries
+#   "compact"  - Minimal view with just commit hash and summary
+#   "detailed" - Extended view with author names and file statistics
+#   "minimal"  - Super simple view with just serial numbers and summaries
+TABLE_STYLE="default"
+
+# Color Scheme Options:
+#   "blue"    - Professional blue/cyan theme (default)
+#   "green"   - Fresh green theme
+#   "purple"  - Modern purple/magenta theme
+#   "rainbow" - Colorful multi-color theme
+COLOR_SCHEME="blue"
+
+# ===== DISPLAY OPTIONS =====
+
+# Show commit author in the table?
+# Options: true or false
+SHOW_AUTHOR=false
+
+# Show number of files changed in each commit?
+# Options: true or false
+SHOW_FILES_CHANGED=false
+
+# Show lines added/removed (+/-) in each commit?
+# Options: true or false
+SHOW_LINES_CHANGED=false
+
+# Maximum length of commit message in the table
+# Longer messages will be truncated with "..."
+# Recommended: 50-80 characters
+MAX_MESSAGE_LENGTH=60
+
+# Default number of commits to show
+# 0 = show all commits
+# Any positive number = show last N commits
+# Example: 20 shows the last 20 commits
+DEFAULT_LIMIT=20
+
+# ===== VERSION NUMBERING =====
+
+# Version number format (used in the table)
+# Current format: v1.0.X where X increments with each commit
+# You can customize this in the script if needed
+VERSION_PREFIX="v1.0."
+
+# ===== NOTES =====
+
+# Tips for customization:
+# 1. Try different TABLE_STYLE options to find your favorite
+# 2. Use "detailed" style when you want to see who made changes
+# 3. Use "compact" for a quick overview
+# 4. Change COLOR_SCHEME to match your terminal theme
+# 5. Set DEFAULT_LIMIT to 0 to always show all commits
+# 6. Set DEFAULT_LIMIT to 10 for just recent changes
+
+# Save this file and run: ./view-versions.sh
+# Your changes will take effect immediately!
