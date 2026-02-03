@@ -16,6 +16,7 @@ A modern, professional business website built with cutting-edge web technologies
 - [Development](#-development)
 - [Deployment](#-deployment)
 - [Version Control](#-version-control)
+- [🔐 Secret Version Control Dashboard](#-secret-version-control-dashboard)
 
 ## ⚡ Quick Start (One Command Setup)
 
@@ -485,12 +486,60 @@ rm -rf .next
 npm run build
 ```
 
+## 🔐 Secret Version Control Dashboard
+
+**NEW!** Access a beautiful web-based version control dashboard at `/site-vc`
+
+### Quick Access
+```
+http://localhost:3000/site-vc
+```
+
+### Features
+- 🔒 **Password Protected** - Secure admin access
+- 📊 **Visual Dashboard** - See all versions in a beautiful table or timeline
+- 🔍 **Search & Filter** - Find any commit instantly
+- ⏪ **One-Click Rollback** - Revert to any previous version with safety backups
+- 📈 **Statistics** - Total commits, current branch, latest version
+- 🎨 **Two View Modes** - Table view or timeline view
+- 📱 **Mobile Responsive** - Works on all devices
+- 💾 **Auto Backup** - Creates backup branch before rollback
+
+### Default Login
+- **Password:** `martek2024!secure`
+- ⚠️ **Change this before production!**
+
+### Documentation
+See [VC_DASHBOARD.md](VC_DASHBOARD.md) for complete documentation:
+- How to change password
+- Security features
+- Usage guide
+- Troubleshooting
+- API documentation
+
+### Quick Features
+```bash
+# Access dashboard
+http://localhost:3000/site-vc
+
+# Features available:
+- View all versions in table/timeline
+- Search by message, author, or commit
+- View detailed commit information
+- Rollback to any version with one click
+- Automatic backup creation
+- Beautiful dark UI with animations
+```
+
+---
+
 ## 📧 Support
 
 For questions, issues, or support:
 - 📧 Email: info@martekgroup.com
 - 🐛 Issues: [GitHub Issues](https://github.com/git-jainamshah/martek-group-website/issues)
 - 📖 Documentation: [Next.js Docs](https://nextjs.org/docs)
+- 🔐 VC Dashboard: [VC_DASHBOARD.md](VC_DASHBOARD.md)
 
 ## 📄 License
 

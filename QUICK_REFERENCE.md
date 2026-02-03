@@ -356,11 +356,39 @@ git gc --prune=now --aggressive
 
 ---
 
+## 🔐 NEW! Secret Version Control Dashboard
+
+Access a beautiful web-based version control dashboard:
+
+```bash
+# Start dev server (if not running)
+npm run dev
+
+# Then navigate to:
+http://localhost:3000/site-vc
+```
+
+**Default Password:** `martek2024!secure`
+
+**Features:**
+- 📊 Visual table of all versions
+- 🎨 Timeline view mode
+- 🔍 Real-time search & filter
+- ⏪ One-click rollback with backup
+- 📈 Statistics dashboard
+- 📱 Mobile responsive
+- 🎯 View detailed commit info
+
+**See [VC_DASHBOARD.md](VC_DASHBOARD.md) for full documentation**
+
+---
+
 ## 🎉 Most Used Commands
 
 ```bash
-# The Big 3 (You'll use these constantly)
-./view-versions.sh              # See all versions
+# The Big 4 (You'll use these constantly)
+http://localhost:3000/site-vc   # Visual dashboard (NEW!)
+./view-versions.sh              # Terminal version table
 ./git-push.sh "Your message"    # Save & push changes
 npm run dev                     # Start dev server
 
