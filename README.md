@@ -139,12 +139,18 @@ git --version   # Any recent version
    ```
    This will install all required packages listed in `package.json`
 
-3. **Run the development server**
+3. **Add video assets (optional)**
+   
+   > **Note:** Large video files (>100MB) are not included in the repository due to GitHub's file size limits.
+   > The homepage banner video (`homepage-banner-bg.mp4`) should be placed in `public/assets/` if you want to use it.
+   > Alternatively, use a smaller video file or host videos on a CDN.
+
+4. **Run the development server**
    ```bash
    npm run dev
    ```
 
-4. **Open your browser**
+5. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
 ### Build for Production
