@@ -315,19 +315,45 @@ Your site will be live in minutes with automatic deployments on every push!
 
 ## 🔄 Version Control
 
-This project uses Git for version control. All changes are automatically tracked.
+This project uses Git for version control. All changes are automatically tracked with a complete version history.
 
-### Viewing History
+### 📋 View Version History (Quick Table)
+
+**View all versions in a nice table format:**
+```bash
+./view-versions.sh
+```
+
+This displays:
+- Serial number for each version
+- Commit hash
+- Date of change
+- Quick summary of changes
+
+**View detailed changelog:**
+```bash
+cat CHANGELOG.md
+```
+
+Or open `CHANGELOG.md` in your editor to see the full version history with detailed descriptions.
+
+### 📊 Git Commands for Version History
 
 ```bash
-# View commit history
+# View commit history (one line per commit)
 git log --oneline
+
+# View detailed commit history
+git log
 
 # View changes in a specific file
 git log -p path/to/file.tsx
 
-# View who changed what
+# View who changed what in a file
 git blame path/to/file.tsx
+
+# View commit graph (visual tree)
+git log --oneline --graph --all
 ```
 
 ### Rolling Back Changes
