@@ -8,7 +8,6 @@ interface ProjectCardProps {
     title: string
     category: string
     description: string
-    description: string
     gradient: string
     delay: number
     href: string
