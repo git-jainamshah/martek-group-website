@@ -80,8 +80,8 @@ export default function NotFound() {
                         <span className="text-blue-400">sometimes hits a void.</span>
                     </h2>
                     <p className="text-xl text-white/60 max-w-2xl mx-auto font-light leading-relaxed">
-                        While you're lost, you should know we specialize in Digital Solutions & Engineering.
-                        We usually build things that <span className="text-white font-medium italic">don't</span> break.
+                        While you&apos;re lost, you should know we specialize in Digital Solutions & Engineering.
+                        We usually build things that <span className="text-white font-medium italic">don&apos;t</span> break.
                     </p>
                 </motion.div>
 

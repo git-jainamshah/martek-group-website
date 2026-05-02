@@ -58,7 +58,7 @@ export default function CaseStudiesPage() {
                         transition={{ delay: 0.1 }}
                         className="text-xl text-muted-foreground leading-relaxed font-light"
                     >
-                        These samples illustrate our approach to complex problems. Whether it's optimizing user behavior with data or engineering physical products, we demonstrate how we can scale your vision.
+                        These samples illustrate our approach to complex problems. Whether it&apos;s optimizing user behavior with data or engineering physical products, we demonstrate how we can scale your vision.
                     </motion.p>
                 </div>
             </section>
@@ -85,7 +85,7 @@ export default function CaseStudiesPage() {
                         Ready to start your project?
                     </h2>
                     <p className="text-xl text-white/90 mb-10 max-w-2xl mx-auto font-light">
-                        Let's discuss how we can engineer a custom solution for your goals.
+                        Let&apos;s discuss how we can engineer a custom solution for your goals.
                     </p>
                     <Link
                         href="/contact"

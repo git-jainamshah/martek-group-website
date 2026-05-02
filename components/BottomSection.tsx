@@ -62,7 +62,7 @@ export default function BottomSection() {
               <div className="space-y-4">
                 <h2 className="text-4xl md:text-5xl lg:text-6xl font-medium leading-tight text-foreground">
                   Internet has made us all popular,<br /><br />
-                  <span className="font-bold">But now it's time to be <span className="relative inline-block"><span className="relative z-10">relevant</span><span className="absolute bottom-1 left-[-4px] right-[-4px] h-[0.3em] bg-yellow-200/80 -rotate-1 skew-x-3 z-0 rounded-sm"></span></span>.</span>
+                  <span className="font-bold">But now it&apos;s time to be <span className="relative inline-block"><span className="relative z-10">relevant</span><span className="absolute bottom-1 left-[-4px] right-[-4px] h-[0.3em] bg-yellow-200/80 -rotate-1 skew-x-3 z-0 rounded-sm"></span></span>.</span>
                 </h2>
               </div>
 

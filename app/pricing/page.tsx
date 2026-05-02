@@ -46,7 +46,7 @@ export default function PricingPage() {
               <div>
                 <h3 className="font-bold text-gray-900 mb-2">How long do projects typically take?</h3>
                 <p className="text-gray-600">
-                  Timeline varies by project, but most websites are completed within 2-6 weeks. We'll provide a detailed timeline with your quote.
+                  Timeline varies by project, but most websites are completed within 2-6 weeks. We&apos;ll provide a detailed timeline with your quote.
                 </p>
               </div>
             </div>

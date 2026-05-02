@@ -59,7 +59,7 @@ export default function WebDevelopmentPage() {
                         >
                             <h3 className="text-foreground font-bold text-2xl mb-4">The Challenge</h3>
                             <p className="mb-6">
-                                A rapidly growing startup was being held back by a WordPress template that couldn't keep up. Their site crashed during marketing pushes, the design felt generic, and mobile responsiveness was non-existent. They needed a platform that projected "Market Leader" authority.
+                                A rapidly growing startup was being held back by a WordPress template that couldn&apos;t keep up. Their site crashed during marketing pushes, the design felt generic, and mobile responsiveness was non-existent. They needed a platform that projected &quot;Market Leader&quot; authority.
                             </p>
                             <ul className="list-disc pl-6 space-y-2 mb-6 text-base">
                                 <li>High Bounce Rate (70%+)</li>
@@ -79,7 +79,7 @@ export default function WebDevelopmentPage() {
                             </p>
                             <div className="bg-muted/30 p-6 rounded-lg border-l-4 border-primary">
                                 <p className="text-foreground font-medium italic">
-                                    "Our site went from being a liability to our strongest sales asset. The speed is incredible."
+                                    &quot;Our site went from being a liability to our strongest sales asset. The speed is incredible.&quot;
                                 </p>
                                 <p className="text-sm mt-4 font-bold uppercase text-primary">— Founder & CEO</p>
                             </div>

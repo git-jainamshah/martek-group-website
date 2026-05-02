@@ -378,7 +378,7 @@ export default function VersionControlPage() {
           
           {filterText && (
             <div className="mt-3 text-sm text-gray-400">
-              Found {filteredVersions.length} result{filteredVersions.length !== 1 ? 's' : ''} for "{filterText}"
+              Found {filteredVersions.length} result{filteredVersions.length !== 1 ? 's' : ''} for &quot;{filterText}&quot;
             </div>
           )}
         </motion.div>

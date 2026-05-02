@@ -1,5 +1,6 @@
 'use client'
 
+import { Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import ContactForm from '@/components/ContactForm'
 import { Mail, Phone, MapPin } from 'lucide-react'
@@ -7,7 +8,7 @@ import PageHero from '@/components/PageHero'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 
-export default function ContactPage() {
+function ContactPageContent() {
   const searchParams = useSearchParams()
   const selectedPackage = searchParams.get('package')
 
@@ -114,5 +115,13 @@ export default function ContactPage() {
         </div>
       </section>
     </div>
+  )
+}
+
+export default function ContactPage() {
+  return (
+    <Suspense fallback={<div className="bg-background min-h-screen" aria-hidden />}>
+      <ContactPageContent />
+    </Suspense>
   )
 }

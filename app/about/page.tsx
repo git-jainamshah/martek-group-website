@@ -52,11 +52,11 @@ export default function AboutPage() {
               Built for Speed & Scale
             </h2>
             <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed mb-12 font-light">
-              We founded Martek Group to bridge the gap between "fast but messy" freelancers and "perfect but slow" big agencies. We are a lean team of senior engineers who build robust digital products without the fluff.
+              We founded Martek Group to bridge the gap between &quot;fast but messy&quot; freelancers and &quot;perfect but slow&quot; big agencies. We are a lean team of senior engineers who build robust digital products without the fluff.
             </p>
             <div className="text-lg text-muted-foreground leading-relaxed space-y-6">
               <p>
-                We don't just write code; we architect solutions that can handle your next 10x growth stage. We believe in direct communication, rapid iteration, and code quality that sleeps well at night.
+                We don&apos;t just write code; we architect solutions that can handle your next 10x growth stage. We believe in direct communication, rapid iteration, and code quality that sleeps well at night.
               </p>
             </div>
           </motion.div>

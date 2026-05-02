@@ -79,7 +79,7 @@ export default function AnalyticsTaggingPage() {
                             </p>
                             <div className="bg-muted/30 p-6 rounded-lg border-l-4 border-primary">
                                 <p className="text-foreground font-medium italic">
-                                    "The clarity we gained after the first week of data collection completely changed our Q4 strategy."
+                                    &quot;The clarity we gained after the first week of data collection completely changed our Q4 strategy.&quot;
                                 </p>
                                 <p className="text-sm mt-4 font-bold uppercase text-primary">— Marketing Director</p>
                             </div>

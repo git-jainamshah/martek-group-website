@@ -45,7 +45,7 @@ export default function Testimonials() {
             What Our Clients Say
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Don't just take our word for it - hear from businesses we've helped succeed
+            Don&apos;t just take our word for it - hear from businesses we&apos;ve helped succeed
           </p>
         </motion.div>
 
@@ -68,7 +68,7 @@ export default function Testimonials() {
               </div>
 
               <p className="text-gray-700 mb-6 leading-relaxed relative z-10">
-                "{testimonial.content}"
+                &quot;{testimonial.content}&quot;
               </p>
 
               <div className="border-t border-gray-100 pt-6">

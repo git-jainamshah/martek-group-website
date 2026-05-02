@@ -79,7 +79,7 @@ export default function EngineeringDrawingsPage() {
                             </p>
                             <div className="bg-muted/30 p-6 rounded-lg border-l-4 border-primary">
                                 <p className="text-foreground font-medium italic">
-                                    "Martek gave us the engineering rigor of a large factory without the overhead. We are now shipping globally."
+                                    &quot;Martek gave us the engineering rigor of a large factory without the overhead. We are now shipping globally.&quot;
                                 </p>
                                 <p className="text-sm mt-4 font-bold uppercase text-primary">— Operations Manager</p>
                             </div>

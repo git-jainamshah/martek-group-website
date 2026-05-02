@@ -246,7 +246,7 @@ export default function ServiceDetail() {
             Ready to Get Started?
           </h2>
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Let's discuss how we can help transform your business with our services
+            Let&apos;s discuss how we can help transform your business with our services
           </p>
           <Link href="/contact" className="btn-primary text-lg px-8 py-4 inline-flex items-center space-x-2">
             <span>Get Your Free Quote</span>
