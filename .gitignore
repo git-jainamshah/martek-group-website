@@ -17,6 +17,9 @@
 
 # misc
 .DS_Store
+
+# local gh CLI bundle (optional; large binaries)
+/.tools/
 *.pem
 
 # debug
