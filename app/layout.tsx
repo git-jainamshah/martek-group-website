@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import { Ubuntu } from 'next/font/google'
 import './globals.css'
-import Navbar from '@/components/Navbar'
-import Footer from '@/components/Footer'
+import { ThemeProvider } from '@/components/theme-provider'
+import LayoutWrapper from '@/components/LayoutWrapper'
 
 const ubuntu = Ubuntu({
   subsets: ['latin'],
@@ -30,13 +30,12 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
-  viewport: 'width=device-width, initial-scale=1',
 }
 
-import { ThemeProvider } from '@/components/theme-provider'
-import ScrollToTop from '@/components/ScrollToTop'
-
-// ... existing imports
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+}
 
 export default function RootLayout({
   children,
@@ -76,12 +75,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
-          <main className="min-h-screen">
+          <LayoutWrapper>
             {children}
-          </main>
-          <Footer />
-          <ScrollToTop />
+          </LayoutWrapper>
         </ThemeProvider>
       </body>
     </html>

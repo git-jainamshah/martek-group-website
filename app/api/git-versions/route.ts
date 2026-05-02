@@ -4,8 +4,8 @@ import { NextResponse } from 'next/server';
 
 const execAsync = promisify(exec);
 
-// Security password - CHANGE THIS!
-const ADMIN_PASSWORD = 'martek2024!secure';
+// Get password from environment variable
+const ADMIN_PASSWORD = process.env.VC_ADMIN_PASSWORD || 'martek2024!secure';
 
 export async function POST(request: Request) {
   try {

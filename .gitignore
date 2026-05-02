@@ -27,6 +27,9 @@ yarn-error.log*
 # local env files
 .env*.local
 
+# local-only docs (may reference secrets)
+VC_PASSWORD.md
+
 # vercel
 .vercel
 
