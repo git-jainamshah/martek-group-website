@@ -3,6 +3,10 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 
+/** Local path works in dev if the file exists; production usually needs NEXT_PUBLIC_HERO_VIDEO_URL (see .gitignore on public/assets/*.mp4). */
+const heroVideoSrc =
+  process.env.NEXT_PUBLIC_HERO_VIDEO_URL?.trim() || '/assets/homepage-banner-bg.mp4'
+
 export default function Hero() {
   return (
     <section className="relative h-[75vh] min-h-[500px] flex items-center overflow-hidden">
@@ -15,7 +19,7 @@ export default function Hero() {
           playsInline
           className="w-full h-full object-cover"
         >
-          <source src="/assets/homepage-banner-bg.mp4" type="video/mp4" />
+          <source src={heroVideoSrc} type="video/mp4" />
         </video>
         {/* Darker overlay for professional contrast */}
         <div className="absolute inset-0 bg-black/60"></div>
