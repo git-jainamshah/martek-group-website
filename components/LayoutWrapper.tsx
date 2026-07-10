@@ -3,7 +3,7 @@
 import { usePathname } from 'next/navigation';
 import Navbar from './Navbar';
 import Footer from './Footer';
-import ScrollToTop from './ScrollToTop';
+import RevealInit from './RevealInit';
 
 export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -20,7 +20,7 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
         {children}
       </main>
       <Footer />
-      <ScrollToTop />
+      <RevealInit />
     </>
   );
 }
