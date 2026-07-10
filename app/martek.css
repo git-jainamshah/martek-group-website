@@ -206,6 +206,7 @@ body.m-open .m-links a:nth-child(3){transition-delay:.16s}
 body.m-open .m-links a:nth-child(4){transition-delay:.21s}
 body.m-open .m-links a:nth-child(5){transition-delay:.26s}
 body.m-open .m-links a:nth-child(6){transition-delay:.31s}
+body.m-open .m-links a:nth-child(7){transition-delay:.36s}
 .m-links a .ar{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--rule-strong);display:grid;place-items:center;flex-shrink:0;transition:all .2s}
 .m-links a .ar svg{width:12px;height:12px}
 .m-links a:hover{color:var(--accent)}
