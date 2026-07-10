@@ -18,6 +18,7 @@ const navLinks = [
   { label: 'Social', href: '/services/social' },
   { label: 'SEO & Ads', href: '/services/seo-ads' },
   { label: 'Engineering', href: '/services/engineering' },
+  { label: 'About', href: '/about' },
 ]
 
 /* per-page announcement bar + contact link (ported from each reference page) */
