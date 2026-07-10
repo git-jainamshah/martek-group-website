@@ -5,6 +5,8 @@ export const metadata: Metadata = {
   title: 'Web Development · Martek Group',
   description:
     'Marketing sites, product UIs, and stores, designed and coded by the same small team. Fast, accessible, and easy for you to update.',
+  alternates: { canonical: '/services/web-development' },
+  openGraph: { url: '/services/web-development' },
 }
 
 const stage = (
@@ -75,7 +77,7 @@ const data: ServiceData = {
           98<sup style={{ fontSize: '.5em', color: 'var(--accent)' }}>+</sup>
         </>
       ),
-      k: 'avg. Lighthouse score',
+      k: 'Lighthouse score we build to',
     },
     { v: '100%', k: 'you own the code' },
   ],
@@ -167,30 +169,6 @@ const data: ServiceData = {
     { title: 'Build', text: 'We code in 1-week sprints with a live staging link and a Friday demo each week.', time: 'WEEK 2–5' },
     { title: 'Ship', text: 'QA, performance pass, launch, and a handover walkthrough. Then 30 days of free fixes.', time: 'WEEK 5–6' },
   ],
-  workIntro: "A snapshot from a recent launch. Want the full walkthrough? We'll show you live on the call.",
-  caseStudy: {
-    placeholder: 'Drop a screenshot of a site you built (e.g. web-dev-bg)',
-    tagline: 'Brookhaven · Marketing site rebuild',
-    h3: (
-      <>
-        From a slow template to a <em>2-second</em> launch site.
-      </>
-    ),
-    text: 'Brookhaven came to us with a sluggish, off-the-shelf theme. We rebuilt brand-first on Next.js, set up an editable CMS, and shipped in five weeks, right before their seed announcement.',
-    metrics: [
-      { v: '1.9s', k: 'largest contentful paint' },
-      {
-        v: (
-          <>
-            +38<sup>%</sup>
-          </>
-        ),
-        k: 'demo signups',
-      },
-      { v: '5wk', k: 'concept to live' },
-    ],
-    author: { av: 'RT', name: 'Reena Tandon', role: 'Founder, Brookhaven' },
-  },
   pricingTitle: (
     <>
       Web <span className="it">pricing</span>
@@ -217,7 +195,7 @@ const data: ServiceData = {
     {
       variant: 'c-growth',
       featured: true,
-      tag: 'Most picked',
+      tag: 'Best value',
       name: 'Full site',
       h3: (
         <>
@@ -274,7 +252,7 @@ const data: ServiceData = {
     },
     {
       q: 'What if I need changes after launch?',
-      a: 'Every full build includes 30 days of free fixes. After that, most clients move to a small monthly retainer, or just email us per-task. No pressure either way.',
+      a: 'Every full build includes 30 days of free fixes. After that, you can move to a small monthly retainer, or just email us per-task. No pressure either way.',
     },
   ],
   ctaH2: (

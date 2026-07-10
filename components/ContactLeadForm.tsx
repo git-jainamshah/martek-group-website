@@ -96,7 +96,7 @@ export default function ContactLeadForm() {
               type="text"
               id="c-name"
               name="name"
-              placeholder="Reena Tandon"
+              placeholder="Your name"
               autoComplete="name"
               value={name}
               onChange={(e) => {
@@ -134,7 +134,7 @@ export default function ContactLeadForm() {
             type="text"
             id="c-company"
             name="company"
-            placeholder="Brookhaven, Inc."
+            placeholder="Your company, Inc."
             autoComplete="organization"
             value={company}
             onChange={(e) => setCompany(e.target.value)}
@@ -266,7 +266,7 @@ export default function ContactLeadForm() {
         <div className="next">
           <span>⏱ Typical reply: under 2 hours</span>
           <span>📨 Check your inbox, and your spam, just in case</span>
-          <span>📍 Mumbai · Toronto · Lisbon</span>
+          <span>📍 Toronto, Canada</span>
         </div>
       </div>
     </form>

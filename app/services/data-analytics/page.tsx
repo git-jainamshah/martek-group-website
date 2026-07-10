@@ -5,6 +5,8 @@ export const metadata: Metadata = {
   title: 'Data & Analytics · Martek Group',
   description:
     'We tag your product, wire up the tools, and turn the firehose into one weekly page that actually drives decisions.',
+  alternates: { canonical: '/services/data-analytics' },
+  openGraph: { url: '/services/data-analytics' },
 }
 
 const stage = (
@@ -154,30 +156,6 @@ const data: ServiceData = {
     { title: 'Build dashboard', text: 'Your single source of truth, reviewed with you until the numbers are trusted.', time: 'WEEK 2' },
     { title: 'Weekly rhythm', text: 'Every Monday: a 1-page readout and a recommendation. Optional retainer.', time: 'ONGOING' },
   ],
-  workIntro: 'A snapshot of what "clarity" looked like for one client. Full walkthrough on the call.',
-  caseStudy: {
-    placeholder: 'Drop a dashboard screenshot (e.g. analytics-bg)',
-    tagline: 'Lemonette · Growth analytics',
-    h3: (
-      <>
-        They stopped guessing and <em>cut CAC by a third</em>.
-      </>
-    ),
-    text: 'Lemonette had five tools and zero agreement on the numbers. We consolidated to one dashboard, fixed broken tracking, and ran weekly readouts. Within a quarter they knew exactly which channel to fund.',
-    metrics: [
-      {
-        v: (
-          <>
-            −31<sup>%</sup>
-          </>
-        ),
-        k: 'cost per acquisition',
-      },
-      { v: '1', k: 'source of truth' },
-      { v: '12wk', k: 'to profitability clarity' },
-    ],
-    author: { av: 'DM', name: 'DevinMara', role: 'Co-founder, Lemonette' },
-  },
   pricingTitle: (
     <>
       Data <span className="it">pricing</span>
@@ -203,7 +181,7 @@ const data: ServiceData = {
     {
       variant: 'c-growth',
       featured: true,
-      tag: 'Most picked',
+      tag: 'Best value',
       name: 'Setup',
       h3: (
         <>
@@ -260,7 +238,7 @@ const data: ServiceData = {
     },
     {
       q: 'Can you train our team to run it?',
-      a: "Absolutely, the setup package includes a training session and documentation so you're not dependent on us. Many clients run it themselves after a month or two.",
+      a: "Absolutely, the setup package includes a training session and documentation so you're not dependent on us. Most teams can run it themselves after a month or two.",
     },
   ],
   ctaH2: (

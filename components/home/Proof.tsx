@@ -5,70 +5,71 @@ export default function Proof() {
       <div className="wrap">
         <div className="proof-grid">
           <div data-reveal>
-            <span className="kicker">Why founders pick us</span>
+            <span className="kicker">Why work with us</span>
             <h2 style={{ marginTop: 14 }}>
-              Built by <span className="hl">a startup</span>
+              Built by <span className="hl">founders</span>
               <br />
-              <span className="it">for startups</span>.
+              <span className="it">for founders</span>.
             </h2>
             <p className="lede">
-              We started Martek in 2024 because every agency we&apos;d hired charged like a multinational and showed up
-              like a junior. We&apos;re cheaper, faster, and we still pick up the phone three years from now.
+              We started Martek because every agency we&apos;d dealt with charged like a multinational and showed up
+              like a junior. When you work with us, you talk directly to the people doing the work — no account
+              managers, no handoffs, no surprise invoices.
             </p>
 
             <div className="numbers">
               <div className="n">
                 <div className="v">
-                  17<sup>+</sup>
+                  100<sup>%</sup>
                 </div>
                 <div className="k">
-                  products shipped
+                  you own the code,
                   <br />
-                  since launch
+                  files &amp; accounts
                 </div>
               </div>
               <div className="n">
                 <div className="v">
-                  4.9<sup>/5</sup>
+                  3<sup>days</sup>
                 </div>
                 <div className="k">
-                  avg. founder rating
+                  to a one-page
                   <br />
-                  on Clutch
+                  fixed-price proposal
                 </div>
               </div>
               <div className="n">
                 <div className="v">
-                  28<sup>days</sup>
+                  0<sup>+</sup>
                 </div>
                 <div className="k">
-                  median time
+                  lock-in contracts —
                   <br />
-                  to first launch
+                  pause or cancel anytime
                 </div>
               </div>
             </div>
 
             <div className="media-frame" style={{ marginTop: 32, aspectRatio: '16/9' }}>
               <span className="img-slot" style={{ width: '100%', height: '100%', position: 'absolute', inset: 0 }}>
-                <img src="/assets/office-dark-hero.png" alt="The Martek crew at work" />
+                <img src="/assets/office-dark-hero.png" alt="Martek Group at work" />
               </span>
-              <span className="media-tag">the crew, mid-sprint ✷</span>
+              <span className="media-tag">built in Toronto ✷</span>
             </div>
           </div>
 
           <div className="quote-card" data-reveal>
-            <span className="qmark">&quot;</span>
-            <div className="stars">★★★★★</div>
+            <span className="qmark">✦</span>
+            <div className="stars">Our promise</div>
             <p className="q-text">
-              They felt like our co-founders for two months. Shipped our marketing site, set up analytics, ran our
-              launch ads, <em>all for less than one senior PM</em>.
+              Every project gets a <em>fixed, one-page quote</em> before any money changes hands, a demo every Friday,
+              and free fixes after launch. If we&apos;re the wrong fit, we&apos;ll say so on the first call.
             </p>
             <div className="author">
-              <div className="av">RT</div>
+              <div className="av">MG</div>
               <div className="ad">
-                <b>Reena Tandon</b>
-                <span>Founder, Brookhaven · seed-stage</span>
+                <b>The founders, Martek Group</b>
+                <span>Toronto, Canada</span>
               </div>
             </div>
           </div>

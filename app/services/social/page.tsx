@@ -5,6 +5,8 @@ export const metadata: Metadata = {
   title: 'Social · Martek Group',
   description:
     'We run your channels end to end: strategy, content, community, and creator partnerships.',
+  alternates: { canonical: '/services/social' },
+  openGraph: { url: '/services/social' },
 }
 
 const stage = (
@@ -149,44 +151,6 @@ const data: ServiceData = {
     { title: 'Create & post', text: 'We produce, schedule, and publish, then reply to your community in real time.', time: 'ONGOING' },
     { title: 'Review', text: "A monthly readout and a plan for next month, tuned to what's actually working.", time: 'MONTHLY' },
   ],
-  workIntro: 'One brand, one quarter, a real community. Full case study on the call.',
-  caseStudy: {
-    placeholder: 'Drop a grid of social posts / a reel still',
-    tagline: 'FIELD & CO. · Brand social',
-    h3: (
-      <>
-        From quiet account to <em>a real community</em> in 90 days.
-      </>
-    ),
-    text: 'FIELD & CO. had a great product and a dead feed. We rebuilt the voice, shipped weekly video, and actually replied to people. Three months later, DMs were their best sales channel.',
-    metrics: [
-      {
-        v: (
-          <>
-            5.2<sup>×</sup>
-          </>
-        ),
-        k: 'engagement rate',
-      },
-      {
-        v: (
-          <>
-            +4.1<sup>k</sup>
-          </>
-        ),
-        k: 'followers in 90 days',
-      },
-      {
-        v: (
-          <>
-            22<sup>%</sup>
-          </>
-        ),
-        k: 'of sales from DMs',
-      },
-    ],
-    author: { av: 'AK', name: 'Aisha Khan', role: 'Founder, FIELD & CO.' },
-  },
   pricingTitle: (
     <>
       Social <span className="it">pricing</span>
@@ -212,7 +176,7 @@ const data: ServiceData = {
     {
       variant: 'c-growth',
       featured: true,
-      tag: 'Most picked',
+      tag: 'Best value',
       name: 'Manage',
       h3: (
         <>

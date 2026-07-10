@@ -5,6 +5,8 @@ export const metadata: Metadata = {
   title: 'SEO & Ads · Martek Group',
   description:
     'Technical SEO, content, and paid search & social that compound. Qualified leads at a falling cost, with the math shown weekly.',
+  alternates: { canonical: '/services/seo-ads' },
+  openGraph: { url: '/services/seo-ads' },
 }
 
 const stage = (
@@ -76,7 +78,7 @@ const data: ServiceData = {
           −30<sup style={{ fontSize: '.5em', color: 'var(--accent)' }}>%</sup>
         </>
       ),
-      k: 'typical CPA drop',
+      k: 'the CPA drop we chase',
     },
     { v: 'wk', k: 'reporting cadence' },
   ],
@@ -166,37 +168,6 @@ const data: ServiceData = {
     { title: 'Optimize', text: 'Weekly tuning, keywords, creative, bids, driving CPA down and quality up.', time: 'ONGOING' },
     { title: 'Scale', text: "Once the math works, we pour fuel on what's winning and cut what isn't.", time: 'MONTH 2+' },
   ],
-  workIntro: "A snapshot of compounding growth. We'll walk you through the dashboard live.",
-  caseStudy: {
-    placeholder: 'Drop a rankings / ads dashboard screenshot',
-    tagline: 'PIVOT/LABS · SEO + paid search',
-    h3: (
-      <>
-        Halved their cost per lead in <em>one quarter</em>.
-      </>
-    ),
-    text: 'PIVOT/LABS was burning budget on broad keywords and ranking nowhere. We rebuilt their technical foundation, shipped intent-led content, and rebuilt the ad account around what converts.',
-    metrics: [
-      {
-        v: (
-          <>
-            −58<sup>%</sup>
-          </>
-        ),
-        k: 'cost per lead',
-      },
-      {
-        v: (
-          <>
-            +12<sup>k</sup>
-          </>
-        ),
-        k: 'organic clicks / mo',
-      },
-      { v: '#1', k: 'for 9 target terms' },
-    ],
-    author: { av: 'JS', name: 'Jordan Sng', role: 'Growth lead, PIVOT/LABS' },
-  },
   pricingTitle: (
     <>
       SEO &amp; ads <span className="it">pricing</span>
@@ -222,7 +193,7 @@ const data: ServiceData = {
     {
       variant: 'c-growth',
       featured: true,
-      tag: 'Most picked',
+      tag: 'Best value',
       name: 'Growth',
       h3: (
         <>
