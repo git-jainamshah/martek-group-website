@@ -1,30 +1,54 @@
 import type { Metadata } from 'next'
-import { Ubuntu } from 'next/font/google'
+import { Instrument_Serif, Fraunces, DM_Sans, JetBrains_Mono, Poppins } from 'next/font/google'
 import './globals.css'
-import { ThemeProvider } from '@/components/theme-provider'
+import './martek.css'
 import LayoutWrapper from '@/components/LayoutWrapper'
 
-const ubuntu = Ubuntu({
+const instrument = Instrument_Serif({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '700'],
-  variable: '--font-ubuntu',
+  weight: '400',
+  style: ['normal', 'italic'],
+  variable: '--font-instrument',
+})
+
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  style: ['normal', 'italic'],
+  variable: '--font-fraunces',
+})
+
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  variable: '--font-dm-sans',
+})
+
+const jetbrains = JetBrains_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  variable: '--font-jetbrains',
+})
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  variable: '--font-poppins',
 })
 
 export const metadata: Metadata = {
-  title: 'Martek Group - Digital Solutions & Engineering Services',
-  description: 'Comprehensive digital services including web development, data analytics, social media marketing, SEO, and engineering drawings. Transform your business with our expert solutions.',
+  title: 'Martek Group · A small studio that ships big things',
+  description: 'We design, build and grow products for founders who sweat the details. Web development, data analytics, social, SEO & ads, and engineering — one team, end to end.',
   keywords: 'web development, digital branding, data analytics, social media marketing, SEO, engineering drawings, mechanical engineering, civil engineering, digital marketing',
   authors: [{ name: 'Martek Group' }],
   openGraph: {
-    title: 'Martek Group - Digital Solutions & Engineering Services',
-    description: 'Transform your business with our comprehensive digital and engineering services.',
+    title: 'Martek Group · A small studio that ships big things',
+    description: 'We design, build and grow products for founders who sweat the details. One team, end to end.',
     type: 'website',
     locale: 'en_US',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Martek Group - Digital Solutions & Engineering Services',
-    description: 'Transform your business with our comprehensive digital and engineering services.',
+    title: 'Martek Group · A small studio that ships big things',
+    description: 'We design, build and grow products for founders who sweat the details. One team, end to end.',
   },
   robots: {
     index: true,
@@ -68,17 +92,12 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={ubuntu.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <LayoutWrapper>
-            {children}
-          </LayoutWrapper>
-        </ThemeProvider>
+      <body
+        className={`${instrument.variable} ${fraunces.variable} ${dmSans.variable} ${jetbrains.variable} ${poppins.variable} dot-bg`}
+      >
+        <LayoutWrapper>
+          {children}
+        </LayoutWrapper>
       </body>
     </html>
   )

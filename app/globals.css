@@ -35,8 +35,8 @@
   }
 
   body {
-    @apply bg-background text-foreground antialiased;
-    font-family: var(--font-ubuntu), "Ubuntu", sans-serif;
+    @apply antialiased;
+    font-family: var(--font-dm-sans), "DM Sans", sans-serif;
   }
 
   * {

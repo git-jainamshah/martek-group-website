@@ -44,3 +44,6 @@ next-env.d.ts
 # users should add their own videos locally
 public/assets/homepage-banner-bg.mp4
 public/assets/*-bg.mp4
+
+# design handoff reference (local only)
+/design_handoff_martek/

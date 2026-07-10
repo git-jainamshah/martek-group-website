@@ -1,72 +1,147 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 
-/** Local path works in dev if the file exists; production usually needs NEXT_PUBLIC_HERO_VIDEO_URL (see .gitignore on public/assets/*.mp4). */
+/** Local path works in dev if the file exists; production can override via NEXT_PUBLIC_HERO_VIDEO_URL. */
 const heroVideoSrc =
-  process.env.NEXT_PUBLIC_HERO_VIDEO_URL?.trim() || '/assets/homepage-banner-bg.mp4'
+  process.env.NEXT_PUBLIC_HERO_VIDEO_URL?.trim() || '/assets/hero-loop.mp4'
+
+const ArrowSvg = () => (
+  <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <path d="M3 11 L11 3 M5 3 H11 V9" />
+  </svg>
+)
 
 export default function Hero() {
+  const heroRef = useRef<HTMLElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  // robust muted autoplay + reveal (ported from the reference inline script)
+  useEffect(() => {
+    const vid = videoRef.current
+    if (!vid) return
+    vid.muted = true
+    vid.defaultMuted = true
+    vid.setAttribute('muted', '')
+
+    const reveal = () => {
+      if (vid.videoWidth) {
+        vid.classList.add('ready')
+        vid.style.setProperty('opacity', '0.6', 'important')
+      }
+    }
+    const tryPlay = () => {
+      const p = vid.play()
+      if (p && typeof p.catch === 'function') {
+        p.catch(() => {
+          /* autoplay blocked; scrim stays */
+        })
+      }
+    }
+    const onMedia = () => {
+      reveal()
+      tryPlay()
+    }
+    const events = ['loadeddata', 'canplay', 'canplaythrough']
+    events.forEach((ev) => vid.addEventListener(ev, onMedia))
+    if (vid.readyState >= 2) onMedia()
+    window.addEventListener('pageshow', tryPlay)
+    return () => {
+      events.forEach((ev) => vid.removeEventListener(ev, onMedia))
+      window.removeEventListener('pageshow', tryPlay)
+    }
+  }, [])
+
+  // immersive nav: transparent while the hero is covering it, solid after
+  useEffect(() => {
+    const hero = heroRef.current
+    if (!hero) return
+    const navToggle = () => {
+      const h = hero.offsetHeight
+      document.body.classList.toggle('over-hero', window.scrollY < h - 120)
+    }
+    window.addEventListener('scroll', navToggle, { passive: true })
+    window.addEventListener('resize', navToggle)
+    navToggle()
+    return () => {
+      window.removeEventListener('scroll', navToggle)
+      window.removeEventListener('resize', navToggle)
+      document.body.classList.remove('over-hero')
+    }
+  }, [])
+
   return (
-    <section className="relative h-[75vh] min-h-[500px] flex items-center overflow-hidden">
-      {/* Video/Image Background */}
-      <div className="absolute inset-0 z-0">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="w-full h-full object-cover"
-        >
+    <section className="cine-hero lux-hero" id="top" ref={heroRef}>
+      <div className="cine-bg">
+        <video ref={videoRef} className="cine-video" autoPlay muted loop playsInline preload="auto">
           <source src={heroVideoSrc} type="video/mp4" />
         </video>
-        {/* Darker overlay for professional contrast */}
-        <div className="absolute inset-0 bg-black/60"></div>
+        <div className="lux-scrim"></div>
+        <div className="lux-vignette"></div>
+        <div className="lux-grain" aria-hidden="true"></div>
       </div>
 
-      {/* Content - Left Aligned & Professional */}
-      <div className="container-custom section-padding relative z-10 w-full">
-        <div className="max-w-3xl">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            <h1 className="text-4xl md:text-6xl lg:text-7xl text-white mb-6 leading-tight tracking-tight font-bold">
-              Engineering <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-gray-400">
-                Digital Excellence.
-              </span>
-            </h1>
+      <div className="lux-frame" aria-hidden="true">
+        <span className="ct tl"></span>
+        <span className="ct tr"></span>
+        <span className="ct bl"></span>
+        <span className="ct br"></span>
+      </div>
 
-            <p className="text-base md:text-xl text-gray-300 mb-8 max-w-xl font-light leading-relaxed">
-              We transform complex business challenges into elegant digital solutions.
-              Your partner for <span className="text-white font-medium underline decoration-dotted decoration-gray-400 underline-offset-4">growth</span>, <span className="text-white font-medium underline decoration-dotted decoration-gray-400 underline-offset-4">innovation</span>, and <span className="text-white font-medium underline decoration-dotted decoration-gray-400 underline-offset-4">scale</span>.
-            </p>
+      <div className="wrap lux-inner">
+        <div className="lux-top lux-anim d1">
+          <span className="lux-ey">Martek Group — Digital Studio</span>
+          <span className="lux-avail">
+            <i></i> Booking July
+          </span>
+        </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-              className="flex flex-col sm:flex-row items-start gap-4"
-            >
-              <Link
-                href="/contact"
-                className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-4 px-10 rounded-full transition-all duration-300 text-sm tracking-widest uppercase shadow-lg hover:shadow-primary/20 hover:-translate-y-1"
-              >
-                Get Free Quote Now
-              </Link>
-              <Link
-                href="/services"
-                className="bg-white/5 backdrop-blur-md border border-white/20 hover:bg-white hover:text-black text-white font-bold py-4 px-10 rounded-full transition-all duration-300 text-sm tracking-widest uppercase hover:-translate-y-1"
-              >
-                Our Capabilities
-              </Link>
-            </motion.div>
-          </motion.div>
+        <div className="lux-center">
+          <h1 className="lux-title lux-anim d2">
+            A small studio
+            <br />
+            that ships <span className="it">big things</span>.
+          </h1>
+          <p className="lux-lede lux-anim d3">
+            We design, build and grow products for founders who sweat the details — quietly, across time zones,
+            around the clock.
+          </p>
+          <div className="lux-cta lux-anim d4">
+            <Link href="/#start" className="lux-btn">
+              Start a project
+              <ArrowSvg />
+            </Link>
+            <Link href="/#work" className="lux-link">
+              View selected work
+            </Link>
+          </div>
+        </div>
+
+        <div className="lux-foot lux-anim d4">
+          <div className="s">
+            <span className="v">
+              5.0<em>★</em>
+            </span>
+            <span className="k">Average rating</span>
+          </div>
+          <div className="s">
+            <span className="v">17</span>
+            <span className="k">Startups shipped</span>
+          </div>
+          <div className="s">
+            <span className="v">0</span>
+            <span className="k">Missed deadlines</span>
+          </div>
+          <div className="s wide">
+            <span className="v" style={{ fontStyle: 'normal' }}>
+              Remote-first
+            </span>
+            <span className="k">Mumbai · Toronto · Lisbon</span>
+          </div>
         </div>
       </div>
+      <div className="cine-fade"></div>
     </section>
   )
 }
