@@ -1,195 +1,167 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Menu, X } from 'lucide-react'
-import { ModeToggle } from './ModeToggle'
+import { usePathname } from 'next/navigation'
+
+const ArrowSvg = ({ strokeWidth = 1.6, className }: { strokeWidth?: number; className?: string }) => (
+  <svg className={className} viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth={strokeWidth}>
+    <path d="M3 11 L11 3 M5 3 H11 V9" />
+  </svg>
+)
+
+const navLinks = [
+  { label: 'Web', href: '/services/web-development' },
+  { label: 'Data', href: '/services/data-analytics' },
+  { label: 'Social', href: '/services/social' },
+  { label: 'SEO & Ads', href: '/services/seo-ads' },
+  { label: 'Engineering', href: '/services/engineering' },
+]
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-  const [isServicesOpen, setIsServicesOpen] = useState(false)
+  const pathname = usePathname()
 
-  const serviceItems = [
-    'Web Development',
-    'Data & Analytics',
-    'Social Media',
-    'SEO & Ads',
-    'Engineering'
-  ]
+  const close = useCallback(() => setIsOpen(false), [])
+
+  // body.m-open drives the drawer/backdrop/hamburger CSS (ported from site.js)
+  useEffect(() => {
+    document.body.classList.toggle('m-open', isOpen)
+    return () => {
+      document.body.classList.remove('m-open')
+    }
+  }, [isOpen])
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20)
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') close()
     }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+    const onResize = () => {
+      if (window.innerWidth > 980) close()
+    }
+    document.addEventListener('keydown', onKey)
+    window.addEventListener('resize', onResize)
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      window.removeEventListener('resize', onResize)
+    }
+  }, [close])
 
-  // Dynamic classes based on scroll state
-  const navBgClass = scrolled
-    ? 'bg-white/10 dark:bg-black/80 backdrop-blur-md border-b border-white/20 dark:border-border shadow-sm py-[2.2rem] rounded-b-[2.5rem]'
-    : 'bg-transparent py-[2.2rem]'
+  // close the drawer on route change
+  useEffect(() => {
+    close()
+  }, [pathname, close])
 
-  const textClass = scrolled ? 'text-black dark:text-white' : 'text-white'
-  const hoverClass = 'hover:text-primary transition-colors'
+  const isActive = (href: string) => pathname === href
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out ${navBgClass}`}
-    >
-      <div className="container-custom px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 z-10 group">
-          <Image
-            src="/assets/martek-only-logo.png"
-            alt="Martek Group Logo"
-            width={32}
-            height={32}
-            className="w-auto h-8 object-contain transition-transform duration-300 group-hover:scale-105"
-            priority
-          />
-          <span className={`text-xl md:text-2xl tracking-tight ${textClass} transition-colors`}>
-            <span className="font-bold">Martek</span> <span className="font-light">Group</span>
-          </span>
-        </Link>
-
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-8">
-          <Link
-            href="/about"
-            className={`${textClass} ${hoverClass} uppercase text-sm tracking-widest font-medium`}
-          >
-            <span className="font-bold">About</span> Us
-          </Link>
-
-          {/* Business Services Dropdown */}
-          <div
-            className="relative group"
-            onMouseEnter={() => setIsServicesOpen(true)}
-            onMouseLeave={() => setIsServicesOpen(false)}
-          >
-            <Link
-              href="/services"
-              className={`${textClass} ${hoverClass} uppercase text-sm tracking-widest cursor-pointer flex items-center gap-1 font-medium`}
-            >
-              <span className="font-bold">Business</span> Services
+    <>
+      {/* announcement bar */}
+      <div className="bar">
+        <div className="wrap">
+          <div className="row">
+            <span className="pill">New</span>
+            <span>
+              We just launched a <b>fixed-price startup sprint</b>: a landing page in 14 days.
+            </span>
+            <Link href="/#pricing" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--paper)' }}>
+              See sprint pricing <span className="arr">→</span>
             </Link>
-
-            {/* Dropdown Menu */}
-            <div className={`absolute top-full left-1/2 -translate-x-1/2 pt-6 transition-all duration-300 ${isServicesOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-4'}`}>
-              <div className="bg-background/95 backdrop-blur-xl border border-border rounded-xl p-4 w-64 shadow-xl">
-                {serviceItems.map((item, index) => (
-                  <Link
-                    key={index}
-                    href={`/services#${item.toLowerCase().replace(/\s+/g, '-')}`}
-                    className="block text-foreground hover:text-primary hover:bg-muted/50 px-4 py-3 rounded-lg transition-colors text-sm font-medium uppercase tracking-wide"
-                  >
-                    {item}
-                  </Link>
-                ))}
-              </div>
-            </div>
           </div>
-
-          <Link
-            href="/case-studies"
-            className={`${textClass} ${hoverClass} uppercase text-sm tracking-widest font-bold`}
-          >
-            Case Studies
-          </Link>
-
-          <Link
-            href="/blogs"
-            className={`${textClass} ${hoverClass} uppercase text-sm tracking-widest font-bold`}
-          >
-            Blogs
-          </Link>
-
-          <Link
-            href="/contact"
-            className="bg-primary hover:bg-primary/90 text-primary-foreground hover:text-white transition-all uppercase text-sm font-bold tracking-widest px-8 py-3 rounded-full shadow-lg hover:shadow-primary/30"
-          >
-            Book Now
-          </Link>
-
-          <ModeToggle className={textClass} />
         </div>
+      </div>
 
-        {/* Mobile Actions */}
-        <div className="md:hidden flex items-center gap-4">
-          <ModeToggle className={textClass} />
-          <button
-            className={`z-50 relative ${isOpen ? 'text-foreground' : textClass}`}
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle menu"
-          >
-            {isOpen ? <X className="w-8 h-8" /> : <Menu className="w-8 h-8" />}
-          </button>
-        </div>
-
-        {/* Mobile Navigation Overlay */}
-        <div
-          className={`fixed inset-0 bg-background/95 backdrop-blur-xl z-40 flex flex-col items-center justify-center space-y-8 transition-opacity duration-300 md:hidden ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-            }`}
-        >
-          <Link
-            href="/about"
-            className="text-2xl text-foreground uppercase tracking-widest"
-            onClick={() => setIsOpen(false)}
-          >
-            <span className="font-bold">About</span> <span className="font-light">Us</span>
-          </Link>
-
-          <div className="flex flex-col items-center gap-4">
-            <Link
-              href="/services"
-              className="text-2xl text-foreground uppercase tracking-widest"
-              onClick={() => setIsOpen(false)}
-            >
-              <span className="font-bold">Business</span> <span className="font-light">Services</span>
+      {/* nav */}
+      <nav className="main">
+        <div className="wrap">
+          <div className="row">
+            <Link href="/" className="logo">
+              <span className="logo-mark">
+                <Image src="/assets/martek-mark.png" alt="Martek Group" width={40} height={40} priority />
+              </span>
+              <span className="logo-name">
+                <b>
+                  Martek <span className="grp">Group</span>
+                </b>
+                <span>Digital studio</span>
+              </span>
             </Link>
-            {/* Mobile Service Links */}
-            <div className="flex flex-col items-center gap-2">
-              {serviceItems.map((item, index) => (
-                <Link
-                  key={index}
-                  href={`/services#${item.toLowerCase().replace(/\s+/g, '-')}`}
-                  className="text-muted-foreground text-sm uppercase tracking-wide"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item}
+
+            <div className="nav-links">
+              {navLinks.map((l) => (
+                <Link key={l.href} href={l.href} className={isActive(l.href) ? 'active' : undefined}>
+                  {l.label}
                 </Link>
               ))}
             </div>
+
+            <div className="nav-cta">
+              <Link href="/#pricing" className="btn btn-ghost">
+                Pricing
+              </Link>
+              <Link href="/contact" className="btn btn-primary">
+                Book a call
+                <ArrowSvg className="arr-svg" />
+              </Link>
+              <button
+                className="nav-toggle"
+                type="button"
+                aria-label={isOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={isOpen}
+                onClick={() => setIsOpen((v) => !v)}
+              >
+                <span></span>
+                <span></span>
+                <span></span>
+              </button>
+            </div>
           </div>
-
-          <Link
-            href="/case-studies"
-            className="text-2xl text-foreground uppercase tracking-widest"
-            onClick={() => setIsOpen(false)}
-          >
-            <span className="font-bold">Case</span> Studies
-          </Link>
-
-          <Link
-            href="/blogs"
-            className="text-2xl text-foreground uppercase tracking-widest"
-            onClick={() => setIsOpen(false)}
-          >
-            <span className="font-bold">Blogs</span>
-          </Link>
-
-          <Link
-            href="/contact"
-            className="bg-primary text-primary-foreground text-xl font-bold uppercase tracking-widest px-10 py-4 rounded-full mt-8"
-            onClick={() => setIsOpen(false)}
-          >
-            Book Now
-          </Link>
         </div>
-      </div>
-    </nav>
+      </nav>
+
+      {/* mobile drawer */}
+      <div className="m-backdrop" onClick={close} aria-hidden="true"></div>
+      <aside className="m-nav" aria-hidden={!isOpen} aria-label="Site menu">
+        <div className="dotline"></div>
+        <div className="m-nav-top">
+          <span className="m-brand">
+            <span className="lm">
+              <Image src="/assets/martek-mark.png" alt="Martek Group" width={34} height={34} />
+            </span>
+            <span className="bt">Menu</span>
+          </span>
+          <button className="m-close" type="button" aria-label="Close menu" onClick={close}>
+            <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.8">
+              <path d="M4 4 L14 14 M14 4 L4 14" strokeLinecap="round" />
+            </svg>
+          </button>
+        </div>
+        <nav className="m-links">
+          {navLinks.map((l) => (
+            <Link key={l.href} href={l.href} className={isActive(l.href) ? 'active' : undefined} onClick={close}>
+              <span>{l.label}</span>
+              <span className="ar">
+                <ArrowSvg strokeWidth={1.7} />
+              </span>
+            </Link>
+          ))}
+          <Link href="/#pricing" onClick={close}>
+            <span>Pricing</span>
+            <span className="ar">
+              <ArrowSvg strokeWidth={1.7} />
+            </span>
+          </Link>
+        </nav>
+        <div className="m-foot">
+          <Link href="/contact" className="btn btn-primary" onClick={close}>
+            Book a call <ArrowSvg strokeWidth={1.7} className="arr-svg" />
+          </Link>
+          <p className="m-mail">
+            or email <a href="mailto:hello@martek.studio">hello@martek.studio</a>
+          </p>
+        </div>
+      </aside>
+    </>
   )
 }
