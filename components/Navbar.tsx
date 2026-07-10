@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
+import SocialLinks from './SocialLinks'
 
 const ArrowSvg = ({ strokeWidth = 1.6, className }: { strokeWidth?: number; className?: string }) => (
   <svg className={className} viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth={strokeWidth}>
@@ -178,6 +179,7 @@ export default function Navbar() {
             </div>
 
             <div className="nav-cta">
+              <SocialLinks variant="nav" />
               <Link href="/#pricing" className="btn btn-ghost">
                 Pricing
               </Link>
@@ -238,6 +240,7 @@ export default function Navbar() {
           <Link href={bar.contactHref} className="btn btn-primary" onClick={close}>
             Book a call <ArrowSvg strokeWidth={1.7} className="arr-svg" />
           </Link>
+          <SocialLinks variant="drawer" />
           <p className="m-mail">
             or email <a href="mailto:hello@martek.studio">hello@martek.studio</a>
           </p>

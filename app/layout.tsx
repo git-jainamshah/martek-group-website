@@ -3,6 +3,7 @@ import { Instrument_Serif, Fraunces, DM_Sans, JetBrains_Mono, Poppins } from 'ne
 import './globals.css'
 import './martek.css'
 import LayoutWrapper from '@/components/LayoutWrapper'
+import { SOCIALS } from '@/lib/social'
 
 const instrument = Instrument_Serif({
   subsets: ['latin'],
@@ -114,6 +115,7 @@ const orgLd = {
   },
   areaServed: 'Worldwide',
   priceRange: '$$',
+  sameAs: SOCIALS.map((s) => s.href),
   founder: { '@type': 'Person', name: 'Martek Group founders' },
   makesOffer: [
     { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Web development', url: `${SITE_URL}/services/web-development` } },
