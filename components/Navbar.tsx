@@ -88,6 +88,17 @@ const barByPath: Record<string, typeof defaultBar> = {
     ctaHref: '/contact?service=engineering',
     contactHref: '/contact?service=engineering',
   },
+  '/contact': {
+    pill: 'Open',
+    text: (
+      <>
+        Currently booking <b>July project starts</b>, usually 2–3 slots a month.
+      </>
+    ),
+    ctaLabel: 'Grab a slot',
+    ctaHref: '/contact#form',
+    contactHref: '/contact#form',
+  },
 }
 
 export default function Navbar() {

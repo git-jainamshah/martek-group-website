@@ -1,127 +1,150 @@
-'use client'
-
+import type { Metadata } from 'next'
 import { Suspense } from 'react'
-import { useSearchParams } from 'next/navigation'
-import ContactForm from '@/components/ContactForm'
-import { Mail, Phone, MapPin } from 'lucide-react'
-import PageHero from '@/components/PageHero'
-import { motion } from 'framer-motion'
-import Image from 'next/image'
+import Link from 'next/link'
+import ContactLeadForm from '@/components/ContactLeadForm'
 
-function ContactPageContent() {
-  const searchParams = useSearchParams()
-  const selectedPackage = searchParams.get('package')
-
-  return (
-    <div className="bg-background min-h-screen transition-colors duration-300">
-      <PageHero
-        title="Contact Us"
-        subtitle="Initiate a dialogue with our strategic consultants to explore partnership opportunities."
-        backgroundImage="/assets/contact-us-banner-bg.jpg"
-      />
-
-      {/* Split Layout Section */}
-      <section className="section-padding bg-background transition-colors duration-300">
-        <div className="container-custom">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start">
-
-            {/* Left Column: Contact Info & Image */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="space-y-12"
-            >
-              <div>
-                <h2 className="text-3xl font-bold text-foreground mb-6">
-                  Global Headquarters
-                </h2>
-                <p className="text-muted-foreground text-lg font-light leading-relaxed mb-8">
-                  Our consultants are available for in-person and virtual consultations. We operate globally to ensure seamless service delivery across all time zones.
-                </p>
-
-                <div className="space-y-6">
-                  <div className="flex items-start space-x-4 group">
-                    <div className="mt-1 bg-primary/10 p-2 rounded-full group-hover:bg-primary transition-colors duration-300">
-                      <Mail className="w-5 h-5 text-primary group-hover:text-white transition-colors" />
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-1">Email Inquiry</p>
-                      <a href="mailto:info@martekgroup.com" className="text-foreground text-lg hover:text-primary transition-colors">
-                        info@martekgroup.com
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start space-x-4 group">
-                    <div className="mt-1 bg-primary/10 p-2 rounded-full group-hover:bg-primary transition-colors duration-300">
-                      <Phone className="w-5 h-5 text-primary group-hover:text-white transition-colors" />
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-1">Direct Line</p>
-                      <a href="tel:+1234567890" className="text-foreground text-lg hover:text-primary transition-colors">
-                        +1 (234) 567-890
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start space-x-4 group">
-                    <div className="mt-1 bg-primary/10 p-2 rounded-full group-hover:bg-primary transition-colors duration-300">
-                      <MapPin className="w-5 h-5 text-primary group-hover:text-white transition-colors" />
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-1">Office</p>
-                      <p className="text-foreground text-lg">
-                        100 Enterprise Way, Suite 500<br />
-                        New York, NY 10001
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Corporate Image */}
-              <div className="relative h-64 md:h-80 w-full rounded-none overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
-                <Image
-                  src="/assets/contact-us-form.jpg"
-                  alt="Martek Group Office"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            </motion.div>
-
-            {/* Right Column: Corporate Form */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="bg-muted/10 p-8 md:p-12 border border-border"
-            >
-              {selectedPackage && (
-                <div className="mb-8 p-4 bg-primary/10 border-l-2 border-primary">
-                  <p className="text-primary font-medium">
-                    Inquiry regarding: <span className="font-bold">{selectedPackage}</span>
-                  </p>
-                </div>
-              )}
-
-              <ContactForm selectedPackage={selectedPackage || undefined} />
-            </motion.div>
-
-          </div>
-        </div>
-      </section>
-    </div>
-  )
+export const metadata: Metadata = {
+  title: 'Contact · Martek Group',
+  description:
+    "Let's book a discovery call. Fill this in and we'll reply within a few hours with a couple of times that work.",
 }
 
 export default function ContactPage() {
   return (
-    <Suspense fallback={<div className="bg-background min-h-screen" aria-hidden />}>
-      <ContactPageContent />
-    </Suspense>
+    <>
+      <section className="contact-hero">
+        <div className="wrap">
+          <div className="crumb">
+            <Link href="/">Home</Link>
+            <span className="sep">/</span>
+            <span className="here">Contact</span>
+          </div>
+          <div className="head" style={{ paddingTop: 24 }} data-reveal>
+            <h1>
+              Let&apos;s book a <span className="hl">discovery call</span>.
+            </h1>
+            <p className="lede">
+              Fill this in and we&apos;ll reply within a few hours with a couple of times that work. It takes about two
+              minutes, and a real person reads every word.
+            </p>
+            <div className="trust-strip">
+              <span className="stars">★★★★★</span>
+              <span className="t">5.0 across 17 founders</span>
+              <span className="t">· 0 missed deadlines</span>
+              <span className="t">· replies in &lt;2 hrs</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="wrap">
+        <div className="contact-grid">
+          {/* ASIDE */}
+          <aside data-reveal>
+            <div className="aside-card">
+              <h4>What happens next</h4>
+              <ul className="what-next">
+                <li>
+                  <span className="n">1</span>
+                  <div>
+                    <b>We reply, fast</b>
+                    <span>A real human emails you back within a few hours (work hours) to find a time.</span>
+                  </div>
+                </li>
+                <li>
+                  <span className="n">2</span>
+                  <div>
+                    <b>30-min discovery call</b>
+                    <span>No pitch deck. We learn the goal and tell you honestly if we&apos;re a fit.</span>
+                  </div>
+                </li>
+                <li>
+                  <span className="n">3</span>
+                  <div>
+                    <b>One-page proposal</b>
+                    <span>Scope, price, and timeline on a single page within 3 working days.</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <div className="aside-card" style={{ padding: 0, overflow: 'hidden' }}>
+              <div
+                className="media-frame"
+                style={{ border: 0, borderRadius: 0, boxShadow: 'none', aspectRatio: '4/3' }}
+              >
+                <span className="img-slot" style={{ width: '100%', height: '100%', position: 'absolute', inset: 0 }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/assets/contact-us-form.jpg" alt="The Martek team on a call" />
+                </span>
+              </div>
+            </div>
+
+            <div className="aside-card">
+              <h4>Or reach us directly</h4>
+              <div className="contact-lines">
+                <a href="mailto:hello@martek.studio">
+                  <span className="ic">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="var(--ink)" strokeWidth="1.6">
+                      <rect x="2" y="4" width="16" height="12" rx="2" />
+                      <path d="M3 5 L10 11 L17 5" />
+                    </svg>
+                  </span>
+                  <span>
+                    <b>Email</b>hello@martek.studio
+                  </span>
+                </a>
+                <a href="#">
+                  <span className="ic">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="var(--ink)" strokeWidth="1.6">
+                      <rect x="3" y="3" width="14" height="14" rx="3" />
+                      <circle cx="10" cy="10" r="3.4" />
+                      <circle cx="14.4" cy="5.6" r="1" fill="var(--ink)" stroke="none" />
+                    </svg>
+                  </span>
+                  <span>
+                    <b>Instagram</b>@martek.studio
+                  </span>
+                </a>
+                <a href="#">
+                  <span className="ic">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="var(--ink)" strokeWidth="1.6">
+                      <rect x="3" y="3" width="14" height="14" rx="2" />
+                      <path
+                        d="M6 8.5 V14 M6 5.6 V5.7 M9.5 14 V10.6 Q9.5 8.6 11.4 8.6 T13.4 10.6 V14"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                  </span>
+                  <span>
+                    <b>LinkedIn</b>/company/martek-studio
+                  </span>
+                </a>
+              </div>
+              <p
+                style={{
+                  marginTop: 14,
+                  fontFamily: 'var(--mono)',
+                  fontSize: 11.5,
+                  color: 'var(--ink-mut)',
+                  lineHeight: 1.5,
+                }}
+              >
+                📍 Mumbai · Toronto · Lisbon
+                <br />
+                Async-first, with live call windows.
+              </p>
+            </div>
+          </aside>
+
+          {/* FORM */}
+          <div className="lead-wrap" id="form" data-reveal>
+            <Suspense fallback={null}>
+              <ContactLeadForm />
+            </Suspense>
+          </div>
+        </div>
+      </div>
+    </>
   )
 }
