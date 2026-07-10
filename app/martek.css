@@ -1074,3 +1074,14 @@ footer.mk .bottom{margin-top:48px; padding-top:24px; border-top:1px solid rgba(2
 .trust-strip{display:flex; align-items:center; gap:16px; flex-wrap:wrap; padding:18px 0 0}
 .trust-strip .stars{color:var(--terra); letter-spacing:2px; font-size:15px}
 .trust-strip .t{font-family:var(--mono); font-size:12px; color:var(--ink-mut)}
+
+/* ---------- social icon links (header + mobile drawer) ---------- */
+.nav-social{display:flex; gap:6px; align-items:center; margin-right:4px}
+.nav-social a{width:34px; height:34px; border-radius:50%; border:1px solid var(--rule-strong); display:grid; place-items:center; color:var(--ink-2); transition:all .2s}
+.nav-social a:hover{border-color:var(--ink); background:var(--paper-2); color:var(--ink)}
+.nav-social svg{width:15px; height:15px}
+@media (max-width:1200px){.nav-social{display:none}}
+.m-social{display:flex; gap:10px; justify-content:center}
+.m-social a{width:42px; height:42px; border-radius:12px; border:1.5px solid var(--ink); background:var(--paper-2); display:grid; place-items:center; color:var(--ink); transition:background .18s, color .18s}
+.m-social a:hover{background:var(--ink); color:var(--paper)}
+.m-social svg{width:17px; height:17px}

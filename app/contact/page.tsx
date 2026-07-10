@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import Link from 'next/link'
 import ContactLeadForm from '@/components/ContactLeadForm'
+import { SOCIALS } from '@/lib/social'
 
 export const metadata: Metadata = {
   title: 'Contact · Martek Group',
@@ -96,7 +97,7 @@ export default function ContactPage() {
                     <b>Email</b>hello@martek.studio
                   </span>
                 </a>
-                <a href="#">
+                <a href={SOCIALS[0].href} target="_blank" rel="noopener noreferrer">
                   <span className="ic">
                     <svg viewBox="0 0 20 20" fill="none" stroke="var(--ink)" strokeWidth="1.6">
                       <rect x="3" y="3" width="14" height="14" rx="3" />
@@ -105,10 +106,11 @@ export default function ContactPage() {
                     </svg>
                   </span>
                   <span>
-                    <b>Instagram</b>@martek.studio
+                    <b>Instagram</b>
+                    {SOCIALS[0].label}
                   </span>
                 </a>
-                <a href="#">
+                <a href={SOCIALS[1].href} target="_blank" rel="noopener noreferrer">
                   <span className="ic">
                     <svg viewBox="0 0 20 20" fill="none" stroke="var(--ink)" strokeWidth="1.6">
                       <rect x="3" y="3" width="14" height="14" rx="2" />
@@ -119,7 +121,8 @@ export default function ContactPage() {
                     </svg>
                   </span>
                   <span>
-                    <b>LinkedIn</b>/company/martek-studio
+                    <b>LinkedIn</b>
+                    {SOCIALS[1].label}
                   </span>
                 </a>
               </div>

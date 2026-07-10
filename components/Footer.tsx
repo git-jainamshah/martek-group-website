@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { SOCIALS } from '@/lib/social'
 
 export default function Footer() {
   return (
@@ -66,18 +67,13 @@ export default function Footer() {
           <div>
             <h5>Elsewhere</h5>
             <ul>
-              <li>
-                <a href="#">Read.cv</a>
-              </li>
-              <li>
-                <a href="#">LinkedIn</a>
-              </li>
-              <li>
-                <a href="#">GitHub</a>
-              </li>
-              <li>
-                <a href="#">Are.na</a>
-              </li>
+              {SOCIALS.map((s) => (
+                <li key={s.name}>
+                  <a href={s.href} target="_blank" rel="noopener noreferrer">
+                    {s.name}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
