@@ -58,8 +58,10 @@ export default function Hero() {
     const hero = heroRef.current
     if (!hero) return
     const navToggle = () => {
-      const h = hero.offsetHeight
-      document.body.classList.toggle('over-hero', window.scrollY < h - 120)
+      // transparent nav only while the dark hero is actually underneath it:
+      // hero top has scrolled past the nav (72px) and hero bottom hasn't left yet
+      const rect = hero.getBoundingClientRect()
+      document.body.classList.toggle('over-hero', rect.top < 72 && rect.bottom > 120)
     }
     window.addEventListener('scroll', navToggle, { passive: true })
     window.addEventListener('resize', navToggle)

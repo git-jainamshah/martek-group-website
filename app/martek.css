@@ -28,12 +28,13 @@
   --plum:#8B5A8C;      /* engineering */
   --plum-soft:#C9A9CB;
 
-  /* fonts (next/font variables with reference fallbacks) */
-  --serif:var(--font-fraunces), "Fraunces", ui-serif, Georgia, serif;
-  --display:var(--font-instrument), "Instrument Serif", var(--font-fraunces), "Fraunces", ui-serif, Georgia, serif;
-  --sans:var(--font-dm-sans), "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-  --mono:var(--font-jetbrains), "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
-  --brand-font:var(--font-poppins), "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  /* fonts (next/font variables; var() fallbacks keep the stack valid even
+     if the next/font classes are missing, instead of collapsing to Times) */
+  --serif:var(--font-fraunces, "Fraunces"), ui-serif, Georgia, serif;
+  --display:var(--font-instrument, "Instrument Serif"), var(--font-fraunces, "Fraunces"), ui-serif, Georgia, serif;
+  --sans:var(--font-dm-sans, "DM Sans"), -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --mono:var(--font-jetbrains, "JetBrains Mono"), ui-monospace, Menlo, Consolas, monospace;
+  --brand-font:var(--font-poppins, "Poppins"), -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
 
   /* Martek Group brand */
   --brand:#ED1C24;
