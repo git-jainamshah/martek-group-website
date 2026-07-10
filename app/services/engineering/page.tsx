@@ -5,6 +5,8 @@ export const metadata: Metadata = {
   title: 'Engineering & CAD · Martek Group',
   description:
     'Mechanical drafting, blueprints, and 3D modelling for hardware founders, fabricators, and contractors who need it precise, and on time.',
+  alternates: { canonical: '/services/engineering' },
+  openGraph: { url: '/services/engineering' },
 }
 
 const stage = (
@@ -163,37 +165,6 @@ const data: ServiceData = {
     { title: 'Detail & revise', text: 'Full dimensioning and clean-up, with clearly tracked revisions you sign off.', time: 'WEEK 1–2' },
     { title: 'Deliver', text: 'Final files in every format you need, DWG, STEP, PDF, STL, plus the source.', time: 'ON APPROVAL' },
   ],
-  workIntro: "A representative drawing set. We'll show real project files (with permission) on the call.",
-  caseStudy: {
-    placeholder: 'Drop a CAD render / drawing set (e.g. engineering-drawings)',
-    tagline: 'northwind · Enclosure redesign',
-    h3: (
-      <>
-        A hardware part, <em>fabrication-ready</em> in nine days.
-      </>
-    ),
-    text: 'northwind sent us a worn prototype and a deadline. We reverse-engineered it, fixed two tolerance issues for easier assembly, and delivered a full drawing set their fabricator approved first time.',
-    metrics: [
-      { v: '9', k: 'days to drawing set' },
-      {
-        v: (
-          <>
-            1<sup>st</sup>
-          </>
-        ),
-        k: 'pass fab approval',
-      },
-      {
-        v: (
-          <>
-            −18<sup>%</sup>
-          </>
-        ),
-        k: 'part cost after DFM',
-      },
-    ],
-    author: { av: 'TW', name: 'Tom Wexler', role: 'Ops, northwind' },
-  },
   pricingTitle: (
     <>
       Engineering <span className="it">pricing</span>
@@ -220,7 +191,7 @@ const data: ServiceData = {
     {
       variant: 'c-growth',
       featured: true,
-      tag: 'Most picked',
+      tag: 'Best value',
       name: 'Project',
       h3: (
         <>

@@ -40,9 +40,9 @@ export default function FinalCta() {
 
         <div className="signoff">
           <span>
-            <b>Martek Group</b> · a 6-person crew, since 2024.
+            <b>Martek Group</b> · a founder-led digital studio.
           </span>
-          <span>Mumbai · Toronto · Lisbon</span>
+          <span>Toronto, Canada</span>
         </div>
       </div>
     </section>

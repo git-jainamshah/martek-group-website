@@ -7,6 +7,8 @@ export const metadata: Metadata = {
   title: 'Contact · Martek Group',
   description:
     "Let's book a discovery call. Fill this in and we'll reply within a few hours with a couple of times that work.",
+  alternates: { canonical: '/contact' },
+  openGraph: { url: '/contact' },
 }
 
 export default function ContactPage() {
@@ -28,9 +30,9 @@ export default function ContactPage() {
               minutes, and a real person reads every word.
             </p>
             <div className="trust-strip">
-              <span className="stars">★★★★★</span>
-              <span className="t">5.0 across 17 founders</span>
-              <span className="t">· 0 missed deadlines</span>
+              <span className="stars">✦</span>
+              <span className="t">Founder-led studio</span>
+              <span className="t">· fixed-price quotes</span>
               <span className="t">· replies in &lt;2 hrs</span>
             </div>
           </div>
@@ -130,7 +132,7 @@ export default function ContactPage() {
                   lineHeight: 1.5,
                 }}
               >
-                📍 Mumbai · Toronto · Lisbon
+                📍 Toronto, Canada
                 <br />
                 Async-first, with live call windows.
               </p>

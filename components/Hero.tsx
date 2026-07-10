@@ -95,16 +95,15 @@ export default function Hero() {
 
       <div className="wrap cine-inner">
         <div className="cine-meta">
-          <span className="live2">Booking July starts</span>
-          <span className="where">Remote-first · Mumbai · Toronto · Lisbon</span>
+          <span className="where">Founder-led · Based in Toronto, Canada</span>
         </div>
         <h1 className="cine-title">
           A small studio that ships <span className="it">big things</span> for{' '}
           <span className="stamp2">startups</span>.
         </h1>
         <p className="cine-lede">
-          We&apos;re <b>Martek Group</b>, a 6-person crew designing, building, and growing products for founders,
-          across time zones, around the clock.
+          We&apos;re <b>Martek Group</b>, a founder-led studio designing, building, and growing products for founders
+          who sweat the details, around the clock.
         </p>
         <div className="cine-cta">
           <Link href="/#start" className="btn btn-paper">
@@ -112,11 +111,11 @@ export default function Hero() {
             <ArrowSvg />
           </Link>
           <Link href="/#work" className="btn btn-line">
-            See our work
+            Why work with us
           </Link>
           <span className="meta">
-            <b>★★★★★ 5.0</b>
-            <span>17 startups · 0 missed deadlines</span>
+            <b>Fixed-price quotes</b>
+            <span>weekly demos · you own everything</span>
           </span>
         </div>
       </div>

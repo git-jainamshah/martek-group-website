@@ -75,7 +75,7 @@ export default function LeadForm({ idPrefix = 'hs' }: { idPrefix?: string }) {
             type="text"
             id={`${idPrefix}-name`}
             name="name"
-            placeholder="Reena Tandon"
+            placeholder="Your name"
             autoComplete="name"
             value={name}
             onChange={(e) => {
@@ -169,7 +169,7 @@ export default function LeadForm({ idPrefix = 'hs' }: { idPrefix?: string }) {
         </p>
         <div className="next">
           <span>⏱ Typical reply: under 2 hours (work hours)</span>
-          <span>📍 Mumbai · Toronto · Lisbon</span>
+          <span>📍 Toronto, Canada</span>
         </div>
       </div>
     </form>

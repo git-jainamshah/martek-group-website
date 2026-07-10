@@ -45,7 +45,7 @@ export default function PricingSection() {
           </div>
 
           <div className="card c-growth featured">
-            <div className="tag">Most picked</div>
+            <div className="tag">Best value</div>
             <div className="pname">
               <span className="dot"></span>
               <b>Build</b>

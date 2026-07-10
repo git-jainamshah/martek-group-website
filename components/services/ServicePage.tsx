@@ -51,8 +51,8 @@ export interface ServiceData {
   flowTitle: ReactNode
   flowIntro: string
   flow: FlowStep[]
-  workIntro: string
-  caseStudy: {
+  workIntro?: string
+  caseStudy?: {
     placeholder: string
     tagline: ReactNode
     h3: ReactNode
@@ -60,6 +60,8 @@ export interface ServiceData {
     metrics: { v: ReactNode; k: string }[]
     author: { av: string; name: string; role: string }
   }
+  /** plain-text FAQ answers reused for FAQPage JSON-LD */
+  faqPlain?: { q: string; a: string }[]
   pricingTitle: ReactNode
   pricingIntro: string
   cards: PriceCard[]
@@ -74,9 +76,20 @@ export interface ServiceData {
 export default function ServicePage({ data }: { data: ServiceData }) {
   const contactHref = `/contact?service=${data.contactQuery}`
 
+  const faqLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: data.faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  }
+
   return (
     <>
       <AccentSetter accentClass={data.accentClass} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
 
       {/* HERO */}
       <section className="svc-hero">
@@ -166,44 +179,46 @@ export default function ServicePage({ data }: { data: ServiceData }) {
         </div>
       </section>
 
-      {/* CASE STUDY */}
-      <section className="sec">
-        <div className="wrap">
-          <div className="sec-head" data-reveal>
-            <h2>
-              Recent <span className="hl">work</span>
-            </h2>
-            <p className="intro">{data.workIntro}</p>
-          </div>
-          <div className="casestudy" data-reveal>
-            <div className="cs-media">
-              <span className="img-slot">
-                <span className="ph">{data.caseStudy.placeholder}</span>
-              </span>
+      {/* CASE STUDY (optional — shown once real client work exists) */}
+      {data.caseStudy && (
+        <section className="sec">
+          <div className="wrap">
+            <div className="sec-head" data-reveal>
+              <h2>
+                Recent <span className="hl">work</span>
+              </h2>
+              <p className="intro">{data.workIntro}</p>
             </div>
-            <div className="cs-body">
-              <div className="tagline">{data.caseStudy.tagline}</div>
-              <h3>{data.caseStudy.h3}</h3>
-              <p>{data.caseStudy.text}</p>
-              <div className="cs-metrics">
-                {data.caseStudy.metrics.map((m, i) => (
-                  <div className="m" key={i}>
-                    <div className="v">{m.v}</div>
-                    <div className="k">{m.k}</div>
-                  </div>
-                ))}
+            <div className="casestudy" data-reveal>
+              <div className="cs-media">
+                <span className="img-slot">
+                  <span className="ph">{data.caseStudy.placeholder}</span>
+                </span>
               </div>
-              <div className="cs-author">
-                <div className="av">{data.caseStudy.author.av}</div>
-                <div className="meta">
-                  <b>{data.caseStudy.author.name}</b>
-                  <span>{data.caseStudy.author.role}</span>
+              <div className="cs-body">
+                <div className="tagline">{data.caseStudy.tagline}</div>
+                <h3>{data.caseStudy.h3}</h3>
+                <p>{data.caseStudy.text}</p>
+                <div className="cs-metrics">
+                  {data.caseStudy.metrics.map((m, i) => (
+                    <div className="m" key={i}>
+                      <div className="v">{m.v}</div>
+                      <div className="k">{m.k}</div>
+                    </div>
+                  ))}
+                </div>
+                <div className="cs-author">
+                  <div className="av">{data.caseStudy.author.av}</div>
+                  <div className="meta">
+                    <b>{data.caseStudy.author.name}</b>
+                    <span>{data.caseStudy.author.role}</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* PRICING */}
       <section className="sec alt" id="pricing">
@@ -305,7 +320,7 @@ export default function ServicePage({ data }: { data: ServiceData }) {
             <span>
               <b>Martek Group</b> · {data.signoff}
             </span>
-            <span>Mumbai · Toronto · Lisbon</span>
+            <span>Toronto, Canada</span>
           </div>
         </div>
       </section>

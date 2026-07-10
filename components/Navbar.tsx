@@ -92,7 +92,7 @@ const barByPath: Record<string, typeof defaultBar> = {
     pill: 'Open',
     text: (
       <>
-        Currently booking <b>July project starts</b>, usually 2–3 slots a month.
+        Currently taking on <b>new projects</b> — we keep slots limited to stay hands-on.
       </>
     ),
     ctaLabel: 'Grab a slot',
