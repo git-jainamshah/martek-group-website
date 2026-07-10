@@ -396,6 +396,23 @@ body.m-open .m-links a:nth-child(6){transition-delay:.31s}
 .svc .art{
   position:absolute;
   pointer-events:none;
+  z-index:1;
+}
+
+/* keep copy readable: text above the decorative art, never underneath it */
+.svc .num, .svc h3, .svc p, .svc .features{position:relative; z-index:2}
+.svc .features{padding-right:46px} /* clear the corner arrow button */
+.svc.s-web h3{max-width:60%}
+.svc.s-web p{max-width:70%}
+.svc.s-data h3{max-width:62%}
+.svc.s-data p{max-width:60%}
+.svc.s-seo h3{max-width:60%}
+.svc.s-seo p{max-width:64%}
+@media (max-width:980px){
+  .svc.s-web h3, .svc.s-web p,
+  .svc.s-data h3, .svc.s-data p,
+  .svc.s-seo h3, .svc.s-seo p{max-width:100%}
+  .art-web, .art-data, .art-seo{opacity:.55}
 }
 
 /* per-service art */
