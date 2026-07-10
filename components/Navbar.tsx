@@ -19,6 +19,88 @@ const navLinks = [
   { label: 'Engineering', href: '/services/engineering' },
 ]
 
+/* per-page announcement bar + contact link (ported from each reference page) */
+const defaultBar = {
+  pill: 'New',
+  text: (
+    <>
+      We just launched a <b>fixed-price startup sprint</b>: a landing page in 14 days.
+    </>
+  ),
+  ctaLabel: 'See sprint pricing',
+  ctaHref: '/#pricing',
+  contactHref: '/contact',
+}
+
+const barByPath: Record<string, typeof defaultBar> = {
+  '/services/web-development': {
+    pill: 'Web',
+    text: (
+      <>
+        Most launch sites go live in <b>4–6 weeks</b>. Landing-page sprints in 14 days.
+      </>
+    ),
+    ctaLabel: 'Start yours',
+    ctaHref: '/contact?service=web',
+    contactHref: '/contact?service=web',
+  },
+  '/services/data-analytics': {
+    pill: 'Data',
+    text: (
+      <>
+        Most teams get a <b>clean dashboard + weekly report</b> within two weeks of kickoff.
+      </>
+    ),
+    ctaLabel: 'Get set up',
+    ctaHref: '/contact?service=data',
+    contactHref: '/contact?service=data',
+  },
+  '/services/social': {
+    pill: 'Social',
+    text: (
+      <>
+        We become your <b>in-house content team</b>, strategy, posts, replies, and creator deals.
+      </>
+    ),
+    ctaLabel: "Let's talk",
+    ctaHref: '/contact?service=social',
+    contactHref: '/contact?service=social',
+  },
+  '/services/seo-ads': {
+    pill: 'SEO & Ads',
+    text: (
+      <>
+        We move your <b>cost-per-acquisition down</b>, week by week, with receipts.
+      </>
+    ),
+    ctaLabel: 'Get a plan',
+    ctaHref: '/contact?service=seo',
+    contactHref: '/contact?service=seo',
+  },
+  '/services/engineering': {
+    pill: 'Engineering',
+    text: (
+      <>
+        The side of the studio we built <b>first</b>, 4 years of CAD, drafting &amp; 3D modelling.
+      </>
+    ),
+    ctaLabel: 'Send a brief',
+    ctaHref: '/contact?service=engineering',
+    contactHref: '/contact?service=engineering',
+  },
+  '/contact': {
+    pill: 'Open',
+    text: (
+      <>
+        Currently booking <b>July project starts</b>, usually 2–3 slots a month.
+      </>
+    ),
+    ctaLabel: 'Grab a slot',
+    ctaHref: '/contact#form',
+    contactHref: '/contact#form',
+  },
+}
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
@@ -54,6 +136,7 @@ export default function Navbar() {
   }, [pathname, close])
 
   const isActive = (href: string) => pathname === href
+  const bar = (pathname && barByPath[pathname]) || defaultBar
 
   return (
     <>
@@ -61,12 +144,10 @@ export default function Navbar() {
       <div className="bar">
         <div className="wrap">
           <div className="row">
-            <span className="pill">New</span>
-            <span>
-              We just launched a <b>fixed-price startup sprint</b>: a landing page in 14 days.
-            </span>
-            <Link href="/#pricing" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--paper)' }}>
-              See sprint pricing <span className="arr">→</span>
+            <span className="pill">{bar.pill}</span>
+            <span>{bar.text}</span>
+            <Link href={bar.ctaHref} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--paper)' }}>
+              {bar.ctaLabel} <span className="arr">→</span>
             </Link>
           </div>
         </div>
@@ -100,7 +181,7 @@ export default function Navbar() {
               <Link href="/#pricing" className="btn btn-ghost">
                 Pricing
               </Link>
-              <Link href="/contact" className="btn btn-primary">
+              <Link href={bar.contactHref} className="btn btn-primary">
                 Book a call
                 <ArrowSvg className="arr-svg" />
               </Link>
@@ -154,7 +235,7 @@ export default function Navbar() {
           </Link>
         </nav>
         <div className="m-foot">
-          <Link href="/contact" className="btn btn-primary" onClick={close}>
+          <Link href={bar.contactHref} className="btn btn-primary" onClick={close}>
             Book a call <ArrowSvg strokeWidth={1.7} className="arr-svg" />
           </Link>
           <p className="m-mail">

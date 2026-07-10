@@ -8,13 +8,28 @@ const heroVideoSrc =
   process.env.NEXT_PUBLIC_HERO_VIDEO_URL?.trim() || '/assets/hero-loop.mp4'
 
 const ArrowSvg = () => (
-  <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5">
+  <svg className="arr-svg" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.6">
     <path d="M3 11 L11 3 M5 3 H11 V9" />
   </svg>
 )
 
+/* drifting embers / city lights (ported from "Martek Reimagined.html") */
+const particles = [
+  { left: '8%', duration: '13s', delay: '-2s' },
+  { left: '15%', duration: '17s', delay: '-9s', terra: true },
+  { left: '23%', duration: '15s', delay: '-5s' },
+  { left: '31%', duration: '19s', delay: '-12s' },
+  { left: '39%', duration: '14s', delay: '-1s', terra: true },
+  { left: '47%', duration: '21s', delay: '-7s' },
+  { left: '55%', duration: '16s', delay: '-3s' },
+  { left: '62%', duration: '18s', delay: '-11s', terra: true },
+  { left: '70%', duration: '13s', delay: '-6s' },
+  { left: '78%', duration: '20s', delay: '-14s' },
+  { left: '85%', duration: '15s', delay: '-4s', terra: true },
+  { left: '92%', duration: '17s', delay: '-8s' },
+]
+
 export default function Hero() {
-  const heroRef = useRef<HTMLElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
 
   // robust muted autoplay + reveal (ported from the reference inline script)
@@ -53,94 +68,63 @@ export default function Hero() {
     }
   }, [])
 
-  // immersive nav: transparent while the hero is covering it, solid after
-  useEffect(() => {
-    const hero = heroRef.current
-    if (!hero) return
-    const navToggle = () => {
-      const h = hero.offsetHeight
-      document.body.classList.toggle('over-hero', window.scrollY < h - 120)
-    }
-    window.addEventListener('scroll', navToggle, { passive: true })
-    window.addEventListener('resize', navToggle)
-    navToggle()
-    return () => {
-      window.removeEventListener('scroll', navToggle)
-      window.removeEventListener('resize', navToggle)
-      document.body.classList.remove('over-hero')
-    }
-  }, [])
-
   return (
-    <section className="cine-hero lux-hero" id="top" ref={heroRef}>
+    <section className="cine-hero" id="top">
       <div className="cine-bg">
         <video ref={videoRef} className="cine-video" autoPlay muted loop playsInline preload="auto">
           <source src={heroVideoSrc} type="video/mp4" />
         </video>
-        <div className="lux-scrim"></div>
-        <div className="lux-vignette"></div>
-        <div className="lux-grain" aria-hidden="true"></div>
+
+        {/* drifting embers / city lights */}
+        <div className="cine-particles" aria-hidden="true">
+          {particles.map((p, i) => (
+            <i
+              key={i}
+              style={{
+                left: p.left,
+                animationDuration: p.duration,
+                animationDelay: p.delay,
+                ...(p.terra ? { background: 'rgba(224,122,95,.8)' } : {}),
+              }}
+            ></i>
+          ))}
+        </div>
+
+        <div className="cine-scrim"></div>
       </div>
 
-      <div className="lux-frame" aria-hidden="true">
-        <span className="ct tl"></span>
-        <span className="ct tr"></span>
-        <span className="ct bl"></span>
-        <span className="ct br"></span>
-      </div>
-
-      <div className="wrap lux-inner">
-        <div className="lux-top lux-anim d1">
-          <span className="lux-ey">Martek Group — Digital Studio</span>
-          <span className="lux-avail">
-            <i></i> Booking July
+      <div className="wrap cine-inner">
+        <div className="cine-meta">
+          <span className="live2">Booking July starts</span>
+          <span className="where">Remote-first · Mumbai · Toronto · Lisbon</span>
+        </div>
+        <h1 className="cine-title">
+          A small studio that ships <span className="it">big things</span> for{' '}
+          <span className="stamp2">startups</span>.
+        </h1>
+        <p className="cine-lede">
+          We&apos;re <b>Martek Group</b>, a 6-person crew designing, building, and growing products for founders,
+          across time zones, around the clock.
+        </p>
+        <div className="cine-cta">
+          <Link href="/#start" className="btn btn-paper">
+            Tell us about your idea
+            <ArrowSvg />
+          </Link>
+          <Link href="/#work" className="btn btn-line">
+            See our work
+          </Link>
+          <span className="meta">
+            <b>★★★★★ 5.0</b>
+            <span>17 startups · 0 missed deadlines</span>
           </span>
         </div>
-
-        <div className="lux-center">
-          <h1 className="lux-title lux-anim d2">
-            A small studio
-            <br />
-            that ships <span className="it">big things</span>.
-          </h1>
-          <p className="lux-lede lux-anim d3">
-            We design, build and grow products for founders who sweat the details — quietly, across time zones,
-            around the clock.
-          </p>
-          <div className="lux-cta lux-anim d4">
-            <Link href="/#start" className="lux-btn">
-              Start a project
-              <ArrowSvg />
-            </Link>
-            <Link href="/#work" className="lux-link">
-              View selected work
-            </Link>
-          </div>
-        </div>
-
-        <div className="lux-foot lux-anim d4">
-          <div className="s">
-            <span className="v">
-              5.0<em>★</em>
-            </span>
-            <span className="k">Average rating</span>
-          </div>
-          <div className="s">
-            <span className="v">17</span>
-            <span className="k">Startups shipped</span>
-          </div>
-          <div className="s">
-            <span className="v">0</span>
-            <span className="k">Missed deadlines</span>
-          </div>
-          <div className="s wide">
-            <span className="v" style={{ fontStyle: 'normal' }}>
-              Remote-first
-            </span>
-            <span className="k">Mumbai · Toronto · Lisbon</span>
-          </div>
-        </div>
       </div>
+
+      <Link href="/#what" className="cine-scroll" aria-label="Scroll to explore">
+        <span className="mouse"></span>
+        Scroll
+      </Link>
       <div className="cine-fade"></div>
     </section>
   )

@@ -67,7 +67,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${instrument.variable} ${fraunces.variable} ${dmSans.variable} ${jetbrains.variable} ${poppins.variable}`}
+    >
       <head>
         <link rel="canonical" href="https://www.martekgroup.com" />
         <script
@@ -92,9 +96,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body
-        className={`${instrument.variable} ${fraunces.variable} ${dmSans.variable} ${jetbrains.variable} ${poppins.variable} dot-bg`}
-      >
+      <body className="dot-bg">
         <LayoutWrapper>
           {children}
         </LayoutWrapper>
