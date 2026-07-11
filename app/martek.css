@@ -157,6 +157,7 @@ nav.main .row{display:flex; align-items:center; justify-content:space-between; h
 .nav-links a{position:relative; font-size:11.5px; text-transform:uppercase; color:var(--ink-2); padding:8px 13px; border-radius:999px; transition:color .2s, background .2s; font-weight:500; letter-spacing:.09em; line-height:1}
 .nav-links a:hover{color:var(--ink); background:var(--paper)}
 .nav-links a.active{color:var(--paper); background:var(--ink)}
+.nav-links a svg{width:14px; height:14px; display:block}
 
 .nav-cta{display:flex; gap:10px; align-items:center}
 .btn{
@@ -210,6 +211,7 @@ body.m-open .m-links a:nth-child(4){transition-delay:.21s}
 body.m-open .m-links a:nth-child(5){transition-delay:.26s}
 body.m-open .m-links a:nth-child(6){transition-delay:.31s}
 body.m-open .m-links a:nth-child(7){transition-delay:.36s}
+body.m-open .m-links a:nth-child(8){transition-delay:.41s}
 .m-links a .ar{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--rule-strong);display:grid;place-items:center;flex-shrink:0;transition:all .2s}
 .m-links a .ar svg{width:12px;height:12px}
 .m-links a:hover{color:var(--accent)}

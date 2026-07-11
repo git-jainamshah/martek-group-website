@@ -12,13 +12,20 @@ const ArrowSvg = ({ strokeWidth = 1.6, className }: { strokeWidth?: number; clas
   </svg>
 )
 
+const HomeIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+    <path d="M4 11 L12 4 L20 11 V20 H14.5 V14.5 H9.5 V20 H4 Z" strokeLinejoin="round" />
+  </svg>
+)
+
 const navLinks = [
+  { label: 'Home', href: '/', homeIcon: true },
+  { label: 'About Us', href: '/about' },
   { label: 'Web', href: '/services/web-development' },
   { label: 'Data', href: '/services/data-analytics' },
   { label: 'Social', href: '/services/social' },
   { label: 'SEO & Ads', href: '/services/seo-ads' },
   { label: 'Engineering', href: '/services/engineering' },
-  { label: 'About', href: '/about' },
 ]
 
 /* per-page announcement bar + contact link (ported from each reference page) */
@@ -173,8 +180,14 @@ export default function Navbar() {
 
             <div className="nav-links">
               {navLinks.map((l) => (
-                <Link key={l.href} href={l.href} className={isActive(l.href) ? 'active' : undefined}>
-                  {l.label}
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  className={isActive(l.href) ? 'active' : undefined}
+                  aria-label={l.homeIcon ? l.label : undefined}
+                  title={l.homeIcon ? l.label : undefined}
+                >
+                  {l.homeIcon ? <HomeIcon /> : l.label}
                 </Link>
               ))}
             </div>
