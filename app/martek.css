@@ -152,13 +152,11 @@ nav.main .row{display:flex; align-items:center; justify-content:space-between; h
 .logo-name b .grp{font-weight:400; color:var(--ink-mut)}
 .logo-name span{font-family:var(--mono); font-size:9px; letter-spacing:.18em; color:var(--ink-mut); text-transform:uppercase}
 
-.nav-links{display:flex; gap:2px; align-items:center}
-.nav-links a{position:relative; font-size:12px; text-transform:uppercase; color:var(--ink-2); padding:10px 15px; border-radius:10px; transition:color .2s, background .2s; font-weight:500; letter-spacing:.09em}
-.nav-links a::after{content:""; position:absolute; left:15px; right:15px; bottom:6px; height:2px; background:var(--accent); border-radius:2px; transform:scaleX(0); transform-origin:left; transition:transform .26s cubic-bezier(.2,.7,.3,1)}
-.nav-links a:hover{color:var(--ink)}
-.nav-links a:hover::after{transform:scaleX(1)}
-.nav-links a.active{color:var(--ink); font-weight:600}
-.nav-links a.active::after{transform:scaleX(1)}
+/* chip-capsule nav (echoes the form-chip language of the design) */
+.nav-links{display:flex; gap:3px; align-items:center; border:1.5px solid var(--ink); border-radius:999px; background:var(--paper-2); padding:4px}
+.nav-links a{position:relative; font-size:11.5px; text-transform:uppercase; color:var(--ink-2); padding:8px 13px; border-radius:999px; transition:color .2s, background .2s; font-weight:500; letter-spacing:.09em; line-height:1}
+.nav-links a:hover{color:var(--ink); background:var(--paper)}
+.nav-links a.active{color:var(--paper); background:var(--ink)}
 
 .nav-cta{display:flex; gap:10px; align-items:center}
 .btn{
@@ -171,6 +169,11 @@ nav.main .row{display:flex; align-items:center; justify-content:space-between; h
 .btn-primary:hover{background:var(--accent)}
 .btn-ghost{background:transparent; color:var(--ink); border:1px solid var(--rule-strong)}
 .btn-ghost:hover{border-color:var(--ink); background:var(--paper-2)}
+/* crafted nav CTA: hard brand-red offset shadow + lift on hover */
+nav.main .btn-primary{box-shadow:3px 3px 0 var(--brand)}
+nav.main .btn-primary:hover{background:var(--ink); transform:translate(-2px,-2px); box-shadow:5px 5px 0 var(--brand)}
+nav.main .btn-primary:active{transform:translate(1px,1px); box-shadow:2px 2px 0 var(--brand)}
+nav.main .btn-ghost{border-width:1.5px}
 .btn .arr-svg{width:14px; height:14px; transition:transform .25s}
 .btn:hover .arr-svg{transform:translate(2px,-2px)}
 @media (max-width:980px){.nav-links{display:none}}
