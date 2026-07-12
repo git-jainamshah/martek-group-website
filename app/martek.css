@@ -129,6 +129,11 @@ body.m-open{overflow:hidden}
 }
 .bar .row .arr{transition:transform .25s; display:inline-block}
 .bar .row a:hover .arr{transform:translateX(4px)}
+@media (max-width:720px){
+  .bar .row{justify-content:flex-start; text-align:left; height:34px; gap:10px; font-size:11px; flex-wrap:nowrap; white-space:nowrap; overflow:hidden}
+  .bar .row .pill{font-size:9.5px; padding:2px 8px}
+  .bar .bar-text{display:none}
+}
 
 /* ---------- nav ---------- */
 nav.main{
@@ -275,6 +280,18 @@ body.m-open .m-links a:nth-child(8){transition-delay:.41s}
 @media (prefers-reduced-motion: no-preference){.cine-scroll .mouse::after{animation:cineWheel 1.7s ease-in-out infinite}}
 @keyframes cineWheel{0%,100%{opacity:0; transform:translate(-50%,0)} 40%{opacity:1} 80%{opacity:0; transform:translate(-50%,9px)}}
 @media (max-width:600px){.cine-scroll{display:none}}
+
+/* mobile hero: content-hugging instead of 94vh with dead space */
+@media (max-width:720px){
+  .cine-hero{min-height:0; display:block}
+  .cine-inner{padding:30px}
+  .cine-meta{margin-bottom:20px}
+  .cine-title{font-size:clamp(38px,11vw,50px); max-width:none}
+  .cine-lede{margin-top:18px; font-size:16px; line-height:1.55}
+  .cine-cta{margin-top:26px; gap:12px}
+  .cine-cta .meta{padding-left:12px}
+  .cine-fade{height:80px}
+}
 
 /* ---------- trust row ---------- */
 .trust{padding:60px 0 24px}
