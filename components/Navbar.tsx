@@ -154,7 +154,7 @@ export default function Navbar() {
         <div className="wrap">
           <div className="row">
             <span className="pill">{bar.pill}</span>
-            <span>{bar.text}</span>
+            <span className="bar-text">{bar.text}</span>
             <Link href={bar.ctaHref} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--paper)' }}>
               {bar.ctaLabel} <span className="arr">→</span>
             </Link>
