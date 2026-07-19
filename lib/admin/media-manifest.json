@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-07-19T13:50:50.131Z",
+ "generatedAt": "2026-07-19T15:15:58.536Z",
  "files": [
   {
    "filename": "analytics-bg.mp4",
@@ -162,7 +162,7 @@
    {
     "file": "app/contact/page.tsx",
     "label": "Contact",
-    "line": 85
+    "line": 84
    },
    {
     "file": "components/home/MiniCta.tsx",

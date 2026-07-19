@@ -4,7 +4,7 @@ import path from 'path'
 import { audit } from '@/lib/admin/db'
 import { q1, run } from '@/lib/admin/pg'
 import { requireUser } from '@/lib/admin/auth'
-import { invalidateRefCache, isLinked, hasWritableStorage, READONLY_STORAGE_MSG } from '@/lib/admin/media'
+import { invalidateRefCache, hasWritableStorage, READONLY_STORAGE_MSG } from '@/lib/admin/media'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -33,12 +33,8 @@ export async function POST(req: NextRequest) {
   if (source.rel_path === targetPath) {
     return NextResponse.json({ error: 'Source and target are the same file.' }, { status: 400 })
   }
-  if (isLinked(source.rel_path).length > 0) {
-    return NextResponse.json(
-      { error: `"${source.filename}" is itself linked on the site — pick an unlinked file from the library.` },
-      { status: 409 }
-    )
-  }
+  // Reusing media that's already linked elsewhere is allowed — media is not
+  // one-time-use. The UI warns when the TARGET file is shared across pages.
 
   const targetExt = path.extname(targetPath).toLowerCase()
   const sourceExt = path.extname(source.rel_path).toLowerCase()
