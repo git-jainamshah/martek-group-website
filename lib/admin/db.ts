@@ -103,6 +103,35 @@ async function migrateAndSeed() {
     updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
   )`)
   await run(`
+  CREATE TABLE IF NOT EXISTS leads_marketing (
+    id SERIAL PRIMARY KEY,
+    lead_id INTEGER NOT NULL REFERENCES leads(id),
+    -- identifiers
+    ga_client_id TEXT,
+    ga_session_id TEXT,
+    session_id TEXT,
+    -- ad platform click ids
+    gclid TEXT, gbraid TEXT, wbraid TEXT, fbclid TEXT, li_fat_id TEXT,
+    ttclid TEXT, epik TEXT, msclkid TEXT, dclid TEXT, twclid TEXT,
+    sclid TEXT, irclickid TEXT,
+    other_click_ids TEXT,               -- JSON of any additional *clid params
+    -- first-touch attribution
+    first_source TEXT, first_medium TEXT, first_campaign TEXT,
+    first_term TEXT, first_content TEXT, first_channel_group TEXT,
+    first_touch_at TEXT,
+    -- session-touch attribution
+    session_source TEXT, session_medium TEXT, session_campaign TEXT,
+    session_term TEXT, session_content TEXT, session_channel_group TEXT,
+    -- context
+    referrer_url TEXT,
+    landing_page TEXT,
+    user_agent TEXT,
+    -- numeric budget range parsed from the form for range filtering
+    budget_min NUMERIC,
+    budget_max NUMERIC,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+  )`)
+  await run(`
   CREATE TABLE IF NOT EXISTS settings (
     key TEXT PRIMARY KEY,
     value TEXT NOT NULL,
