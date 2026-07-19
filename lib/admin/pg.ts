@@ -13,7 +13,10 @@ export function getPool(): PgPool {
   if (pool) return pool
 
   if (process.env.ADMIN_DB_MOCK === 'memory') {
-    const { newDb } = require('pg-mem')
+    // Dev/test only. eval('require') keeps webpack from trying to bundle
+    // pg-mem, which is intentionally NOT a project dependency.
+    const req = eval('require') as NodeRequire
+    const { newDb } = req('pg-mem')
     const adapter = newDb().adapters.createPg()
     pool = new adapter.Pool()
     return pool!
