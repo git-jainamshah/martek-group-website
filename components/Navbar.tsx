@@ -110,9 +110,25 @@ const barByPath: Record<string, typeof defaultBar> = {
   },
 }
 
+/* Admin-managed bar copy: **bold** segments render as <b> */
+type BarCfg = { pill: string; text: string; ctaLabel: string; ctaHref: string; contactHref: string }
+type AnnouncementCfg = { default: BarCfg; overrides: (BarCfg & { path: string })[] }
+
+const renderBold = (s: string) =>
+  s.split('**').map((part, i) => (i % 2 === 1 ? <b key={i}>{part}</b> : <span key={i}>{part}</span>))
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
+  const [announcement, setAnnouncement] = useState<AnnouncementCfg | null>(null)
   const pathname = usePathname()
+
+  // Pull admin-managed announcement copy; hardcoded copy stays as SSR fallback
+  useEffect(() => {
+    fetch('/api/public/site-config')
+      .then((r) => r.json())
+      .then((d) => d.announcement?.default && setAnnouncement(d.announcement))
+      .catch(() => {})
+  }, [])
 
   const close = useCallback(() => setIsOpen(false), [])
 
@@ -145,7 +161,13 @@ export default function Navbar() {
   }, [pathname, close])
 
   const isActive = (href: string) => pathname === href
-  const bar = (pathname && barByPath[pathname]) || defaultBar
+  const fallbackBar = (pathname && barByPath[pathname]) || defaultBar
+  const managed = announcement
+    ? announcement.overrides?.find((o) => o.path === pathname) || announcement.default
+    : null
+  const bar = managed
+    ? { ...managed, text: renderBold(managed.text) as React.ReactNode }
+    : fallbackBar
 
   return (
     <>
