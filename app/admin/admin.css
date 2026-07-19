@@ -35,6 +35,10 @@
 }
 .ad-side.collapsed { width: 72px; }
 .ad-side-head { display: flex; align-items: center; gap: 10px; padding: 18px 16px; border-bottom: 1px solid var(--rule); min-height: 74px; }
+.ad-side.collapsed .ad-side-head {
+  flex-direction: column; justify-content: center; gap: 8px;
+  padding: 14px 8px; min-height: auto;
+}
 .ad-side-head img { width: 36px; height: 36px; border-radius: 9px; flex-shrink: 0; }
 .ad-side-title { white-space: nowrap; overflow: hidden; }
 .ad-side-title b { font-family: var(--brand-font); font-size: 16px; }
