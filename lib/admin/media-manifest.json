@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-07-19T03:27:31.667Z",
+ "generatedAt": "2026-07-19T13:50:50.131Z",
  "files": [
   {
    "filename": "analytics-bg.mp4",
@@ -162,7 +162,7 @@
    {
     "file": "app/contact/page.tsx",
     "label": "Contact",
-    "line": 81
+    "line": 85
    },
    {
     "file": "components/home/MiniCta.tsx",
@@ -185,6 +185,11 @@
     "file": "app/layout.tsx",
     "label": "Site metadata / social sharing image",
     "line": 127
+   },
+   {
+    "file": "lib/site-config.ts",
+    "label": "lib/site-config.ts",
+    "line": 24
    }
   ],
   "/assets/martek-mark.png": [
@@ -196,17 +201,27 @@
    {
     "file": "components/Footer.tsx",
     "label": "Footer (site-wide)",
-    "line": 13
+    "line": 16
+   },
+   {
+    "file": "components/Footer.tsx",
+    "label": "Footer (site-wide)",
+    "line": 43
    },
    {
     "file": "components/Navbar.tsx",
     "label": "Navigation bar (site-wide)",
-    "line": 193
+    "line": 206
    },
    {
     "file": "components/Navbar.tsx",
     "label": "Navigation bar (site-wide)",
-    "line": 249
+    "line": 262
+   },
+   {
+    "file": "lib/site-config.ts",
+    "label": "lib/site-config.ts",
+    "line": 25
    }
   ],
   "/assets/analytics-bg.mp4": [

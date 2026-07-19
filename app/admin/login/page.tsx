@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Suspense } from 'react'
+import { PasswordInput } from '@/components/admin/ui'
 
 function LoginForm() {
   const router = useRouter()
@@ -27,11 +27,7 @@ function LoginForm() {
         setError(data.error || 'Login failed.')
         return
       }
-      if (data.mustChangePassword) {
-        router.push('/admin/change-password')
-      } else {
-        router.push(params.get('next') || '/admin')
-      }
+      router.push(data.mustChangePassword ? '/admin/change-password' : (params.get('next') || '/admin'))
       router.refresh()
     } catch {
       setError('Network error. Please try again.')
@@ -41,24 +37,25 @@ function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6">
-      <form onSubmit={submit} className="w-full max-w-sm space-y-5 bg-neutral-900 border border-neutral-800 rounded-2xl p-8">
-        <div>
-          <div className="text-xl font-bold tracking-tight">Martek <span className="text-neutral-400">Admin</span></div>
-          <p className="text-sm text-neutral-400 mt-1">Sign in to manage the website.</p>
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
+      <form onSubmit={submit} className="ad-card" style={{ width: '100%', maxWidth: 400, padding: 34 }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/assets/martek-mark.png" alt="Martek" width={44} height={44} style={{ borderRadius: 11, marginBottom: 16 }} />
+        <h1 style={{ fontSize: 28, marginBottom: 4 }}>Martek <span className="it">Admin</span></h1>
+        <p className="ad-mut" style={{ fontSize: 14, marginBottom: 22 }}>Sign in to manage the website.</p>
+
+        {error && <div className="ad-alert err" style={{ marginBottom: 16 }}>{error}</div>}
+
+        <div style={{ marginBottom: 16 }}>
+          <label className="ad-label">Email</label>
+          <input type="email" required className="ad-input" value={email} autoComplete="username"
+            onChange={(e) => setEmail(e.target.value)} />
         </div>
-        {error && <div className="text-sm text-red-400 bg-red-950/50 border border-red-900 rounded-lg px-3 py-2">{error}</div>}
-        <div className="space-y-1">
-          <label className="text-xs uppercase tracking-wider text-neutral-400">Email</label>
-          <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="username"
-            className="w-full bg-neutral-950 border border-neutral-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-neutral-400" />
+        <div style={{ marginBottom: 22 }}>
+          <label className="ad-label">Password</label>
+          <PasswordInput value={password} onChange={setPassword} autoComplete="current-password" required />
         </div>
-        <div className="space-y-1">
-          <label className="text-xs uppercase tracking-wider text-neutral-400">Password</label>
-          <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="current-password"
-            className="w-full bg-neutral-950 border border-neutral-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-neutral-400" />
-        </div>
-        <button disabled={busy} className="w-full bg-white text-black rounded-lg py-2.5 text-sm font-bold hover:bg-neutral-200 disabled:opacity-50 transition">
+        <button disabled={busy} className="ad-btn brand" style={{ width: '100%', justifyContent: 'center' }}>
           {busy ? 'Signing in…' : 'Sign in'}
         </button>
       </form>

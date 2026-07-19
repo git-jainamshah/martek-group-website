@@ -59,13 +59,19 @@ export function findAssetReferences(): Map<string, MediaLink[]> {
   const root = process.cwd()
   const refs = new Map<string, MediaLink[]>()
 
-  const canScan = fs.existsSync(path.join(root, 'components'))
-  if (!canScan) {
-    // Serverless: use the build-time manifest
-    const m = loadMediaManifest()
-    for (const [p, links] of Object.entries(m.references)) refs.set(p, links)
-    cache = { at: Date.now(), refs }
-    return refs
+  // Always start from the build-time manifest (complete picture even on
+  // serverless, where only a partial slice of source files is shipped),
+  // then overlay a live scan so local edits show up immediately.
+  const manifest = loadMediaManifest()
+  for (const [p, links] of Object.entries(manifest.references)) {
+    // Re-label from source paths so label wording always matches this code version
+    refs.set(p, links.map((l) => ({ ...l, label: humanize(l.file) })))
+  }
+
+  const merge = (p: string, link: MediaLink) => {
+    const arr = refs.get(p) ?? []
+    if (!arr.some((l) => l.file === link.file && l.line === link.line)) arr.push(link)
+    refs.set(p, arr)
   }
 
   const walk = (dir: string) => {
@@ -83,9 +89,7 @@ export function findAssetReferences(): Map<string, MediaLink[]> {
         const matches = lineText.match(REF_RE)
         if (!matches) return
         for (const m of matches) {
-          const arr = refs.get(m) ?? []
-          arr.push({ file: rel, label: humanize(rel), line: i + 1 })
-          refs.set(m, arr)
+          merge(m, { file: rel, label: humanize(rel), line: i + 1 })
         }
       })
     }
@@ -102,22 +106,46 @@ export function invalidateRefCache() {
   cache = null
 }
 
+/** Plain-English labels for non-technical admins. */
+const COMPONENT_LABELS: Record<string, string> = {
+  Navbar: 'Top navigation bar (every page)',
+  Footer: 'Footer (every page)',
+  Hero: 'Home page — hero video',
+  PageHero: 'Page top banner (used on several pages)',
+  PromoBanner: 'Promo pop-up banner',
+  SocialLinks: 'Social media icons',
+  CTASection: 'Call-to-action section',
+}
+const PAGE_LABELS: Record<string, string> = {
+  '': 'Home page',
+  about: 'About Us page',
+  contact: 'Contact page',
+  pricing: 'Pricing page',
+  blogs: 'Blog page',
+  projects: 'Projects page',
+  'case-studies': 'Case Studies page',
+  abstracts: 'Abstracts page',
+  terms: 'Terms page',
+  privacy: 'Privacy page',
+  'services/web-development': 'Web Development service page',
+  'services/data-analytics': 'Data & Analytics service page',
+  'services/social': 'Social service page',
+  'services/seo-ads': 'SEO & Ads service page',
+  'services/engineering': 'Engineering & CAD service page',
+  services: 'Services overview page',
+}
+
 export function humanize(rel: string): string {
   const p = rel.replace(/\\/g, '/')
-  if (p.startsWith('components/Navbar')) return 'Navigation bar (site-wide)'
-  if (p.startsWith('components/Footer')) return 'Footer (site-wide)'
-  if (p.startsWith('components/Hero')) return 'Home — hero'
-  if (p.startsWith('app/layout')) return 'Site metadata / social sharing image'
+  if (p.startsWith('app/layout')) return 'Social sharing image (link previews)'
+  if (p === 'app/page.tsx') return 'Home page'
   const m = p.match(/^app\/(.+)\/page\.tsx$/)
   if (m) {
-    return m[1]
-      .split('/')
-      .map((s) => s.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()))
-      .join(' / ')
+    if (PAGE_LABELS[m[1]]) return PAGE_LABELS[m[1]]
+    return m[1].split('/').map((s) => s.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())).join(' / ') + ' page'
   }
-  if (p === 'app/page.tsx') return 'Home page'
-  const c = p.match(/^components\/(.+)\.tsx$/)
-  if (c) return `Component: ${c[1]}`
+  const c = p.match(/^components\/(?:.+\/)?(.+)\.tsx$/)
+  if (c) return COMPONENT_LABELS[c[1]] ?? `${c[1].replace(/([A-Z])/g, ' $1').trim()} section`
   return p
 }
 

@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { PasswordInput } from '@/components/admin/ui'
 
 export default function ChangePasswordPage() {
   const router = useRouter()
@@ -34,26 +35,24 @@ export default function ChangePasswordPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6">
-      <form onSubmit={submit} className="w-full max-w-sm space-y-5 bg-neutral-900 border border-neutral-800 rounded-2xl p-8">
-        <div>
-          <div className="text-xl font-bold tracking-tight">Create your new password</div>
-          <p className="text-sm text-neutral-400 mt-1">
-            You signed in with a temporary password. Set a permanent one — the temporary password will be discarded.
-          </p>
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
+      <form onSubmit={submit} className="ad-card" style={{ width: '100%', maxWidth: 400, padding: 34 }}>
+        <h1 style={{ fontSize: 26, marginBottom: 6 }}>Create your <span className="it">new password</span></h1>
+        <p className="ad-mut" style={{ fontSize: 14, marginBottom: 22 }}>
+          You signed in with a temporary password. Set a permanent one — the temporary password will be discarded.
+        </p>
+
+        {error && <div className="ad-alert err" style={{ marginBottom: 16 }}>{error}</div>}
+
+        <div style={{ marginBottom: 16 }}>
+          <label className="ad-label">New password</label>
+          <PasswordInput value={pw} onChange={setPw} autoComplete="new-password" required minLength={8} />
         </div>
-        {error && <div className="text-sm text-red-400 bg-red-950/50 border border-red-900 rounded-lg px-3 py-2">{error}</div>}
-        <div className="space-y-1">
-          <label className="text-xs uppercase tracking-wider text-neutral-400">New password</label>
-          <input type="password" required minLength={8} value={pw} onChange={(e) => setPw(e.target.value)} autoComplete="new-password"
-            className="w-full bg-neutral-950 border border-neutral-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-neutral-400" />
+        <div style={{ marginBottom: 22 }}>
+          <label className="ad-label">Confirm new password</label>
+          <PasswordInput value={pw2} onChange={setPw2} autoComplete="new-password" required minLength={8} />
         </div>
-        <div className="space-y-1">
-          <label className="text-xs uppercase tracking-wider text-neutral-400">Confirm new password</label>
-          <input type="password" required minLength={8} value={pw2} onChange={(e) => setPw2(e.target.value)} autoComplete="new-password"
-            className="w-full bg-neutral-950 border border-neutral-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-neutral-400" />
-        </div>
-        <button disabled={busy} className="w-full bg-white text-black rounded-lg py-2.5 text-sm font-bold hover:bg-neutral-200 disabled:opacity-50 transition">
+        <button disabled={busy} className="ad-btn brand" style={{ width: '100%', justifyContent: 'center' }}>
           {busy ? 'Saving…' : 'Save & continue'}
         </button>
       </form>
