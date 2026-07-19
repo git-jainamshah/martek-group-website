@@ -4,6 +4,7 @@ import './globals.css'
 import './martek.css'
 import LayoutWrapper from '@/components/LayoutWrapper'
 import { SOCIALS } from '@/lib/social'
+import { HeadScripts, BodyStartScripts, FooterScripts } from '@/components/SiteScripts'
 
 const instrument = Instrument_Serif({
   subsets: ['latin'],
@@ -37,7 +38,11 @@ const poppins = Poppins({
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.trim() || 'https://www.martekgroup.com'
 
-export const metadata: Metadata = {
+// ISR: pages stay statically served (fast) but refresh within 60s, so
+// admin changes (scripts, pricing, announcement copy) go live within a minute.
+export const revalidate = 60
+
+const baseMetadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: 'Martek Group · A small studio that ships big things',
@@ -91,6 +96,20 @@ export const metadata: Metadata = {
   },
 }
 
+export async function generateMetadata(): Promise<Metadata> {
+  // Merge admin-managed SEO settings (site verification tags) when available
+  try {
+    const { getSetting } = require('@/lib/admin/db') as typeof import('@/lib/admin/db')
+    const seo = getSetting<{ googleVerification?: string; bingVerification?: string }>('seo')
+    const verification: Metadata['verification'] = {}
+    if (seo?.googleVerification) verification.google = seo.googleVerification
+    if (seo?.bingVerification) verification.other = { 'msvalidate.01': seo.bingVerification }
+    return { ...baseMetadata, ...(Object.keys(verification).length ? { verification } : {}) }
+  } catch {
+    return baseMetadata
+  }
+}
+
 export const viewport = {
   width: 'device-width',
   initialScale: 1,
@@ -142,11 +161,14 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgLd) }}
         />
+        <HeadScripts />
       </head>
       <body className="dot-bg">
+        <BodyStartScripts />
         <LayoutWrapper>
           {children}
         </LayoutWrapper>
+        <FooterScripts />
       </body>
     </html>
   )
