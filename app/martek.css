@@ -1116,3 +1116,36 @@ footer.mk .bottom{margin-top:48px; padding-top:24px; border-top:1px solid rgba(2
 .legal-copy ul,.legal-copy ol{padding-left:26px;margin:0 0 14px}
 .legal-copy li{margin-bottom:6px;line-height:1.6}
 .legal-copy a{color:var(--brand-ink);text-decoration:underline}
+
+/* ---- Services hover dropdown in desktop nav ---- */
+.nav-drop{position:relative; display:flex}
+.nav-drop-btn{
+  display:inline-flex; align-items:center; gap:6px; cursor:pointer;
+  border:0; background:transparent; font-family:var(--sans);
+  font-size:11.5px; text-transform:uppercase; color:var(--ink-2);
+  padding:8px 13px; border-radius:999px; transition:color .2s, background .2s;
+  font-weight:500; letter-spacing:.09em; line-height:1;
+}
+.nav-drop-btn svg{width:9px; height:6px; transition:transform .2s}
+.nav-drop-btn:hover{color:var(--ink); background:var(--paper)}
+.nav-drop-btn.active{color:var(--paper); background:var(--ink)}
+.nav-drop:hover .nav-drop-btn svg,
+.nav-drop:focus-within .nav-drop-btn svg{transform:rotate(180deg)}
+.nav-drop-panel{
+  position:absolute; top:calc(100% + 10px); left:50%; transform:translateX(-50%);
+  min-width:210px; background:var(--paper); border:1.5px solid var(--ink);
+  border-radius:16px; padding:6px; box-shadow:4px 4px 0 var(--brand);
+  display:none; flex-direction:column; z-index:60;
+}
+.nav-drop-panel::before{ /* hover bridge so the panel doesn't close crossing the gap */
+  content:''; position:absolute; top:-12px; left:0; right:0; height:12px;
+}
+.nav-drop:hover .nav-drop-panel,
+.nav-drop:focus-within .nav-drop-panel{display:flex}
+.nav-drop-panel a{
+  font-size:11.5px; text-transform:uppercase; letter-spacing:.09em; font-weight:500;
+  color:var(--ink-2); padding:10px 14px; border-radius:11px; line-height:1;
+  transition:color .2s, background .2s; white-space:nowrap;
+}
+.nav-drop-panel a:hover{color:var(--ink); background:var(--paper-2)}
+.nav-drop-panel a.active{color:var(--paper); background:var(--ink)}
