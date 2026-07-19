@@ -40,6 +40,9 @@ export default function ContactLeadForm() {
   const [referral, setReferral] = useState('')
   const [invalid, setInvalid] = useState<{ name?: boolean; email?: boolean; services?: boolean; message?: boolean }>({})
   const [done, setDone] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [submitError, setSubmitError] = useState('')
+  const [website, setWebsite] = useState('') // honeypot — humans never see or fill this
 
   // prefill service from ?service= query string (ported from site.js)
   useEffect(() => {
@@ -54,7 +57,7 @@ export default function ContactLeadForm() {
     setInvalid((prev) => ({ ...prev, services: false }))
   }
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const bad = {
       name: name.trim() === '',
@@ -70,9 +73,33 @@ export default function ContactLeadForm() {
       window.scrollTo({ top, behavior: 'smooth' })
       return
     }
-    setDone(true)
-    const top = form.getBoundingClientRect().top + window.pageYOffset - 120
-    window.scrollTo({ top, behavior: 'smooth' })
+
+    setSending(true)
+    setSubmitError('')
+    try {
+      const res = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name, email, company, message,
+          services, budget, timeline, referral, website,
+          formType: 'contact',
+          sourcePage: window.location.pathname + window.location.search,
+        }),
+      })
+      if (!res.ok) {
+        const d = await res.json().catch(() => ({}))
+        setSubmitError(d.error || 'Something went wrong — please try again or email us directly.')
+        return
+      }
+      setDone(true)
+      const top = form.getBoundingClientRect().top + window.pageYOffset - 120
+      window.scrollTo({ top, behavior: 'smooth' })
+    } catch {
+      setSubmitError('Network hiccup — please try again or email us directly.')
+    } finally {
+      setSending(false)
+    }
   }
 
   const firstName = name.trim().split(' ')[0] || 'friend'
@@ -238,8 +265,19 @@ export default function ContactLeadForm() {
           </select>
         </div>
 
-        <button type="submit" className="form-submit">
-          Request my discovery call
+        {/* honeypot — hidden from humans, catches bots */}
+        <div style={{ position: 'absolute', left: '-9999px' }} aria-hidden="true">
+          <label htmlFor="c-website">Website</label>
+          <input type="text" id="c-website" name="website" tabIndex={-1} autoComplete="off"
+            value={website} onChange={(e) => setWebsite(e.target.value)} />
+        </div>
+
+        {submitError && (
+          <p style={{ color: '#c0392b', fontSize: 14, marginBottom: 12 }}>{submitError}</p>
+        )}
+
+        <button type="submit" className="form-submit" disabled={sending}>
+          {sending ? 'Sending…' : 'Request my discovery call'}
           <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.8">
             <path d="M3 11 L11 3 M5 3 H11 V9" />
           </svg>
