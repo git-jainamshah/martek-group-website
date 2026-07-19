@@ -11,12 +11,17 @@ type User = {
 export default function UsersPage() {
   const [users, setUsers] = useState<User[]>([])
   const [adding, setAdding] = useState(false)
-  const [form, setForm] = useState({ firstName: '', lastName: '', email: '' })
+  const [form, setForm] = useState({ firstName: '', lastName: '', email: '', role: 'viewer' })
+  const [notAllowed, setNotAllowed] = useState(false)
   const [creds, setCreds] = useState<{ firstName: string; username: string; tempPassword: string } | null>(null)
   const [err, setErr] = useState('')
   const [copied, setCopied] = useState(false)
 
-  const load = () => fetch('/api/admin/users').then((r) => r.json()).then((d) => setUsers(d.users || []))
+  const load = () => fetch('/api/admin/users').then(async (r) => {
+    if (r.status === 403) { setNotAllowed(true); return }
+    const d = await r.json()
+    setUsers(d.users || [])
+  })
   useEffect(() => { load() }, [])
 
   async function addUser() {
@@ -27,7 +32,7 @@ export default function UsersPage() {
     const d = await res.json()
     if (!res.ok) return setErr(d.error || 'Could not add user.')
     setAdding(false)
-    setForm({ firstName: '', lastName: '', email: '' })
+    setForm({ firstName: '', lastName: '', email: '', role: 'viewer' })
     setCreds({ firstName: d.firstName, username: d.username, tempPassword: d.tempPassword })
     load()
   }
@@ -45,7 +50,30 @@ export default function UsersPage() {
     load()
   }
 
+  async function setRole(id: number, role: string) {
+    setErr('')
+    const res = await fetch(`/api/admin/users/${id}`, {
+      method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'set-role', role }),
+    })
+    const d = await res.json()
+    if (!res.ok) return setErr(d.error || 'Could not change role.')
+    load()
+  }
+
+  const ROLE_LABELS: Record<string, string> = { admin: 'Admin', editor: 'Editor', viewer: 'Viewer' }
+
   const input = 'ad-input'
+
+  if (notAllowed) {
+    return (
+      <div className="ad-card" style={{ maxWidth: 480 }}>
+        <h2 style={{ marginBottom: 8 }}>Admins only</h2>
+        <p className="ad-mut" style={{ fontSize: 14 }}>
+          Access Management is restricted to Admin accounts. Ask an Admin if you need your access level changed.
+        </p>
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-6 max-w-4xl">
@@ -80,7 +108,14 @@ export default function UsersPage() {
                   <div className="font-medium">{u.first_name} {u.last_name}</div>
                   <div className="ad-soft text-xs">{u.email}</div>
                 </td>
-                <td className="px-4 py-3 ad-mut capitalize">{u.role}</td>
+                <td className="px-4 py-3">
+                  <select className="ad-input" style={{ width: 110, padding: '6px 10px', fontSize: 13 }}
+                    value={u.role} onChange={(e) => setRole(u.id, e.target.value)}>
+                    <option value="admin">Admin</option>
+                    <option value="editor">Editor</option>
+                    <option value="viewer">Viewer</option>
+                  </select>
+                </td>
                 <td className="px-4 py-3">
                   {u.active
                     ? u.must_change_password
@@ -126,6 +161,12 @@ export default function UsersPage() {
                 <input className={input} value={form.lastName} onChange={(e) => setForm({ ...form, lastName: e.target.value })} /></div>
               <div className="space-y-1"><label className="text-xs ad-mut">Email (becomes their username)</label>
                 <input type="email" className={input} value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} /></div>
+              <div className="space-y-1"><label className="text-xs ad-mut">Access level</label>
+                <select className={input} value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })}>
+                  <option value="viewer">Viewer - read-only + can view and download leads</option>
+                  <option value="editor">Editor - manage all content, no Access Management</option>
+                  <option value="admin">Admin - full access including Access Management</option>
+                </select></div>
             </div>
             <p className="text-xs ad-soft">A temporary password is generated automatically. They&apos;ll be asked to create their own password on first sign-in.</p>
             <div className="flex gap-3 justify-end">

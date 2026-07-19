@@ -61,7 +61,7 @@ export async function getSessionUser(): Promise<SessionUser | null> {
   )
 }
 
-/** For API routes: returns user or a 401 response. */
+/** For API routes: returns user or a 401 response. Any signed-in role. */
 export async function requireUser(): Promise<{ user: SessionUser } | { error: NextResponse }> {
   try {
     const user = await getSessionUser()
@@ -70,6 +70,28 @@ export async function requireUser(): Promise<{ user: SessionUser } | { error: Ne
   } catch (e: any) {
     return { error: NextResponse.json({ error: e?.message || 'Database unavailable.' }, { status: 500 }) }
   }
+}
+
+/**
+ * Roles: admin (everything incl. Access Management) > editor (manage all
+ * content, no Access Management) > viewer (read-only + lead exports).
+ */
+export async function requireEditor(): Promise<{ user: SessionUser } | { error: NextResponse }> {
+  const auth = await requireUser()
+  if ('error' in auth) return auth
+  if (auth.user.role !== 'admin' && auth.user.role !== 'editor') {
+    return { error: NextResponse.json({ error: 'View-only access: your account cannot make changes.' }, { status: 403 }) }
+  }
+  return auth
+}
+
+export async function requireAdmin(): Promise<{ user: SessionUser } | { error: NextResponse }> {
+  const auth = await requireUser()
+  if ('error' in auth) return auth
+  if (auth.user.role !== 'admin') {
+    return { error: NextResponse.json({ error: 'Only Admins can manage access.' }, { status: 403 }) }
+  }
+  return auth
 }
 
 export function sessionCookieOptions() {

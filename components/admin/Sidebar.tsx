@@ -44,7 +44,7 @@ const GROUPS: { label: string; items: { href: string; label: string; icon: any }
   },
 ]
 
-export default function Sidebar({ userName, userEmail }: { userName: string; userEmail: string }) {
+export default function Sidebar({ userName, userEmail, role = 'admin' }: { userName: string; userEmail: string; role?: string }) {
   const pathname = usePathname()
   const router = useRouter()
   const [collapsed, setCollapsed] = useState(false)
@@ -70,15 +70,24 @@ export default function Sidebar({ userName, userEmail }: { userName: string; use
       <div className="ad-side-head">
         <img src="/assets/martek-mark.png" alt="Martek" />
         {!collapsed && (
-          <div className="ad-side-title">
+          <div className="ad-side-title" style={{ flex: 1 }}>
             <b>Martek <span>Admin</span></b>
-            <small title={userEmail}>{userName} · {userEmail}</small>
+            <small title={userEmail}>{userName}</small>
           </div>
         )}
+        <button onClick={toggle} className="ad-collapse-btn" style={{ width: 'auto', padding: 6 }}
+          title={collapsed ? 'Expand menu' : 'Collapse menu'}>
+          {collapsed ? <PanelLeftOpen size={16} /> : <PanelLeftClose size={16} />}
+        </button>
       </div>
 
       <nav className="ad-nav">
-        {GROUPS.map((g) => (
+        {GROUPS.map((rawGroup) => {
+          const g = role === 'admin'
+            ? rawGroup
+            : { ...rawGroup, items: rawGroup.items.filter((i) => i.href !== '/admin/users') }
+          if (!g.items.length) return null
+          return (
           <div key={g.label} className="ad-nav-group">
             <div className="ad-nav-group-label">{g.label}</div>
             {g.items.map(({ href, label, icon: Icon }) => {
@@ -97,7 +106,8 @@ export default function Sidebar({ userName, userEmail }: { userName: string; use
               )
             })}
           </div>
-        ))}
+          )
+        })}
       </nav>
 
       <div className="ad-side-foot">
@@ -108,9 +118,6 @@ export default function Sidebar({ userName, userEmail }: { userName: string; use
         <button onClick={logout} className="ad-nav-item" style={{ border: 0, background: 'transparent', cursor: 'pointer' }} title="Sign out">
           <LogOut />
           {!collapsed && 'Sign out'}
-        </button>
-        <button onClick={toggle} className="ad-collapse-btn" title={collapsed ? 'Expand menu' : 'Collapse menu'}>
-          {collapsed ? <PanelLeftOpen size={17} /> : <PanelLeftClose size={17} />}
         </button>
       </div>
     </aside>

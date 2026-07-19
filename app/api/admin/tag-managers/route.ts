@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { ensureDb, audit } from '@/lib/admin/db'
 import { q, insertReturningId } from '@/lib/admin/pg'
-import { requireUser } from '@/lib/admin/auth'
+import { requireUser, requireEditor } from '@/lib/admin/auth'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -15,7 +15,7 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  const auth = await requireUser()
+  const auth = await requireEditor()
   if ('error' in auth) return auth.error
   const { provider, containerId, environment } = await req.json().catch(() => ({}))
   if (!['gtm', 'tealium'].includes(provider)) return NextResponse.json({ error: 'Provider must be gtm or tealium.' }, { status: 400 })

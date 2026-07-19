@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { audit, generateTempPassword } from '@/lib/admin/db'
 import { q1, run } from '@/lib/admin/pg'
-import { requireUser, hashPassword, destroyUserSessions } from '@/lib/admin/auth'
+import { requireAdmin, hashPassword, destroyUserSessions } from '@/lib/admin/auth'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -13,13 +13,13 @@ export const dynamic = 'force-dynamic'
  *  { action: 'reset-password' }  - new temp password (returned once), forces change on next login
  */
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
-  const auth = await requireUser()
+  const auth = await requireAdmin()
   if ('error' in auth) return auth.error
   const id = Number(params.id)
   const target = await q1<any>('SELECT * FROM users WHERE id = $1', [id])
   if (!target) return NextResponse.json({ error: 'User not found.' }, { status: 404 })
 
-  const { action } = await req.json().catch(() => ({}))
+  const { action, role } = await req.json().catch(() => ({}))
 
   if (action === 'revoke') {
     if (target.id === auth.user.id) {
@@ -38,6 +38,21 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   if (action === 'restore') {
     await run('UPDATE users SET active = 1 WHERE id = $1', [id])
     await audit(auth.user.email, 'user_restore', target.email)
+    return NextResponse.json({ ok: true })
+  }
+
+  if (action === 'set-role') {
+    if (!['admin', 'editor', 'viewer'].includes(role)) {
+      return NextResponse.json({ error: 'Role must be Admin, Editor, or Viewer.' }, { status: 400 })
+    }
+    if (target.role === 'admin' && role !== 'admin') {
+      const admins = await q1<{ c: number }>(`SELECT COUNT(*)::int AS c FROM users WHERE active = 1 AND role = 'admin'`)
+      if (Number(admins?.c) <= 1) {
+        return NextResponse.json({ error: 'At least one active Admin is required.' }, { status: 400 })
+      }
+    }
+    await run('UPDATE users SET role = $1 WHERE id = $2', [role, id])
+    await audit(auth.user.email, 'user_set_role', `${target.email} → ${role}`)
     return NextResponse.json({ ok: true })
   }
 

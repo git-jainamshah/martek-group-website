@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { ensureDb, audit } from '@/lib/admin/db'
 import { q, q1, run, insertReturningId } from '@/lib/admin/pg'
-import { requireUser } from '@/lib/admin/auth'
+import { requireUser, requireEditor } from '@/lib/admin/auth'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -15,7 +15,7 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  const auth = await requireUser()
+  const auth = await requireEditor()
   if ('error' in auth) return auth.error
   const { title, code, location, timing, environment } = await req.json().catch(() => ({}))
   if (!title || !code) return NextResponse.json({ error: 'Title and script code are required.' }, { status: 400 })
@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
 
 /** PUT /api/admin/scripts - reorder: { location, ids: [scriptId, ...] in new order } */
 export async function PUT(req: NextRequest) {
-  const auth = await requireUser()
+  const auth = await requireEditor()
   if ('error' in auth) return auth.error
   const { location, ids } = await req.json().catch(() => ({}))
   if (!Array.isArray(ids)) return NextResponse.json({ error: 'ids array required.' }, { status: 400 })

@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { audit } from '@/lib/admin/db'
 import { q1, run } from '@/lib/admin/pg'
-import { requireUser } from '@/lib/admin/auth'
+import { requireUser, requireEditor } from '@/lib/admin/auth'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
-  const auth = await requireUser()
+  const auth = await requireEditor()
   if ('error' in auth) return auth.error
   const body = await req.json().catch(() => ({}))
   const id = Number(params.id)
@@ -30,7 +30,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 }
 
 export async function DELETE(_req: NextRequest, { params }: { params: { id: string } }) {
-  const auth = await requireUser()
+  const auth = await requireEditor()
   if ('error' in auth) return auth.error
   await run('DELETE FROM scripts WHERE id = $1', [Number(params.id)])
   await audit(auth.user.email, 'script_delete', `#${params.id}`)

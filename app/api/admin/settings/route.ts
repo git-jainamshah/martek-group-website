@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSetting, setSetting, audit } from '@/lib/admin/db'
-import { requireUser } from '@/lib/admin/auth'
+import { requireUser, requireEditor } from '@/lib/admin/auth'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function PUT(req: NextRequest) {
-  const auth = await requireUser()
+  const auth = await requireEditor()
   if ('error' in auth) return auth.error
   const { key, value } = await req.json().catch(() => ({}))
   if (!ALLOWED_KEYS.includes(key)) return NextResponse.json({ error: 'Unknown setting.' }, { status: 400 })

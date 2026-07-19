@@ -3,7 +3,7 @@ import fs from 'fs'
 import path from 'path'
 import { audit } from '@/lib/admin/db'
 import { run } from '@/lib/admin/pg'
-import { requireUser } from '@/lib/admin/auth'
+import { requireUser, requireEditor } from '@/lib/admin/auth'
 import { invalidateRefCache, hasWritableStorage, READONLY_STORAGE_MSG } from '@/lib/admin/media'
 
 export const runtime = 'nodejs'
@@ -16,7 +16,7 @@ export const dynamic = 'force-dynamic'
  * multipart form: targetPath (e.g. /assets/hero-loop.mp4), file
  */
 export async function POST(req: NextRequest) {
-  const auth = await requireUser()
+  const auth = await requireEditor()
   if ('error' in auth) return auth.error
 
   if (!hasWritableStorage()) {

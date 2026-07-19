@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { ensureDb, audit } from '@/lib/admin/db'
 import { q, run } from '@/lib/admin/pg'
-import { requireUser } from '@/lib/admin/auth'
+import { requireUser, requireEditor } from '@/lib/admin/auth'
 import { PAGE_LABELS } from '@/lib/admin/pricing-defaults'
 
 export const runtime = 'nodejs'
@@ -17,7 +17,7 @@ export async function GET() {
 
 /** PUT - bulk save for one page: { pageKey, packages: [{idx, name, price, ...}] } */
 export async function PUT(req: NextRequest) {
-  const auth = await requireUser()
+  const auth = await requireEditor()
   if ('error' in auth) return auth.error
   const { pageKey, packages } = await req.json().catch(() => ({}))
   if (!pageKey || !Array.isArray(packages)) {

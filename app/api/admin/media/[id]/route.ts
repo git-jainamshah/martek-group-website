@@ -3,7 +3,7 @@ import fs from 'fs'
 import path from 'path'
 import { audit } from '@/lib/admin/db'
 import { q1, run } from '@/lib/admin/pg'
-import { requireUser } from '@/lib/admin/auth'
+import { requireUser, requireEditor } from '@/lib/admin/auth'
 import { isLinked, hasWritableStorage, READONLY_STORAGE_MSG } from '@/lib/admin/media'
 
 export const runtime = 'nodejs'
@@ -11,7 +11,7 @@ export const dynamic = 'force-dynamic'
 
 /** DELETE /api/admin/media/:id - blocked when the file is linked on the site */
 export async function DELETE(_req: NextRequest, { params }: { params: { id: string } }) {
-  const auth = await requireUser()
+  const auth = await requireEditor()
   if ('error' in auth) return auth.error
 
   const row = await q1<any>('SELECT * FROM media WHERE id = $1', [Number(params.id)])

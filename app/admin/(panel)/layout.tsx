@@ -27,7 +27,7 @@ export default async function PanelLayout({ children }: { children: React.ReactN
 
   return (
     <div className="ad-shell">
-      <Sidebar userName={`${user.first_name} ${user.last_name}`} userEmail={user.email} />
+      <Sidebar userName={`${user.first_name} ${user.last_name}`} userEmail={user.email} role={user.role} />
       <main className="ad-main">{children}</main>
     </div>
   )
