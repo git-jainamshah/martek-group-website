@@ -7,7 +7,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import {
   LayoutDashboard, Image as ImageIcon, HardDrive, BarChart3, DollarSign,
   Megaphone, Users, Inbox, LogOut, Globe, Building2, Share2, ScrollText,
-  PanelLeftClose, PanelLeftOpen,
+  PanelLeftClose, PanelLeftOpen, LineChart,
 } from 'lucide-react'
 
 const GROUPS: { label: string; items: { href: string; label: string; icon: any }[] }[] = [
@@ -28,8 +28,10 @@ const GROUPS: { label: string; items: { href: string; label: string; icon: any }
   {
     label: 'Growth',
     items: [
+      { href: '/admin/leads/dashboard', label: 'Leads Dashboard', icon: BarChart3 },
       { href: '/admin/leads', label: 'Leads', icon: Inbox },
-      { href: '/admin/analytics', label: 'Analytics & SEO', icon: BarChart3 },
+      { href: '/admin/leads/marketing', label: 'Lead Marketing', icon: Megaphone },
+      { href: '/admin/analytics', label: 'Analytics & SEO', icon: LineChart },
     ],
   },
   {
@@ -80,7 +82,12 @@ export default function Sidebar({ userName, userEmail }: { userName: string; use
           <div key={g.label} className="ad-nav-group">
             <div className="ad-nav-group-label">{g.label}</div>
             {g.items.map(({ href, label, icon: Icon }) => {
-              const active = href === '/admin' ? pathname === '/admin' : pathname?.startsWith(href)
+              const allHrefs = GROUPS.flatMap((gr) => gr.items.map((i) => i.href))
+              const active = href === '/admin'
+                ? pathname === '/admin'
+                : pathname === href ||
+                  (!!pathname?.startsWith(href + '/') &&
+                    !allHrefs.some((h) => h !== href && h.startsWith(href) && pathname?.startsWith(h)))
               return (
                 <Link key={href} href={href} title={collapsed ? label : undefined}
                   className={`ad-nav-item ${active ? 'active' : ''}`}>
