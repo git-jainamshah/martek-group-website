@@ -215,10 +215,6 @@ export default function LeadForm({ idPrefix = 'hs' }: { idPrefix?: string }) {
           Your request landed in our inbox. We&apos;ll reply from a real human address within a few hours to lock in a
           time.
         </p>
-        <div className="next">
-          <span>Typical reply: under 2 hours (work hours)</span>
-          <span>Toronto, Canada</span>
-        </div>
       </div>
     </form>
   )

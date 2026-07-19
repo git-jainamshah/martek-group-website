@@ -67,6 +67,9 @@ export function LeadDrawer({ lead, onClose, onSaved }: { lead: Lead; onClose: ()
         <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
           <Row k="Email" v={<a href={`mailto:${lead.email}`} style={{ textDecoration: 'underline', color: 'var(--brand-ink)' }}>{lead.email}</a>} />
           <Row k="Company" v={lead.company} />
+          <Row k="Company URL" v={ex.companyUrl && <a href={ex.companyUrl} target="_blank" style={{ textDecoration: 'underline', color: 'var(--brand-ink)' }}>{ex.companyUrl}</a>} />
+          <Row k="Location" v={[ex.companyProvince, ex.companyCountry].filter(Boolean).join(', ')} />
+          <Row k="Remote" v={ex.companyRemote} />
           <Row k="Received" v={lead.created_at} />
           <Row k="Consent" v={lead.consent ? `Yes${lead.consent_at ? ' - ' + String(lead.consent_at).slice(0, 10) : ''}` : 'No'} />
           <Row k="Form" v={FORM_LABELS[lead.form_type] ?? lead.form_type} />

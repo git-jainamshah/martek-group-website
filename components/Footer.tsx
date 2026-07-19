@@ -125,7 +125,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="bottom">
-          <span>© {new Date().getFullYear()} {company.name}. Made with care, not chatGPT.</span>
+          <span>© {new Date().getFullYear()} {company.name}. Made with care, not by Robot.</span>
           <span>
             <Link href="/privacy" style={{ color: 'var(--ink-soft)' }}>
               Privacy

@@ -3,6 +3,7 @@
 import { useState, useEffect, FormEvent } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { getTrafficData } from '@/analytics/traffic-identification'
+import { COUNTRIES, PROVINCES } from '@/lib/locations'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -46,6 +47,10 @@ export default function ContactLeadForm() {
   const [website, setWebsite] = useState('') // honeypot - humans never see or fill this
   const [consent, setConsent] = useState(false)
   const [referralDetail, setReferralDetail] = useState('')
+  const [companyUrl, setCompanyUrl] = useState('')
+  const [companyCountry, setCompanyCountry] = useState('')
+  const [companyProvince, setCompanyProvince] = useState('')
+  const [companyRemote, setCompanyRemote] = useState('')
 
   // prefill service from ?service= query string (ported from site.js)
   useEffect(() => {
@@ -87,6 +92,7 @@ export default function ContactLeadForm() {
         body: JSON.stringify({
           name, email, company, message,
           services, budget, timeline, referral, referralDetail, website,
+          companyUrl, companyCountry, companyProvince, companyRemote,
           consent,
           formType: 'contact',
           sourcePage: window.location.pathname + window.location.search,
@@ -172,6 +178,64 @@ export default function ContactLeadForm() {
             value={company}
             onChange={(e) => setCompany(e.target.value)}
           />
+        </div>
+
+        <div className="field">
+          <label htmlFor="c-company-url">
+            Company website <span style={{ color: 'var(--ink-soft)', textTransform: 'none', letterSpacing: 0 }}>(optional)</span>
+          </label>
+          <input
+            type="url"
+            id="c-company-url"
+            name="companyUrl"
+            placeholder="https://yourcompany.com"
+            autoComplete="url"
+            value={companyUrl}
+            onChange={(e) => setCompanyUrl(e.target.value)}
+          />
+        </div>
+
+        <div className="form-row">
+          <div className="field">
+            <label htmlFor="c-country">
+              Company location <span style={{ color: 'var(--ink-soft)', textTransform: 'none', letterSpacing: 0 }}>(optional)</span>
+            </label>
+            <select id="c-country" name="companyCountry" value={companyCountry}
+              onChange={(e) => { setCompanyCountry(e.target.value); setCompanyProvince('') }}>
+              <option value="">Select country…</option>
+              {COUNTRIES.map((c) => <option key={c} value={c}>{c}</option>)}
+            </select>
+          </div>
+          {companyCountry && (
+            <div className="field">
+              <label htmlFor="c-province">
+                {PROVINCES[companyCountry] ? 'Province / State' : 'Province / Region'}
+              </label>
+              {PROVINCES[companyCountry] ? (
+                <select id="c-province" name="companyProvince" value={companyProvince}
+                  onChange={(e) => setCompanyProvince(e.target.value)}>
+                  <option value="">Select…</option>
+                  {PROVINCES[companyCountry].map((p) => <option key={p} value={p}>{p}</option>)}
+                </select>
+              ) : (
+                <input type="text" id="c-province" name="companyProvince" placeholder="Province or region"
+                  value={companyProvince} onChange={(e) => setCompanyProvince(e.target.value)} />
+              )}
+            </div>
+          )}
+        </div>
+
+        <div className="field">
+          <label htmlFor="c-remote">
+            Is your company remote? <span style={{ color: 'var(--ink-soft)', textTransform: 'none', letterSpacing: 0 }}>(optional)</span>
+          </label>
+          <select id="c-remote" name="companyRemote" value={companyRemote}
+            onChange={(e) => setCompanyRemote(e.target.value)}>
+            <option value="">Select…</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+            <option value="Hybrid">Hybrid</option>
+          </select>
         </div>
 
         <div className={`field${invalid.services ? ' invalid' : ''}`}>
@@ -337,11 +401,6 @@ export default function ContactLeadForm() {
           Your project brief just landed in our inbox. A real human will reply within a few hours (work hours) with a
           couple of times for the call.
         </p>
-        <div className="next">
-          <span>Typical reply: under 2 hours</span>
-          <span>Check your inbox, and your spam, just in case</span>
-          <span>Toronto, Canada</span>
-        </div>
       </div>
     </form>
   )

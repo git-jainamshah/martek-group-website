@@ -128,7 +128,7 @@ export function parseFilters(p: URLSearchParams): LeadFilters {
 
 export const LEAD_EXPORT_HEADERS = [
   'Lead ID', 'Created', 'Name', 'Email', 'Company', 'Phone', 'Form', 'Source page',
-  'Services', 'Budget', 'Timeline', 'Referral', 'Status', 'Message', 'Notes', 'Consent', 'Consent at',
+  'Services', 'Budget', 'Timeline', 'Referral', 'Status', 'Message', 'Notes', 'Consent', 'Consent at', 'Company URL', 'Company location', 'Remote',
 ]
 
 export const MARKETING_EXPORT_HEADERS = [
@@ -150,6 +150,7 @@ export function leadToRow(l: any): string[] {
     extra.budget ?? '', [extra.timeline].filter(Boolean).join(''), [extra.referral, extra.referralDetail].filter(Boolean).join(' - '),
     l.status ?? '', l.message ?? '', l.notes ?? '',
     l.consent ? 'Yes' : 'No', l.consent_at ? String(l.consent_at).slice(0, 19) : '',
+    extra.companyUrl ?? '', [extra.companyProvince, extra.companyCountry].filter(Boolean).join(', '), extra.companyRemote ?? '',
   ]
 }
 

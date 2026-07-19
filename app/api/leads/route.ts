@@ -59,6 +59,10 @@ export async function POST(req: NextRequest) {
           timeline: body.timeline ?? undefined,
           referral: body.referral ?? undefined,
           referralDetail: String(body.referralDetail ?? '').slice(0, 200) || undefined,
+          companyUrl: String(body.companyUrl ?? '').slice(0, 300) || undefined,
+          companyCountry: String(body.companyCountry ?? '').slice(0, 100) || undefined,
+          companyProvince: String(body.companyProvince ?? '').slice(0, 100) || undefined,
+          companyRemote: ['Yes', 'No', 'Hybrid'].includes(body.companyRemote) ? body.companyRemote : undefined,
         }),
         generateLeadPublicId(),
       ]
