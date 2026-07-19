@@ -1,18 +1,20 @@
 /**
  * Public-site pricing reader. Merges admin-managed DB values over the
- * hardcoded page content, so pages keep working even without a DB.
+ * hardcoded page content, with graceful fallback to built-in defaults
+ * when the database is unavailable.
  */
 import { PRICING_DEFAULTS, PackageDefault } from './admin/pricing-defaults'
 
 export type PackageOverride = PackageDefault & { idx: number }
 
-export function getPackageOverrides(pageKey: string): PackageOverride[] {
+export async function getPackageOverrides(pageKey: string): Promise<PackageOverride[]> {
   try {
-    const { db } = require('./admin/db') as typeof import('./admin/db')
-    const rows = db()
-      .prepare('SELECT * FROM packages WHERE page_key = ? ORDER BY idx')
-      .all(pageKey) as any[]
-    return rows.map((r) => ({
+    const { ensureDb } = require('./admin/db') as typeof import('./admin/db')
+    const { q } = require('./admin/pg') as typeof import('./admin/pg')
+    await ensureDb()
+    const rows = await q('SELECT * FROM packages WHERE page_key = $1 ORDER BY idx', [pageKey])
+    if (!rows.length) throw new Error('empty')
+    return rows.map((r: any) => ({
       idx: r.idx,
       name: r.name,
       price: r.price,
@@ -25,7 +27,7 @@ export function getPackageOverrides(pageKey: string): PackageOverride[] {
       ctaLabel: r.cta_label ?? undefined,
     }))
   } catch {
-    // DB unavailable (e.g. read-only serverless) — fall back to defaults
+    // DB unavailable — fall back to defaults so the public site never breaks
     return (PRICING_DEFAULTS[pageKey] ?? []).map((p, idx) => ({ ...p, idx }))
   }
 }
@@ -34,8 +36,8 @@ export function getPackageOverrides(pageKey: string): PackageOverride[] {
  * Merge DB-managed fields into an existing hardcoded cards array (by index),
  * preserving any JSX-only fields (like styled headings) from the original.
  */
-export function mergePackages<T extends Record<string, any>>(pageKey: string, cards: T[]): T[] {
-  const overrides = getPackageOverrides(pageKey)
+export async function mergePackages<T extends Record<string, any>>(pageKey: string, cards: T[]): Promise<T[]> {
+  const overrides = await getPackageOverrides(pageKey)
   if (!overrides.length) return cards
   return cards.map((card, i) => {
     const o = overrides.find((x) => x.idx === i)

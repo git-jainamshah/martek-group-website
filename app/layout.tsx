@@ -100,7 +100,7 @@ export async function generateMetadata(): Promise<Metadata> {
   // Merge admin-managed SEO settings (site verification tags) when available
   try {
     const { getSetting } = require('@/lib/admin/db') as typeof import('@/lib/admin/db')
-    const seo = getSetting<{ googleVerification?: string; bingVerification?: string }>('seo')
+    const seo = await getSetting<{ googleVerification?: string; bingVerification?: string }>('seo')
     const verification: Metadata['verification'] = {}
     if (seo?.googleVerification) verification.google = seo.googleVerification
     if (seo?.bingVerification) verification.other = { 'msvalidate.01': seo.bingVerification }

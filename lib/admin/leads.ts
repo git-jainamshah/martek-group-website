@@ -1,4 +1,5 @@
-import { db } from './db'
+import { q } from './pg'
+import { ensureDb } from './db'
 
 export type LeadFilters = {
   q?: string
@@ -11,24 +12,39 @@ export type LeadFilters = {
   to?: string
 }
 
-export function queryLeads(f: LeadFilters) {
+export async function queryLeads(f: LeadFilters): Promise<any[]> {
+  await ensureDb()
   const where: string[] = []
   const params: unknown[] = []
+  const p = () => `$${params.length}`
+
   if (f.q) {
-    where.push(`(name LIKE ? OR email LIKE ? OR company LIKE ? OR message LIKE ?)`)
     const like = `%${f.q}%`
-    params.push(like, like, like, like)
+    params.push(like)
+    const n = p()
+    where.push(`(name ILIKE ${n} OR email ILIKE ${n} OR company ILIKE ${n} OR message ILIKE ${n})`)
   }
-  if (f.status) { where.push('status = ?'); params.push(f.status) }
-  if (f.formType) { where.push('form_type = ?'); params.push(f.formType) }
-  if (f.sourcePage) { where.push('source_page LIKE ?'); params.push(`%${f.sourcePage}%`) }
-  if (f.service) { where.push('extra LIKE ?'); params.push(`%"${f.service}"%`) }
-  if (f.budget) { where.push(`extra LIKE ?`); params.push(`%"budget":"${f.budget}"%`) }
-  if (f.from) { where.push(`created_at >= ?`); params.push(`${f.from} 00:00:00`) }
-  if (f.to) { where.push(`created_at <= ?`); params.push(`${f.to} 23:59:59`) }
+  if (f.status) { params.push(f.status); where.push(`status = ${p()}`) }
+  if (f.formType) { params.push(f.formType); where.push(`form_type = ${p()}`) }
+  if (f.sourcePage) { params.push(`%${f.sourcePage}%`); where.push(`source_page ILIKE ${p()}`) }
+  if (f.service) { params.push(`%"${f.service}"%`); where.push(`extra LIKE ${p()}`) }
+  if (f.budget) { params.push(`%"budget":"${f.budget}"%`); where.push(`extra LIKE ${p()}`) }
+  if (f.from) { params.push(`${f.from}T00:00:00Z`); where.push(`created_at >= ${p()}::timestamptz`) }
+  if (f.to) { params.push(`${f.to}T23:59:59Z`); where.push(`created_at <= ${p()}::timestamptz`) }
 
   const sql = `SELECT * FROM leads ${where.length ? 'WHERE ' + where.join(' AND ') : ''} ORDER BY id DESC`
-  return db().prepare(sql).all(...params) as any[]
+  const rows = await q(sql, params)
+  // Serialize timestamps consistently
+  return rows.map((r) => ({
+    ...r,
+    created_at: fmt(r.created_at),
+    updated_at: fmt(r.updated_at),
+  }))
+}
+
+function fmt(v: unknown): string {
+  if (v instanceof Date) return v.toISOString().replace('T', ' ').slice(0, 19)
+  return String(v ?? '')
 }
 
 export const LEAD_EXPORT_HEADERS = [

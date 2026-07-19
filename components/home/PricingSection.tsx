@@ -9,8 +9,8 @@ const H3S: React.ReactNode[] = [
 ]
 const VARIANTS = ['c-starter', 'c-growth', 'c-scale']
 
-export default function PricingSection() {
-  const cards = getPackageOverrides('home')
+export default async function PricingSection() {
+  const cards = await getPackageOverrides('home')
 
   return (
     <section className="price" id="pricing">

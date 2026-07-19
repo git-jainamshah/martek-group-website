@@ -26,16 +26,20 @@ export function currentEnvironment(): 'production' | 'qa' | 'dev' {
   return process.env.NODE_ENV === 'production' ? 'production' : 'dev'
 }
 
-function load(): { scripts: ScriptRow[]; tagManagers: TagManagerRow[] } {
+async function load(): Promise<{ scripts: ScriptRow[]; tagManagers: TagManagerRow[] }> {
   try {
-    const { db } = require('@/lib/admin/db') as typeof import('@/lib/admin/db')
+    const { ensureDb } = require('@/lib/admin/db') as typeof import('@/lib/admin/db')
+    const { q } = require('@/lib/admin/pg') as typeof import('@/lib/admin/pg')
+    await ensureDb()
     const env = currentEnvironment()
-    const scripts = (db()
-      .prepare(`SELECT * FROM scripts WHERE enabled = 1 AND (environment = 'all' OR environment = ?) ORDER BY sort_order, id`)
-      .all(env)) as ScriptRow[]
-    const tagManagers = (db()
-      .prepare('SELECT * FROM tag_managers WHERE enabled = 1 AND environment = ?')
-      .all(env)) as TagManagerRow[]
+    const scripts = (await q(
+      `SELECT * FROM scripts WHERE enabled = 1 AND (environment = 'all' OR environment = $1) ORDER BY sort_order, id`,
+      [env]
+    )) as ScriptRow[]
+    const tagManagers = (await q(
+      'SELECT * FROM tag_managers WHERE enabled = 1 AND environment = $1',
+      [env]
+    )) as TagManagerRow[]
     return { scripts, tagManagers }
   } catch {
     return { scripts: [], tagManagers: [] }
@@ -66,8 +70,8 @@ function stripTags(code: string): string {
   return m ? m[1] : code
 }
 
-function groupFor(location: 'head' | 'body' | 'footer') {
-  const { scripts, tagManagers } = load()
+async function groupFor(location: 'head' | 'body' | 'footer') {
+  const { scripts, tagManagers } = await load()
   const inLoc = scripts.filter((s) => s.location === location)
   const before = inLoc.filter((s) => s.timing === 'before_tm')
   const after = inLoc.filter((s) => s.timing === 'after_tm')
@@ -76,8 +80,8 @@ function groupFor(location: 'head' | 'body' | 'footer') {
   return { before, after, tms }
 }
 
-function ScriptGroup({ location }: { location: 'head' | 'body' | 'footer' }) {
-  const { before, after, tms } = groupFor(location)
+async function ScriptGroup({ location }: { location: 'head' | 'body' | 'footer' }) {
+  const { before, after, tms } = await groupFor(location)
   if (!before.length && !after.length && !tms.length) return null
   return (
     <>
@@ -102,8 +106,8 @@ export function HeadScripts() {
 }
 
 /** Rendered at the very top of <body>: GTM noscript + "body start" group. */
-export function BodyStartScripts() {
-  const { tms } = groupFor('head')
+export async function BodyStartScripts() {
+  const { tms } = await groupFor('head')
   const gtm = tms.find((t) => t.provider === 'gtm')
   return (
     <>

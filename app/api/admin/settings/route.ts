@@ -8,19 +8,19 @@ export const dynamic = 'force-dynamic'
 const ALLOWED_KEYS = ['announcement', 'promo_banner', 'robots_txt', 'seo']
 
 export async function GET(req: NextRequest) {
-  const auth = requireUser()
+  const auth = await requireUser()
   if ('error' in auth) return auth.error
   const key = req.nextUrl.searchParams.get('key') || ''
   if (!ALLOWED_KEYS.includes(key)) return NextResponse.json({ error: 'Unknown setting.' }, { status: 400 })
-  return NextResponse.json({ key, value: getSetting(key) })
+  return NextResponse.json({ key, value: await getSetting(key) })
 }
 
 export async function PUT(req: NextRequest) {
-  const auth = requireUser()
+  const auth = await requireUser()
   if ('error' in auth) return auth.error
   const { key, value } = await req.json().catch(() => ({}))
   if (!ALLOWED_KEYS.includes(key)) return NextResponse.json({ error: 'Unknown setting.' }, { status: 400 })
-  setSetting(key, value)
-  audit(auth.user.email, 'setting_update', key)
+  await setSetting(key, value)
+  await audit(auth.user.email, 'setting_update', key)
   return NextResponse.json({ ok: true })
 }

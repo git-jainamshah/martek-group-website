@@ -253,6 +253,6 @@ const data: ServiceData = {
   signoff: 'analytics for startups.',
 }
 
-export default function DataAnalyticsPage() {
-  return <ServicePage data={{ ...data, cards: mergePackages('data-analytics', data.cards) }} />
+export default async function DataAnalyticsPage() {
+  return <ServicePage data={{ ...data, cards: await mergePackages('data-analytics', data.cards) }} />
 }

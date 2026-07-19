@@ -10,8 +10,10 @@ export const dynamic = 'force-dynamic'
 export async function GET() {
   try {
     const { getSetting } = require('@/lib/admin/db') as typeof import('@/lib/admin/db')
-    const announcement = getSetting('announcement')
-    const promoBanner = getSetting('promo_banner')
+    const [announcement, promoBanner] = await Promise.all([
+      getSetting('announcement'),
+      getSetting('promo_banner'),
+    ])
     return NextResponse.json(
       { announcement, promoBanner },
       { headers: { 'Cache-Control': 'public, max-age=60, stale-while-revalidate=300' } }

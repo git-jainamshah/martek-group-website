@@ -1,41 +1,46 @@
 import { NextRequest, NextResponse } from 'next/server'
 import fs from 'fs'
 import path from 'path'
-import { db, audit } from '@/lib/admin/db'
+import { audit } from '@/lib/admin/db'
+import { q, run } from '@/lib/admin/pg'
 import { requireUser } from '@/lib/admin/auth'
-import { findAssetReferences, syncMediaIndex, invalidateRefCache } from '@/lib/admin/media'
+import { findAssetReferences, syncMediaIndex, invalidateRefCache, hasWritableStorage, READONLY_STORAGE_MSG } from '@/lib/admin/media'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
 /** GET /api/admin/media — full media list with link info */
 export async function GET() {
-  const auth = requireUser()
+  const auth = await requireUser()
   if ('error' in auth) return auth.error
 
-  syncMediaIndex()
+  await syncMediaIndex()
   const refs = findAssetReferences()
-  const rows = db().prepare('SELECT * FROM media ORDER BY modified_at DESC').all() as any[]
+  const rows = await q('SELECT * FROM media ORDER BY modified_at DESC')
 
-  const media = rows.map((r) => ({
+  const media = rows.map((r: any) => ({
     id: r.id,
     filename: r.filename,
     relPath: r.rel_path,
     kind: r.kind,
     mime: r.mime,
-    size: r.size,
+    size: Number(r.size),
     addedAt: r.added_at,
     modifiedAt: r.modified_at,
     links: refs.get(r.rel_path) ?? [],
   }))
 
-  return NextResponse.json({ media })
+  return NextResponse.json({ media, storageWritable: hasWritableStorage() })
 }
 
 /** POST /api/admin/media — upload a new file (multipart form: file) into /public/uploads */
 export async function POST(req: NextRequest) {
-  const auth = requireUser()
+  const auth = await requireUser()
   if ('error' in auth) return auth.error
+
+  if (!hasWritableStorage()) {
+    return NextResponse.json({ error: READONLY_STORAGE_MSG }, { status: 501 })
+  }
 
   const form = await req.formData()
   const file = form.get('file') as File | null
@@ -61,11 +66,12 @@ export async function POST(req: NextRequest) {
 
   const ext = path.extname(finalName).toLowerCase()
   const kind = ['.mp4', '.webm', '.mov'].includes(ext) ? 'video' : 'photo'
-  db().prepare(
-    `INSERT INTO media (filename, rel_path, kind, mime, size) VALUES (?, ?, ?, ?, ?)`
-  ).run(finalName, `/uploads/${finalName}`, kind, file.type || null, buf.length)
+  await run(
+    `INSERT INTO media (filename, rel_path, kind, mime, size) VALUES ($1, $2, $3, $4, $5)`,
+    [finalName, `/uploads/${finalName}`, kind, file.type || null, buf.length]
+  )
 
   invalidateRefCache()
-  audit(auth.user.email, 'media_upload', finalName)
+  await audit(auth.user.email, 'media_upload', finalName)
   return NextResponse.json({ ok: true, relPath: `/uploads/${finalName}` })
 }

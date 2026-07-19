@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { db, audit } from '@/lib/admin/db'
+import { ensureDb, audit } from '@/lib/admin/db'
+import { q, run } from '@/lib/admin/pg'
 import { requireUser } from '@/lib/admin/auth'
 import { PAGE_LABELS } from '@/lib/admin/pricing-defaults'
 
@@ -7,36 +8,32 @@ export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
 export async function GET() {
-  const auth = requireUser()
+  const auth = await requireUser()
   if ('error' in auth) return auth.error
-  const rows = db().prepare('SELECT * FROM packages ORDER BY page_key, idx').all()
+  await ensureDb()
+  const rows = await q('SELECT * FROM packages ORDER BY page_key, idx')
   return NextResponse.json({ packages: rows, pageLabels: PAGE_LABELS })
 }
 
 /** PUT — bulk save for one page: { pageKey, packages: [{idx, name, price, ...}] } */
 export async function PUT(req: NextRequest) {
-  const auth = requireUser()
+  const auth = await requireUser()
   if ('error' in auth) return auth.error
   const { pageKey, packages } = await req.json().catch(() => ({}))
   if (!pageKey || !Array.isArray(packages)) {
     return NextResponse.json({ error: 'pageKey and packages are required.' }, { status: 400 })
   }
-  const upd = db().prepare(
-    `UPDATE packages SET name = ?, price = ?, price_note = ?, billing = ?, description = ?,
-     tag = ?, featured = ?, items = ?, cta_label = ?, updated_at = datetime('now')
-     WHERE page_key = ? AND idx = ?`
-  )
-  const tx = db().transaction(() => {
-    for (const p of packages) {
-      upd.run(
-        String(p.name ?? ''), String(p.price ?? ''), p.priceNote ?? null, p.billing ?? null,
-        p.description ?? null, p.tag ?? null, p.featured ? 1 : 0,
-        JSON.stringify(p.items ?? []), p.ctaLabel ?? null,
-        pageKey, Number(p.idx)
-      )
-    }
-  })
-  tx()
-  audit(auth.user.email, 'packages_update', pageKey)
+  for (const p of packages) {
+    await run(
+      `UPDATE packages SET name = $1, price = $2, price_note = $3, billing = $4, description = $5,
+       tag = $6, featured = $7, items = $8, cta_label = $9, updated_at = now()
+       WHERE page_key = $10 AND idx = $11`,
+      [String(p.name ?? ''), String(p.price ?? ''), p.priceNote ?? null, p.billing ?? null,
+       p.description ?? null, p.tag ?? null, p.featured ? 1 : 0,
+       JSON.stringify(p.items ?? []), p.ctaLabel ?? null,
+       pageKey, Number(p.idx)]
+    )
+  }
+  await audit(auth.user.email, 'packages_update', pageKey)
   return NextResponse.json({ ok: true })
 }

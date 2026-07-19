@@ -1,0 +1,267 @@
+{
+ "generatedAt": "2026-07-19T03:27:31.667Z",
+ "files": [
+  {
+   "filename": "analytics-bg.mp4",
+   "relPath": "/assets/analytics-bg.mp4",
+   "kind": "video",
+   "mime": "video/mp4",
+   "size": 30081378,
+   "modifiedAt": "2026-01-14T05:07:16.302Z"
+  },
+  {
+   "filename": "blogs-banner-bg.jpg",
+   "relPath": "/assets/blogs-banner-bg.jpg",
+   "kind": "photo",
+   "mime": "image/jpeg",
+   "size": 4771958,
+   "modifiedAt": "2026-01-13T04:51:53.963Z"
+  },
+  {
+   "filename": "business-services-banner-bg.jpg",
+   "relPath": "/assets/business-services-banner-bg.jpg",
+   "kind": "photo",
+   "mime": "image/jpeg",
+   "size": 3298783,
+   "modifiedAt": "2026-01-13T04:53:35.006Z"
+  },
+  {
+   "filename": "contact-us-banner-bg.jpg",
+   "relPath": "/assets/contact-us-banner-bg.jpg",
+   "kind": "photo",
+   "mime": "image/jpeg",
+   "size": 3813507,
+   "modifiedAt": "2026-01-13T05:05:28.125Z"
+  },
+  {
+   "filename": "contact-us-form.jpg",
+   "relPath": "/assets/contact-us-form.jpg",
+   "kind": "photo",
+   "mime": "image/jpeg",
+   "size": 6135339,
+   "modifiedAt": "2026-01-13T05:03:41.021Z"
+  },
+  {
+   "filename": "engineering-drawings-bg.mp4",
+   "relPath": "/assets/engineering-drawings-bg.mp4",
+   "kind": "video",
+   "mime": "video/mp4",
+   "size": 38721252,
+   "modifiedAt": "2026-01-14T05:26:51.882Z"
+  },
+  {
+   "filename": "hero-loop.mp4",
+   "relPath": "/assets/hero-loop.mp4",
+   "kind": "video",
+   "mime": "video/mp4",
+   "size": 16571637,
+   "modifiedAt": "2026-07-10T17:18:47.716Z"
+  },
+  {
+   "filename": "homepage-banner-bg.mp4",
+   "relPath": "/assets/homepage-banner-bg.mp4",
+   "kind": "video",
+   "mime": "video/mp4",
+   "size": 325791751,
+   "modifiedAt": "2026-01-10T03:47:22.985Z"
+  },
+  {
+   "filename": "martek-group-header.png",
+   "relPath": "/assets/martek-group-header.png",
+   "kind": "photo",
+   "mime": "image/png",
+   "size": 29021,
+   "modifiedAt": "2026-01-10T04:33:56.541Z"
+  },
+  {
+   "filename": "martek-mark.png",
+   "relPath": "/assets/martek-mark.png",
+   "kind": "photo",
+   "mime": "image/png",
+   "size": 20137,
+   "modifiedAt": "2026-07-10T17:18:47.728Z"
+  },
+  {
+   "filename": "martek-offical-logo.png",
+   "relPath": "/assets/martek-offical-logo.png",
+   "kind": "photo",
+   "mime": "image/png",
+   "size": 44103,
+   "modifiedAt": "2026-01-10T03:45:10.204Z"
+  },
+  {
+   "filename": "martek-only-logo.png",
+   "relPath": "/assets/martek-only-logo.png",
+   "kind": "photo",
+   "mime": "image/png",
+   "size": 53999,
+   "modifiedAt": "2026-01-10T03:44:21.974Z"
+  },
+  {
+   "filename": "office-dark-hero.png",
+   "relPath": "/assets/office-dark-hero.png",
+   "kind": "photo",
+   "mime": "image/png",
+   "size": 626900,
+   "modifiedAt": "2026-01-13T03:56:44.105Z"
+  },
+  {
+   "filename": "sample-project-bg.jpg",
+   "relPath": "/assets/sample-project-bg.jpg",
+   "kind": "photo",
+   "mime": "image/jpeg",
+   "size": 5638673,
+   "modifiedAt": "2026-01-14T05:45:22.694Z"
+  },
+  {
+   "filename": "web-dev-bg.mp4",
+   "relPath": "/assets/web-dev-bg.mp4",
+   "kind": "video",
+   "mime": "video/mp4",
+   "size": 36311879,
+   "modifiedAt": "2026-01-14T05:21:00.584Z"
+  }
+ ],
+ "references": {
+  "/assets/blog-1.jpg": [
+   {
+    "file": "app/blogs/page.tsx",
+    "label": "Blogs",
+    "line": 15
+   }
+  ],
+  "/assets/blog-2.jpg": [
+   {
+    "file": "app/blogs/page.tsx",
+    "label": "Blogs",
+    "line": 23
+   }
+  ],
+  "/assets/blog-3.jpg": [
+   {
+    "file": "app/blogs/page.tsx",
+    "label": "Blogs",
+    "line": 31
+   }
+  ],
+  "/assets/blogs-banner-bg.jpg": [
+   {
+    "file": "app/blogs/page.tsx",
+    "label": "Blogs",
+    "line": 40
+   }
+  ],
+  "/assets/sample-project-bg.jpg": [
+   {
+    "file": "app/case-studies/page.tsx",
+    "label": "Case Studies",
+    "line": 40
+   }
+  ],
+  "/assets/contact-us-form.jpg": [
+   {
+    "file": "app/contact/page.tsx",
+    "label": "Contact",
+    "line": 81
+   },
+   {
+    "file": "components/home/MiniCta.tsx",
+    "label": "Component: home/MiniCta",
+    "line": 47
+   }
+  ],
+  "/assets/martek-group-header.png": [
+   {
+    "file": "app/layout.tsx",
+    "label": "Site metadata / social sharing image",
+    "line": 77
+   },
+   {
+    "file": "app/layout.tsx",
+    "label": "Site metadata / social sharing image",
+    "line": 84
+   },
+   {
+    "file": "app/layout.tsx",
+    "label": "Site metadata / social sharing image",
+    "line": 127
+   }
+  ],
+  "/assets/martek-mark.png": [
+   {
+    "file": "app/layout.tsx",
+    "label": "Site metadata / social sharing image",
+    "line": 126
+   },
+   {
+    "file": "components/Footer.tsx",
+    "label": "Footer (site-wide)",
+    "line": 13
+   },
+   {
+    "file": "components/Navbar.tsx",
+    "label": "Navigation bar (site-wide)",
+    "line": 193
+   },
+   {
+    "file": "components/Navbar.tsx",
+    "label": "Navigation bar (site-wide)",
+    "line": 249
+   }
+  ],
+  "/assets/analytics-bg.mp4": [
+   {
+    "file": "app/projects/analytics-tagging/page.tsx",
+    "label": "Projects / Analytics Tagging",
+    "line": 24
+   }
+  ],
+  "/assets/engineering-drawings-bg.mp4": [
+   {
+    "file": "app/projects/engineering-drawings/page.tsx",
+    "label": "Projects / Engineering Drawings",
+    "line": 24
+   }
+  ],
+  "/assets/web-dev-bg.mp4": [
+   {
+    "file": "app/projects/web-development/page.tsx",
+    "label": "Projects / Web Development",
+    "line": 24
+   }
+  ],
+  "/assets/business-services-banner-bg.jpg": [
+   {
+    "file": "app/services/page.tsx",
+    "label": "Services",
+    "line": 54
+   }
+  ],
+  "/assets/martek-only-logo.png": [
+   {
+    "file": "app/site-vc/page.tsx",
+    "label": "Site Vc",
+    "line": 229
+   }
+  ],
+  "/assets/hero-loop.mp4": [
+   {
+    "file": "components/Hero.tsx",
+    "label": "Home — hero",
+    "line": 8
+   }
+  ],
+  "/assets/office-dark-hero.png": [
+   {
+    "file": "components/PageHero.tsx",
+    "label": "Component: PageHero",
+    "line": 18
+   },
+   {
+    "file": "components/home/Proof.tsx",
+    "label": "Component: home/Proof",
+    "line": 55
+   }
+  ]
+ }
+}

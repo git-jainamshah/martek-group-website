@@ -1,11 +1,11 @@
 import { MetadataRoute } from 'next'
 
-export default function robots(): MetadataRoute.Robots {
+export default async function robots(): Promise<MetadataRoute.Robots> {
   // Admin-managed extra rules (graceful fallback when DB is unavailable)
   let extraDisallow: string[] = []
   try {
     const { getSetting } = require('@/lib/admin/db') as typeof import('@/lib/admin/db')
-    const cfg = getSetting<{ extraDisallow: string[] }>('robots_txt')
+    const cfg = await getSetting<{ extraDisallow: string[] }>('robots_txt')
     if (cfg?.extraDisallow) extraDisallow = cfg.extraDisallow
   } catch {
     // no DB — defaults only

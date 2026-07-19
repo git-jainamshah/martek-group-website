@@ -267,6 +267,6 @@ const data: ServiceData = {
   signoff: 'web development for startups.',
 }
 
-export default function WebDevelopmentPage() {
-  return <ServicePage data={{ ...data, cards: mergePackages('web-development', data.cards) }} />
+export default async function WebDevelopmentPage() {
+  return <ServicePage data={{ ...data, cards: await mergePackages('web-development', data.cards) }} />
 }

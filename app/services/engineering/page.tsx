@@ -264,6 +264,6 @@ const data: ServiceData = {
   signoff: 'engineering & CAD, since day one.',
 }
 
-export default function EngineeringPage() {
-  return <ServicePage data={{ ...data, cards: mergePackages('engineering', data.cards) }} />
+export default async function EngineeringPage() {
+  return <ServicePage data={{ ...data, cards: await mergePackages('engineering', data.cards) }} />
 }

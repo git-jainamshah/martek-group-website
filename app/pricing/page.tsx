@@ -9,8 +9,8 @@ export const metadata: Metadata = {
   description: 'Affordable pricing plans for web development, digital marketing, and engineering services. Choose from Starter, Professional, or Custom Enterprise packages.',
 }
 
-export default function PricingPage() {
-  const packages = getPackageOverrides('pricing-page').map((p) => ({
+export default async function PricingPage() {
+  const packages = (await getPackageOverrides('pricing-page')).map((p) => ({
     name: p.name,
     price: p.price,
     period: p.priceNote ?? 'one-time',

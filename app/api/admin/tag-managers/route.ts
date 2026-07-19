@@ -1,19 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { db, audit } from '@/lib/admin/db'
+import { ensureDb, audit } from '@/lib/admin/db'
+import { q, insertReturningId } from '@/lib/admin/pg'
 import { requireUser } from '@/lib/admin/auth'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
 export async function GET() {
-  const auth = requireUser()
+  const auth = await requireUser()
   if ('error' in auth) return auth.error
-  const rows = db().prepare('SELECT * FROM tag_managers ORDER BY environment, provider').all()
+  await ensureDb()
+  const rows = await q('SELECT * FROM tag_managers ORDER BY environment, provider')
   return NextResponse.json({ tagManagers: rows })
 }
 
 export async function POST(req: NextRequest) {
-  const auth = requireUser()
+  const auth = await requireUser()
   if ('error' in auth) return auth.error
   const { provider, containerId, environment } = await req.json().catch(() => ({}))
   if (!['gtm', 'tealium'].includes(provider)) return NextResponse.json({ error: 'Provider must be gtm or tealium.' }, { status: 400 })
@@ -25,9 +27,10 @@ export async function POST(req: NextRequest) {
   if (provider === 'tealium' && !/^[\w-]+\/[\w-]+\/[\w-]+$/.test(containerId.trim())) {
     return NextResponse.json({ error: 'Tealium ID should be account/profile/environment (e.g. martek/main/prod).' }, { status: 400 })
   }
-  const info = db().prepare(
-    'INSERT INTO tag_managers (provider, container_id, environment) VALUES (?, ?, ?)'
-  ).run(provider, containerId.trim(), environment)
-  audit(auth.user.email, 'tag_manager_add', `${provider} ${containerId} → ${environment}`)
-  return NextResponse.json({ ok: true, id: info.lastInsertRowid })
+  const id = await insertReturningId(
+    'INSERT INTO tag_managers (provider, container_id, environment) VALUES ($1, $2, $3) RETURNING id',
+    [provider, containerId.trim(), environment]
+  )
+  await audit(auth.user.email, 'tag_manager_add', `${provider} ${containerId} → ${environment}`)
+  return NextResponse.json({ ok: true, id })
 }

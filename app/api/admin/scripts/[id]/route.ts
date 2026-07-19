@@ -1,16 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { db, audit } from '@/lib/admin/db'
+import { audit } from '@/lib/admin/db'
+import { q1, run } from '@/lib/admin/pg'
 import { requireUser } from '@/lib/admin/auth'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
-  const auth = requireUser()
+  const auth = await requireUser()
   if ('error' in auth) return auth.error
   const body = await req.json().catch(() => ({}))
   const id = Number(params.id)
-  const row = db().prepare('SELECT * FROM scripts WHERE id = ?').get(id) as any
+  const row = await q1<any>('SELECT * FROM scripts WHERE id = $1', [id])
   if (!row) return NextResponse.json({ error: 'Script not found.' }, { status: 404 })
 
   const title = body.title ?? row.title
@@ -20,17 +21,18 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   const environment = ['all', 'production', 'qa', 'dev'].includes(body.environment) ? body.environment : row.environment
   const enabled = body.enabled === undefined ? row.enabled : body.enabled ? 1 : 0
 
-  db().prepare(
-    'UPDATE scripts SET title = ?, code = ?, location = ?, timing = ?, environment = ?, enabled = ? WHERE id = ?'
-  ).run(title, code, location, timing, environment, enabled, id)
-  audit(auth.user.email, 'script_update', `#${id} ${title}`)
+  await run(
+    'UPDATE scripts SET title = $1, code = $2, location = $3, timing = $4, environment = $5, enabled = $6 WHERE id = $7',
+    [title, code, location, timing, environment, enabled, id]
+  )
+  await audit(auth.user.email, 'script_update', `#${id} ${title}`)
   return NextResponse.json({ ok: true })
 }
 
 export async function DELETE(_req: NextRequest, { params }: { params: { id: string } }) {
-  const auth = requireUser()
+  const auth = await requireUser()
   if ('error' in auth) return auth.error
-  db().prepare('DELETE FROM scripts WHERE id = ?').run(Number(params.id))
-  audit(auth.user.email, 'script_delete', `#${params.id}`)
+  await run('DELETE FROM scripts WHERE id = $1', [Number(params.id)])
+  await audit(auth.user.email, 'script_delete', `#${params.id}`)
   return NextResponse.json({ ok: true })
 }

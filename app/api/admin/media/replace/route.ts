@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import fs from 'fs'
 import path from 'path'
-import { db, audit } from '@/lib/admin/db'
+import { audit } from '@/lib/admin/db'
+import { run } from '@/lib/admin/pg'
 import { requireUser } from '@/lib/admin/auth'
-import { invalidateRefCache } from '@/lib/admin/media'
+import { invalidateRefCache, hasWritableStorage, READONLY_STORAGE_MSG } from '@/lib/admin/media'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -15,8 +16,12 @@ export const dynamic = 'force-dynamic'
  * multipart form: targetPath (e.g. /assets/hero-loop.mp4), file
  */
 export async function POST(req: NextRequest) {
-  const auth = requireUser()
+  const auth = await requireUser()
   if ('error' in auth) return auth.error
+
+  if (!hasWritableStorage()) {
+    return NextResponse.json({ error: READONLY_STORAGE_MSG }, { status: 501 })
+  }
 
   const form = await req.formData()
   const targetPath = String(form.get('targetPath') || '')
@@ -52,11 +57,9 @@ export async function POST(req: NextRequest) {
   const buf = Buffer.from(await file.arrayBuffer())
   fs.writeFileSync(full, buf)
 
-  db().prepare(
-    `UPDATE media SET size = ?, modified_at = datetime('now') WHERE rel_path = ?`
-  ).run(buf.length, targetPath)
+  await run(`UPDATE media SET size = $1, modified_at = now() WHERE rel_path = $2`, [buf.length, targetPath])
 
   invalidateRefCache()
-  audit(auth.user.email, 'media_replace', targetPath)
+  await audit(auth.user.email, 'media_replace', targetPath)
   return NextResponse.json({ ok: true })
 }

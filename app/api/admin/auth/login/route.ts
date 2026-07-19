@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { db, audit } from '@/lib/admin/db'
+import { ensureDb, audit } from '@/lib/admin/db'
+import { q1, run } from '@/lib/admin/pg'
 import { verifyPassword, createSession, SESSION_COOKIE, sessionCookieOptions } from '@/lib/admin/auth'
 
 export const runtime = 'nodejs'
@@ -20,25 +21,35 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Email and password are required.' }, { status: 400 })
   }
 
-  const user = db()
-    .prepare('SELECT * FROM users WHERE email = ? COLLATE NOCASE AND active = 1')
-    .get(String(email).trim()) as any
+  try {
+    await ensureDb()
+    const user = await q1<any>(
+      'SELECT * FROM users WHERE lower(email) = lower($1) AND active = 1',
+      [String(email).trim()]
+    )
 
-  if (!user || !verifyPassword(password, user.password_hash)) {
-    attempts.set(ip, { n: (a?.n ?? 0) + 1, ts: Date.now() })
-    return NextResponse.json({ error: 'Invalid email or password.' }, { status: 401 })
+    if (!user || !verifyPassword(password, user.password_hash)) {
+      attempts.set(ip, { n: (a?.n ?? 0) + 1, ts: Date.now() })
+      return NextResponse.json({ error: 'Invalid email or password.' }, { status: 401 })
+    }
+
+    attempts.delete(ip)
+    await run('UPDATE users SET last_login = now() WHERE id = $1', [user.id])
+    const token = await createSession(user.id)
+    await audit(user.email, 'login')
+
+    const res = NextResponse.json({
+      ok: true,
+      mustChangePassword: !!user.must_change_password,
+      user: { firstName: user.first_name, lastName: user.last_name, email: user.email },
+    })
+    res.cookies.set(SESSION_COOKIE, token, sessionCookieOptions())
+    return res
+  } catch (e: any) {
+    console.error('login failed', e)
+    return NextResponse.json(
+      { error: e?.message?.includes('DATABASE_URL') ? e.message : 'Database unavailable — check DATABASE_URL.' },
+      { status: 500 }
+    )
   }
-
-  attempts.delete(ip)
-  db().prepare(`UPDATE users SET last_login = datetime('now') WHERE id = ?`).run(user.id)
-  const token = createSession(user.id)
-  audit(user.email, 'login')
-
-  const res = NextResponse.json({
-    ok: true,
-    mustChangePassword: !!user.must_change_password,
-    user: { firstName: user.first_name, lastName: user.last_name, email: user.email },
-  })
-  res.cookies.set(SESSION_COOKIE, token, sessionCookieOptions())
-  return res
 }

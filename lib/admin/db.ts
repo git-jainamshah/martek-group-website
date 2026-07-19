@@ -1,82 +1,76 @@
 /**
- * Admin backend — SQLite data layer.
- * Single-file DB at data/admin.db (gitignored). Zero external services.
- * Swap point: if we later move to Supabase/Vercel Postgres, only this file
- * and the route handlers' queries change — the API contracts stay the same.
+ * Admin backend — Postgres data layer (Vercel/Neon compatible).
+ * Schema is created + seeded automatically on first use.
  */
-import path from 'path'
-import fs from 'fs'
 import crypto from 'crypto'
-import { openDatabase, DB } from './sqlite'
+import { q, q1, run } from './pg'
 import { hashPassword } from './auth'
 import { PRICING_DEFAULTS } from './pricing-defaults'
 
-const DATA_DIR = path.join(process.cwd(), 'data')
-const DB_PATH = path.join(DATA_DIR, 'admin.db')
+let ready: Promise<void> | null = null
 
-let _db: DB | null = null
-
-export function db(): DB {
-  if (_db) return _db
-  fs.mkdirSync(DATA_DIR, { recursive: true })
-  _db = openDatabase(DB_PATH)
-  _db.pragma('journal_mode = WAL')
-  migrate(_db)
-  seed(_db)
-  return _db
+/** Ensure schema + seeds exist (memoized per process). */
+export function ensureDb(): Promise<void> {
+  if (!ready) ready = migrateAndSeed()
+  return ready
 }
 
-function migrate(d: DB) {
-  d.exec(`
+async function migrateAndSeed() {
+  await run(`
   CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id SERIAL PRIMARY KEY,
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
-    email TEXT NOT NULL UNIQUE COLLATE NOCASE,
+    email TEXT NOT NULL UNIQUE,
     password_hash TEXT NOT NULL,
     role TEXT NOT NULL DEFAULT 'admin',
     active INTEGER NOT NULL DEFAULT 1,
     must_change_password INTEGER NOT NULL DEFAULT 0,
-    created_at TEXT NOT NULL DEFAULT (datetime('now')),
-    last_login TEXT
-  );
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    last_login TIMESTAMPTZ
+  )`)
+  await run(`
   CREATE TABLE IF NOT EXISTS sessions (
     token TEXT PRIMARY KEY,
     user_id INTEGER NOT NULL REFERENCES users(id),
-    created_at TEXT NOT NULL DEFAULT (datetime('now')),
-    expires_at TEXT NOT NULL
-  );
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    expires_at TIMESTAMPTZ NOT NULL
+  )`)
+  await run(`
   CREATE TABLE IF NOT EXISTS media (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id SERIAL PRIMARY KEY,
     filename TEXT NOT NULL,
-    rel_path TEXT NOT NULL UNIQUE,      -- public URL path e.g. /assets/foo.jpg or /uploads/bar.mp4
-    kind TEXT NOT NULL,                 -- photo | video
+    rel_path TEXT NOT NULL UNIQUE,
+    kind TEXT NOT NULL,
     mime TEXT,
-    size INTEGER NOT NULL DEFAULT 0,
-    added_at TEXT NOT NULL DEFAULT (datetime('now')),
-    modified_at TEXT NOT NULL DEFAULT (datetime('now'))
-  );
+    size BIGINT NOT NULL DEFAULT 0,
+    added_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    modified_at TIMESTAMPTZ NOT NULL DEFAULT now()
+  )`)
+  await run(`
   CREATE TABLE IF NOT EXISTS tag_managers (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    provider TEXT NOT NULL,             -- gtm | tealium
-    container_id TEXT NOT NULL,         -- GTM-XXXX or tealium account/profile/env
-    environment TEXT NOT NULL,          -- production | qa | dev
+    id SERIAL PRIMARY KEY,
+    provider TEXT NOT NULL,
+    container_id TEXT NOT NULL,
+    environment TEXT NOT NULL,
     enabled INTEGER NOT NULL DEFAULT 1,
-    created_at TEXT NOT NULL DEFAULT (datetime('now'))
-  );
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+  )`)
+  await run(`
   CREATE TABLE IF NOT EXISTS scripts (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id SERIAL PRIMARY KEY,
     title TEXT NOT NULL,
     code TEXT NOT NULL,
-    location TEXT NOT NULL DEFAULT 'head',   -- head | body | footer
-    timing TEXT NOT NULL DEFAULT 'after_tm', -- before_tm | after_tm
+    location TEXT NOT NULL DEFAULT 'head',
+    timing TEXT NOT NULL DEFAULT 'after_tm',
     sort_order INTEGER NOT NULL DEFAULT 0,
     enabled INTEGER NOT NULL DEFAULT 1,
-    environment TEXT NOT NULL DEFAULT 'all', -- all | production | qa | dev
-    created_at TEXT NOT NULL DEFAULT (datetime('now'))
-  );
+    environment TEXT NOT NULL DEFAULT 'all',
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+  )`)
+  await run(`
   CREATE TABLE IF NOT EXISTS packages (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id SERIAL PRIMARY KEY,
     page_key TEXT NOT NULL,
     idx INTEGER NOT NULL,
     name TEXT NOT NULL,
@@ -86,88 +80,82 @@ function migrate(d: DB) {
     description TEXT,
     tag TEXT,
     featured INTEGER NOT NULL DEFAULT 0,
-    items TEXT NOT NULL DEFAULT '[]',   -- JSON array of feature strings
+    items TEXT NOT NULL DEFAULT '[]',
     cta_label TEXT,
-    updated_at TEXT NOT NULL DEFAULT (datetime('now')),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     UNIQUE(page_key, idx)
-  );
+  )`)
+  await run(`
   CREATE TABLE IF NOT EXISTS leads (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id SERIAL PRIMARY KEY,
     name TEXT,
     email TEXT,
     phone TEXT,
     company TEXT,
     message TEXT,
-    source_page TEXT,                   -- URL path the form was on
-    form_type TEXT NOT NULL DEFAULT 'contact', -- contact | promo-banner | other
+    source_page TEXT,
+    form_type TEXT NOT NULL DEFAULT 'contact',
     package_interest TEXT,
-    extra TEXT,                         -- JSON: services, budget, timeline, referral, etc.
-    status TEXT NOT NULL DEFAULT 'new', -- new | contacted | qualified | won | lost
+    extra TEXT,
+    status TEXT NOT NULL DEFAULT 'new',
     notes TEXT,
-    created_at TEXT NOT NULL DEFAULT (datetime('now')),
-    updated_at TEXT NOT NULL DEFAULT (datetime('now'))
-  );
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+  )`)
+  await run(`
   CREATE TABLE IF NOT EXISTS settings (
     key TEXT PRIMARY KEY,
     value TEXT NOT NULL,
-    updated_at TEXT NOT NULL DEFAULT (datetime('now'))
-  );
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+  )`)
+  await run(`
   CREATE TABLE IF NOT EXISTS audit_log (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id SERIAL PRIMARY KEY,
     user_email TEXT,
     action TEXT NOT NULL,
     detail TEXT,
-    created_at TEXT NOT NULL DEFAULT (datetime('now'))
-  );
-  `)
-}
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+  )`)
 
-function seed(d: DB) {
-  // ---- Seed first admin (only if no users exist) ----
-  const userCount = d.prepare('SELECT COUNT(*) c FROM users').get() as { c: number }
-  if (userCount.c === 0) {
-    d.prepare(
+  // ---- Seed first admin ----
+  const userCount = await q1<{ c: string }>('SELECT COUNT(*)::int AS c FROM users')
+  if (Number(userCount?.c) === 0) {
+    await run(
       `INSERT INTO users (first_name, last_name, email, password_hash, role, must_change_password)
-       VALUES (?, ?, ?, ?, 'admin', 0)`
-    ).run('Jainam', 'Shah', 'email.jainam@gmail.com', hashPassword('Password@023!'))
-  }
-
-  // ---- Seed media index from public/assets ----
-  const mediaCount = d.prepare('SELECT COUNT(*) c FROM media').get() as { c: number }
-  if (mediaCount.c === 0) {
-    const assetsDir = path.join(process.cwd(), 'public', 'assets')
-    if (fs.existsSync(assetsDir)) {
-      const insert = d.prepare(
-        `INSERT OR IGNORE INTO media (filename, rel_path, kind, mime, size, added_at, modified_at)
-         VALUES (?, ?, ?, ?, ?, ?, ?)`
-      )
-      for (const f of fs.readdirSync(assetsDir)) {
-        const full = path.join(assetsDir, f)
-        const st = fs.statSync(full)
-        if (!st.isFile()) continue
-        const ext = path.extname(f).toLowerCase()
-        const kind = ['.mp4', '.webm', '.mov'].includes(ext) ? 'video' : 'photo'
-        const mime = MIME[ext] || 'application/octet-stream'
-        insert.run(f, `/assets/${f}`, kind, mime, st.size, st.birthtime.toISOString(), st.mtime.toISOString())
-      }
-    }
-  }
-
-  // ---- Seed pricing packages from current hardcoded site content ----
-  const pkgCount = d.prepare('SELECT COUNT(*) c FROM packages').get() as { c: number }
-  if (pkgCount.c === 0) {
-    const insert = d.prepare(
-      `INSERT INTO packages (page_key, idx, name, price, price_note, billing, description, tag, featured, items, cta_label)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+       VALUES ($1, $2, $3, $4, 'admin', 0)`,
+      ['Jainam', 'Shah', 'email.jainam@gmail.com', hashPassword('Password@023!')]
     )
-    for (const [pageKey, pkgs] of Object.entries(PRICING_DEFAULTS)) {
-      pkgs.forEach((p, i) =>
-        insert.run(
-          pageKey, i, p.name, p.price, p.priceNote ?? null, p.billing ?? null,
-          p.description ?? null, p.tag ?? null, p.featured ? 1 : 0,
-          JSON.stringify(p.items ?? []), p.ctaLabel ?? null
+  }
+
+  // ---- Seed media index from the build-time manifest ----
+  const mediaCount = await q1<{ c: number }>('SELECT COUNT(*)::int AS c FROM media')
+  if (Number(mediaCount?.c) === 0) {
+    try {
+      const { loadMediaManifest } = require('./media') as typeof import('./media')
+      for (const f of loadMediaManifest().files) {
+        await run(
+          `INSERT INTO media (filename, rel_path, kind, mime, size, added_at, modified_at)
+           VALUES ($1, $2, $3, $4, $5, $6, $6) ON CONFLICT (rel_path) DO NOTHING`,
+          [f.filename, f.relPath, f.kind, f.mime, f.size, f.modifiedAt]
         )
-      )
+      }
+    } catch { /* manifest missing — media gets indexed on first admin visit */ }
+  }
+
+  // ---- Seed pricing packages ----
+  const pkgCount = await q1<{ c: number }>('SELECT COUNT(*)::int AS c FROM packages')
+  if (Number(pkgCount?.c) === 0) {
+    for (const [pageKey, pkgs] of Object.entries(PRICING_DEFAULTS)) {
+      for (let i = 0; i < pkgs.length; i++) {
+        const p = pkgs[i]
+        await run(
+          `INSERT INTO packages (page_key, idx, name, price, price_note, billing, description, tag, featured, items, cta_label)
+           VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) ON CONFLICT (page_key, idx) DO NOTHING`,
+          [pageKey, i, p.name, p.price, p.priceNote ?? null, p.billing ?? null,
+           p.description ?? null, p.tag ?? null, p.featured ? 1 : 0,
+           JSON.stringify(p.items ?? []), p.ctaLabel ?? null]
+        )
+      }
     }
   }
 
@@ -193,7 +181,7 @@ function seed(d: DB) {
     },
     promo_banner: {
       enabled: false,
-      template: 'copy', // copy | picture | signup
+      template: 'copy',
       title: '',
       body: '',
       imageUrl: '',
@@ -202,22 +190,16 @@ function seed(d: DB) {
       secondaryLabel: '',
       secondaryHref: '',
       delaySeconds: 3,
-      frequency: 'once-per-session', // once-per-session | every-visit
+      frequency: 'once-per-session',
     },
-    robots_txt: {
-      extraDisallow: [] as string[],
-      extraRules: '', // raw extra lines appended to robots
-    },
-    seo: {
-      siteUrl: 'https://www.martekgroup.com',
-      googleVerification: '',
-      bingVerification: '',
-    },
+    robots_txt: { extraDisallow: [] as string[], extraRules: '' },
+    seo: { siteUrl: 'https://www.martekgroup.com', googleVerification: '', bingVerification: '' },
   }
-  const has = d.prepare('SELECT COUNT(*) c FROM settings WHERE key = ?')
-  const ins = d.prepare('INSERT INTO settings (key, value) VALUES (?, ?)')
   for (const [k, v] of Object.entries(defaults)) {
-    if ((has.get(k) as { c: number }).c === 0) ins.run(k, JSON.stringify(v))
+    await run(
+      `INSERT INTO settings (key, value) VALUES ($1, $2) ON CONFLICT (key) DO NOTHING`,
+      [k, JSON.stringify(v)]
+    )
   }
 }
 
@@ -228,20 +210,25 @@ export const MIME: Record<string, string> = {
 }
 
 // ---------- settings helpers ----------
-export function getSetting<T>(key: string): T | null {
-  const row = db().prepare('SELECT value FROM settings WHERE key = ?').get(key) as { value: string } | undefined
+export async function getSetting<T>(key: string): Promise<T | null> {
+  await ensureDb()
+  const row = await q1<{ value: string }>('SELECT value FROM settings WHERE key = $1', [key])
   return row ? (JSON.parse(row.value) as T) : null
 }
 
-export function setSetting(key: string, value: unknown) {
-  db().prepare(
-    `INSERT INTO settings (key, value, updated_at) VALUES (?, ?, datetime('now'))
-     ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = datetime('now')`
-  ).run(key, JSON.stringify(value))
+export async function setSetting(key: string, value: unknown): Promise<void> {
+  await ensureDb()
+  await run(
+    `INSERT INTO settings (key, value, updated_at) VALUES ($1, $2, now())
+     ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_at = now()`,
+    [key, JSON.stringify(value)]
+  )
 }
 
-export function audit(userEmail: string | null, action: string, detail?: string) {
-  db().prepare('INSERT INTO audit_log (user_email, action, detail) VALUES (?, ?, ?)').run(userEmail, action, detail ?? null)
+export async function audit(userEmail: string | null, action: string, detail?: string): Promise<void> {
+  try {
+    await run('INSERT INTO audit_log (user_email, action, detail) VALUES ($1, $2, $3)', [userEmail, action, detail ?? null])
+  } catch { /* audit must never break the main action */ }
 }
 
 export function generateTempPassword(): string {

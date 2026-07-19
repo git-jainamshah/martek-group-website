@@ -28,25 +28,28 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const { db } = require('@/lib/admin/db') as typeof import('@/lib/admin/db')
-    db().prepare(
+    const { ensureDb } = require('@/lib/admin/db') as typeof import('@/lib/admin/db')
+    const { run } = require('@/lib/admin/pg') as typeof import('@/lib/admin/pg')
+    await ensureDb()
+    await run(
       `INSERT INTO leads (name, email, phone, company, message, source_page, form_type, package_interest, extra)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
-    ).run(
-      name || null,
-      email,
-      String(body.phone ?? '').slice(0, 50) || null,
-      String(body.company ?? '').slice(0, 200) || null,
-      String(body.message ?? '').slice(0, 5000) || null,
-      String(body.sourcePage ?? '').slice(0, 300) || null,
-      ['contact', 'promo-banner', 'other'].includes(body.formType) ? body.formType : 'other',
-      String(body.packageInterest ?? '').slice(0, 200) || null,
-      JSON.stringify({
-        services: body.services ?? undefined,
-        budget: body.budget ?? undefined,
-        timeline: body.timeline ?? undefined,
-        referral: body.referral ?? undefined,
-      })
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
+      [
+        name || null,
+        email,
+        String(body.phone ?? '').slice(0, 50) || null,
+        String(body.company ?? '').slice(0, 200) || null,
+        String(body.message ?? '').slice(0, 5000) || null,
+        String(body.sourcePage ?? '').slice(0, 300) || null,
+        ['contact', 'promo-banner', 'other'].includes(body.formType) ? body.formType : 'other',
+        String(body.packageInterest ?? '').slice(0, 200) || null,
+        JSON.stringify({
+          services: body.services ?? undefined,
+          budget: body.budget ?? undefined,
+          timeline: body.timeline ?? undefined,
+          referral: body.referral ?? undefined,
+        }),
+      ]
     )
     return NextResponse.json({ ok: true })
   } catch (e) {

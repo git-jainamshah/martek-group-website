@@ -266,6 +266,6 @@ const data: ServiceData = {
   signoff: 'SEO & ads for startups.',
 }
 
-export default function SeoAdsPage() {
-  return <ServicePage data={{ ...data, cards: mergePackages('seo-ads', data.cards) }} />
+export default async function SeoAdsPage() {
+  return <ServicePage data={{ ...data, cards: await mergePackages('seo-ads', data.cards) }} />
 }

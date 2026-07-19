@@ -247,6 +247,6 @@ const data: ServiceData = {
   signoff: 'social for startups.',
 }
 
-export default function SocialPage() {
-  return <ServicePage data={{ ...data, cards: mergePackages('social', data.cards) }} />
+export default async function SocialPage() {
+  return <ServicePage data={{ ...data, cards: await mergePackages('social', data.cards) }} />
 }

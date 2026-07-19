@@ -4,6 +4,7 @@
 import crypto from 'crypto'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
+import { q1, run } from './pg'
 
 export const SESSION_COOKIE = 'martek_admin_session'
 const SESSION_DAYS = 7
@@ -31,46 +32,44 @@ export type SessionUser = {
 }
 
 /** Create a session row + return the token. */
-export function createSession(userId: number): string {
-  const { db } = require('./db') as typeof import('./db')
+export async function createSession(userId: number): Promise<string> {
   const token = crypto.randomBytes(32).toString('hex')
   const expires = new Date(Date.now() + SESSION_DAYS * 864e5).toISOString()
-  db().prepare('INSERT INTO sessions (token, user_id, expires_at) VALUES (?, ?, ?)').run(token, userId, expires)
+  await run('INSERT INTO sessions (token, user_id, expires_at) VALUES ($1, $2, $3)', [token, userId, expires])
   return token
 }
 
-export function destroySession(token: string) {
-  const { db } = require('./db') as typeof import('./db')
-  db().prepare('DELETE FROM sessions WHERE token = ?').run(token)
+export async function destroySession(token: string): Promise<void> {
+  await run('DELETE FROM sessions WHERE token = $1', [token])
 }
 
-export function destroyUserSessions(userId: number) {
-  const { db } = require('./db') as typeof import('./db')
-  db().prepare('DELETE FROM sessions WHERE user_id = ?').run(userId)
+export async function destroyUserSessions(userId: number): Promise<void> {
+  await run('DELETE FROM sessions WHERE user_id = $1', [userId])
 }
 
 /** Server-side: get the logged-in user from the request cookie, or null. */
-export function getSessionUser(): SessionUser | null {
-  const { db } = require('./db') as typeof import('./db')
+export async function getSessionUser(): Promise<SessionUser | null> {
+  const { ensureDb } = require('./db') as typeof import('./db')
+  await ensureDb()
   const token = cookies().get(SESSION_COOKIE)?.value
   if (!token) return null
-  const row = db()
-    .prepare(
-      `SELECT u.id, u.first_name, u.last_name, u.email, u.role, u.must_change_password
-       FROM sessions s JOIN users u ON u.id = s.user_id
-       WHERE s.token = ? AND s.expires_at > datetime('now') AND u.active = 1`
-    )
-    .get(token) as SessionUser | undefined
-  return row ?? null
+  return q1<SessionUser>(
+    `SELECT u.id, u.first_name, u.last_name, u.email, u.role, u.must_change_password
+     FROM sessions s JOIN users u ON u.id = s.user_id
+     WHERE s.token = $1 AND s.expires_at > now() AND u.active = 1`,
+    [token]
+  )
 }
 
 /** For API routes: returns user or a 401 response. */
-export function requireUser(): { user: SessionUser } | { error: NextResponse } {
-  const user = getSessionUser()
-  if (!user) {
-    return { error: NextResponse.json({ error: 'Unauthorized' }, { status: 401 }) }
+export async function requireUser(): Promise<{ user: SessionUser } | { error: NextResponse }> {
+  try {
+    const user = await getSessionUser()
+    if (!user) return { error: NextResponse.json({ error: 'Unauthorized' }, { status: 401 }) }
+    return { user }
+  } catch (e: any) {
+    return { error: NextResponse.json({ error: e?.message || 'Database unavailable.' }, { status: 500 }) }
   }
-  return { user }
 }
 
 export function sessionCookieOptions() {
