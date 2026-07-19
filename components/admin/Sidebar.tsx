@@ -1,26 +1,61 @@
 'use client'
 
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
+/* eslint-disable @next/next/no-img-element */
 import {
-  LayoutDashboard, Image as ImageIcon, HardDrive, BarChart3,
-  DollarSign, Megaphone, Users, Inbox, LogOut, Globe,
+  LayoutDashboard, Image as ImageIcon, HardDrive, BarChart3, DollarSign,
+  Megaphone, Users, Inbox, LogOut, Globe, Building2, Share2, ScrollText,
+  PanelLeftClose, PanelLeftOpen,
 } from 'lucide-react'
 
-const NAV = [
-  { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/admin/media', label: 'Manage Media', icon: ImageIcon },
-  { href: '/admin/storage', label: 'Storage', icon: HardDrive },
-  { href: '/admin/analytics', label: 'Analytics & SEO', icon: BarChart3 },
-  { href: '/admin/pricing', label: 'Pricing & Packages', icon: DollarSign },
-  { href: '/admin/announcements', label: 'Announcements & Banners', icon: Megaphone },
-  { href: '/admin/leads', label: 'Leads', icon: Inbox },
-  { href: '/admin/users', label: 'Access Management', icon: Users },
+const GROUPS: { label: string; items: { href: string; label: string; icon: any }[] }[] = [
+  {
+    label: 'Overview',
+    items: [{ href: '/admin', label: 'Dashboard', icon: LayoutDashboard }],
+  },
+  {
+    label: 'Content',
+    items: [
+      { href: '/admin/media', label: 'Manage Media', icon: ImageIcon },
+      { href: '/admin/storage', label: 'Storage', icon: HardDrive },
+      { href: '/admin/pricing', label: 'Pricing & Packages', icon: DollarSign },
+      { href: '/admin/announcements', label: 'Announcements', icon: Megaphone },
+      { href: '/admin/legal', label: 'Terms & Privacy', icon: ScrollText },
+    ],
+  },
+  {
+    label: 'Growth',
+    items: [
+      { href: '/admin/leads', label: 'Leads', icon: Inbox },
+      { href: '/admin/analytics', label: 'Analytics & SEO', icon: BarChart3 },
+    ],
+  },
+  {
+    label: 'Settings',
+    items: [
+      { href: '/admin/company', label: 'Company Profile', icon: Building2 },
+      { href: '/admin/socials', label: 'Social Links', icon: Share2 },
+      { href: '/admin/users', label: 'Access Management', icon: Users },
+    ],
+  },
 ]
 
 export default function Sidebar({ userName, userEmail }: { userName: string; userEmail: string }) {
   const pathname = usePathname()
   const router = useRouter()
+  const [collapsed, setCollapsed] = useState(false)
+
+  useEffect(() => {
+    setCollapsed(localStorage.getItem('martek_admin_sidebar') === 'collapsed')
+  }, [])
+
+  function toggle() {
+    const next = !collapsed
+    setCollapsed(next)
+    localStorage.setItem('martek_admin_sidebar', next ? 'collapsed' : 'open')
+  }
 
   async function logout() {
     await fetch('/api/admin/auth/logout', { method: 'POST' })
@@ -29,31 +64,46 @@ export default function Sidebar({ userName, userEmail }: { userName: string; use
   }
 
   return (
-    <aside className="w-64 shrink-0 border-r border-neutral-800 bg-neutral-950 flex flex-col min-h-screen sticky top-0 max-h-screen">
-      <div className="p-5 border-b border-neutral-800">
-        <div className="font-bold tracking-tight text-lg">Martek <span className="text-neutral-500">Admin</span></div>
-        <div className="text-xs text-neutral-500 mt-0.5 truncate">{userName} · {userEmail}</div>
+    <aside className={`ad-side ${collapsed ? 'collapsed' : ''}`}>
+      <div className="ad-side-head">
+        <img src="/assets/martek-mark.png" alt="Martek" />
+        {!collapsed && (
+          <div className="ad-side-title">
+            <b>Martek <span>Admin</span></b>
+            <small title={userEmail}>{userName} · {userEmail}</small>
+          </div>
+        )}
       </div>
-      <nav className="flex-1 overflow-y-auto p-3 space-y-1">
-        {NAV.map(({ href, label, icon: Icon }) => {
-          const active = href === '/admin' ? pathname === '/admin' : pathname?.startsWith(href)
-          return (
-            <Link key={href} href={href}
-              className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition ${
-                active ? 'bg-white text-black font-semibold' : 'text-neutral-300 hover:bg-neutral-900'
-              }`}>
-              <Icon className="w-4 h-4" />
-              {label}
-            </Link>
-          )
-        })}
+
+      <nav className="ad-nav">
+        {GROUPS.map((g) => (
+          <div key={g.label} className="ad-nav-group">
+            <div className="ad-nav-group-label">{g.label}</div>
+            {g.items.map(({ href, label, icon: Icon }) => {
+              const active = href === '/admin' ? pathname === '/admin' : pathname?.startsWith(href)
+              return (
+                <Link key={href} href={href} title={collapsed ? label : undefined}
+                  className={`ad-nav-item ${active ? 'active' : ''}`}>
+                  <Icon />
+                  {!collapsed && label}
+                </Link>
+              )
+            })}
+          </div>
+        ))}
       </nav>
-      <div className="p-3 border-t border-neutral-800 space-y-1">
-        <a href="/" target="_blank" className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-neutral-300 hover:bg-neutral-900">
-          <Globe className="w-4 h-4" /> View site
+
+      <div className="ad-side-foot">
+        <a href="/" target="_blank" className="ad-nav-item" title="View site">
+          <Globe />
+          {!collapsed && 'View site'}
         </a>
-        <button onClick={logout} className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-neutral-300 hover:bg-neutral-900">
-          <LogOut className="w-4 h-4" /> Sign out
+        <button onClick={logout} className="ad-nav-item" style={{ border: 0, background: 'transparent', cursor: 'pointer' }} title="Sign out">
+          <LogOut />
+          {!collapsed && 'Sign out'}
+        </button>
+        <button onClick={toggle} className="ad-collapse-btn" title={collapsed ? 'Expand menu' : 'Collapse menu'}>
+          {collapsed ? <PanelLeftOpen size={17} /> : <PanelLeftClose size={17} />}
         </button>
       </div>
     </aside>

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import './admin.css'
 
 // Hard noindex for the entire admin area (also excluded from sitemap + robots + X-Robots-Tag header)
 export const metadata: Metadata = {
@@ -7,5 +8,5 @@ export const metadata: Metadata = {
 }
 
 export default function AdminRootLayout({ children }: { children: React.ReactNode }) {
-  return <div className="min-h-screen bg-neutral-950 text-neutral-100">{children}</div>
+  return <div className="adm">{children}</div>
 }

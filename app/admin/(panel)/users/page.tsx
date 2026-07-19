@@ -45,27 +45,27 @@ export default function UsersPage() {
     load()
   }
 
-  const input = 'bg-neutral-950 border border-neutral-700 rounded-lg px-3 py-2 text-sm w-full focus:outline-none focus:border-neutral-400'
+  const input = 'ad-input'
 
   return (
     <div className="space-y-6 max-w-4xl">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Access Management</h1>
-          <p className="text-sm text-neutral-400 mt-1">Who can sign in to this admin panel. Email is the username.</p>
+          <p className="text-sm ad-mut mt-1">Who can sign in to this admin panel. Email is the username.</p>
         </div>
         <button onClick={() => setAdding(true)}
-          className="flex items-center gap-2 text-sm bg-white text-black font-semibold rounded-lg px-4 py-2 hover:bg-neutral-200">
+          className="ad-btn">
           <UserPlus className="w-4 h-4" /> Add user
         </button>
       </div>
 
-      {err && <div className="text-sm rounded-lg px-4 py-3 border bg-red-950/50 border-red-900 text-red-300">{err}</div>}
+      {err && <div className="ad-alert err">{err}</div>}
 
-      <div className="border border-neutral-800 rounded-xl overflow-hidden">
+      <div className="ad-table-wrap">
         <table className="w-full text-sm">
           <thead>
-            <tr className="text-left text-xs uppercase tracking-wider text-neutral-500 border-b border-neutral-800">
+            <tr className="text-left text-xs uppercase tracking-wider ad-soft border-b border-[#E2D9C4]">
               <th className="px-4 py-3">User</th>
               <th className="px-4 py-3">Role</th>
               <th className="px-4 py-3">Status</th>
@@ -75,34 +75,34 @@ export default function UsersPage() {
           </thead>
           <tbody>
             {users.map((u) => (
-              <tr key={u.id} className="border-b border-neutral-800 last:border-0">
+              <tr key={u.id} className="border-b border-[#E2D9C4] last:border-0">
                 <td className="px-4 py-3">
                   <div className="font-medium">{u.first_name} {u.last_name}</div>
-                  <div className="text-neutral-500 text-xs">{u.email}</div>
+                  <div className="ad-soft text-xs">{u.email}</div>
                 </td>
-                <td className="px-4 py-3 text-neutral-400 capitalize">{u.role}</td>
+                <td className="px-4 py-3 ad-mut capitalize">{u.role}</td>
                 <td className="px-4 py-3">
                   {u.active
                     ? u.must_change_password
-                      ? <span className="text-xs px-2 py-1 rounded-full border border-amber-800 bg-amber-950 text-amber-300">Temp password</span>
-                      : <span className="text-xs px-2 py-1 rounded-full border border-emerald-800 bg-emerald-950 text-emerald-300">Active</span>
-                    : <span className="text-xs px-2 py-1 rounded-full border border-neutral-700 bg-neutral-800 text-neutral-400">Revoked</span>}
+                      ? <span className="ad-badge amber">Temp password</span>
+                      : <span className="ad-badge green">Active</span>
+                    : <span className="ad-badge grey">Revoked</span>}
                 </td>
-                <td className="px-4 py-3 text-neutral-500 text-xs">{u.last_login || 'Never'}</td>
+                <td className="px-4 py-3 ad-soft text-xs">{u.last_login || 'Never'}</td>
                 <td className="px-4 py-3">
                   <div className="flex gap-2 justify-end">
                     <button onClick={() => act(u.id, 'reset-password')} title="Reset password (issues a new temp password)"
-                      className="p-2 rounded-lg border border-neutral-700 text-neutral-300 hover:bg-neutral-900">
+                      className="ad-icon-btn">
                       <KeyRound className="w-4 h-4" />
                     </button>
                     {u.active ? (
                       <button onClick={() => act(u.id, 'revoke')} title="Revoke access"
-                        className="p-2 rounded-lg border border-red-900 text-red-400 hover:bg-red-950">
+                        className="ad-icon-btn danger">
                         <UserX className="w-4 h-4" />
                       </button>
                     ) : (
                       <button onClick={() => act(u.id, 'restore')} title="Restore access"
-                        className="p-2 rounded-lg border border-emerald-900 text-emerald-400 hover:bg-emerald-950">
+                        className="ad-icon-btn">
                         <UserCheck className="w-4 h-4" />
                       </button>
                     )}
@@ -116,21 +116,21 @@ export default function UsersPage() {
 
       {/* Add user modal */}
       {adding && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-6" onClick={() => setAdding(false)}>
-          <div className="bg-neutral-900 border border-neutral-700 rounded-2xl p-6 w-full max-w-sm space-y-4" onClick={(e) => e.stopPropagation()}>
+        <div className="ad-overlay" onClick={() => setAdding(false)}>
+          <div className="ad-modal p-6 w-full max-w-sm space-y-4" onClick={(e) => e.stopPropagation()}>
             <div className="text-lg font-bold">Add user</div>
             <div className="space-y-3">
-              <div className="space-y-1"><label className="text-xs text-neutral-400">First name</label>
+              <div className="space-y-1"><label className="text-xs ad-mut">First name</label>
                 <input className={input} value={form.firstName} onChange={(e) => setForm({ ...form, firstName: e.target.value })} /></div>
-              <div className="space-y-1"><label className="text-xs text-neutral-400">Last name</label>
+              <div className="space-y-1"><label className="text-xs ad-mut">Last name</label>
                 <input className={input} value={form.lastName} onChange={(e) => setForm({ ...form, lastName: e.target.value })} /></div>
-              <div className="space-y-1"><label className="text-xs text-neutral-400">Email (becomes their username)</label>
+              <div className="space-y-1"><label className="text-xs ad-mut">Email (becomes their username)</label>
                 <input type="email" className={input} value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} /></div>
             </div>
-            <p className="text-xs text-neutral-500">A temporary password is generated automatically. They&apos;ll be asked to create their own password on first sign-in.</p>
+            <p className="text-xs ad-soft">A temporary password is generated automatically. They&apos;ll be asked to create their own password on first sign-in.</p>
             <div className="flex gap-3 justify-end">
-              <button onClick={() => setAdding(false)} className="text-sm px-4 py-2 rounded-lg border border-neutral-700 hover:bg-neutral-800">Cancel</button>
-              <button onClick={addUser} className="text-sm px-4 py-2 rounded-lg bg-white text-black font-semibold hover:bg-neutral-200">Add user</button>
+              <button onClick={() => setAdding(false)} className="ad-btn-ghost">Cancel</button>
+              <button onClick={addUser} className="ad-btn">Add user</button>
             </div>
           </div>
         </div>
@@ -138,13 +138,13 @@ export default function UsersPage() {
 
       {/* Credentials popup */}
       {creds && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-6">
-          <div className="bg-neutral-900 border border-neutral-700 rounded-2xl p-6 w-full max-w-sm space-y-4">
+        <div className="ad-overlay">
+          <div className="ad-modal p-6 w-full max-w-sm space-y-4">
             <div className="text-lg font-bold">Share these details with {creds.firstName}</div>
-            <p className="text-sm text-neutral-400">This temporary password is shown <b>once</b> — copy it now and pass it on. {creds.firstName} will be prompted to create a new password on first sign-in, and the temporary one is discarded.</p>
-            <div className="bg-neutral-950 border border-neutral-700 rounded-lg p-4 space-y-2 font-mono text-sm">
-              <div><span className="text-neutral-500">Username: </span>{creds.username}</div>
-              <div><span className="text-neutral-500">Temp password: </span>{creds.tempPassword}</div>
+            <p className="text-sm ad-mut">This temporary password is shown <b>once</b> — copy it now and pass it on. {creds.firstName} will be prompted to create a new password on first sign-in, and the temporary one is discarded.</p>
+            <div className="bg-[#FBF6EC] border border-[#C9BEA3] rounded-lg p-4 space-y-2 font-mono text-sm">
+              <div><span className="ad-soft">Username: </span>{creds.username}</div>
+              <div><span className="ad-soft">Temp password: </span>{creds.tempPassword}</div>
             </div>
             <div className="flex gap-3 justify-end">
               <button
@@ -153,10 +153,10 @@ export default function UsersPage() {
                   setCopied(true)
                   setTimeout(() => setCopied(false), 2000)
                 }}
-                className="flex items-center gap-2 text-sm px-4 py-2 rounded-lg border border-neutral-700 hover:bg-neutral-800">
+                className="flex items-center gap-2 ad-btn-ghost">
                 <Copy className="w-4 h-4" /> {copied ? 'Copied!' : 'Copy'}
               </button>
-              <button onClick={() => setCreds(null)} className="text-sm px-4 py-2 rounded-lg bg-white text-black font-semibold hover:bg-neutral-200">Done</button>
+              <button onClick={() => setCreds(null)} className="ad-btn">Done</button>
             </div>
           </div>
         </div>

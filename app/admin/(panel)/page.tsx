@@ -23,14 +23,14 @@ export default async function AdminDashboard() {
     <div className="space-y-8 max-w-5xl">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
-        <p className="text-sm text-neutral-400 mt-1">Everything that keeps martekgroup.com running.</p>
+        <p className="text-sm ad-mut mt-1">Everything that keeps martekgroup.com running.</p>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {stats.map((s) => (
-          <Link key={s.label} href={s.href} className="bg-neutral-900 border border-neutral-800 rounded-xl p-5 hover:border-neutral-600 transition">
+          <Link key={s.label} href={s.href} className="ad-card hover:border-[#C9BEA3] transition">
             <div className="text-3xl font-bold">{s.value}</div>
-            <div className="text-sm text-neutral-400 mt-1">{s.label}</div>
+            <div className="text-sm ad-mut mt-1">{s.label}</div>
           </Link>
         ))}
       </div>
@@ -38,17 +38,17 @@ export default async function AdminDashboard() {
       <div>
         <h2 className="text-lg font-semibold mb-3">Latest leads</h2>
         {recentLeads.length === 0 ? (
-          <p className="text-sm text-neutral-500">No leads yet — they&apos;ll appear here as soon as a visitor submits a form.</p>
+          <p className="text-sm ad-soft">No leads yet — they&apos;ll appear here as soon as a visitor submits a form.</p>
         ) : (
-          <div className="border border-neutral-800 rounded-xl overflow-hidden">
+          <div className="ad-table-wrap">
             <table className="w-full text-sm">
               <tbody>
                 {recentLeads.map((l: any) => (
-                  <tr key={l.id} className="border-b border-neutral-800 last:border-0">
+                  <tr key={l.id} className="border-b border-[#E2D9C4] last:border-0">
                     <td className="px-4 py-3 font-medium">{l.name || '—'}</td>
-                    <td className="px-4 py-3 text-neutral-400">{l.email}</td>
-                    <td className="px-4 py-3 text-neutral-400">{l.form_type}</td>
-                    <td className="px-4 py-3 text-neutral-500">{String(l.created_at).slice(0, 19).replace('T', ' ')}</td>
+                    <td className="px-4 py-3 ad-mut">{l.email}</td>
+                    <td className="px-4 py-3 ad-mut">{l.form_type}</td>
+                    <td className="px-4 py-3 ad-soft">{String(l.created_at).slice(0, 19).replace('T', ' ')}</td>
                   </tr>
                 ))}
               </tbody>
