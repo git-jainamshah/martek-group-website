@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import ServicePage, { ServiceData } from '@/components/services/ServicePage'
+import { mergePackages } from '@/lib/pricing'
 
 export const metadata: Metadata = {
   title: 'Social · Martek Group',
@@ -247,5 +248,5 @@ const data: ServiceData = {
 }
 
 export default function SocialPage() {
-  return <ServicePage data={data} />
+  return <ServicePage data={{ ...data, cards: mergePackages('social', data.cards) }} />
 }

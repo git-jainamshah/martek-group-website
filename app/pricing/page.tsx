@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import PricingPackages from '@/components/PricingPackages'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
+import { getPackageOverrides } from '@/lib/pricing'
 
 export const metadata: Metadata = {
   title: 'Pricing - Martek Group',
@@ -9,9 +10,19 @@ export const metadata: Metadata = {
 }
 
 export default function PricingPage() {
+  const packages = getPackageOverrides('pricing-page').map((p) => ({
+    name: p.name,
+    price: p.price,
+    period: p.priceNote ?? 'one-time',
+    description: p.description ?? '',
+    features: p.items ?? [],
+    popular: !!p.featured,
+    color: 'primary',
+  }))
+
   return (
     <div className="pt-24">
-      <PricingPackages />
+      <PricingPackages packages={packages} />
       
       {/* Additional Info Section */}
       <section className="section-padding bg-white">
