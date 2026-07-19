@@ -42,8 +42,8 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   }
 
   if (action === 'set-role') {
-    if (!['admin', 'editor', 'viewer'].includes(role)) {
-      return NextResponse.json({ error: 'Role must be Admin, Editor, or Viewer.' }, { status: 400 })
+    if (!['admin', 'editor', 'viewer', 'leads_view', 'leads_edit'].includes(role)) {
+      return NextResponse.json({ error: 'Invalid role.' }, { status: 400 })
     }
     if (target.role === 'admin' && role !== 'admin') {
       const admins = await q1<{ c: number }>(`SELECT COUNT(*)::int AS c FROM users WHERE active = 1 AND role = 'admin'`)

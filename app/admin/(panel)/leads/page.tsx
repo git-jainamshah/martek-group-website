@@ -2,15 +2,29 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Download, BarChart3, Megaphone, Trash2 } from 'lucide-react'
+import { Download, BarChart3, Megaphone, Trash2, Sparkles } from 'lucide-react'
 import LeadFilters from '@/components/admin/LeadFilters'
 import { useLeads, LeadDrawer, extraOf, STATUSES, STATUS_COLORS, STATUS_LABELS, FORM_LABELS, serviceNames, Lead, useSelection, BulkDeleteBar, SelectHeaderCell, SelectRowCell } from '@/components/admin/leads-shared'
 
 export default function LeadsPage() {
-  const { filters, setFilters, leads, loading, load, qs } = useLeads()
+  const { filters, setFilters, leads, loading, load, qs, role, canEdit } = useLeads()
   const [selected, setSelected] = useState<Lead | null>(null)
   const sel = useSelection()
   const [bulkMsg, setBulkMsg] = useState('')
+  const [seeding, setSeeding] = useState(false)
+
+  async function seedDemo() {
+    if (!confirm('Add 50 demo leads with varied fake data? They are tagged as demo records and can be bulk-deleted later.')) return
+    setSeeding(true)
+    const res = await fetch('/api/admin/leads/seed', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ count: 50 }),
+    })
+    const d = await res.json()
+    setSeeding(false)
+    setBulkMsg(res.ok ? `${d.created} demo leads added.` : d.error || 'Seeding failed.')
+    setTimeout(() => setBulkMsg(''), 8000)
+    load()
+  }
 
   async function setStatus(id: number, status: string) {
     await fetch(`/api/admin/leads/${id}`, {
@@ -30,7 +44,12 @@ export default function LeadsPage() {
           </p>
         </div>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-          <Link href="/admin/leads/trash" className="ad-btn-ghost"><Trash2 size={14} /> Delete Folder</Link>
+          {role === 'admin' && (
+            <button onClick={seedDemo} disabled={seeding} className="ad-btn-ghost" title="Generate 50 fake leads for testing">
+              <Sparkles size={14} /> {seeding ? 'Adding demo data…' : 'Demo data'}
+            </button>
+          )}
+          {canEdit && <Link href="/admin/leads/trash" className="ad-btn-ghost"><Trash2 size={14} /> Delete Folder</Link>}
           <Link href="/admin/leads/dashboard" className="ad-btn-ghost"><BarChart3 size={14} /> Dashboard</Link>
           <Link href="/admin/leads/marketing" className="ad-btn-ghost"><Megaphone size={14} /> Marketing view</Link>
           {(['csv', 'xls', 'pdf'] as const).map((f) => (
@@ -42,15 +61,15 @@ export default function LeadsPage() {
       </div>
 
       <LeadFilters value={filters} onChange={setFilters} />
-      {bulkMsg && <div className="ad-alert ok" style={{ marginTop: 12 }}>{bulkMsg} <Link href="/admin/leads/trash" style={{ textDecoration: 'underline' }}>Open Delete Folder</Link></div>}
-      <BulkDeleteBar visibleIds={leads.map((l) => l.id)} selected={sel.selected} selectAll={sel.selectAll} clear={sel.clear}
-        onDone={(m) => { setBulkMsg(m); setTimeout(() => setBulkMsg(''), 8000); load() }} />
+      {bulkMsg && <div className="ad-alert ok" style={{ marginTop: 12 }}>{bulkMsg} {canEdit && bulkMsg.includes('Delete Folder') && <Link href="/admin/leads/trash" style={{ textDecoration: 'underline' }}>Open Delete Folder</Link>}</div>}
+      {canEdit && <BulkDeleteBar visibleIds={leads.map((l) => l.id)} selected={sel.selected} selectAll={sel.selectAll} clear={sel.clear}
+        onDone={(m) => { setBulkMsg(m); setTimeout(() => setBulkMsg(''), 8000); load() }} />}
 
       <div className="ad-table-wrap" style={{ overflowX: 'auto', marginTop: 16 }}>
         <table className="ad-table" style={{ minWidth: 900 }}>
           <thead>
             <tr>
-              <SelectHeaderCell visibleIds={leads.map((l) => l.id)} selected={sel.selected} selectAll={sel.selectAll} clear={sel.clear} /><th>Lead</th><th>Services</th><th>Budget</th><th>Channel</th><th>Form</th><th>Received</th><th>Status</th>
+              <SelectHeaderCell show={canEdit} visibleIds={leads.map((l) => l.id)} selected={sel.selected} selectAll={sel.selectAll} clear={sel.clear} /><th>Lead</th><th>Services</th><th>Budget</th><th>Channel</th><th>Form</th><th>Received</th><th>Status</th>
             </tr>
           </thead>
           <tbody>
@@ -58,7 +77,7 @@ export default function LeadsPage() {
               const ex = extraOf(l)
               return (
                 <tr key={l.id} className="clickable" onClick={() => setSelected(l)}>
-                  <SelectRowCell id={l.id} selected={sel.selected} toggle={sel.toggle} />
+                  <SelectRowCell show={canEdit} id={l.id} selected={sel.selected} toggle={sel.toggle} />
                   <td>
                     <div style={{ fontWeight: 600 }}>{l.name || '-'}</div>
                     <div className="ad-soft" style={{ fontSize: 12 }}>{l.public_id || `#${l.id}`} · {l.email}{l.company ? ` · ${l.company}` : ''}</div>
@@ -69,10 +88,14 @@ export default function LeadsPage() {
                   <td className="ad-mut" style={{ fontSize: 12.5 }}>{FORM_LABELS[l.form_type] ?? l.form_type}</td>
                   <td className="ad-soft" style={{ fontSize: 12, whiteSpace: 'nowrap' }}>{l.created_at}</td>
                   <td onClick={(e) => e.stopPropagation()}>
-                    <select value={l.status} onChange={(e) => setStatus(l.id, e.target.value)}
-                      className={STATUS_COLORS[l.status] || 'ad-badge grey'} style={{ border: 0, cursor: 'pointer' }}>
-                      {STATUSES.map((s) => <option key={s} value={s}>{STATUS_LABELS[s]}</option>)}
-                    </select>
+                    {canEdit ? (
+                      <select value={l.status} onChange={(e) => setStatus(l.id, e.target.value)}
+                        className={STATUS_COLORS[l.status] || 'ad-badge grey'} style={{ border: 0, cursor: 'pointer' }}>
+                        {STATUSES.map((s) => <option key={s} value={s}>{STATUS_LABELS[s]}</option>)}
+                      </select>
+                    ) : (
+                      <span className={STATUS_COLORS[l.status] || 'ad-badge grey'}>{STATUS_LABELS[l.status] ?? l.status}</span>
+                    )}
                   </td>
                 </tr>
               )
@@ -84,7 +107,7 @@ export default function LeadsPage() {
         </table>
       </div>
 
-      {selected && <LeadDrawer lead={selected} onClose={() => setSelected(null)} onSaved={load} />}
+      {selected && <LeadDrawer lead={selected} canEdit={canEdit} onClose={() => setSelected(null)} onSaved={load} />}
     </div>
   )
 }

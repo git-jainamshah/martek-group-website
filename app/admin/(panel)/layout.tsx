@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { getSessionUser } from '@/lib/admin/auth'
 import Sidebar from '@/components/admin/Sidebar'
+import RoleGate from '@/components/admin/RoleGate'
 
 export const dynamic = 'force-dynamic'
 
@@ -27,6 +28,7 @@ export default async function PanelLayout({ children }: { children: React.ReactN
 
   return (
     <div className="ad-shell">
+      <RoleGate leadsOnly={user.role === 'leads_view' || user.role === 'leads_edit'} />
       <Sidebar userName={`${user.first_name} ${user.last_name}`} userEmail={user.email} role={user.role} />
       <main className="ad-main">{children}</main>
     </div>

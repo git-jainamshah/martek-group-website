@@ -83,9 +83,12 @@ export default function Sidebar({ userName, userEmail, role = 'admin' }: { userN
 
       <nav className="ad-nav">
         {GROUPS.map((rawGroup) => {
-          const g = role === 'admin'
-            ? rawGroup
-            : { ...rawGroup, items: rawGroup.items.filter((i) => i.href !== '/admin/users') }
+          const leadsOnly = role === 'leads_view' || role === 'leads_edit'
+          const g = leadsOnly
+            ? { ...rawGroup, items: rawGroup.items.filter((i) => i.href.startsWith('/admin/leads')) }
+            : role === 'admin'
+              ? rawGroup
+              : { ...rawGroup, items: rawGroup.items.filter((i) => i.href !== '/admin/users') }
           if (!g.items.length) return null
           return (
           <div key={g.label} className="ad-nav-group">

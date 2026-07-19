@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { ensureDb, audit, purgeExpiredDeletedLeads } from '@/lib/admin/db'
 import { q, run } from '@/lib/admin/pg'
-import { requireEditor } from '@/lib/admin/auth'
+import { requireLeadsEditor } from '@/lib/admin/auth'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -15,7 +15,7 @@ export const dynamic = 'force-dynamic'
  * Items in the Delete Folder are purged automatically after 60 days.
  */
 export async function POST(req: NextRequest) {
-  const auth = await requireEditor()
+  const auth = await requireLeadsEditor()
   if ('error' in auth) return auth.error
   await ensureDb()
   await purgeExpiredDeletedLeads()
