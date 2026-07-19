@@ -5,6 +5,8 @@ import { audit } from '@/lib/admin/db'
 import { q, run } from '@/lib/admin/pg'
 import { requireUser, requireEditor } from '@/lib/admin/auth'
 import { findAssetReferences, syncMediaIndex, invalidateRefCache, hasWritableStorage, READONLY_STORAGE_MSG } from '@/lib/admin/media'
+import { SLOT_DEFS } from '@/lib/media-slots'
+import { getSlots } from '@/lib/media-slots-server'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -16,21 +18,32 @@ export async function GET() {
 
   await syncMediaIndex()
   const refs = findAssetReferences()
+  const slotValues = await getSlots()
   const rows = await q('SELECT * FROM media ORDER BY modified_at DESC')
 
-  const media = rows.map((r: any) => ({
-    id: r.id,
-    filename: r.filename,
-    relPath: r.rel_path,
-    kind: r.kind,
-    mime: r.mime,
-    size: Number(r.size),
-    addedAt: r.added_at,
-    modifiedAt: r.modified_at,
-    links: refs.get(r.rel_path) ?? [],
-  }))
+  const media = rows.map((r: any) => {
+    // Slot assignments are the source of truth for "where is this used"
+    const slotLinks = SLOT_DEFS
+      .filter((s) => slotValues[s.key] === r.rel_path)
+      .map((s) => ({ file: s.key, label: `${s.page} - ${s.section}`, line: 0 }))
+    const codeLinks = (refs.get(r.rel_path) ?? []).filter(
+      // hide raw code refs already represented by a slot
+      () => slotLinks.length === 0
+    )
+    return {
+      id: r.id,
+      filename: r.filename,
+      relPath: r.rel_path,
+      kind: r.kind,
+      mime: r.mime,
+      size: Number(r.size),
+      addedAt: r.added_at,
+      modifiedAt: r.modified_at,
+      links: [...slotLinks, ...codeLinks],
+    }
+  })
 
-  return NextResponse.json({ media, storageWritable: hasWritableStorage() })
+  return NextResponse.json({ media, slots: slotValues, storageWritable: hasWritableStorage() })
 }
 
 /** POST /api/admin/media - upload a new file (multipart form: file) into /public/uploads */

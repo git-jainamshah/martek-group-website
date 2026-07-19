@@ -5,6 +5,8 @@ import { audit } from '@/lib/admin/db'
 import { q1, run } from '@/lib/admin/pg'
 import { requireUser, requireEditor } from '@/lib/admin/auth'
 import { isLinked, hasWritableStorage, READONLY_STORAGE_MSG } from '@/lib/admin/media'
+import { SLOT_DEFS } from '@/lib/media-slots'
+import { getSlots } from '@/lib/media-slots-server'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -17,7 +19,11 @@ export async function DELETE(_req: NextRequest, { params }: { params: { id: stri
   const row = await q1<any>('SELECT * FROM media WHERE id = $1', [Number(params.id)])
   if (!row) return NextResponse.json({ error: 'Media not found.' }, { status: 404 })
 
-  const links = isLinked(row.rel_path)
+  const slotValues = await getSlots()
+  const slotLinks = SLOT_DEFS
+    .filter((s) => slotValues[s.key] === row.rel_path)
+    .map((s) => ({ file: s.key, label: `${s.page} - ${s.section}`, line: 0 }))
+  const links = [...slotLinks, ...isLinked(row.rel_path)]
   if (links.length > 0) {
     return NextResponse.json(
       {

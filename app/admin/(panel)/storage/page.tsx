@@ -14,6 +14,7 @@ type GroupKey = 'none' | 'addedAt' | 'modifiedAt'
 
 const fmtSize = (b: number) => b > 1048576 ? `${(b / 1048576).toFixed(1)} MB` : `${Math.max(1, Math.round(b / 1024))} KB`
 const dayOf = (iso: string) => new Date(iso).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })
+const isTransparentCapable = (p: string) => ['png', 'svg', 'webp', 'avif', 'gif'].includes(p.split('.').pop()?.toLowerCase() ?? '')
 
 export default function StoragePage() {
   const [media, setMedia] = useState<Media[]>([])
@@ -140,7 +141,7 @@ export default function StoragePage() {
               const isLinked = m.links.length > 0
               return (
                 <div key={m.id} className="group relative ad-tile">
-                  <div className="aspect-square bg-black flex items-center justify-center">
+                  <div className={`aspect-square flex items-center justify-center ${isTransparentCapable(m.relPath) ? "ad-checker" : "bg-black"}`}>
                     {m.kind === 'video'
                       ? <video src={m.relPath} className="w-full h-full object-cover" muted playsInline preload="metadata" />
                       : /* eslint-disable-next-line @next/next/no-img-element */

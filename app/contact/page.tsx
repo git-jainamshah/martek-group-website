@@ -3,6 +3,7 @@ import { Suspense } from 'react'
 import Link from 'next/link'
 import ContactLeadForm from '@/components/ContactLeadForm'
 import { getCompany, getEnabledSocials } from '@/lib/site-config'
+import { getSlot } from '@/lib/media-slots-server'
 
 export const metadata: Metadata = {
   title: 'Contact · Martek Group',
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 }
 
 export default async function ContactPage() {
-  const [company, enabledSocials] = await Promise.all([getCompany(), getEnabledSocials()])
+  const [company, enabledSocials, contactImage] = await Promise.all([getCompany(), getEnabledSocials(), getSlot('contact-form-image')])
   const ig = enabledSocials.find((s) => s.platform === 'Instagram') ?? null
   const li = enabledSocials.find((s) => s.platform === 'LinkedIn') ?? null
   return (
@@ -81,7 +82,7 @@ export default async function ContactPage() {
               >
                 <span className="img-slot" style={{ width: '100%', height: '100%', position: 'absolute', inset: 0 }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/assets/contact-us-form.jpg" alt="The Martek team on a call" />
+                  <img src={contactImage} alt="The Martek team on a call" />
                 </span>
               </div>
             </div>

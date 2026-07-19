@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-07-19T19:10:31.382Z",
+ "generatedAt": "2026-07-19T19:36:12.756Z",
  "files": [
   {
    "filename": "analytics-bg.mp4",
@@ -123,53 +123,6 @@
   }
  ],
  "references": {
-  "/assets/blog-1.jpg": [
-   {
-    "file": "app/blogs/page.tsx",
-    "label": "Blogs",
-    "line": 15
-   }
-  ],
-  "/assets/blog-2.jpg": [
-   {
-    "file": "app/blogs/page.tsx",
-    "label": "Blogs",
-    "line": 23
-   }
-  ],
-  "/assets/blog-3.jpg": [
-   {
-    "file": "app/blogs/page.tsx",
-    "label": "Blogs",
-    "line": 31
-   }
-  ],
-  "/assets/blogs-banner-bg.jpg": [
-   {
-    "file": "app/blogs/page.tsx",
-    "label": "Blogs",
-    "line": 40
-   }
-  ],
-  "/assets/sample-project-bg.jpg": [
-   {
-    "file": "app/case-studies/page.tsx",
-    "label": "Case Studies",
-    "line": 40
-   }
-  ],
-  "/assets/contact-us-form.jpg": [
-   {
-    "file": "app/contact/page.tsx",
-    "label": "Contact",
-    "line": 84
-   },
-   {
-    "file": "components/home/MiniCta.tsx",
-    "label": "Component: home/MiniCta",
-    "line": 47
-   }
-  ],
   "/assets/martek-group-header.png": [
    {
     "file": "app/layout.tsx",
@@ -224,34 +177,6 @@
     "line": 25
    }
   ],
-  "/assets/analytics-bg.mp4": [
-   {
-    "file": "app/projects/analytics-tagging/page.tsx",
-    "label": "Projects / Analytics Tagging",
-    "line": 24
-   }
-  ],
-  "/assets/engineering-drawings-bg.mp4": [
-   {
-    "file": "app/projects/engineering-drawings/page.tsx",
-    "label": "Projects / Engineering Drawings",
-    "line": 24
-   }
-  ],
-  "/assets/web-dev-bg.mp4": [
-   {
-    "file": "app/projects/web-development/page.tsx",
-    "label": "Projects / Web Development",
-    "line": 24
-   }
-  ],
-  "/assets/business-services-banner-bg.jpg": [
-   {
-    "file": "app/services/page.tsx",
-    "label": "Services",
-    "line": 54
-   }
-  ],
   "/assets/martek-only-logo.png": [
    {
     "file": "app/site-vc/page.tsx",
@@ -264,6 +189,11 @@
     "file": "components/Hero.tsx",
     "label": "Home - hero",
     "line": 8
+   },
+   {
+    "file": "lib/media-slots.ts",
+    "label": "lib/media-slots.ts",
+    "line": 25
    }
   ],
   "/assets/office-dark-hero.png": [
@@ -275,7 +205,92 @@
    {
     "file": "components/home/Proof.tsx",
     "label": "Component: home/Proof",
-    "line": 55
+    "line": 2
+   },
+   {
+    "file": "lib/media-slots.ts",
+    "label": "lib/media-slots.ts",
+    "line": 26
+   }
+  ],
+  "/assets/contact-us-form.jpg": [
+   {
+    "file": "components/home/MiniCta.tsx",
+    "label": "Component: home/MiniCta",
+    "line": 14
+   },
+   {
+    "file": "lib/media-slots.ts",
+    "label": "lib/media-slots.ts",
+    "line": 27
+   },
+   {
+    "file": "lib/media-slots.ts",
+    "label": "lib/media-slots.ts",
+    "line": 29
+   }
+  ],
+  "/assets/business-services-banner-bg.jpg": [
+   {
+    "file": "lib/media-slots.ts",
+    "label": "lib/media-slots.ts",
+    "line": 31
+   }
+  ],
+  "/assets/blogs-banner-bg.jpg": [
+   {
+    "file": "lib/media-slots.ts",
+    "label": "lib/media-slots.ts",
+    "line": 33
+   }
+  ],
+  "/assets/blog-1.jpg": [
+   {
+    "file": "lib/media-slots.ts",
+    "label": "lib/media-slots.ts",
+    "line": 34
+   }
+  ],
+  "/assets/blog-2.jpg": [
+   {
+    "file": "lib/media-slots.ts",
+    "label": "lib/media-slots.ts",
+    "line": 35
+   }
+  ],
+  "/assets/blog-3.jpg": [
+   {
+    "file": "lib/media-slots.ts",
+    "label": "lib/media-slots.ts",
+    "line": 36
+   }
+  ],
+  "/assets/sample-project-bg.jpg": [
+   {
+    "file": "lib/media-slots.ts",
+    "label": "lib/media-slots.ts",
+    "line": 38
+   }
+  ],
+  "/assets/web-dev-bg.mp4": [
+   {
+    "file": "lib/media-slots.ts",
+    "label": "lib/media-slots.ts",
+    "line": 40
+   }
+  ],
+  "/assets/analytics-bg.mp4": [
+   {
+    "file": "lib/media-slots.ts",
+    "label": "lib/media-slots.ts",
+    "line": 41
+   }
+  ],
+  "/assets/engineering-drawings-bg.mp4": [
+   {
+    "file": "lib/media-slots.ts",
+    "label": "lib/media-slots.ts",
+    "line": 42
    }
   ]
  }

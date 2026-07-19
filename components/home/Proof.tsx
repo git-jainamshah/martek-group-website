@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-export default function Proof() {
+export default function Proof({ imageSrc = '/assets/office-dark-hero.png' }: { imageSrc?: string } = {}) {
   return (
     <section className="proof" id="work">
       <div className="wrap">
@@ -52,7 +52,7 @@ export default function Proof() {
 
             <div className="media-frame" style={{ marginTop: 32, aspectRatio: '16/9' }}>
               <span className="img-slot" style={{ width: '100%', height: '100%', position: 'absolute', inset: 0 }}>
-                <img src="/assets/office-dark-hero.png" alt="Martek Group at work" />
+                <img src={imageSrc} alt="Martek Group at work" />
               </span>
               <span className="media-tag">built in Toronto ✷</span>
             </div>

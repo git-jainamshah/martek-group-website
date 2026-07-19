@@ -5,7 +5,7 @@ import { requireUser, requireEditor } from '@/lib/admin/auth'
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
-const ALLOWED_KEYS = ['announcement', 'promo_banner', 'robots_txt', 'seo', 'company', 'socials', 'legal_terms', 'legal_privacy']
+const ALLOWED_KEYS = ['announcement', 'promo_banner', 'robots_txt', 'seo', 'company', 'socials', 'legal_terms', 'legal_privacy', 'media_slots']
 
 export async function GET(req: NextRequest) {
   const auth = await requireUser()
