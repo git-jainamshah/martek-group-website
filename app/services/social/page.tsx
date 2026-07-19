@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import ServicePage, { ServiceData } from '@/components/services/ServicePage'
+import { mergePackages } from '@/lib/pricing'
 
 export const metadata: Metadata = {
   title: 'Social · Martek Group',
@@ -18,7 +19,7 @@ const stage = (
         <b>@yourbrand</b>
       </div>
       <div className="post">
-        <div className="img">🍋</div>
+        <div className="img">✶</div>
         <div className="meta">
           <span className="heart">♥</span>
           <small>1,204</small>
@@ -29,9 +30,9 @@ const stage = (
         <div className="img" style={{ background: 'var(--sage-soft)' }}>✶</div>
       </div>
     </div>
-    <div className="bubble b1 float-b">love this 🙌</div>
+    <div className="bubble b1 float-b">love this</div>
     <div className="bubble b2 float-c">where to buy?</div>
-    <div className="bubble b3 float-a">shipped! 📦</div>
+    <div className="bubble b3 float-a">shipped!</div>
     <div className="badge badge-foll float-b">
       <span className="d" style={{ background: 'var(--accent)' }}></span>+318 followers
     </div>
@@ -246,6 +247,6 @@ const data: ServiceData = {
   signoff: 'social for startups.',
 }
 
-export default function SocialPage() {
-  return <ServicePage data={data} />
+export default async function SocialPage() {
+  return <ServicePage data={{ ...data, cards: await mergePackages('social', data.cards) }} />
 }

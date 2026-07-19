@@ -1,6 +1,17 @@
 import Link from 'next/link'
+import { getPackageOverrides } from '@/lib/pricing'
 
-export default function PricingSection() {
+// Styled headings stay design-owned; everything else is admin-managed.
+const H3S: React.ReactNode[] = [
+  <>One <span className="it">thing</span>, fast</>,
+  <>Ship the <span className="it">whole thing</span></>,
+  <>Your <span className="it">fractional</span> team</>,
+]
+const VARIANTS = ['c-starter', 'c-growth', 'c-scale']
+
+export default async function PricingSection() {
+  const cards = await getPackageOverrides('home')
+
   return (
     <section className="price" id="pricing">
       <div className="wrap">
@@ -20,79 +31,29 @@ export default function PricingSection() {
         </div>
 
         <div className="cards" data-reveal-stagger>
-          <div className="card c-starter">
-            <div className="pname">
-              <span className="dot"></span>
-              <b>Sprint</b>
+          {cards.map((c, i) => (
+            <div key={c.idx} className={`card ${VARIANTS[i] ?? 'c-starter'}${c.featured ? ' featured' : ''}`}>
+              {c.featured && c.tag && <div className="tag">{c.tag}</div>}
+              <div className="pname">
+                <span className="dot"></span>
+                <b>{c.name}</b>
+              </div>
+              <h3>{H3S[i] ?? c.name}</h3>
+              <p className="desc">{c.description}</p>
+              <div className="price-line">
+                {c.price} {c.priceNote && <small>{c.priceNote}</small>}
+              </div>
+              {c.billing && <div className="billing">{c.billing}</div>}
+              <ul>
+                {(c.items ?? []).map((it, j) => (
+                  <li key={j}>{it}</li>
+                ))}
+              </ul>
+              <Link href="/contact" className="cta">
+                {c.ctaLabel ?? 'Get started →'}
+              </Link>
             </div>
-            <h3>
-              One <span className="it">thing</span>, fast
-            </h3>
-            <p className="desc">A landing page, an audit, a campaign. Fixed price, fixed scope, fixed timeline.</p>
-            <div className="price-line">
-              $2,400 <small>flat</small>
-            </div>
-            <div className="billing">14-day delivery</div>
-            <ul>
-              <li>1 deliverable, scoped up front</li>
-              <li>Daily Slack updates</li>
-              <li>2 rounds of feedback</li>
-              <li>14-day post-launch fixes</li>
-            </ul>
-            <Link href="/contact" className="cta">
-              Start a sprint →
-            </Link>
-          </div>
-
-          <div className="card c-growth featured">
-            <div className="tag">Best value</div>
-            <div className="pname">
-              <span className="dot"></span>
-              <b>Build</b>
-            </div>
-            <h3>
-              Ship the <span className="it">whole thing</span>
-            </h3>
-            <p className="desc">Site + brand + analytics + launch: your full launch kit, end to end.</p>
-            <div className="price-line">
-              $8,400 <small>from</small>
-            </div>
-            <div className="billing">4–6 week delivery</div>
-            <ul>
-              <li>Brand &amp; site, end to end</li>
-              <li>Analytics &amp; tracking set up</li>
-              <li>Launch campaign included</li>
-              <li>Weekly Friday demos</li>
-              <li>30-day post-launch support</li>
-            </ul>
-            <Link href="/contact" className="cta">
-              Book a build →
-            </Link>
-          </div>
-
-          <div className="card c-scale">
-            <div className="pname">
-              <span className="dot"></span>
-              <b>Retainer</b>
-            </div>
-            <h3>
-              Your <span className="it">fractional</span> team
-            </h3>
-            <p className="desc">A small slice of a full team, every month. Design, dev, growth, on tap.</p>
-            <div className="price-line">
-              $3,800 <small>/mo</small>
-            </div>
-            <div className="billing">3-month minimum</div>
-            <ul>
-              <li>40 hours / month, any service</li>
-              <li>Slack channel, your own PM</li>
-              <li>Weekly priorities call</li>
-              <li>Pause or cancel anytime</li>
-            </ul>
-            <Link href="/contact" className="cta">
-              Talk retainer →
-            </Link>
-          </div>
+          ))}
         </div>
       </div>
     </section>

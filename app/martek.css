@@ -1,5 +1,5 @@
 /* =====================================================================
-   MARTEK DESIGN SYSTEM — ported from design_handoff_martek/martek.css
+   MARTEK DESIGN SYSTEM - ported from design_handoff_martek/martek.css
    + inline lux-hero styles from "Martek Reimagined v2.html"
    Fonts are wired to next/font CSS variables (see app/layout.tsx).
    ===================================================================== */
@@ -16,7 +16,7 @@
   --rule:#E2D9C4;
   --rule-strong:#C9BEA3;
 
-  /* color quartet — one per service */
+  /* color quartet - one per service */
   --terra:#E07A5F;     /* web dev */
   --terra-soft:#F2BFA8;
   --sage:#6B9080;      /* data */
@@ -41,7 +41,7 @@
   --brand-ink:#C8141B;
   --brand-soft:#FBD9DA;
 
-  /* accent — homepage uses brand red; service pages override */
+  /* accent - homepage uses brand red; service pages override */
   --accent:var(--brand);
   --accent-soft:var(--brand-soft);
 }
@@ -238,7 +238,7 @@ body.m-open .m-links a:nth-child(8){transition-delay:.41s}
   .m-nav, .m-backdrop{display:none}
 }
 
-/* ---------- CINEMATIC BLACK HERO (homepage — "Martek Reimagined") ---------- */
+/* ---------- CINEMATIC BLACK HERO (homepage - "Martek Reimagined") ---------- */
 .cine-hero{position:relative; min-height:94vh; display:flex; align-items:center; overflow:hidden; background:#0B0B0D; isolation:isolate}
 .cine-bg{position:absolute; inset:0; z-index:0}
 .cine-video{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 1.4s ease}
@@ -322,7 +322,7 @@ body.m-open .m-links a:nth-child(8){transition-delay:.41s}
 .logo-row .lg.bold{font-family:var(--sans); font-weight:700; font-style:normal; font-size:18px; letter-spacing:-.02em}
 @media (max-width:760px){.logo-row{grid-template-columns:repeat(2,1fr)} .logo-row .lg{border-bottom:1px solid var(--rule)} .logo-row .lg:nth-child(odd){border-right:1px solid var(--rule)} .logo-row .lg:nth-child(even){border-right:0}}
 
-/* ---------- "what we do" — big illustrated tiles ---------- */
+/* ---------- "what we do" - big illustrated tiles ---------- */
 .what{padding:96px 0 80px; position:relative}
 .what-head{
   display:grid; grid-template-columns:1fr 1fr; gap:40px;
@@ -738,7 +738,7 @@ footer.mk .bottom{margin-top:48px; padding-top:24px; border-top:1px solid rgba(2
 .crumb .sep{opacity:.5}
 .crumb .here{color:var(--ink)}
 
-/* service hero — split: copy + big animated graphic */
+/* service hero - split: copy + big animated graphic */
 .svc-hero{padding:40px 0 72px; position:relative; overflow:hidden}
 .svc-hero-grid{display:grid; grid-template-columns:1.05fr .95fr; gap:56px; align-items:center}
 @media (max-width:960px){.svc-hero-grid{grid-template-columns:1fr; gap:40px}}
@@ -1108,3 +1108,11 @@ footer.mk .bottom{margin-top:48px; padding-top:24px; border-top:1px solid rgba(2
 .m-social a{width:42px; height:42px; border-radius:12px; border:1.5px solid var(--ink); background:var(--paper-2); display:grid; place-items:center; color:var(--ink); transition:background .18s, color .18s}
 .m-social a:hover{background:var(--ink); color:var(--paper)}
 .m-social svg{width:17px; height:17px}
+
+/* ---- Legal pages (admin-managed rich text) ---- */
+.legal-copy h2{font-family:var(--serif);font-size:26px;font-weight:600;color:var(--ink);margin:34px 0 10px}
+.legal-copy h3{font-family:var(--serif);font-size:20px;font-weight:600;color:var(--ink);margin:24px 0 8px}
+.legal-copy p{margin:0 0 14px;line-height:1.7}
+.legal-copy ul,.legal-copy ol{padding-left:26px;margin:0 0 14px}
+.legal-copy li{margin-bottom:6px;line-height:1.6}
+.legal-copy a{color:var(--brand-ink);text-decoration:underline}

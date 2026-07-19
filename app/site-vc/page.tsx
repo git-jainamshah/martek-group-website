@@ -133,13 +133,13 @@ export default function VersionControlPage() {
       }
 
       const data = await response.json();
-      alert(`✅ Successfully rolled back to ${commitHash}\n\nBackup branch created: ${data.backupBranch}\n\nRefresh the page to see updated versions.`);
+      alert(`Successfully rolled back to ${commitHash}\n\nBackup branch created: ${data.backupBranch}\n\nRefresh the page to see updated versions.`);
       setRollbackConfirm(null);
       
       // Refresh versions
       await fetchVersions(password);
     } catch (err: any) {
-      alert(`❌ Rollback failed: ${err.message}`);
+      alert(`Rollback failed: ${err.message}`);
     } finally {
       setLoading(false);
     }
@@ -210,7 +210,7 @@ export default function VersionControlPage() {
           </form>
 
           <div className="mt-6 text-center text-sm text-gray-400">
-            <p>🔒 Secured Admin Area</p>
+            <p>Secured Admin Area</p>
             <p className="mt-2 text-xs">Only authorized personnel can access version history</p>
           </div>
         </motion.div>

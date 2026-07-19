@@ -26,6 +26,7 @@ const navLinks = [
   { label: 'Social', href: '/services/social' },
   { label: 'SEO & Ads', href: '/services/seo-ads' },
   { label: 'Engineering', href: '/services/engineering' },
+  { label: 'Contact Us', href: '/contact' },
 ]
 
 /* per-page announcement bar + contact link (ported from each reference page) */
@@ -101,7 +102,7 @@ const barByPath: Record<string, typeof defaultBar> = {
     pill: 'Open',
     text: (
       <>
-        Currently taking on <b>new projects</b> — we keep slots limited to stay hands-on.
+        Currently taking on <b>new projects</b> - we keep slots limited to stay hands-on.
       </>
     ),
     ctaLabel: 'Grab a slot',
@@ -110,9 +111,38 @@ const barByPath: Record<string, typeof defaultBar> = {
   },
 }
 
+/* Admin-managed bar copy: **bold** segments render as <b> */
+type BarCfg = { pill: string; text: string; ctaLabel: string; ctaHref: string; contactHref: string }
+type AnnouncementCfg = { default: BarCfg; overrides: (BarCfg & { path: string })[] }
+
+const renderBold = (s: string) =>
+  s.split('**').map((part, i) => (i % 2 === 1 ? <b key={i}>{part}</b> : <span key={i}>{part}</span>))
+
+type CompanyCfg = { name: string; tagline: string; logoIcon: string }
+type SocialCfg = { platform: string; label: string; href: string }
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
+  const [announcement, setAnnouncement] = useState<AnnouncementCfg | null>(null)
+  const [company, setCompany] = useState<CompanyCfg | null>(null)
+  const [socials, setSocials] = useState<SocialCfg[] | null>(null)
   const pathname = usePathname()
+
+  // Pull admin-managed config; hardcoded copy stays as SSR fallback
+  useEffect(() => {
+    fetch('/api/public/site-config')
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.announcement?.default) setAnnouncement(d.announcement)
+        if (d.company?.name) setCompany(d.company)
+        if (Array.isArray(d.socials)) setSocials(d.socials)
+      })
+      .catch(() => {})
+  }, [])
+
+  const brandName = company?.name || 'Martek Group'
+  const brandFirst = brandName.split(' ')[0]
+  const brandRest = brandName.split(' ').slice(1).join(' ')
 
   const close = useCallback(() => setIsOpen(false), [])
 
@@ -145,7 +175,13 @@ export default function Navbar() {
   }, [pathname, close])
 
   const isActive = (href: string) => pathname === href
-  const bar = (pathname && barByPath[pathname]) || defaultBar
+  const fallbackBar = (pathname && barByPath[pathname]) || defaultBar
+  const managed = announcement
+    ? announcement.overrides?.find((o) => o.path === pathname) || announcement.default
+    : null
+  const bar = managed
+    ? { ...managed, text: renderBold(managed.text) as React.ReactNode }
+    : fallbackBar
 
   return (
     <>
@@ -168,13 +204,13 @@ export default function Navbar() {
           <div className="row">
             <Link href="/" className="logo">
               <span className="logo-mark">
-                <Image src="/assets/martek-mark.png" alt="Martek Group" width={40} height={40} priority />
+                <Image src={company?.logoIcon || '/assets/martek-mark.png'} alt={brandName} width={40} height={40} priority />
               </span>
               <span className="logo-name">
                 <b>
-                  Martek <span className="grp">Group</span>
+                  {brandFirst} {brandRest && <span className="grp">{brandRest}</span>}
                 </b>
-                <span>Digital studio</span>
+                <span>{company?.tagline || 'Digital studio'}</span>
               </span>
             </Link>
 
@@ -193,7 +229,7 @@ export default function Navbar() {
             </div>
 
             <div className="nav-cta">
-              <SocialLinks variant="nav" />
+              <SocialLinks variant="nav" socials={socials ?? undefined} />
               <Link href="/#pricing" className="btn btn-ghost">
                 Pricing
               </Link>
@@ -254,7 +290,7 @@ export default function Navbar() {
           <Link href={bar.contactHref} className="btn btn-primary" onClick={close}>
             Book a call <ArrowSvg strokeWidth={1.7} className="arr-svg" />
           </Link>
-          <SocialLinks variant="drawer" />
+          <SocialLinks variant="drawer" socials={socials ?? undefined} />
           <p className="m-mail">
             or email <a href="mailto:hello@martek.studio">hello@martek.studio</a>
           </p>

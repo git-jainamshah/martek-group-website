@@ -24,13 +24,28 @@ const icons: Record<string, React.ReactNode> = {
   ),
 }
 
-/** Icon links row — `nav` (desktop header) or `drawer` (mobile menu) styling. */
-export default function SocialLinks({ variant }: { variant: 'nav' | 'drawer' }) {
+export type SocialItem = { platform: string; label?: string; href: string }
+
+const fallbackIcon = (platform: string) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="2" />
+    <text x="12" y="16" textAnchor="middle" fontSize="11" fontWeight="700" fill="currentColor" stroke="none">
+      {platform.charAt(0).toUpperCase()}
+    </text>
+  </svg>
+)
+
+/**
+ * Icon links row - `nav` (desktop header) or `drawer` (mobile menu) styling.
+ * Pass `socials` (admin-managed, enabled platforms only) to override defaults.
+ */
+export default function SocialLinks({ variant, socials }: { variant: 'nav' | 'drawer'; socials?: SocialItem[] }) {
+  const list: SocialItem[] = socials ?? SOCIALS.map((s) => ({ platform: s.name, label: s.label, href: s.href }))
   return (
     <div className={variant === 'nav' ? 'nav-social' : 'm-social'}>
-      {SOCIALS.map((s) => (
-        <a key={s.name} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.name} title={s.name}>
-          {icons[s.name]}
+      {list.map((s) => (
+        <a key={s.platform} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.platform} title={s.platform}>
+          {icons[s.platform] ?? fallbackIcon(s.platform)}
         </a>
       ))}
     </div>

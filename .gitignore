@@ -47,3 +47,7 @@ public/assets/*-bg.mp4
 
 # design handoff reference (local only)
 /design_handoff_martek/
+
+# Admin backend local data (SQLite DB + uploaded media archive)
+/data/
+/public/uploads/

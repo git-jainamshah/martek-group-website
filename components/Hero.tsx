@@ -29,7 +29,7 @@ const particles = [
   { left: '92%', duration: '17s', delay: '-8s' },
 ]
 
-export default function Hero() {
+export default function Hero({ videoSrc }: { videoSrc?: string } = {}) {
   const videoRef = useRef<HTMLVideoElement>(null)
 
   // robust muted autoplay + reveal (ported from the reference inline script)
@@ -72,7 +72,7 @@ export default function Hero() {
     <section className="cine-hero" id="top">
       <div className="cine-bg">
         <video ref={videoRef} className="cine-video" autoPlay muted loop playsInline preload="auto">
-          <source src={heroVideoSrc} type="video/mp4" />
+          <source src={videoSrc || heroVideoSrc} type="video/mp4" />
         </video>
 
         {/* drifting embers / city lights */}

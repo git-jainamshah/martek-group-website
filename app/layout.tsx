@@ -4,6 +4,7 @@ import './globals.css'
 import './martek.css'
 import LayoutWrapper from '@/components/LayoutWrapper'
 import { SOCIALS } from '@/lib/social'
+import { HeadScripts, BodyStartScripts, FooterScripts } from '@/components/SiteScripts'
 
 const instrument = Instrument_Serif({
   subsets: ['latin'],
@@ -37,14 +38,18 @@ const poppins = Poppins({
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.trim() || 'https://www.martekgroup.com'
 
-export const metadata: Metadata = {
+// ISR: pages stay statically served (fast) but refresh within 60s, so
+// admin changes (scripts, pricing, announcement copy) go live within a minute.
+export const revalidate = 60
+
+const baseMetadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: 'Martek Group · A small studio that ships big things',
     template: '%s',
   },
   description:
-    'Founder-led digital studio in Toronto. Web development, data & analytics, social, SEO & ads, and engineering/CAD for startups — fixed-price quotes, weekly demos, you own everything.',
+    'Founder-led digital studio in Toronto. Web development, data & analytics, social, SEO & ads, and engineering/CAD for startups - fixed-price quotes, weekly demos, you own everything.',
   keywords: [
     'web development Toronto',
     'startup web design',
@@ -65,11 +70,11 @@ export const metadata: Metadata = {
     siteName: 'Martek Group',
     title: 'Martek Group · A small studio that ships big things',
     description:
-      'Founder-led digital studio in Toronto. Web, data, social, SEO & ads, and engineering for startups — fixed-price quotes, weekly demos.',
+      'Founder-led digital studio in Toronto. Web, data, social, SEO & ads, and engineering for startups - fixed-price quotes, weekly demos.',
     type: 'website',
     locale: 'en_CA',
     url: '/',
-    images: [{ url: '/assets/martek-group-header.png', width: 1200, height: 630, alt: 'Martek Group — digital studio' }],
+    images: [{ url: '/assets/martek-group-header.png', width: 1200, height: 630, alt: 'Martek Group - digital studio' }],
   },
   twitter: {
     card: 'summary_large_image',
@@ -91,22 +96,36 @@ export const metadata: Metadata = {
   },
 }
 
+export async function generateMetadata(): Promise<Metadata> {
+  // Merge admin-managed SEO settings (site verification tags) when available
+  try {
+    const { getSetting } = require('@/lib/admin/db') as typeof import('@/lib/admin/db')
+    const seo = await getSetting<{ googleVerification?: string; bingVerification?: string }>('seo')
+    const verification: Metadata['verification'] = {}
+    if (seo?.googleVerification) verification.google = seo.googleVerification
+    if (seo?.bingVerification) verification.other = { 'msvalidate.01': seo.bingVerification }
+    return { ...baseMetadata, ...(Object.keys(verification).length ? { verification } : {}) }
+  } catch {
+    return baseMetadata
+  }
+}
+
 export const viewport = {
   width: 'device-width',
   initialScale: 1,
 }
 
-const orgLd = {
+const buildOrgLd = (c: { name: string; email: string; logoIcon: string; logoFull: string }, sameAs: string[]) => ({
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
   '@id': `${SITE_URL}/#organization`,
-  name: 'Martek Group',
+  name: c.name,
   description:
     'Founder-led digital studio building websites, analytics, social, SEO & ads, and engineering/CAD deliverables for startups.',
   url: SITE_URL,
-  logo: `${SITE_URL}/assets/martek-mark.png`,
-  image: `${SITE_URL}/assets/martek-group-header.png`,
-  email: 'hello@martek.studio',
+  logo: `${SITE_URL}${c.logoIcon || '/assets/martek-mark.png'}`,
+  image: `${SITE_URL}${c.logoFull || '/assets/martek-group-header.png'}`,
+  email: c.email || 'hello@martek.studio',
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'Toronto',
@@ -115,7 +134,7 @@ const orgLd = {
   },
   areaServed: 'Worldwide',
   priceRange: '$$',
-  sameAs: SOCIALS.map((s) => s.href),
+  sameAs: sameAs.length ? sameAs : SOCIALS.map((s) => s.href),
   founder: { '@type': 'Person', name: 'Martek Group founders' },
   makesOffer: [
     { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Web development', url: `${SITE_URL}/services/web-development` } },
@@ -124,13 +143,18 @@ const orgLd = {
     { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'SEO & paid ads', url: `${SITE_URL}/services/seo-ads` } },
     { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Engineering & CAD drafting', url: `${SITE_URL}/services/engineering` } },
   ],
-}
+})
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  // Admin-managed company profile + socials feed the structured data
+  const { getCompany, getEnabledSocials } = require('@/lib/site-config') as typeof import('@/lib/site-config')
+  const [company, socials] = await Promise.all([getCompany(), getEnabledSocials()])
+  const orgLd = buildOrgLd(company, socials.map((s) => s.href))
+
   return (
     <html
       lang="en"
@@ -142,11 +166,14 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgLd) }}
         />
+        <HeadScripts />
       </head>
       <body className="dot-bg">
+        <BodyStartScripts />
         <LayoutWrapper>
           {children}
         </LayoutWrapper>
+        <FooterScripts />
       </body>
     </html>
   )

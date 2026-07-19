@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import ServicePage, { ServiceData } from '@/components/services/ServicePage'
+import { mergePackages } from '@/lib/pricing'
 
 export const metadata: Metadata = {
   title: 'Engineering & CAD · Martek Group',
@@ -263,6 +264,6 @@ const data: ServiceData = {
   signoff: 'engineering & CAD, since day one.',
 }
 
-export default function EngineeringPage() {
-  return <ServicePage data={data} />
+export default async function EngineeringPage() {
+  return <ServicePage data={{ ...data, cards: await mergePackages('engineering', data.cards) }} />
 }

@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-export default function Proof() {
+export default function Proof({ imageSrc = '/assets/office-dark-hero.png' }: { imageSrc?: string } = {}) {
   return (
     <section className="proof" id="work">
       <div className="wrap">
@@ -13,7 +13,7 @@ export default function Proof() {
             </h2>
             <p className="lede">
               We started Martek because every agency we&apos;d dealt with charged like a multinational and showed up
-              like a junior. When you work with us, you talk directly to the people doing the work — no account
+              like a junior. When you work with us, you talk directly to the people doing the work - no account
               managers, no handoffs, no surprise invoices.
             </p>
 
@@ -43,7 +43,7 @@ export default function Proof() {
                   0<sup>+</sup>
                 </div>
                 <div className="k">
-                  lock-in contracts —
+                  lock-in contracts -
                   <br />
                   pause or cancel anytime
                 </div>
@@ -52,7 +52,7 @@ export default function Proof() {
 
             <div className="media-frame" style={{ marginTop: 32, aspectRatio: '16/9' }}>
               <span className="img-slot" style={{ width: '100%', height: '100%', position: 'absolute', inset: 0 }}>
-                <img src="/assets/office-dark-hero.png" alt="Martek Group at work" />
+                <img src={imageSrc} alt="Martek Group at work" />
               </span>
               <span className="media-tag">built in Toronto ✷</span>
             </div>

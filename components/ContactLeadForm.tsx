@@ -2,6 +2,8 @@
 
 import { useState, useEffect, FormEvent } from 'react'
 import { useSearchParams } from 'next/navigation'
+import { getTrafficData } from '@/analytics/traffic-identification'
+import { COUNTRIES, PROVINCES } from '@/lib/locations'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -38,8 +40,17 @@ export default function ContactLeadForm() {
   const [timeline, setTimeline] = useState('')
   const [message, setMessage] = useState('')
   const [referral, setReferral] = useState('')
-  const [invalid, setInvalid] = useState<{ name?: boolean; email?: boolean; services?: boolean; message?: boolean }>({})
+  const [invalid, setInvalid] = useState<{ name?: boolean; email?: boolean; services?: boolean; message?: boolean; consent?: boolean }>({})
   const [done, setDone] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [submitError, setSubmitError] = useState('')
+  const [website, setWebsite] = useState('') // honeypot - humans never see or fill this
+  const [consent, setConsent] = useState(false)
+  const [referralDetail, setReferralDetail] = useState('')
+  const [companyUrl, setCompanyUrl] = useState('')
+  const [companyCountry, setCompanyCountry] = useState('')
+  const [companyProvince, setCompanyProvince] = useState('')
+  const [companyRemote, setCompanyRemote] = useState('')
 
   // prefill service from ?service= query string (ported from site.js)
   useEffect(() => {
@@ -54,25 +65,53 @@ export default function ContactLeadForm() {
     setInvalid((prev) => ({ ...prev, services: false }))
   }
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const bad = {
       name: name.trim() === '',
       email: !EMAIL_RE.test(email.trim()),
       services: services.length === 0,
       message: message.trim() === '',
+      consent: !consent,
     }
     setInvalid(bad)
     const form = e.target as HTMLFormElement
-    if (bad.name || bad.email || bad.services || bad.message) {
+    if (bad.name || bad.email || bad.services || bad.message || bad.consent) {
       const firstBad = form.querySelector('.field.invalid') || form
       const top = firstBad.getBoundingClientRect().top + window.pageYOffset - 140
       window.scrollTo({ top, behavior: 'smooth' })
       return
     }
-    setDone(true)
-    const top = form.getBoundingClientRect().top + window.pageYOffset - 120
-    window.scrollTo({ top, behavior: 'smooth' })
+
+    setSending(true)
+    setSubmitError('')
+    try {
+      const res = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name, email, company, message,
+          services, budget, timeline, referral, referralDetail, website,
+          companyUrl, companyCountry, companyProvince, companyRemote,
+          consent,
+          formType: 'contact',
+          sourcePage: window.location.pathname + window.location.search,
+          traffic: getTrafficData(),
+        }),
+      })
+      if (!res.ok) {
+        const d = await res.json().catch(() => ({}))
+        setSubmitError(d.error || 'Something went wrong - please try again or email us directly.')
+        return
+      }
+      setDone(true)
+      const top = form.getBoundingClientRect().top + window.pageYOffset - 120
+      window.scrollTo({ top, behavior: 'smooth' })
+    } catch {
+      setSubmitError('Network hiccup - please try again or email us directly.')
+    } finally {
+      setSending(false)
+    }
   }
 
   const firstName = name.trim().split(' ')[0] || 'friend'
@@ -139,6 +178,64 @@ export default function ContactLeadForm() {
             value={company}
             onChange={(e) => setCompany(e.target.value)}
           />
+        </div>
+
+        <div className="field">
+          <label htmlFor="c-company-url">
+            Company website <span style={{ color: 'var(--ink-soft)', textTransform: 'none', letterSpacing: 0 }}>(optional)</span>
+          </label>
+          <input
+            type="url"
+            id="c-company-url"
+            name="companyUrl"
+            placeholder="https://yourcompany.com"
+            autoComplete="url"
+            value={companyUrl}
+            onChange={(e) => setCompanyUrl(e.target.value)}
+          />
+        </div>
+
+        <div className="form-row">
+          <div className="field">
+            <label htmlFor="c-country">
+              Company location <span style={{ color: 'var(--ink-soft)', textTransform: 'none', letterSpacing: 0 }}>(optional)</span>
+            </label>
+            <select id="c-country" name="companyCountry" value={companyCountry}
+              onChange={(e) => { setCompanyCountry(e.target.value); setCompanyProvince('') }}>
+              <option value="">Select country…</option>
+              {COUNTRIES.map((c) => <option key={c} value={c}>{c}</option>)}
+            </select>
+          </div>
+          {companyCountry && (
+            <div className="field">
+              <label htmlFor="c-province">
+                {PROVINCES[companyCountry] ? 'Province / State' : 'Province / Region'}
+              </label>
+              {PROVINCES[companyCountry] ? (
+                <select id="c-province" name="companyProvince" value={companyProvince}
+                  onChange={(e) => setCompanyProvince(e.target.value)}>
+                  <option value="">Select…</option>
+                  {PROVINCES[companyCountry].map((p) => <option key={p} value={p}>{p}</option>)}
+                </select>
+              ) : (
+                <input type="text" id="c-province" name="companyProvince" placeholder="Province or region"
+                  value={companyProvince} onChange={(e) => setCompanyProvince(e.target.value)} />
+              )}
+            </div>
+          )}
+        </div>
+
+        <div className="field">
+          <label htmlFor="c-remote">
+            Is your company remote? <span style={{ color: 'var(--ink-soft)', textTransform: 'none', letterSpacing: 0 }}>(optional)</span>
+          </label>
+          <select id="c-remote" name="companyRemote" value={companyRemote}
+            onChange={(e) => setCompanyRemote(e.target.value)}>
+            <option value="">Select…</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+            <option value="Hybrid">Hybrid</option>
+          </select>
         </div>
 
         <div className={`field${invalid.services ? ' invalid' : ''}`}>
@@ -236,18 +333,59 @@ export default function ContactLeadForm() {
             <option value="event">An event or meetup</option>
             <option value="other">Other</option>
           </select>
+          {referral === 'referral' && (
+            <div style={{ marginTop: 10 }}>
+              <label htmlFor="c-referral-detail">Who referred you?</label>
+              <input
+                type="text"
+                id="c-referral-detail"
+                name="referralDetail"
+                placeholder="Their name or company, so we can thank them"
+                value={referralDetail}
+                onChange={(e) => setReferralDetail(e.target.value)}
+              />
+            </div>
+          )}
         </div>
 
-        <button type="submit" className="form-submit">
-          Request my discovery call
+        {/* honeypot - hidden from humans, catches bots */}
+        <div style={{ position: 'absolute', left: '-9999px' }} aria-hidden="true">
+          <label htmlFor="c-website">Website</label>
+          <input type="text" id="c-website" name="website" tabIndex={-1} autoComplete="off"
+            value={website} onChange={(e) => setWebsite(e.target.value)} />
+        </div>
+
+        <div className={`field${invalid.consent ? ' invalid' : ''}`} style={{ marginTop: 4 }}>
+          <label htmlFor="c-consent" style={{ display: 'flex', alignItems: 'flex-start', gap: 10, textTransform: 'none', letterSpacing: 0, cursor: 'pointer', fontSize: 13.5, lineHeight: 1.5 }}>
+            <input
+              type="checkbox"
+              id="c-consent"
+              checked={consent}
+              onChange={(e) => {
+                setConsent(e.target.checked)
+                setInvalid((p) => ({ ...p, consent: false }))
+              }}
+              style={{ marginTop: 3, width: 16, height: 16, flexShrink: 0, accentColor: 'var(--brand)' }}
+            />
+            <span>
+              I consent to sharing my personal details and agree to the{' '}
+              <a href="/terms" target="_blank" style={{ textDecoration: 'underline' }}>Terms of Service</a> and{' '}
+              <a href="/privacy" target="_blank" style={{ textDecoration: 'underline' }}>Privacy Policy</a>. <span className="req">*</span>
+            </span>
+          </label>
+          <span className="err">Please tick the consent box so we can process your enquiry.</span>
+        </div>
+
+        {submitError && (
+          <p style={{ color: '#c0392b', fontSize: 14, marginBottom: 12 }}>{submitError}</p>
+        )}
+
+        <button type="submit" className="form-submit" disabled={sending}>
+          {sending ? 'Sending…' : 'Request my discovery call'}
           <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.8">
             <path d="M3 11 L11 3 M5 3 H11 V9" />
           </svg>
         </button>
-        <p className="form-foot">
-          <span className="lock">🔒</span> Your details stay private, never sold, never spammed. We reply personally,
-          usually within 2 hours.
-        </p>
       </div>
 
       <div className={`form-success${done ? ' show' : ''}`}>
@@ -257,17 +395,12 @@ export default function ContactLeadForm() {
           </svg>
         </div>
         <h3>
-          Thanks, <span className="it">{firstName}</span>, got it ✦
+          Thanks, <span className="it">{firstName}</span>, got it.
         </h3>
         <p>
           Your project brief just landed in our inbox. A real human will reply within a few hours (work hours) with a
           couple of times for the call.
         </p>
-        <div className="next">
-          <span>⏱ Typical reply: under 2 hours</span>
-          <span>📨 Check your inbox, and your spam, just in case</span>
-          <span>📍 Toronto, Canada</span>
-        </div>
       </div>
     </form>
   )

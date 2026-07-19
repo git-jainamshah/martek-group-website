@@ -4,7 +4,17 @@ import { motion } from 'framer-motion'
 import { Check, Sparkles } from 'lucide-react'
 import Link from 'next/link'
 
-const packages = [
+export type PricingPkg = {
+  name: string
+  price: string
+  period: string
+  description: string
+  features: string[]
+  popular: boolean
+  color: string
+}
+
+const DEFAULT_PACKAGES: PricingPkg[] = [
   {
     name: 'Starter',
     price: '$499',
@@ -52,7 +62,7 @@ const packages = [
   },
 ]
 
-export default function PricingPackages() {
+export default function PricingPackages({ packages = DEFAULT_PACKAGES }: { packages?: PricingPkg[] }) {
   return (
     <section id="pricing" className="section-padding bg-background border-t border-border">
       <div className="container-custom">

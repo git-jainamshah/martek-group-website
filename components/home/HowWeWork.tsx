@@ -26,7 +26,7 @@ export default function HowWeWork() {
             <h4>Quick chat</h4>
             <p>30 minutes, no pitch deck. Tell us the goal and we&apos;ll tell you if we can help, or who can.</p>
             <div className="timing">
-              ⏱ <b>Same week</b> · free
+              <b>Same week</b> · free
             </div>
           </div>
 
@@ -45,7 +45,7 @@ export default function HowWeWork() {
               team.
             </p>
             <div className="timing">
-              ⏱ <b>3 working days</b> · free
+              <b>3 working days</b> · free
             </div>
           </div>
 
@@ -64,7 +64,7 @@ export default function HowWeWork() {
               end.
             </p>
             <div className="timing">
-              ⏱ <b>4–6 weeks</b> · most projects
+              <b>4–6 weeks</b> · most projects
             </div>
           </div>
 
@@ -82,7 +82,7 @@ export default function HowWeWork() {
             <h4>Ship &amp; grow</h4>
             <p>Launch is the start, not the end. We stay on as a fractional team to iterate, measure, and grow.</p>
             <div className="timing">
-              ⏱ <b>Ongoing</b> · monthly retainer
+              <b>Ongoing</b> · monthly retainer
             </div>
           </div>
         </div>

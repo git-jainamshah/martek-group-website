@@ -6,17 +6,19 @@ import Proof from '@/components/home/Proof'
 import PricingSection from '@/components/home/PricingSection'
 import MiniCta from '@/components/home/MiniCta'
 import FinalCta from '@/components/home/FinalCta'
+import { getSlots } from '@/lib/media-slots-server'
 
-export default function Home() {
+export default async function Home() {
+  const slots = await getSlots()
   return (
     <>
-      <Hero />
+      <Hero videoSrc={slots['home-hero-video']} />
       <TrustRow />
       <WhatWeDo />
       <HowWeWork />
-      <Proof />
+      <Proof imageSrc={slots['home-proof-image']} />
       <PricingSection />
-      <MiniCta />
+      <MiniCta imageSrc={slots['home-minicta-image']} />
       <FinalCta />
     </>
   )

@@ -4,7 +4,7 @@ import Link from 'next/link'
 export const metadata: Metadata = {
   title: 'About · Martek Group',
   description:
-    'Martek Group is a founder-led digital studio in Toronto. We started in engineering drawings, grew into web, data, social, and SEO — and kept the honest, hands-on way of working.',
+    'Martek Group is a founder-led digital studio in Toronto. We started in engineering drawings, grew into web, data, social, and SEO - and kept the honest, hands-on way of working.',
   alternates: { canonical: '/about' },
   openGraph: { url: '/about' },
 }
@@ -99,14 +99,14 @@ export default function AboutPage() {
                     First love
                   </div>
                   <div style={{ fontFamily: 'var(--display)', fontStyle: 'italic', fontSize: 22, lineHeight: 1.05 }}>
-                    CAD drawings ✏️
+                    CAD drawings
                   </div>
                 </div>
                 <div className="badge float-c" style={{ top: '9%', right: '10%', ['--rot' as string]: '5deg' }}>
                   <span className="d" style={{ background: 'var(--brand)' }}></span>founder-led
                 </div>
                 <div className="badge float-b" style={{ bottom: '7%', left: '9%', ['--rot' as string]: '-4deg' }}>
-                  📍 Toronto, CA
+                  Toronto, CA
                 </div>
               </div>
             </div>
@@ -122,8 +122,8 @@ export default function AboutPage() {
               Where we <span className="it">come from</span>
             </h2>
             <p className="intro">
-              Before we wrote a line of code, we drew. Martek started on the engineering side — CAD drawings,
-              drafting, technical docs — where &quot;almost right&quot; doesn&apos;t exist. That precision habit
+              Before we wrote a line of code, we drew. Martek started on the engineering side - CAD drawings,
+              drafting, technical docs - where &quot;almost right&quot; doesn&apos;t exist. That precision habit
               followed us when we grew into websites, data, social, and search. We build digital things the way a
               draftsperson builds a drawing set: scoped up front, checked at every gate, and delivered so you can
               actually use it without us.
@@ -133,7 +133,7 @@ export default function AboutPage() {
             <div className="fstep">
               <span className="fn">1</span>
               <h4>Drafting roots</h4>
-              <p>The studio begins with CAD, blueprints, and technical documentation — precision first.</p>
+              <p>The studio begins with CAD, blueprints, and technical documentation - precision first.</p>
               <span className="ft">THE START</span>
             </div>
             <div className="fstep">
@@ -145,13 +145,13 @@ export default function AboutPage() {
             <div className="fstep">
               <span className="fn">3</span>
               <h4>Full stack studio</h4>
-              <p>Web, data, social, and SEO joined the bench — one team, end to end, no handoffs.</p>
+              <p>Web, data, social, and SEO joined the bench - one team, end to end, no handoffs.</p>
               <span className="ft">TODAY</span>
             </div>
             <div className="fstep">
               <span className="fn">4</span>
               <h4>What&apos;s next</h4>
-              <p>Growing carefully — freelance specialists when a project needs them, founders always in the room.</p>
+              <p>Growing carefully - freelance specialists when a project needs them, founders always in the room.</p>
               <span className="ft">TOMORROW</span>
             </div>
           </div>
@@ -166,7 +166,7 @@ export default function AboutPage() {
               What we <span className="hl">believe</span>
             </h2>
             <p className="intro">
-              No mission-statement poetry — just the rules we actually run projects by. If we ever break one, call us
+              No mission-statement poetry - just the rules we actually run projects by. If we ever break one, call us
               on it.
             </p>
           </div>
@@ -179,7 +179,7 @@ export default function AboutPage() {
                 </Icon>
               </div>
               <h4>Honesty first</h4>
-              <p>If we&apos;re the wrong fit, we say so on the first call — and point you somewhere better.</p>
+              <p>If we&apos;re the wrong fit, we say so on the first call - and point you somewhere better.</p>
               <div className="tagrow">
                 <span>No overselling</span>
                 <span>Straight answers</span>
@@ -222,7 +222,7 @@ export default function AboutPage() {
                 </Icon>
               </div>
               <h4>You own everything</h4>
-              <p>Code, files, accounts, and keys — handed over on launch day. No lock-in, ever.</p>
+              <p>Code, files, accounts, and keys - handed over on launch day. No lock-in, ever.</p>
               <div className="tagrow">
                 <span>Your repo</span>
                 <span>Your accounts</span>
@@ -236,7 +236,7 @@ export default function AboutPage() {
                 </Icon>
               </div>
               <h4>Small on purpose</h4>
-              <p>We keep the studio lean so every project gets senior attention — not the intern treatment.</p>
+              <p>We keep the studio lean so every project gets senior attention - not the intern treatment.</p>
               <div className="tagrow">
                 <span>Few projects</span>
                 <span>Full attention</span>
@@ -250,7 +250,7 @@ export default function AboutPage() {
                 </Icon>
               </div>
               <h4>Ship, then improve</h4>
-              <p>Weekly demos, honest readouts, and iteration after launch — done beats perfect, then gets perfect.</p>
+              <p>Weekly demos, honest readouts, and iteration after launch - done beats perfect, then gets perfect.</p>
               <div className="tagrow">
                 <span>Friday demos</span>
                 <span>Post-launch fixes</span>
@@ -278,7 +278,7 @@ export default function AboutPage() {
             <div className="right" data-reveal>
               <p>
                 Thirty minutes, no pitch deck, no obligation. Tell us what you&apos;re building and we&apos;ll tell
-                you honestly how we&apos;d help — or who else could.
+                you honestly how we&apos;d help - or who else could.
               </p>
               <div className="cta-row">
                 <Link href="/contact" className="btn btn-primary">

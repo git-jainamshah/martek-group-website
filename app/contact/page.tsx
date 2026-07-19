@@ -2,7 +2,8 @@ import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import Link from 'next/link'
 import ContactLeadForm from '@/components/ContactLeadForm'
-import { SOCIALS } from '@/lib/social'
+import { getCompany, getEnabledSocials } from '@/lib/site-config'
+import { getSlot } from '@/lib/media-slots-server'
 
 export const metadata: Metadata = {
   title: 'Contact · Martek Group',
@@ -12,7 +13,10 @@ export const metadata: Metadata = {
   openGraph: { url: '/contact' },
 }
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const [company, enabledSocials, contactImage] = await Promise.all([getCompany(), getEnabledSocials(), getSlot('contact-form-image')])
+  const ig = enabledSocials.find((s) => s.platform === 'Instagram') ?? null
+  const li = enabledSocials.find((s) => s.platform === 'LinkedIn') ?? null
   return (
     <>
       <section className="contact-hero">
@@ -78,7 +82,7 @@ export default function ContactPage() {
               >
                 <span className="img-slot" style={{ width: '100%', height: '100%', position: 'absolute', inset: 0 }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/assets/contact-us-form.jpg" alt="The Martek team on a call" />
+                  <img src={contactImage} alt="The Martek team on a call" />
                 </span>
               </div>
             </div>
@@ -86,7 +90,7 @@ export default function ContactPage() {
             <div className="aside-card">
               <h4>Or reach us directly</h4>
               <div className="contact-lines">
-                <a href="mailto:hello@martek.studio">
+                <a href={`mailto:${company.email}`}>
                   <span className="ic">
                     <svg viewBox="0 0 20 20" fill="none" stroke="var(--ink)" strokeWidth="1.6">
                       <rect x="2" y="4" width="16" height="12" rx="2" />
@@ -94,10 +98,10 @@ export default function ContactPage() {
                     </svg>
                   </span>
                   <span>
-                    <b>Email</b>hello@martek.studio
+                    <b>Email</b>{company.email}
                   </span>
                 </a>
-                <a href={SOCIALS[0].href} target="_blank" rel="noopener noreferrer">
+                {ig && (<a href={ig!.href} target="_blank" rel="noopener noreferrer">
                   <span className="ic">
                     <svg viewBox="0 0 20 20" fill="none" stroke="var(--ink)" strokeWidth="1.6">
                       <rect x="3" y="3" width="14" height="14" rx="3" />
@@ -107,10 +111,10 @@ export default function ContactPage() {
                   </span>
                   <span>
                     <b>Instagram</b>
-                    {SOCIALS[0].label}
+                    {ig!.label}
                   </span>
-                </a>
-                <a href={SOCIALS[1].href} target="_blank" rel="noopener noreferrer">
+                </a>)}
+                {li && (<a href={li!.href} target="_blank" rel="noopener noreferrer">
                   <span className="ic">
                     <svg viewBox="0 0 20 20" fill="none" stroke="var(--ink)" strokeWidth="1.6">
                       <rect x="3" y="3" width="14" height="14" rx="2" />
@@ -122,9 +126,9 @@ export default function ContactPage() {
                   </span>
                   <span>
                     <b>LinkedIn</b>
-                    {SOCIALS[1].label}
+                    {li!.label}
                   </span>
-                </a>
+                </a>)}
               </div>
               <p
                 style={{
@@ -135,7 +139,7 @@ export default function ContactPage() {
                   lineHeight: 1.5,
                 }}
               >
-                📍 Toronto, Canada
+                Toronto, Canada
                 <br />
                 Async-first, with live call windows.
               </p>

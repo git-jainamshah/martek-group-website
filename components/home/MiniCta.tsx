@@ -11,7 +11,7 @@ const Tick = () => (
   </span>
 )
 
-export default function MiniCta() {
+export default function MiniCta({ imageSrc = '/assets/contact-us-form.jpg' }: { imageSrc?: string } = {}) {
   return (
     <section className="mini-cta" id="start">
       <div className="wrap">
@@ -44,7 +44,7 @@ export default function MiniCta() {
             </ul>
             <div className="media-frame" style={{ marginTop: 28, aspectRatio: '5/3', maxWidth: 380 }}>
               <span className="img-slot" style={{ width: '100%', height: '100%', position: 'absolute', inset: 0 }}>
-                <img src="/assets/contact-us-form.jpg" alt="The Martek studio" />
+                <img src={imageSrc} alt="The Martek studio" />
               </span>
             </div>
           </div>

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import ServicePage, { ServiceData } from '@/components/services/ServicePage'
+import { mergePackages } from '@/lib/pricing'
 
 export const metadata: Metadata = {
   title: 'SEO & Ads · Martek Group',
@@ -265,6 +266,6 @@ const data: ServiceData = {
   signoff: 'SEO & ads for startups.',
 }
 
-export default function SeoAdsPage() {
-  return <ServicePage data={data} />
+export default async function SeoAdsPage() {
+  return <ServicePage data={{ ...data, cards: await mergePackages('seo-ads', data.cards) }} />
 }
