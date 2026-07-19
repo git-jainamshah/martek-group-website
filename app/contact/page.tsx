@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import Link from 'next/link'
 import ContactLeadForm from '@/components/ContactLeadForm'
-import { SOCIALS } from '@/lib/social'
 import { getCompany, getEnabledSocials } from '@/lib/site-config'
 
 export const metadata: Metadata = {
@@ -15,8 +14,8 @@ export const metadata: Metadata = {
 
 export default async function ContactPage() {
   const [company, enabledSocials] = await Promise.all([getCompany(), getEnabledSocials()])
-  const ig = enabledSocials.find((s) => s.platform === 'Instagram') ?? { href: SOCIALS[0].href, label: SOCIALS[0].label }
-  const li = enabledSocials.find((s) => s.platform === 'LinkedIn') ?? { href: SOCIALS[1].href, label: SOCIALS[1].label }
+  const ig = enabledSocials.find((s) => s.platform === 'Instagram') ?? null
+  const li = enabledSocials.find((s) => s.platform === 'LinkedIn') ?? null
   return (
     <>
       <section className="contact-hero">
@@ -101,7 +100,7 @@ export default async function ContactPage() {
                     <b>Email</b>{company.email}
                   </span>
                 </a>
-                <a href={ig.href} target="_blank" rel="noopener noreferrer">
+                {ig && (<a href={ig!.href} target="_blank" rel="noopener noreferrer">
                   <span className="ic">
                     <svg viewBox="0 0 20 20" fill="none" stroke="var(--ink)" strokeWidth="1.6">
                       <rect x="3" y="3" width="14" height="14" rx="3" />
@@ -111,10 +110,10 @@ export default async function ContactPage() {
                   </span>
                   <span>
                     <b>Instagram</b>
-                    {ig.label}
+                    {ig!.label}
                   </span>
-                </a>
-                <a href={li.href} target="_blank" rel="noopener noreferrer">
+                </a>)}
+                {li && (<a href={li!.href} target="_blank" rel="noopener noreferrer">
                   <span className="ic">
                     <svg viewBox="0 0 20 20" fill="none" stroke="var(--ink)" strokeWidth="1.6">
                       <rect x="3" y="3" width="14" height="14" rx="2" />
@@ -126,9 +125,9 @@ export default async function ContactPage() {
                   </span>
                   <span>
                     <b>LinkedIn</b>
-                    {li.label}
+                    {li!.label}
                   </span>
-                </a>
+                </a>)}
               </div>
               <p
                 style={{
