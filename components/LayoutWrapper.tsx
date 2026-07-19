@@ -4,10 +4,11 @@ import { usePathname } from 'next/navigation';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import RevealInit from './RevealInit';
+import PromoBanner from './PromoBanner';
 
 export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isAdminRoute = pathname?.startsWith('/site-vc');
+  const isAdminRoute = pathname?.startsWith('/site-vc') || pathname?.startsWith('/admin');
 
   if (isAdminRoute) {
     return <>{children}</>;
@@ -21,6 +22,7 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
       </main>
       <Footer />
       <RevealInit />
+      <PromoBanner />
     </>
   );
 }
