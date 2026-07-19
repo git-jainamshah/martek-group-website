@@ -194,8 +194,37 @@ async function migrateAndSeed() {
     },
     robots_txt: { extraDisallow: [] as string[], extraRules: '' },
     seo: { siteUrl: 'https://www.martekgroup.com', googleVerification: '', bingVerification: '' },
+    company: {
+      name: 'Martek Group',
+      tagline: 'Digital studio',
+      addressLine1: 'Toronto, ON',
+      addressLine2: 'Canada',
+      email: 'hello@martek.studio',
+      phone: '',
+      logoFull: '/assets/martek-group-header.png',
+      logoIcon: '/assets/martek-mark.png',
+    },
+    socials: [
+      { platform: 'Instagram', label: '@martek.studio', href: 'https://www.instagram.com/martek.studio', enabled: true },
+      { platform: 'LinkedIn', label: '/company/martek-studio', href: 'https://www.linkedin.com/company/martek-studio', enabled: true },
+      { platform: 'X', label: '@martekgroup', href: 'https://x.com/martekgroup', enabled: true },
+      { platform: 'Facebook', label: '/martekgroup', href: 'https://www.facebook.com/martekgroup', enabled: true },
+    ],
   }
   for (const [k, v] of Object.entries(defaults)) {
+    await run(
+      `INSERT INTO settings (key, value) VALUES ($1, $2) ON CONFLICT (key) DO NOTHING`,
+      [k, JSON.stringify(v)]
+    )
+  }
+
+  // Legal pages: seed from the original hardcoded copy
+  const { TERMS_DEFAULT_HTML, PRIVACY_DEFAULT_HTML } = require('./legal-defaults') as typeof import('./legal-defaults')
+  const legalSeeds: Record<string, unknown> = {
+    legal_terms: { html: TERMS_DEFAULT_HTML, updatedAt: new Date().toISOString() },
+    legal_privacy: { html: PRIVACY_DEFAULT_HTML, updatedAt: new Date().toISOString() },
+  }
+  for (const [k, v] of Object.entries(legalSeeds)) {
     await run(
       `INSERT INTO settings (key, value) VALUES ($1, $2) ON CONFLICT (key) DO NOTHING`,
       [k, JSON.stringify(v)]

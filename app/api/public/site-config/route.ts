@@ -10,15 +10,18 @@ export const dynamic = 'force-dynamic'
 export async function GET() {
   try {
     const { getSetting } = require('@/lib/admin/db') as typeof import('@/lib/admin/db')
-    const [announcement, promoBanner] = await Promise.all([
+    const [announcement, promoBanner, company, socialsRaw] = await Promise.all([
       getSetting('announcement'),
       getSetting('promo_banner'),
+      getSetting('company'),
+      getSetting<{ platform: string; label: string; href: string; enabled: boolean }[]>('socials'),
     ])
+    const socials = (socialsRaw ?? []).filter((s) => s.enabled && s.href)
     return NextResponse.json(
-      { announcement, promoBanner },
+      { announcement, promoBanner, company, socials },
       { headers: { 'Cache-Control': 'public, max-age=60, stale-while-revalidate=300' } }
     )
   } catch {
-    return NextResponse.json({ announcement: null, promoBanner: null })
+    return NextResponse.json({ announcement: null, promoBanner: null, company: null, socials: null })
   }
 }

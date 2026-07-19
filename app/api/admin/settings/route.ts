@@ -5,7 +5,7 @@ import { requireUser } from '@/lib/admin/auth'
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
-const ALLOWED_KEYS = ['announcement', 'promo_banner', 'robots_txt', 'seo']
+const ALLOWED_KEYS = ['announcement', 'promo_banner', 'robots_txt', 'seo', 'company', 'socials', 'legal_terms', 'legal_privacy']
 
 export async function GET(req: NextRequest) {
   const auth = await requireUser()
@@ -20,7 +20,15 @@ export async function PUT(req: NextRequest) {
   if ('error' in auth) return auth.error
   const { key, value } = await req.json().catch(() => ({}))
   if (!ALLOWED_KEYS.includes(key)) return NextResponse.json({ error: 'Unknown setting.' }, { status: 400 })
-  await setSetting(key, value)
+
+  let toStore = value
+  if (key === 'legal_terms' || key === 'legal_privacy') {
+    const { sanitizeHtml } = require('@/lib/admin/legal-defaults') as typeof import('@/lib/admin/legal-defaults')
+    // Any edit auto-refreshes the "Last updated" date
+    toStore = { html: sanitizeHtml(value?.html ?? ''), updatedAt: new Date().toISOString() }
+  }
+
+  await setSetting(key, toStore)
   await audit(auth.user.email, 'setting_update', key)
   return NextResponse.json({ ok: true })
 }

@@ -115,17 +115,17 @@ export const viewport = {
   initialScale: 1,
 }
 
-const orgLd = {
+const buildOrgLd = (c: { name: string; email: string; logoIcon: string; logoFull: string }, sameAs: string[]) => ({
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
   '@id': `${SITE_URL}/#organization`,
-  name: 'Martek Group',
+  name: c.name,
   description:
     'Founder-led digital studio building websites, analytics, social, SEO & ads, and engineering/CAD deliverables for startups.',
   url: SITE_URL,
-  logo: `${SITE_URL}/assets/martek-mark.png`,
-  image: `${SITE_URL}/assets/martek-group-header.png`,
-  email: 'hello@martek.studio',
+  logo: `${SITE_URL}${c.logoIcon || '/assets/martek-mark.png'}`,
+  image: `${SITE_URL}${c.logoFull || '/assets/martek-group-header.png'}`,
+  email: c.email || 'hello@martek.studio',
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'Toronto',
@@ -134,7 +134,7 @@ const orgLd = {
   },
   areaServed: 'Worldwide',
   priceRange: '$$',
-  sameAs: SOCIALS.map((s) => s.href),
+  sameAs: sameAs.length ? sameAs : SOCIALS.map((s) => s.href),
   founder: { '@type': 'Person', name: 'Martek Group founders' },
   makesOffer: [
     { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Web development', url: `${SITE_URL}/services/web-development` } },
@@ -143,13 +143,18 @@ const orgLd = {
     { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'SEO & paid ads', url: `${SITE_URL}/services/seo-ads` } },
     { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Engineering & CAD drafting', url: `${SITE_URL}/services/engineering` } },
   ],
-}
+})
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  // Admin-managed company profile + socials feed the structured data
+  const { getCompany, getEnabledSocials } = require('@/lib/site-config') as typeof import('@/lib/site-config')
+  const [company, socials] = await Promise.all([getCompany(), getEnabledSocials()])
+  const orgLd = buildOrgLd(company, socials.map((s) => s.href))
+
   return (
     <html
       lang="en"
