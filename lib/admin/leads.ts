@@ -125,8 +125,8 @@ export function parseFilters(p: URLSearchParams): LeadFilters {
 }
 
 export const LEAD_EXPORT_HEADERS = [
-  'ID', 'Created', 'Name', 'Email', 'Company', 'Phone', 'Form', 'Source page',
-  'Services', 'Budget', 'Timeline', 'Referral', 'Status', 'Message', 'Notes',
+  'Lead ID', 'Created', 'Name', 'Email', 'Company', 'Phone', 'Form', 'Source page',
+  'Services', 'Budget', 'Timeline', 'Referral', 'Status', 'Message', 'Notes', 'Consent', 'Consent at',
 ]
 
 export const MARKETING_EXPORT_HEADERS = [
@@ -142,11 +142,12 @@ export function leadToRow(l: any): string[] {
   let extra: any = {}
   try { extra = JSON.parse(l.extra || '{}') } catch {}
   return [
-    String(l.id), l.created_at ?? '', l.name ?? '', l.email ?? '', l.company ?? '', l.phone ?? '',
+    l.public_id || String(l.id), l.created_at ?? '', l.name ?? '', l.email ?? '', l.company ?? '', l.phone ?? '',
     l.form_type ?? '', l.source_page ?? '',
     Array.isArray(extra.services) ? extra.services.join('; ') : '',
-    extra.budget ?? '', extra.timeline ?? '', extra.referral ?? '',
+    extra.budget ?? '', [extra.timeline].filter(Boolean).join(''), [extra.referral, extra.referralDetail].filter(Boolean).join(' - '),
     l.status ?? '', l.message ?? '', l.notes ?? '',
+    l.consent ? 'Yes' : 'No', l.consent_at ? String(l.consent_at).slice(0, 19) : '',
   ]
 }
 

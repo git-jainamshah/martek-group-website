@@ -88,6 +88,9 @@ async function migrateAndSeed() {
   await run(`
   CREATE TABLE IF NOT EXISTS leads (
     id SERIAL PRIMARY KEY,
+    public_id TEXT,
+    consent INTEGER NOT NULL DEFAULT 1,
+    consent_at TIMESTAMPTZ,
     name TEXT,
     email TEXT,
     phone TEXT,
@@ -145,6 +148,53 @@ async function migrateAndSeed() {
     detail TEXT,
     created_at TIMESTAMPTZ NOT NULL DEFAULT now()
   )`)
+
+  // ---- Migrations for existing databases (idempotent) ----
+  const alters = [
+    `ALTER TABLE leads ADD COLUMN IF NOT EXISTS public_id TEXT`,
+    `ALTER TABLE leads ADD COLUMN IF NOT EXISTS consent INTEGER NOT NULL DEFAULT 1`,
+    `ALTER TABLE leads ADD COLUMN IF NOT EXISTS consent_at TIMESTAMPTZ`,
+  ]
+  for (const sql of alters) { try { await run(sql) } catch { /* column exists */ } }
+  try { await run(`CREATE UNIQUE INDEX IF NOT EXISTS leads_public_id_idx ON leads (public_id)`) } catch { /* exists */ }
+
+  // Backfill: consent paper trail for pre-existing leads (submitted before the checkbox existed)
+  try { await run(`UPDATE leads SET consent_at = created_at WHERE consent_at IS NULL`) } catch { /* ok */ }
+
+  // Backfill: alphanumeric public lead IDs
+  try {
+    const missingIds = await q<{ id: number }>(`SELECT id FROM leads WHERE public_id IS NULL`)
+    for (const r of missingIds) {
+      for (let attempt = 0; attempt < 5; attempt++) {
+        try {
+          await run(`UPDATE leads SET public_id = $1 WHERE id = $2`, [generateLeadPublicId(), r.id])
+          break
+        } catch { /* collision - retry */ }
+      }
+    }
+  } catch { /* ok */ }
+
+  // Backfill: every lead gets at least Direct attribution
+  try {
+    await run(`UPDATE leads_marketing SET
+      first_source = COALESCE(first_source, '(direct)'),
+      first_medium = COALESCE(first_medium, '(none)'),
+      first_channel_group = COALESCE(first_channel_group, 'Direct'),
+      session_source = COALESCE(session_source, first_source, '(direct)'),
+      session_medium = COALESCE(session_medium, first_medium, '(none)'),
+      session_channel_group = COALESCE(session_channel_group, first_channel_group, 'Direct')`)
+    const noMarketing = await q<{ id: number }>(
+      `SELECT l.id FROM leads l LEFT JOIN leads_marketing m ON m.lead_id = l.id WHERE m.id IS NULL`
+    )
+    for (const r of noMarketing) {
+      await run(
+        `INSERT INTO leads_marketing (lead_id, first_source, first_medium, first_channel_group,
+          session_source, session_medium, session_channel_group)
+         VALUES ($1, '(direct)', '(none)', 'Direct', '(direct)', '(none)', 'Direct')`,
+        [r.id]
+      )
+    }
+  } catch { /* ok */ }
 
   // ---- Seed first admin ----
   const userCount = await q1<{ c: string }>('SELECT COUNT(*)::int AS c FROM users')
@@ -287,6 +337,12 @@ export async function audit(userEmail: string | null, action: string, detail?: s
   try {
     await run('INSERT INTO audit_log (user_email, action, detail) VALUES ($1, $2, $3)', [userEmail, action, detail ?? null])
   } catch { /* audit must never break the main action */ }
+}
+
+/** 6-character alphanumeric lead ID (unambiguous charset, e.g. "K7M3QD"). */
+export function generateLeadPublicId(): string {
+  const chars = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'
+  return Array.from({ length: 6 }, () => chars[crypto.randomInt(chars.length)]).join('')
 }
 
 export function generateTempPassword(): string {

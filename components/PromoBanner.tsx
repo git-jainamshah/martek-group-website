@@ -26,6 +26,8 @@ export default function PromoBanner() {
   const [open, setOpen] = useState(false)
   const [form, setForm] = useState({ name: '', email: '' })
   const [sent, setSent] = useState(false)
+  const [consent, setConsent] = useState(false)
+  const [consentErr, setConsentErr] = useState(false)
   const [busy, setBusy] = useState(false)
 
   useEffect(() => {
@@ -49,6 +51,10 @@ export default function PromoBanner() {
 
   async function submitSignup(e: React.FormEvent) {
     e.preventDefault()
+    if (!consent) {
+      setConsentErr(true)
+      return
+    }
     setBusy(true)
     try {
       await fetch('/api/leads', {
@@ -57,6 +63,7 @@ export default function PromoBanner() {
         body: JSON.stringify({
           name: form.name, email: form.email,
           formType: 'promo-banner', sourcePage: window.location.pathname,
+          consent: true,
           message: `Signed up via promo banner: ${cfg!.title}`,
           traffic: getTrafficData(),
         }),
@@ -91,6 +98,19 @@ export default function PromoBanner() {
                 onChange={(e) => setForm({ ...form, name: e.target.value })} style={inputStyle} />
               <input required type="email" placeholder="Email address" value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })} style={inputStyle} />
+              <label style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 12.5, lineHeight: 1.45, color: '#444', cursor: 'pointer' }}>
+                <input type="checkbox" checked={consent}
+                  onChange={(e) => { setConsent(e.target.checked); setConsentErr(false) }}
+                  style={{ marginTop: 2, width: 15, height: 15, flexShrink: 0 }} />
+                <span>
+                  I consent to sharing my personal details and agree to the{' '}
+                  <a href="/terms" target="_blank" style={{ textDecoration: 'underline' }}>Terms</a> and{' '}
+                  <a href="/privacy" target="_blank" style={{ textDecoration: 'underline' }}>Privacy Policy</a>.
+                </span>
+              </label>
+              {consentErr && (
+                <p style={{ color: '#c0392b', fontSize: 12.5, margin: 0 }}>Please tick the consent box to sign up.</p>
+              )}
               <button disabled={busy} style={primaryBtn}>{busy ? 'Sending…' : cfg.primaryLabel || 'Sign up'}</button>
             </form>
           )

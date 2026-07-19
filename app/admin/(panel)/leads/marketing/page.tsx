@@ -56,7 +56,7 @@ export default function LeadsMarketingPage() {
               <tr key={l.id} className="clickable" onClick={() => setSelected(l)}>
                 <td>
                   <div style={{ fontWeight: 600 }}>{l.name || '-'}</div>
-                  <div className="ad-soft" style={{ fontSize: 12 }}>#{l.id} · {l.email}</div>
+                  <div className="ad-soft" style={{ fontSize: 12 }}>{l.public_id || `#${l.id}`} · {l.email}</div>
                 </td>
                 <td>{l.session_channel_group ? <span className="ad-badge blue">{l.session_channel_group}</span> : '-'}</td>
                 <td className="ad-mut" style={{ fontSize: 12.5 }}>{l.session_source ? `${l.session_source} / ${l.session_medium}` : '-'}</td>

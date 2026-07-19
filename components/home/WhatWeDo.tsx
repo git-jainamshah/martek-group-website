@@ -155,7 +155,7 @@ export default function WhatWeDo() {
               </text>
               <rect x="20" y="92" width="50" height="26" rx="13" fill="var(--terra)" />
               <text x="45" y="109" fontFamily="var(--mono)" fontSize="11" textAnchor="middle" fill="var(--paper)" stroke="none">
-                😊 +1
+                +1
               </text>
               <rect x="210" y="60" width="56" height="26" rx="13" fill="var(--paper)" />
               <text x="238" y="78" fontFamily="var(--mono)" fontSize="11" textAnchor="middle" fill="var(--ink)" stroke="none">

@@ -139,7 +139,7 @@ export default async function ContactPage() {
                   lineHeight: 1.5,
                 }}
               >
-                📍 Toronto, Canada
+                Toronto, Canada
                 <br />
                 Async-first, with live call windows.
               </p>

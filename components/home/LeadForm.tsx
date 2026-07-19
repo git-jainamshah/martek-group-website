@@ -2,6 +2,7 @@
 
 import { useState, useEffect, FormEvent } from 'react'
 import { useSearchParams } from 'next/navigation'
+import { getTrafficData } from '@/analytics/traffic-identification'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -19,8 +20,11 @@ export default function LeadForm({ idPrefix = 'hs' }: { idPrefix?: string }) {
   const [email, setEmail] = useState('')
   const [services, setServices] = useState<string[]>([])
   const [message, setMessage] = useState('')
-  const [invalid, setInvalid] = useState<{ name?: boolean; email?: boolean; services?: boolean }>({})
+  const [invalid, setInvalid] = useState<{ name?: boolean; email?: boolean; services?: boolean; consent?: boolean }>({})
   const [done, setDone] = useState(false)
+  const [consent, setConsent] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [submitError, setSubmitError] = useState('')
 
   // prefill service from ?service= query string (ported from site.js)
   useEffect(() => {
@@ -35,24 +39,48 @@ export default function LeadForm({ idPrefix = 'hs' }: { idPrefix?: string }) {
     setInvalid((prev) => ({ ...prev, services: false }))
   }
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const bad = {
       name: name.trim() === '',
       email: !EMAIL_RE.test(email.trim()),
       services: services.length === 0,
+      consent: !consent,
     }
     setInvalid(bad)
-    if (bad.name || bad.email || bad.services) {
-      const firstBad = (e.target as HTMLFormElement).querySelector('.field.invalid') || (e.target as HTMLFormElement)
+    const form = e.target as HTMLFormElement
+    if (bad.name || bad.email || bad.services || bad.consent) {
+      const firstBad = form.querySelector('.field.invalid') || form
       const top = firstBad.getBoundingClientRect().top + window.pageYOffset - 140
       window.scrollTo({ top, behavior: 'smooth' })
       return
     }
-    setDone(true)
-    const form = e.target as HTMLFormElement
-    const top = form.getBoundingClientRect().top + window.pageYOffset - 120
-    window.scrollTo({ top, behavior: 'smooth' })
+    setSending(true)
+    setSubmitError('')
+    try {
+      const res = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name, email, message, services, consent,
+          formType: 'contact',
+          sourcePage: window.location.pathname + window.location.search,
+          traffic: getTrafficData(),
+        }),
+      })
+      if (!res.ok) {
+        const d = await res.json().catch(() => ({}))
+        setSubmitError(d.error || 'Something went wrong - please try again.')
+        return
+      }
+      setDone(true)
+      const top = form.getBoundingClientRect().top + window.pageYOffset - 120
+      window.scrollTo({ top, behavior: 'smooth' })
+    } catch {
+      setSubmitError('Network hiccup - please try again.')
+    } finally {
+      setSending(false)
+    }
   }
 
   const firstName = name.trim().split(' ')[0] || 'friend'
@@ -143,15 +171,35 @@ export default function LeadForm({ idPrefix = 'hs' }: { idPrefix?: string }) {
           />
         </div>
 
-        <button type="submit" className="form-submit">
-          Request my call
+        <div className={`field${invalid.consent ? ' invalid' : ''}`}>
+          <label htmlFor={`${idPrefix}-consent`} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, textTransform: 'none', letterSpacing: 0, cursor: 'pointer', fontSize: 13, lineHeight: 1.5 }}>
+            <input
+              type="checkbox"
+              id={`${idPrefix}-consent`}
+              checked={consent}
+              onChange={(e) => {
+                setConsent(e.target.checked)
+                setInvalid((p) => ({ ...p, consent: false }))
+              }}
+              style={{ marginTop: 3, width: 16, height: 16, flexShrink: 0, accentColor: 'var(--brand)' }}
+            />
+            <span>
+              I consent to sharing my personal details and agree to the{' '}
+              <a href="/terms" target="_blank" style={{ textDecoration: 'underline' }}>Terms of Service</a> and{' '}
+              <a href="/privacy" target="_blank" style={{ textDecoration: 'underline' }}>Privacy Policy</a>. <span className="req">*</span>
+            </span>
+          </label>
+          <span className="err">Please tick the consent box so we can process your enquiry.</span>
+        </div>
+
+        {submitError && <p style={{ color: '#c0392b', fontSize: 14, marginBottom: 12 }}>{submitError}</p>}
+
+        <button type="submit" className="form-submit" disabled={sending}>
+          {sending ? 'Sending…' : 'Request my call'}
           <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.8">
             <path d="M3 11 L11 3 M5 3 H11 V9" />
           </svg>
         </button>
-        <p className="form-foot">
-          <span className="lock">🔒</span> No spam, ever. We reply personally within a few hours.
-        </p>
       </div>
 
       <div className={`form-success${done ? ' show' : ''}`}>
@@ -161,15 +209,15 @@ export default function LeadForm({ idPrefix = 'hs' }: { idPrefix?: string }) {
           </svg>
         </div>
         <h3>
-          Got it, <span className="it">{firstName}</span> ✦
+          Got it, <span className="it">{firstName}</span>.
         </h3>
         <p>
           Your request landed in our inbox. We&apos;ll reply from a real human address within a few hours to lock in a
           time.
         </p>
         <div className="next">
-          <span>⏱ Typical reply: under 2 hours (work hours)</span>
-          <span>📍 Toronto, Canada</span>
+          <span>Typical reply: under 2 hours (work hours)</span>
+          <span>Toronto, Canada</span>
         </div>
       </div>
     </form>

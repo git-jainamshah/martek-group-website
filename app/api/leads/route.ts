@@ -32,15 +32,18 @@ export async function POST(req: NextRequest) {
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return NextResponse.json({ error: 'A valid email is required.' }, { status: 400 })
   }
+  if (body.consent !== true) {
+    return NextResponse.json({ error: 'Please consent to sharing your details to continue.' }, { status: 400 })
+  }
 
   try {
-    const { ensureDb } = require('@/lib/admin/db') as typeof import('@/lib/admin/db')
+    const { ensureDb, generateLeadPublicId } = require('@/lib/admin/db') as typeof import('@/lib/admin/db')
     const { run, insertReturningId } = require('@/lib/admin/pg') as typeof import('@/lib/admin/pg')
     await ensureDb()
 
     const leadId = await insertReturningId(
-      `INSERT INTO leads (name, email, phone, company, message, source_page, form_type, package_interest, extra)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING id`,
+      `INSERT INTO leads (name, email, phone, company, message, source_page, form_type, package_interest, extra, public_id, consent, consent_at)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,1,now()) RETURNING id`,
       [
         name || null,
         email,
@@ -55,7 +58,9 @@ export async function POST(req: NextRequest) {
           budget: body.budget ?? undefined,
           timeline: body.timeline ?? undefined,
           referral: body.referral ?? undefined,
+          referralDetail: String(body.referralDetail ?? '').slice(0, 200) || undefined,
         }),
+        generateLeadPublicId(),
       ]
     )
 

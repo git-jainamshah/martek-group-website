@@ -99,14 +99,14 @@ export default function AboutPage() {
                     First love
                   </div>
                   <div style={{ fontFamily: 'var(--display)', fontStyle: 'italic', fontSize: 22, lineHeight: 1.05 }}>
-                    CAD drawings ✏️
+                    CAD drawings
                   </div>
                 </div>
                 <div className="badge float-c" style={{ top: '9%', right: '10%', ['--rot' as string]: '5deg' }}>
                   <span className="d" style={{ background: 'var(--brand)' }}></span>founder-led
                 </div>
                 <div className="badge float-b" style={{ bottom: '7%', left: '9%', ['--rot' as string]: '-4deg' }}>
-                  📍 Toronto, CA
+                  Toronto, CA
                 </div>
               </div>
             </div>

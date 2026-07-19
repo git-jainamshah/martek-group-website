@@ -60,7 +60,7 @@ export function LeadDrawer({ lead, onClose, onSaved }: { lead: Lead; onClose: ()
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
           <div>
             <h2 style={{ margin: 0 }}>{lead.name || lead.email}</h2>
-            <span className="ad-soft" style={{ fontSize: 12 }}>Lead ID: #{lead.id}</span>
+            <span className="ad-soft" style={{ fontSize: 12 }}>Lead ID: {lead.public_id || `#${lead.id}`}</span>
           </div>
           <button onClick={onClose} className="ad-icon-btn"><X size={16} /></button>
         </div>
@@ -68,12 +68,13 @@ export function LeadDrawer({ lead, onClose, onSaved }: { lead: Lead; onClose: ()
           <Row k="Email" v={<a href={`mailto:${lead.email}`} style={{ textDecoration: 'underline', color: 'var(--brand-ink)' }}>{lead.email}</a>} />
           <Row k="Company" v={lead.company} />
           <Row k="Received" v={lead.created_at} />
+          <Row k="Consent" v={lead.consent ? `Yes${lead.consent_at ? ' - ' + String(lead.consent_at).slice(0, 10) : ''}` : 'No'} />
           <Row k="Form" v={FORM_LABELS[lead.form_type] ?? lead.form_type} />
           <Row k="Page" v={lead.source_page} />
           <Row k="Services" v={serviceNames(ex.services)} />
           <Row k="Budget" v={ex.budget} />
           <Row k="Timeline" v={ex.timeline} />
-          <Row k="Heard via" v={ex.referral} />
+          <Row k="Heard via" v={[ex.referral, ex.referralDetail].filter(Boolean).join(' - ')} />
         </div>
 
         <div className="ad-kicker" style={{ margin: '18px 0 8px' }}>Acquisition</div>

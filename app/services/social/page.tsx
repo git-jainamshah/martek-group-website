@@ -19,7 +19,7 @@ const stage = (
         <b>@yourbrand</b>
       </div>
       <div className="post">
-        <div className="img">🍋</div>
+        <div className="img">✶</div>
         <div className="meta">
           <span className="heart">♥</span>
           <small>1,204</small>
@@ -30,9 +30,9 @@ const stage = (
         <div className="img" style={{ background: 'var(--sage-soft)' }}>✶</div>
       </div>
     </div>
-    <div className="bubble b1 float-b">love this 🙌</div>
+    <div className="bubble b1 float-b">love this</div>
     <div className="bubble b2 float-c">where to buy?</div>
-    <div className="bubble b3 float-a">shipped! 📦</div>
+    <div className="bubble b3 float-a">shipped!</div>
     <div className="badge badge-foll float-b">
       <span className="d" style={{ background: 'var(--accent)' }}></span>+318 followers
     </div>
