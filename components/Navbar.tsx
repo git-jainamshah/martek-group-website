@@ -29,6 +29,14 @@ const navLinks = [
   { label: 'Contact Us', href: '/contact' },
 ]
 
+const serviceLinks = [
+  { label: 'Web Development', href: '/services/web-development' },
+  { label: 'Data & Analytics', href: '/services/data-analytics' },
+  { label: 'Social', href: '/services/social' },
+  { label: 'SEO & Ads', href: '/services/seo-ads' },
+  { label: 'Engineering & CAD', href: '/services/engineering' },
+]
+
 /* per-page announcement bar + contact link (ported from each reference page) */
 const defaultBar = {
   pill: 'New',
@@ -215,17 +223,35 @@ export default function Navbar() {
             </Link>
 
             <div className="nav-links">
-              {navLinks.map((l) => (
-                <Link
-                  key={l.href}
-                  href={l.href}
-                  className={isActive(l.href) ? 'active' : undefined}
-                  aria-label={l.homeIcon ? l.label : undefined}
-                  title={l.homeIcon ? l.label : undefined}
+              <Link href="/" className={isActive('/') ? 'active' : undefined} aria-label="Home" title="Home">
+                <HomeIcon />
+              </Link>
+              <Link href="/about" className={isActive('/about') ? 'active' : undefined}>
+                About Us
+              </Link>
+              <div className="nav-drop">
+                <button
+                  type="button"
+                  className={`nav-drop-btn${pathname?.startsWith('/services') ? ' active' : ''}`}
+                  aria-haspopup="true"
                 >
-                  {l.homeIcon ? <HomeIcon /> : l.label}
-                </Link>
-              ))}
+                  Services
+                  <svg viewBox="0 0 10 6" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+                    <path d="M1 1 L5 5 L9 1" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+                <div className="nav-drop-panel" role="menu">
+                  {serviceLinks.map((s) => (
+                    <Link key={s.href} href={s.href} role="menuitem"
+                      className={isActive(s.href) ? 'active' : undefined}>
+                      {s.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+              <Link href="/contact" className={isActive('/contact') ? 'active' : undefined}>
+                Contact Us
+              </Link>
             </div>
 
             <div className="nav-cta">
