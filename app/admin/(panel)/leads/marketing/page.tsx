@@ -17,7 +17,7 @@ const clickBadges = (l: Lead) => {
 }
 
 export default function LeadsMarketingPage() {
-  const { filters, setFilters, leads, loading, load, qs } = useLeads()
+  const { filters, setFilters, leads, loading, load, qs, canEdit } = useLeads()
   const [selected, setSelected] = useState<Lead | null>(null)
   const sel = useSelection()
   const [bulkMsg, setBulkMsg] = useState('')
@@ -44,22 +44,22 @@ export default function LeadsMarketingPage() {
       </div>
 
       <LeadFilters value={filters} onChange={setFilters} />
-      {bulkMsg && <div className="ad-alert ok" style={{ marginTop: 12 }}>{bulkMsg} <Link href="/admin/leads/trash" style={{ textDecoration: 'underline' }}>Open Delete Folder</Link></div>}
-      <BulkDeleteBar visibleIds={leads.map((l) => l.id)} selected={sel.selected} selectAll={sel.selectAll} clear={sel.clear}
-        onDone={(m) => { setBulkMsg(m); setTimeout(() => setBulkMsg(''), 8000); load() }} />
+      {bulkMsg && <div className="ad-alert ok" style={{ marginTop: 12 }}>{bulkMsg} {canEdit && <Link href="/admin/leads/trash" style={{ textDecoration: 'underline' }}>Open Delete Folder</Link>}</div>}
+      {canEdit && <BulkDeleteBar visibleIds={leads.map((l) => l.id)} selected={sel.selected} selectAll={sel.selectAll} clear={sel.clear}
+        onDone={(m) => { setBulkMsg(m); setTimeout(() => setBulkMsg(''), 8000); load() }} />}
 
       <div className="ad-table-wrap" style={{ overflowX: 'auto', marginTop: 16 }}>
         <table className="ad-table" style={{ minWidth: 1180 }}>
           <thead>
             <tr>
-              <SelectHeaderCell visibleIds={leads.map((l) => l.id)} selected={sel.selected} selectAll={sel.selectAll} clear={sel.clear} /><th>Lead</th><th>Channel</th><th>Session source / medium</th><th>Campaign</th><th>Term / Content</th>
+              <SelectHeaderCell show={canEdit} visibleIds={leads.map((l) => l.id)} selected={sel.selected} selectAll={sel.selectAll} clear={sel.clear} /><th>Lead</th><th>Channel</th><th>Session source / medium</th><th>Campaign</th><th>Term / Content</th>
               <th>First touch</th><th>Click IDs</th><th>Landing page</th><th>Referrer</th><th>GA4 client</th><th>Received</th>
             </tr>
           </thead>
           <tbody>
             {leads.map((l) => (
               <tr key={l.id} className="clickable" onClick={() => setSelected(l)}>
-                <SelectRowCell id={l.id} selected={sel.selected} toggle={sel.toggle} />
+                <SelectRowCell show={canEdit} id={l.id} selected={sel.selected} toggle={sel.toggle} />
                 <td>
                   <div style={{ fontWeight: 600 }}>{l.name || '-'}</div>
                   <div className="ad-soft" style={{ fontSize: 12 }}>{l.public_id || `#${l.id}`} · {l.email}</div>
@@ -90,7 +90,7 @@ export default function LeadsMarketingPage() {
         </table>
       </div>
 
-      {selected && <LeadDrawer lead={selected} onClose={() => setSelected(null)} onSaved={load} />}
+      {selected && <LeadDrawer lead={selected} canEdit={canEdit} onClose={() => setSelected(null)} onSaved={load} />}
     </div>
   )
 }

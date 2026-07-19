@@ -1,7 +1,15 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { UserPlus, KeyRound, UserX, UserCheck, Copy } from 'lucide-react'
+import { UserPlus, KeyRound, UserX, UserCheck, Copy, ShieldCheck } from 'lucide-react'
+
+const ROLES: { value: string; label: string; blurb: string }[] = [
+  { value: 'admin', label: 'Admin', blurb: 'Full access to everything, including Access Management. Only Admins can add, remove, or change users.' },
+  { value: 'editor', label: 'Editor', blurb: 'Manages all website content, media, analytics, and leads. Cannot open Access Management.' },
+  { value: 'viewer', label: 'Viewer', blurb: 'Read-only across the whole panel. Can view and download leads, but cannot change anything.' },
+  { value: 'leads_view', label: 'Leads View', blurb: 'Sees only the Leads area (Leads, Lead Marketing, Leads Dashboard). Can view, filter, and download lead data. Editing or deleting leads is blocked, and no website management options are shown.' },
+  { value: 'leads_edit', label: 'Leads Edit', blurb: 'Everything Leads View can do, plus editing lead status and notes and deleting or recovering lead records. Still limited to the Leads area only.' },
+]
 
 type User = {
   id: number; first_name: string; last_name: string; email: string; role: string
@@ -60,8 +68,6 @@ export default function UsersPage() {
     load()
   }
 
-  const ROLE_LABELS: Record<string, string> = { admin: 'Admin', editor: 'Editor', viewer: 'Viewer' }
-
   const input = 'ad-input'
 
   if (notAllowed) {
@@ -109,11 +115,9 @@ export default function UsersPage() {
                   <div className="ad-soft text-xs">{u.email}</div>
                 </td>
                 <td className="px-4 py-3">
-                  <select className="ad-input" style={{ width: 110, padding: '6px 10px', fontSize: 13 }}
+                  <select className="ad-input" style={{ width: 130, padding: '6px 10px', fontSize: 13 }}
                     value={u.role} onChange={(e) => setRole(u.id, e.target.value)}>
-                    <option value="admin">Admin</option>
-                    <option value="editor">Editor</option>
-                    <option value="viewer">Viewer</option>
+                    {ROLES.map((r) => <option key={r.value} value={r.value}>{r.label}</option>)}
                   </select>
                 </td>
                 <td className="px-4 py-3">
@@ -149,6 +153,22 @@ export default function UsersPage() {
         </table>
       </div>
 
+      {/* Access levels explained */}
+      <div className="ad-card" style={{ padding: 20 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+          <ShieldCheck size={16} style={{ color: 'var(--brand-ink)' }} />
+          <div className="ad-kicker" style={{ margin: 0 }}>Access Levels Explained</div>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 14 }}>
+          {ROLES.map((r) => (
+            <div key={r.value} style={{ border: '1px solid var(--rule)', borderRadius: 12, padding: '12px 14px', background: '#fffdf7' }}>
+              <div style={{ fontWeight: 700, fontSize: 13.5, marginBottom: 4 }}>{r.label}</div>
+              <p className="ad-mut" style={{ fontSize: 12.5, margin: 0, lineHeight: 1.5 }}>{r.blurb}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* Add user modal */}
       {adding && (
         <div className="ad-overlay" onClick={() => setAdding(false)}>
@@ -163,10 +183,11 @@ export default function UsersPage() {
                 <input type="email" className={input} value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} /></div>
               <div className="space-y-1"><label className="text-xs ad-mut">Access level</label>
                 <select className={input} value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })}>
-                  <option value="viewer">Viewer - read-only + can view and download leads</option>
-                  <option value="editor">Editor - manage all content, no Access Management</option>
-                  <option value="admin">Admin - full access including Access Management</option>
-                </select></div>
+                  {ROLES.map((r) => <option key={r.value} value={r.value}>{r.label}</option>)}
+                </select>
+                <p className="text-xs ad-soft" style={{ marginTop: 6 }}>
+                  {ROLES.find((r) => r.value === form.role)?.blurb}
+                </p></div>
             </div>
             <p className="text-xs ad-soft">A temporary password is generated automatically. They&apos;ll be asked to create their own password on first sign-in.</p>
             <div className="flex gap-3 justify-end">

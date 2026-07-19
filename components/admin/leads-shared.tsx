@@ -29,16 +29,24 @@ export function useLeads() {
   const [filters, setFilters] = useState<LeadFilterState>({ ...EMPTY_FILTERS })
   const [leads, setLeads] = useState<Lead[]>([])
   const [loading, setLoading] = useState(true)
+  const [role, setRole] = useState('')
+  const [canEdit, setCanEdit] = useState(false)
   const qs = useCallback(() => filtersToQs(filters), [filters])
   const load = useCallback(() => {
     setLoading(true)
     fetch(`/api/admin/leads?${qs()}`).then((r) => r.json()).then((d) => setLeads(d.leads || [])).finally(() => setLoading(false))
   }, [qs])
   useEffect(() => { const t = setTimeout(load, 250); return () => clearTimeout(t) }, [load])
-  return { filters, setFilters, leads, loading, load, qs }
+  useEffect(() => {
+    fetch('/api/admin/me').then((r) => r.json()).then((d) => {
+      setRole(d.user?.role || '')
+      setCanEdit(!!d.canEditLeads)
+    }).catch(() => {})
+  }, [])
+  return { filters, setFilters, leads, loading, load, qs, role, canEdit }
 }
 
-export function LeadDrawer({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; onSaved: () => void }) {
+export function LeadDrawer({ lead, onClose, onSaved, canEdit = true }: { lead: Lead; onClose: () => void; onSaved: () => void; canEdit?: boolean }) {
   const [notes, setNotes] = useState(lead.notes ?? '')
   const ex = extraOf(lead)
   const Row = ({ k, v }: { k: string; v: React.ReactNode }) => (
@@ -98,13 +106,25 @@ export function LeadDrawer({ lead, onClose, onSaved }: { lead: Lead; onClose: ()
         <p style={{ fontSize: 13.5, whiteSpace: 'pre-wrap', background: '#fffdf7', border: '1px solid var(--rule)', borderRadius: 12, padding: 12 }}>{lead.message || '-'}</p>
 
         <div className="ad-kicker" style={{ margin: '18px 0 8px' }}>Internal notes</div>
-        <textarea rows={4} className="ad-input" value={notes} onChange={(e) => setNotes(e.target.value)} />
-        <div style={{ display: 'flex', gap: 10, marginTop: 12 }}>
-          <select className="ad-input" style={{ width: 150 }} value={lead.status} onChange={(e) => save({ status: e.target.value })}>
-            {STATUSES.map((s) => <option key={s} value={s}>{STATUS_LABELS[s]}</option>)}
-          </select>
-          <button className="ad-btn" onClick={() => { save({ notes }); onClose() }}>Save notes</button>
-        </div>
+        {canEdit ? (
+          <>
+            <textarea rows={4} className="ad-input" value={notes} onChange={(e) => setNotes(e.target.value)} />
+            <div style={{ display: 'flex', gap: 10, marginTop: 12 }}>
+              <select className="ad-input" style={{ width: 150 }} value={lead.status} onChange={(e) => save({ status: e.target.value })}>
+                {STATUSES.map((s) => <option key={s} value={s}>{STATUS_LABELS[s]}</option>)}
+              </select>
+              <button className="ad-btn" onClick={() => { save({ notes }); onClose() }}>Save notes</button>
+            </div>
+          </>
+        ) : (
+          <>
+            <p style={{ fontSize: 13.5, whiteSpace: 'pre-wrap' }} className="ad-mut">{lead.notes || 'None'}</p>
+            <div style={{ marginTop: 12 }}>
+              <span className={STATUS_COLORS[lead.status] || 'ad-badge grey'}>{STATUS_LABELS[lead.status] ?? lead.status}</span>
+              <span className="ad-soft" style={{ fontSize: 12, marginLeft: 10 }}>View-only access</span>
+            </div>
+          </>
+        )}
       </div>
     </div>
   )
@@ -198,10 +218,11 @@ export function BulkDeleteBar({
 }
 
 /** Header + row checkbox helpers */
-export function SelectHeaderCell({ visibleIds, selected, selectAll, clear }: {
-  visibleIds: number[]; selected: Set<number>; selectAll: (ids: number[]) => void; clear: () => void
+export function SelectHeaderCell({ visibleIds, selected, selectAll, clear, show = true }: {
+  visibleIds: number[]; selected: Set<number>; selectAll: (ids: number[]) => void; clear: () => void; show?: boolean
 }) {
   const all = visibleIds.length > 0 && visibleIds.every((id) => selected.has(id))
+  if (!show) return null
   return (
     <th style={{ width: 36 }}>
       <input type="checkbox" checked={all} aria-label="Select all"
@@ -211,7 +232,8 @@ export function SelectHeaderCell({ visibleIds, selected, selectAll, clear }: {
   )
 }
 
-export function SelectRowCell({ id, selected, toggle }: { id: number; selected: Set<number>; toggle: (id: number) => void }) {
+export function SelectRowCell({ id, selected, toggle, show = true }: { id: number; selected: Set<number>; toggle: (id: number) => void; show?: boolean }) {
+  if (!show) return null
   return (
     <td onClick={(e) => e.stopPropagation()} style={{ width: 36 }}>
       <input type="checkbox" checked={selected.has(id)} aria-label="Select record"

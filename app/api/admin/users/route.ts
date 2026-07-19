@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) {
     return NextResponse.json({ error: 'A valid email address is required.' }, { status: 400 })
   }
-  const userRole = ['admin', 'editor', 'viewer'].includes(role) ? role : 'viewer'
+  const userRole = ['admin', 'editor', 'viewer', 'leads_view', 'leads_edit'].includes(role) ? role : 'viewer'
   const exists = await q1('SELECT id FROM users WHERE lower(email) = lower($1)', [em])
   if (exists) return NextResponse.json({ error: 'A user with this email already exists.' }, { status: 409 })
 

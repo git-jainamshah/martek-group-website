@@ -85,6 +85,16 @@ export async function requireEditor(): Promise<{ user: SessionUser } | { error: 
   return auth
 }
 
+/** Lead data mutations: admins, editors, and the Leads Edit role. */
+export async function requireLeadsEditor(): Promise<{ user: SessionUser } | { error: NextResponse }> {
+  const auth = await requireUser()
+  if ('error' in auth) return auth
+  if (!['admin', 'editor', 'leads_edit'].includes(auth.user.role)) {
+    return { error: NextResponse.json({ error: 'View-only access: your account cannot change lead data.' }, { status: 403 }) }
+  }
+  return auth
+}
+
 export async function requireAdmin(): Promise<{ user: SessionUser } | { error: NextResponse }> {
   const auth = await requireUser()
   if ('error' in auth) return auth
