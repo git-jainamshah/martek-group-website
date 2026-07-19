@@ -2,6 +2,7 @@
 
 import { useState, useEffect, FormEvent } from 'react'
 import { useSearchParams } from 'next/navigation'
+import { getTrafficData } from '@/analytics/traffic-identification'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -85,6 +86,7 @@ export default function ContactLeadForm() {
           services, budget, timeline, referral, website,
           formType: 'contact',
           sourcePage: window.location.pathname + window.location.search,
+          traffic: getTrafficData(),
         }),
       })
       if (!res.ok) {

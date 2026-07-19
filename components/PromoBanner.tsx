@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { X } from 'lucide-react'
+import { getTrafficData } from '@/analytics/traffic-identification'
 
 type PromoCfg = {
   enabled: boolean
@@ -57,6 +58,7 @@ export default function PromoBanner() {
           name: form.name, email: form.email,
           formType: 'promo-banner', sourcePage: window.location.pathname,
           message: `Signed up via promo banner: ${cfg!.title}`,
+          traffic: getTrafficData(),
         }),
       })
       setSent(true)

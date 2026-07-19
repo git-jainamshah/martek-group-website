@@ -5,6 +5,7 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import RevealInit from './RevealInit';
 import PromoBanner from './PromoBanner';
+import TrafficInit from './TrafficInit';
 
 export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -23,6 +24,7 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
       <Footer />
       <RevealInit />
       <PromoBanner />
+      <TrafficInit />
     </>
   );
 }
