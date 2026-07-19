@@ -32,6 +32,7 @@ export type LeadFilters = {
   clickId?: string        // 'any' | gclid | fbclid | li_fat_id | ttclid | epik | msclkid | twclid | other
   landing?: string
   referrer?: string
+  deleted?: boolean       // true = Delete Folder view
 }
 
 const CLICK_COLS = ['gclid', 'gbraid', 'wbraid', 'fbclid', 'li_fat_id', 'ttclid', 'epik', 'msclkid', 'dclid', 'twclid', 'sclid', 'irclickid']
@@ -39,7 +40,7 @@ const CLICK_COLS = ['gclid', 'gbraid', 'wbraid', 'fbclid', 'li_fat_id', 'ttclid'
 /** Leads joined with their marketing snapshot, fully filterable. */
 export async function queryLeads(f: LeadFilters): Promise<any[]> {
   await ensureDb()
-  const where: string[] = []
+  const where: string[] = [f.deleted ? 'l.deleted_at IS NOT NULL' : 'l.deleted_at IS NULL']
   const params: unknown[] = []
   const p = () => `$${params.length}`
 
@@ -90,10 +91,10 @@ export async function queryLeads(f: LeadFilters): Promise<any[]> {
       m.referrer_url, m.landing_page, m.user_agent, m.budget_min, m.budget_max
     FROM leads l
     LEFT JOIN leads_marketing m ON m.lead_id = l.id
-    ${where.length ? 'WHERE ' + where.join(' AND ') : ''}
+    WHERE ${where.join(' AND ')}
     ORDER BY l.id DESC`
   const rows = await q(sql, params)
-  return rows.map((r) => ({ ...r, created_at: fmt(r.created_at), updated_at: fmt(r.updated_at) }))
+  return rows.map((r) => ({ ...r, created_at: fmt(r.created_at), updated_at: fmt(r.updated_at), deleted_at: r.deleted_at ? fmt(r.deleted_at) : null }))
 }
 
 function fmt(v: unknown): string {
@@ -121,6 +122,7 @@ export function parseFilters(p: URLSearchParams): LeadFilters {
     clickId: p.get('clickId') || undefined,
     landing: p.get('landing') || undefined,
     referrer: p.get('referrer') || undefined,
+    deleted: p.get('deleted') === '1',
   }
 }
 

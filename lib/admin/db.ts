@@ -91,6 +91,7 @@ async function migrateAndSeed() {
     public_id TEXT,
     consent INTEGER NOT NULL DEFAULT 1,
     consent_at TIMESTAMPTZ,
+    deleted_at TIMESTAMPTZ,
     name TEXT,
     email TEXT,
     phone TEXT,
@@ -154,6 +155,7 @@ async function migrateAndSeed() {
     `ALTER TABLE leads ADD COLUMN IF NOT EXISTS public_id TEXT`,
     `ALTER TABLE leads ADD COLUMN IF NOT EXISTS consent INTEGER NOT NULL DEFAULT 1`,
     `ALTER TABLE leads ADD COLUMN IF NOT EXISTS consent_at TIMESTAMPTZ`,
+    `ALTER TABLE leads ADD COLUMN IF NOT EXISTS deleted_at TIMESTAMPTZ`,
   ]
   for (const sql of alters) { try { await run(sql) } catch { /* column exists */ } }
   try { await run(`CREATE UNIQUE INDEX IF NOT EXISTS leads_public_id_idx ON leads (public_id)`) } catch { /* exists */ }
@@ -337,6 +339,25 @@ export async function audit(userEmail: string | null, action: string, detail?: s
   try {
     await run('INSERT INTO audit_log (user_email, action, detail) VALUES ($1, $2, $3)', [userEmail, action, detail ?? null])
   } catch { /* audit must never break the main action */ }
+}
+
+/**
+ * Permanently remove leads that have sat in the Delete Folder for 60+ days.
+ * Called from the admin leads APIs (serverless-friendly, no cron needed).
+ */
+export async function purgeExpiredDeletedLeads(): Promise<number> {
+  try {
+    const expired = await q<{ id: number }>(
+      `SELECT id FROM leads WHERE deleted_at IS NOT NULL AND deleted_at < now() - interval '60 days'`
+    )
+    for (const r of expired) {
+      await run('DELETE FROM leads_marketing WHERE lead_id = $1', [r.id])
+      await run('DELETE FROM leads WHERE id = $1', [r.id])
+    }
+    return expired.length
+  } catch {
+    return 0
+  }
 }
 
 /** 6-character alphanumeric lead ID (unambiguous charset, e.g. "K7M3QD"). */

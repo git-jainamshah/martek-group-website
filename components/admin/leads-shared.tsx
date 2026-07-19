@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
-import { X } from 'lucide-react'
+import { X, Trash2, CheckSquare } from 'lucide-react'
 import LeadFilters, { LeadFilterState, EMPTY_FILTERS, filtersToQs } from '@/components/admin/LeadFilters'
 
 export type Lead = Record<string, any>
@@ -107,3 +107,113 @@ export function LeadDrawer({ lead, onClose, onSaved }: { lead: Lead; onClose: ()
   )
 }
 
+
+
+/* ------------------------------------------------------------------ */
+/* Bulk selection + delete (shared by Leads, Marketing, Delete Folder) */
+/* ------------------------------------------------------------------ */
+
+export function useSelection() {
+  const [selected, setSelected] = useState<Set<number>>(new Set())
+  const toggle = (id: number) =>
+    setSelected((s) => {
+      const n = new Set(s)
+      if (n.has(id)) n.delete(id); else n.add(id)
+      return n
+    })
+  const selectAll = (ids: number[]) => setSelected(new Set(ids))
+  const clear = () => setSelected(new Set())
+  return { selected, toggle, selectAll, clear }
+}
+
+/**
+ * Selection bar + confirmation for bulk delete (soft delete into the
+ * Delete Folder). Renders nothing when no rows are selected.
+ */
+export function BulkDeleteBar({
+  visibleIds, selected, selectAll, clear, onDone,
+}: {
+  visibleIds: number[]
+  selected: Set<number>
+  selectAll: (ids: number[]) => void
+  clear: () => void
+  onDone: (msg: string) => void
+}) {
+  const [confirming, setConfirming] = useState(false)
+  const [busy, setBusy] = useState(false)
+  if (selected.size === 0) return null
+
+  async function doDelete() {
+    setBusy(true)
+    const res = await fetch('/api/admin/leads/bulk', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'delete', ids: [...selected] }),
+    })
+    const d = await res.json()
+    setBusy(false)
+    setConfirming(false)
+    clear()
+    onDone(res.ok
+      ? `${d.count} record${d.count === 1 ? '' : 's'} deleted and moved to the Delete Folder. Recoverable for 60 days.`
+      : d.error || 'Delete failed.')
+  }
+
+  return (
+    <>
+      <div className="ad-card" style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '12px 18px', marginTop: 12, flexWrap: 'wrap' }}>
+        <b style={{ fontSize: 13.5 }}>{selected.size} selected</b>
+        {selected.size < visibleIds.length && (
+          <button className="ad-btn-ghost" style={{ padding: '6px 12px', fontSize: 12.5 }} onClick={() => selectAll(visibleIds)}>
+            <CheckSquare size={13} /> Select all {visibleIds.length} in this view
+          </button>
+        )}
+        <button className="ad-btn-ghost" style={{ padding: '6px 12px', fontSize: 12.5 }} onClick={clear}>Clear selection</button>
+        <button className="ad-btn-danger" style={{ padding: '8px 16px', fontSize: 12.5, marginLeft: 'auto' }} onClick={() => setConfirming(true)}>
+          <Trash2 size={13} style={{ marginRight: 6, verticalAlign: -2 }} />Delete selected
+        </button>
+      </div>
+
+      {confirming && (
+        <div className="ad-overlay" onClick={() => !busy && setConfirming(false)}>
+          <div className="ad-modal" onClick={(e) => e.stopPropagation()}>
+            <h3>Delete {selected.size} record{selected.size === 1 ? '' : 's'}?</h3>
+            <p className="ad-mut" style={{ fontSize: 13.5, margin: '8px 0 18px' }}>
+              They will move to the Delete Folder, where you can recover them for 60 days.
+              After that they are removed permanently.
+            </p>
+            <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end' }}>
+              <button disabled={busy} className="ad-btn-ghost" onClick={() => setConfirming(false)}>No, keep them</button>
+              <button disabled={busy} className="ad-btn-danger" onClick={doDelete}>
+                {busy ? 'Deleting…' : `Yes, delete ${selected.size}`}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  )
+}
+
+/** Header + row checkbox helpers */
+export function SelectHeaderCell({ visibleIds, selected, selectAll, clear }: {
+  visibleIds: number[]; selected: Set<number>; selectAll: (ids: number[]) => void; clear: () => void
+}) {
+  const all = visibleIds.length > 0 && visibleIds.every((id) => selected.has(id))
+  return (
+    <th style={{ width: 36 }}>
+      <input type="checkbox" checked={all} aria-label="Select all"
+        onChange={() => (all ? clear() : selectAll(visibleIds))}
+        style={{ width: 15, height: 15, accentColor: 'var(--brand)', cursor: 'pointer' }} />
+    </th>
+  )
+}
+
+export function SelectRowCell({ id, selected, toggle }: { id: number; selected: Set<number>; toggle: (id: number) => void }) {
+  return (
+    <td onClick={(e) => e.stopPropagation()} style={{ width: 36 }}>
+      <input type="checkbox" checked={selected.has(id)} aria-label="Select record"
+        onChange={() => toggle(id)}
+        style={{ width: 15, height: 15, accentColor: 'var(--brand)', cursor: 'pointer' }} />
+    </td>
+  )
+}

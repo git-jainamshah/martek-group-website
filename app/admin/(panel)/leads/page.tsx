@@ -2,13 +2,15 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Download, BarChart3, Megaphone } from 'lucide-react'
+import { Download, BarChart3, Megaphone, Trash2 } from 'lucide-react'
 import LeadFilters from '@/components/admin/LeadFilters'
-import { useLeads, LeadDrawer, extraOf, STATUSES, STATUS_COLORS, STATUS_LABELS, FORM_LABELS, serviceNames, Lead } from '@/components/admin/leads-shared'
+import { useLeads, LeadDrawer, extraOf, STATUSES, STATUS_COLORS, STATUS_LABELS, FORM_LABELS, serviceNames, Lead, useSelection, BulkDeleteBar, SelectHeaderCell, SelectRowCell } from '@/components/admin/leads-shared'
 
 export default function LeadsPage() {
   const { filters, setFilters, leads, loading, load, qs } = useLeads()
   const [selected, setSelected] = useState<Lead | null>(null)
+  const sel = useSelection()
+  const [bulkMsg, setBulkMsg] = useState('')
 
   async function setStatus(id: number, status: string) {
     await fetch(`/api/admin/leads/${id}`, {
@@ -28,6 +30,7 @@ export default function LeadsPage() {
           </p>
         </div>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <Link href="/admin/leads/trash" className="ad-btn-ghost"><Trash2 size={14} /> Delete Folder</Link>
           <Link href="/admin/leads/dashboard" className="ad-btn-ghost"><BarChart3 size={14} /> Dashboard</Link>
           <Link href="/admin/leads/marketing" className="ad-btn-ghost"><Megaphone size={14} /> Marketing view</Link>
           {(['csv', 'xls', 'pdf'] as const).map((f) => (
@@ -39,12 +42,15 @@ export default function LeadsPage() {
       </div>
 
       <LeadFilters value={filters} onChange={setFilters} />
+      {bulkMsg && <div className="ad-alert ok" style={{ marginTop: 12 }}>{bulkMsg} <Link href="/admin/leads/trash" style={{ textDecoration: 'underline' }}>Open Delete Folder</Link></div>}
+      <BulkDeleteBar visibleIds={leads.map((l) => l.id)} selected={sel.selected} selectAll={sel.selectAll} clear={sel.clear}
+        onDone={(m) => { setBulkMsg(m); setTimeout(() => setBulkMsg(''), 8000); load() }} />
 
       <div className="ad-table-wrap" style={{ overflowX: 'auto', marginTop: 16 }}>
         <table className="ad-table" style={{ minWidth: 900 }}>
           <thead>
             <tr>
-              <th>Lead</th><th>Services</th><th>Budget</th><th>Channel</th><th>Form</th><th>Received</th><th>Status</th>
+              <SelectHeaderCell visibleIds={leads.map((l) => l.id)} selected={sel.selected} selectAll={sel.selectAll} clear={sel.clear} /><th>Lead</th><th>Services</th><th>Budget</th><th>Channel</th><th>Form</th><th>Received</th><th>Status</th>
             </tr>
           </thead>
           <tbody>
@@ -52,6 +58,7 @@ export default function LeadsPage() {
               const ex = extraOf(l)
               return (
                 <tr key={l.id} className="clickable" onClick={() => setSelected(l)}>
+                  <SelectRowCell id={l.id} selected={sel.selected} toggle={sel.toggle} />
                   <td>
                     <div style={{ fontWeight: 600 }}>{l.name || '-'}</div>
                     <div className="ad-soft" style={{ fontSize: 12 }}>{l.public_id || `#${l.id}`} · {l.email}{l.company ? ` · ${l.company}` : ''}</div>
@@ -71,7 +78,7 @@ export default function LeadsPage() {
               )
             })}
             {leads.length === 0 && !loading && (
-              <tr><td colSpan={7} style={{ textAlign: 'center', padding: 36 }} className="ad-soft">No leads match these filters.</td></tr>
+              <tr><td colSpan={8} style={{ textAlign: 'center', padding: 36 }} className="ad-soft">No leads match these filters.</td></tr>
             )}
           </tbody>
         </table>
