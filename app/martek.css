@@ -1108,3 +1108,11 @@ footer.mk .bottom{margin-top:48px; padding-top:24px; border-top:1px solid rgba(2
 .m-social a{width:42px; height:42px; border-radius:12px; border:1.5px solid var(--ink); background:var(--paper-2); display:grid; place-items:center; color:var(--ink); transition:background .18s, color .18s}
 .m-social a:hover{background:var(--ink); color:var(--paper)}
 .m-social svg{width:17px; height:17px}
+
+/* ---- Legal pages (admin-managed rich text) ---- */
+.legal-copy h2{font-family:var(--serif);font-size:26px;font-weight:600;color:var(--ink);margin:34px 0 10px}
+.legal-copy h3{font-family:var(--serif);font-size:20px;font-weight:600;color:var(--ink);margin:24px 0 8px}
+.legal-copy p{margin:0 0 14px;line-height:1.7}
+.legal-copy ul,.legal-copy ol{padding-left:26px;margin:0 0 14px}
+.legal-copy li{margin-bottom:6px;line-height:1.6}
+.legal-copy a{color:var(--brand-ink);text-decoration:underline}
