@@ -1,5 +1,5 @@
 /**
- * Admin backend — Postgres data layer (Vercel/Neon compatible).
+ * Admin backend - Postgres data layer (Vercel/Neon compatible).
  * Schema is created + seeded automatically on first use.
  */
 import crypto from 'crypto'
@@ -168,7 +168,7 @@ async function migrateAndSeed() {
           [f.filename, f.relPath, f.kind, f.mime, f.size, f.modifiedAt]
         )
       }
-    } catch { /* manifest missing — media gets indexed on first admin visit */ }
+    } catch { /* manifest missing - media gets indexed on first admin visit */ }
   }
 
   // ---- Seed pricing packages ----
@@ -205,7 +205,7 @@ async function migrateAndSeed() {
         { path: '/services/social', pill: 'Social', text: 'We become your **in-house content team**, strategy, posts, replies, and creator deals.', ctaLabel: "Let's talk", ctaHref: '/contact?service=social', contactHref: '/contact?service=social' },
         { path: '/services/seo-ads', pill: 'SEO & Ads', text: 'We move your **cost-per-acquisition down**, week by week, with receipts.', ctaLabel: 'Get a plan', ctaHref: '/contact?service=seo', contactHref: '/contact?service=seo' },
         { path: '/services/engineering', pill: 'Engineering', text: 'The side of the studio we built **first**, 4 years of CAD, drafting & 3D modelling.', ctaLabel: 'Send a brief', ctaHref: '/contact?service=engineering', contactHref: '/contact?service=engineering' },
-        { path: '/contact', pill: 'Open', text: 'Currently taking on **new projects** — we keep slots limited to stay hands-on.', ctaLabel: 'Grab a slot', ctaHref: '/contact#form', contactHref: '/contact#form' },
+        { path: '/contact', pill: 'Open', text: 'Currently taking on **new projects** - we keep slots limited to stay hands-on.', ctaLabel: 'Grab a slot', ctaHref: '/contact#form', contactHref: '/contact#form' },
       ],
     },
     promo_banner: {

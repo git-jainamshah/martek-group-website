@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({ ok: true, id })
 }
 
-/** PUT /api/admin/scripts — reorder: { location, ids: [scriptId, ...] in new order } */
+/** PUT /api/admin/scripts - reorder: { location, ids: [scriptId, ...] in new order } */
 export async function PUT(req: NextRequest) {
   const auth = await requireUser()
   if ('error' in auth) return auth.error

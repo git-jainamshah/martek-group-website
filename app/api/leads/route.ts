@@ -9,7 +9,7 @@ import { budgetToRange } from '@/lib/admin/leads'
 const hits = new Map<string, { n: number; ts: number }>()
 
 /**
- * Public endpoint — every site form posts here.
+ * Public endpoint - every site form posts here.
  * Writes the lead to `leads` (simple) AND `leads_marketing` (attribution snapshot).
  * Traffic data comes from analytics/traffic-identification.js on the client.
  */
@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null)
   if (!body) return NextResponse.json({ error: 'Invalid payload.' }, { status: 400 })
 
-  // Honeypot: bots fill the hidden "website" field — pretend success, store nothing
+  // Honeypot: bots fill the hidden "website" field - pretend success, store nothing
   if (body.website) return NextResponse.json({ ok: true })
 
   const email = String(body.email ?? '').trim().slice(0, 200)
@@ -65,6 +65,15 @@ export async function POST(req: NextRequest) {
       const c = t.clickIds ?? {}
       const s = (v: unknown, n = 300) => (v ? String(v).slice(0, n) : null)
       const budget = budgetToRange(String(body.budget ?? ''))
+
+      // Every lead gets acquisition data. If the browser sent nothing
+      // (JS blocked, etc.) the visit is treated as true Direct.
+      t.firstSource = t.firstSource || '(direct)'
+      t.firstMedium = t.firstMedium || '(none)'
+      t.firstChannelGroup = t.firstChannelGroup || 'Direct'
+      t.sessionSource = t.sessionSource || t.firstSource
+      t.sessionMedium = t.sessionMedium || t.firstMedium
+      t.sessionChannelGroup = t.sessionChannelGroup || t.firstChannelGroup
       await run(
         `INSERT INTO leads_marketing (
           lead_id, ga_client_id, ga_session_id, session_id,
@@ -92,6 +101,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true })
   } catch (e) {
     console.error('lead store failed', e)
-    return NextResponse.json({ error: 'Could not save your message — please email us directly.' }, { status: 500 })
+    return NextResponse.json({ error: 'Could not save your message - please email us directly.' }, { status: 500 })
   }
 }

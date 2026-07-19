@@ -1,9 +1,9 @@
 /**
- * Postgres data layer — works on Vercel (Neon), any hosted Postgres, or locally.
+ * Postgres data layer - works on Vercel (Neon), any hosted Postgres, or locally.
  * Set DATABASE_URL (Neon's Vercel integration injects it automatically).
  *
  * ADMIN_DB_MOCK=memory runs against an in-memory pg-mem instance (dev/tests only;
- * pg-mem must be installed manually — it is not a project dependency).
+ * pg-mem must be installed manually - it is not a project dependency).
  */
 import type { Pool as PgPool } from 'pg'
 

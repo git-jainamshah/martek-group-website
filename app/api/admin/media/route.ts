@@ -9,7 +9,7 @@ import { findAssetReferences, syncMediaIndex, invalidateRefCache, hasWritableSto
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
-/** GET /api/admin/media — full media list with link info */
+/** GET /api/admin/media - full media list with link info */
 export async function GET() {
   const auth = await requireUser()
   if ('error' in auth) return auth.error
@@ -33,7 +33,7 @@ export async function GET() {
   return NextResponse.json({ media, storageWritable: hasWritableStorage() })
 }
 
-/** POST /api/admin/media — upload a new file (multipart form: file) into /public/uploads */
+/** POST /api/admin/media - upload a new file (multipart form: file) into /public/uploads */
 export async function POST(req: NextRequest) {
   const auth = await requireUser()
   if ('error' in auth) return auth.error

@@ -19,7 +19,10 @@ type Stats = {
 }
 
 const SERVICE_LABELS: Record<string, string> = {
-  web: 'Web development', data: 'Data & analytics', social: 'Social', seo: 'SEO & ads', engineering: 'Engineering',
+  web: 'Web Development', data: 'Data & Analytics', social: 'Social', seo: 'SEO & Ads', engineering: 'Engineering',
+}
+const STATUS_LABELS: Record<string, string> = {
+  new: 'New', contacted: 'Contacted', qualified: 'Qualified', won: 'Won', lost: 'Lost',
 }
 
 export default function LeadsDashboardPage() {
@@ -51,7 +54,7 @@ export default function LeadsDashboardPage() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 14, marginBottom: 20 }}>
         <div>
           <div className="ad-kicker">Growth</div>
-          <h1>Leads <span className="it">dashboard</span></h1>
+          <h1>Leads <span className="it">Dashboard</span></h1>
           <p className="ad-mut" style={{ fontSize: 14, marginTop: 6 }}>What kind of leads you get, and how they find you.</p>
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
@@ -69,8 +72,8 @@ export default function LeadsDashboardPage() {
         <div><label className="ad-label">Form</label>
           <select className="ad-input" value={formType} onChange={(e) => setFormType(e.target.value)}>
             <option value="">All</option>
-            <option value="contact">Contact form</option>
-            <option value="promo-banner">Promo banner</option>
+            <option value="contact">Contact Form</option>
+            <option value="promo-banner">Promo Banner</option>
           </select></div>
         {(from || to || formType) && (
           <button className="ad-btn-ghost" onClick={() => { setFrom(''); setTo(''); setFormType('') }}>Clear</button>
@@ -98,7 +101,7 @@ export default function LeadsDashboardPage() {
               <Donut data={stats.byChannel} />
             </Panel>
             <Panel title="Pipeline status">
-              <HBarChart data={stats.byStatus} />
+              <HBarChart data={stats.byStatus.map((s) => ({ ...s, label: STATUS_LABELS[s.label] ?? s.label }))} />
             </Panel>
             <Panel title="Services requested">
               <HBarChart data={stats.byService.map((s) => ({ ...s, label: SERVICE_LABELS[s.label] ?? s.label }))} />
@@ -123,7 +126,7 @@ export default function LeadsDashboardPage() {
                       <tr key={i}>
                         <td style={{ fontWeight: 600 }}>{c.company}</td>
                         <td className="ad-mut">{c.name}</td>
-                        <td><span className="ad-badge grey">{c.status}</span></td>
+                        <td><span className="ad-badge grey">{STATUS_LABELS[c.status] ?? c.status}</span></td>
                         <td className="ad-soft" style={{ fontSize: 12 }}>{c.created}</td>
                       </tr>
                     ))}

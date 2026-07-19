@@ -141,7 +141,7 @@ export default function UsersPage() {
         <div className="ad-overlay">
           <div className="ad-modal p-6 w-full max-w-sm space-y-4">
             <div className="text-lg font-bold">Share these details with {creds.firstName}</div>
-            <p className="text-sm ad-mut">This temporary password is shown <b>once</b> — copy it now and pass it on. {creds.firstName} will be prompted to create a new password on first sign-in, and the temporary one is discarded.</p>
+            <p className="text-sm ad-mut">This temporary password is shown <b>once</b> - copy it now and pass it on. {creds.firstName} will be prompted to create a new password on first sign-in, and the temporary one is discarded.</p>
             <div className="bg-[#FBF6EC] border border-[#C9BEA3] rounded-lg p-4 space-y-2 font-mono text-sm">
               <div><span className="ad-soft">Username: </span>{creds.username}</div>
               <div><span className="ad-soft">Temp password: </span>{creds.tempPassword}</div>

@@ -33,7 +33,7 @@ export default function CompanyPage() {
       body: JSON.stringify({ key: 'company', value: c }),
     })
     setBusy(false)
-    setToast(res.ok ? 'Company profile saved — live within a minute.' : 'Save failed.')
+    setToast(res.ok ? 'Company profile saved - live within a minute.' : 'Save failed.')
     setTimeout(() => setToast(''), 4000)
   }
 
@@ -48,7 +48,7 @@ export default function CompanyPage() {
         </div>
         <div style={{ flex: 1 }}>
           <select className="ad-input" value={c[field]} onChange={(e) => setC({ ...c, [field]: e.target.value })}>
-            <option value="">— pick from Storage —</option>
+            <option value="">- pick from Storage -</option>
             {photos.map((p) => <option key={p.id} value={p.relPath}>{p.filename}</option>)}
           </select>
           <p className="ad-soft" style={{ fontSize: 12, marginTop: 6 }}>{hint}</p>
@@ -62,9 +62,9 @@ export default function CompanyPage() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16, marginBottom: 24 }}>
         <div>
           <div className="ad-kicker">Settings</div>
-          <h1>Company <span className="it">profile</span></h1>
+          <h1>Company <span className="it">Profile</span></h1>
           <p className="ad-mut" style={{ fontSize: 14, marginTop: 8 }}>
-            The company details used across the site — footer, navigation, contact info, and search-engine data.
+            The company details used across the site - footer, navigation, contact info, and search-engine data.
           </p>
         </div>
         <button onClick={save} disabled={busy} className="ad-btn"><Save size={15} /> {busy ? 'Saving…' : 'Save profile'}</button>
@@ -92,8 +92,8 @@ export default function CompanyPage() {
           <input className="ad-input" value={c.phone} onChange={(e) => setC({ ...c, phone: e.target.value })} placeholder="+1 (___) ___-____" />
         </Field>
         <div style={{ gridColumn: 'span 2', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18 }}>
-          {logoPicker('logoFull', 'Full logo', 'Wide logo — used for link previews & sharing.')}
-          {logoPicker('logoIcon', 'Icon / mark', 'Square mark — used in the navigation bar and footer.')}
+          {logoPicker('logoFull', 'Full logo', 'Wide logo - used for link previews & sharing.')}
+          {logoPicker('logoIcon', 'Icon / mark', 'Square mark - used in the navigation bar and footer.')}
         </div>
       </div>
     </div>

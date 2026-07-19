@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
     })
   }
   if (format === 'pdf') {
-    const pdf = toPdf(`Martek Group — Leads (${stamp})`, headers, rows)
+    const pdf = toPdf(`Martek Group - Leads (${stamp})`, headers, rows)
     return new NextResponse(new Uint8Array(pdf), {
       headers: {
         'Content-Type': 'application/pdf',

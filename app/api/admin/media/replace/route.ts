@@ -10,7 +10,7 @@ export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
 /**
- * POST /api/admin/media/replace — swap the file behind a linked media slot.
+ * POST /api/admin/media/replace - swap the file behind a linked media slot.
  * The public URL stays identical, so every place it's linked updates instantly.
  * The previous file is archived to /public/uploads/archive for rollback.
  * multipart form: targetPath (e.g. /assets/hero-loop.mp4), file

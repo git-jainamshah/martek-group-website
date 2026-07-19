@@ -27,7 +27,7 @@ export async function getPackageOverrides(pageKey: string): Promise<PackageOverr
       ctaLabel: r.cta_label ?? undefined,
     }))
   } catch {
-    // DB unavailable — fall back to defaults so the public site never breaks
+    // DB unavailable - fall back to defaults so the public site never breaks
     return (PRICING_DEFAULTS[pageKey] ?? []).map((p, idx) => ({ ...p, idx }))
   }
 }

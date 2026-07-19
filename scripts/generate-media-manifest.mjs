@@ -22,7 +22,7 @@ function humanize(rel) {
   const p = rel.replace(/\\/g, '/')
   if (p.startsWith('components/Navbar')) return 'Navigation bar (site-wide)'
   if (p.startsWith('components/Footer')) return 'Footer (site-wide)'
-  if (p.startsWith('components/Hero')) return 'Home — hero'
+  if (p.startsWith('components/Hero')) return 'Home - hero'
   if (p.startsWith('app/layout')) return 'Site metadata / social sharing image'
   const m = p.match(/^app\/(.+)\/page\.tsx$/)
   if (m) return m[1].split('/').map((s) => s.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())).join(' / ')

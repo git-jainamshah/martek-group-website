@@ -24,7 +24,7 @@ const PAGE_ORDER = (label: string) =>
 function pageUrl(label: string): string {
   if (label.includes('every page') || label.includes('Social sharing')) return 'shown across the whole site'
   const map: Record<string, string> = {
-    'Home page': '/', 'Home page — hero video': '/', 'About Us page': '/about', 'Contact page': '/contact',
+    'Home page': '/', 'Home page - hero video': '/', 'About Us page': '/about', 'Contact page': '/contact',
     'Pricing page': '/pricing', 'Blog page': '/blogs', 'Projects page': '/projects', 'Case Studies page': '/case-studies',
     'Web Development service page': '/services/web-development', 'Data & Analytics service page': '/services/data-analytics',
     'Social service page': '/services/social', 'SEO & Ads service page': '/services/seo-ads',
@@ -106,7 +106,7 @@ export default function ManageMediaPage() {
     const data = await res.json()
     setBusy(false)
     if (!res.ok) return flash('err', data.error || 'Change failed.')
-    flash('ok', `Updated — ${chosen.filename} is now live in this spot.`)
+    flash('ok', `Updated - ${chosen.filename} is now live in this spot.`)
     setChanging(null); setChosen(null)
     load()
   }
@@ -131,9 +131,9 @@ export default function ManageMediaPage() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16, marginBottom: 22 }}>
         <div>
           <div className="ad-kicker">Content</div>
-          <h1>Manage <span className="it">media</span></h1>
+          <h1>Manage <span className="it">Media</span></h1>
           <p className="ad-mut" style={{ fontSize: 14, marginTop: 8, maxWidth: 580 }}>
-            Organized by page. Open a page to see every picture and video it uses, and change any of them —
+            Organized by page. Open a page to see every picture and video it uses, and change any of them -
             reuse something from Storage or upload new. Media can live in many places at once.
           </p>
         </div>
@@ -176,7 +176,7 @@ export default function ManageMediaPage() {
                       {shared.length > 0 && (
                         <div className="ad-mut" style={{ fontSize: 11.5, marginTop: 5, display: 'flex', alignItems: 'center', gap: 5 }}>
                           <AlertTriangle size={12} style={{ color: '#8a6116' }} />
-                          Also used on: {shared.join(', ')} — changing it here updates those too.
+                          Also used on: {shared.join(', ')} - changing it here updates those too.
                         </div>
                       )}
                     </div>
@@ -194,18 +194,18 @@ export default function ManageMediaPage() {
 
       {changing && (
         <Modal wide onClose={() => !busy && setChanging(null)}>
-          <h3>Change media — {changing.pageLabel}</h3>
+          <h3>Change media - {changing.pageLabel}</h3>
           <p className="ad-mut" style={{ fontSize: 13, marginBottom: 6 }}>
             Currently: <b>{changing.media.filename}</b>
           </p>
           {sharedElsewhere(changing).length > 0 && (
             <div className="ad-alert err" style={{ marginBottom: 12, background: '#fdf3dd', borderColor: '#f2cc8f', color: '#8a6116' }}>
-              This file also appears on {sharedElsewhere(changing).join(', ')} — the change applies everywhere it&apos;s used.
+              This file also appears on {sharedElsewhere(changing).join(', ')} - the change applies everywhere it&apos;s used.
             </div>
           )}
           {!writable && (
             <div className="ad-alert err" style={{ marginBottom: 12 }}>
-              File storage is read-only on this deployment — media changes work on a persistent server or after the Blob storage upgrade.
+              File storage is read-only on this deployment - media changes work on a persistent server or after the Blob storage upgrade.
             </div>
           )}
           <div className="ad-tabs" style={{ margin: '8px 0 16px' }}>
@@ -216,10 +216,10 @@ export default function ManageMediaPage() {
           {mode === 'library' ? (
             <>
               <p className="ad-mut" style={{ fontSize: 13, marginBottom: 10 }}>
-                Any {changing.media.kind === 'video' ? 'video' : 'picture'} in {changing.media.relPath.split('.').pop()?.toUpperCase()} format — including ones already used elsewhere.
+                Any {changing.media.kind === 'video' ? 'video' : 'picture'} in {changing.media.relPath.split('.').pop()?.toUpperCase()} format - including ones already used elsewhere.
               </p>
               {choices.length === 0 ? (
-                <p className="ad-soft" style={{ fontSize: 13 }}>Nothing suitable in Storage yet — upload one instead.</p>
+                <p className="ad-soft" style={{ fontSize: 13 }}>Nothing suitable in Storage yet - upload one instead.</p>
               ) : (
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(128px, 1fr))', gap: 10, maxHeight: 300, overflowY: 'auto' }}>
                   {choices.map((c) => (
@@ -248,7 +248,7 @@ export default function ManageMediaPage() {
           ) : (
             <>
               <p className="ad-mut" style={{ fontSize: 13, marginBottom: 10 }}>
-                Upload a {changing.media.relPath.split('.').pop()?.toUpperCase()} file — it replaces this spot immediately and the old version is archived.
+                Upload a {changing.media.relPath.split('.').pop()?.toUpperCase()} file - it replaces this spot immediately and the old version is archived.
               </p>
               <input ref={fileRef} type="file" accept={changing.media.kind === 'video' ? 'video/*' : 'image/*'} className="ad-input" style={{ padding: 8 }} />
               <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end', marginTop: 16 }}>

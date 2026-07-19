@@ -43,7 +43,7 @@ export default function ContactLeadForm() {
   const [done, setDone] = useState(false)
   const [sending, setSending] = useState(false)
   const [submitError, setSubmitError] = useState('')
-  const [website, setWebsite] = useState('') // honeypot — humans never see or fill this
+  const [website, setWebsite] = useState('') // honeypot - humans never see or fill this
 
   // prefill service from ?service= query string (ported from site.js)
   useEffect(() => {
@@ -91,14 +91,14 @@ export default function ContactLeadForm() {
       })
       if (!res.ok) {
         const d = await res.json().catch(() => ({}))
-        setSubmitError(d.error || 'Something went wrong — please try again or email us directly.')
+        setSubmitError(d.error || 'Something went wrong - please try again or email us directly.')
         return
       }
       setDone(true)
       const top = form.getBoundingClientRect().top + window.pageYOffset - 120
       window.scrollTo({ top, behavior: 'smooth' })
     } catch {
-      setSubmitError('Network hiccup — please try again or email us directly.')
+      setSubmitError('Network hiccup - please try again or email us directly.')
     } finally {
       setSending(false)
     }
@@ -267,7 +267,7 @@ export default function ContactLeadForm() {
           </select>
         </div>
 
-        {/* honeypot — hidden from humans, catches bots */}
+        {/* honeypot - hidden from humans, catches bots */}
         <div style={{ position: 'absolute', left: '-9999px' }} aria-hidden="true">
           <label htmlFor="c-website">Website</label>
           <input type="text" id="c-website" name="website" tabIndex={-1} autoComplete="off"

@@ -179,7 +179,7 @@ export default function ServicePage({ data }: { data: ServiceData }) {
         </div>
       </section>
 
-      {/* CASE STUDY (optional — shown once real client work exists) */}
+      {/* CASE STUDY (optional - shown once real client work exists) */}
       {data.caseStudy && (
         <section className="sec">
           <div className="wrap">

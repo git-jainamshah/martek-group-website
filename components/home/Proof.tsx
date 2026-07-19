@@ -13,7 +13,7 @@ export default function Proof() {
             </h2>
             <p className="lede">
               We started Martek because every agency we&apos;d dealt with charged like a multinational and showed up
-              like a junior. When you work with us, you talk directly to the people doing the work — no account
+              like a junior. When you work with us, you talk directly to the people doing the work - no account
               managers, no handoffs, no surprise invoices.
             </p>
 
@@ -43,7 +43,7 @@ export default function Proof() {
                   0<sup>+</sup>
                 </div>
                 <div className="k">
-                  lock-in contracts —
+                  lock-in contracts -
                   <br />
                   pause or cancel anytime
                 </div>

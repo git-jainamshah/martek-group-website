@@ -19,7 +19,7 @@ export default function CaseStudiesPage() {
         {
             category: "Digital Transformation",
             title: "Web Development & Brand Uplifting",
-            description: "We guided a business from zero to a dominant online presence. Our comprehensive brand redevelopment wasn't just about looking good—it was engineered to be a scalable foundation.",
+            description: "We guided a business from zero to a dominant online presence. Our comprehensive brand redevelopment wasn't just about looking good-it was engineered to be a scalable foundation.",
             gradient: "from-emerald-600 via-teal-700 to-cyan-800",
             href: "/projects/web-development"
         },

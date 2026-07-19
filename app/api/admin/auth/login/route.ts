@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
   } catch (e: any) {
     console.error('login failed', e)
     return NextResponse.json(
-      { error: e?.message?.includes('DATABASE_URL') ? e.message : 'Database unavailable — check DATABASE_URL.' },
+      { error: e?.message?.includes('DATABASE_URL') ? e.message : 'Database unavailable - check DATABASE_URL.' },
       { status: 500 }
     )
   }

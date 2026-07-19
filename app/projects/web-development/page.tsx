@@ -81,7 +81,7 @@ export default function WebDevelopmentPage() {
                                 <p className="text-foreground font-medium italic">
                                     &quot;Our site went from being a liability to our strongest sales asset. The speed is incredible.&quot;
                                 </p>
-                                <p className="text-sm mt-4 font-bold uppercase text-primary">— Founder & CEO</p>
+                                <p className="text-sm mt-4 font-bold uppercase text-primary">- Founder & CEO</p>
                             </div>
                         </motion.div>
                     </div>

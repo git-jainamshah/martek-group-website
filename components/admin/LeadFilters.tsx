@@ -23,8 +23,12 @@ export function filtersToQs(f: LeadFilterState): string {
   return p.toString()
 }
 
-const STATUSES = ['new', 'contacted', 'qualified', 'won', 'lost']
-const SERVICES = ['web', 'data', 'social', 'seo', 'engineering']
+const STATUSES: [string, string][] = [
+  ['new', 'New'], ['contacted', 'Contacted'], ['qualified', 'Qualified'], ['won', 'Won'], ['lost', 'Lost'],
+]
+const SERVICES: [string, string][] = [
+  ['web', 'Web Development'], ['data', 'Data & Analytics'], ['social', 'Social'], ['seo', 'SEO & Ads'], ['engineering', 'Engineering'],
+]
 const CHANNELS = ['Direct', 'Organic Search', 'Paid Search', 'Organic Social', 'Paid Social', 'Paid Video', 'Display', 'Email', 'Referral', 'Affiliates', 'Paid Other', 'Unassigned']
 const CLICK_IDS = [
   ['any', 'Any click ID'], ['none', 'No click ID'], ['gclid', 'Google (gclid)'], ['fbclid', 'Meta (fbclid)'],
@@ -65,14 +69,14 @@ export default function LeadFilters({
           <label className="ad-label">Status</label>
           <select className="ad-input" value={value.status} onChange={(e) => set({ status: e.target.value })}>
             <option value="">All</option>
-            {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
+            {STATUSES.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
           </select>
         </div>
         <div style={{ flex: 1, minWidth: 130 }}>
           <label className="ad-label">Service</label>
           <select className="ad-input" value={value.service} onChange={(e) => set({ service: e.target.value })}>
             <option value="">All</option>
-            {SERVICES.map((s) => <option key={s} value={s}>{s}</option>)}
+            {SERVICES.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
           </select>
         </div>
         <div style={{ minWidth: 140 }}>
@@ -120,8 +124,8 @@ export default function LeadFilters({
             <label className="ad-label">Form</label>
             <select className="ad-input" value={value.formType} onChange={(e) => set({ formType: e.target.value })}>
               <option value="">All</option>
-              <option value="contact">Contact form</option>
-              <option value="promo-banner">Promo banner</option>
+              <option value="contact">Contact Form</option>
+              <option value="promo-banner">Promo Banner</option>
               <option value="other">Other</option>
             </select>
           </div>

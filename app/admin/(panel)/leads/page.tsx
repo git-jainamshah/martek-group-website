@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Download, BarChart3, Megaphone } from 'lucide-react'
 import LeadFilters from '@/components/admin/LeadFilters'
-import { useLeads, LeadDrawer, extraOf, STATUSES, STATUS_COLORS, Lead } from '@/components/admin/leads-shared'
+import { useLeads, LeadDrawer, extraOf, STATUSES, STATUS_COLORS, STATUS_LABELS, FORM_LABELS, serviceNames, Lead } from '@/components/admin/leads-shared'
 
 export default function LeadsPage() {
   const { filters, setFilters, leads, loading, load, qs } = useLeads()
@@ -53,18 +53,18 @@ export default function LeadsPage() {
               return (
                 <tr key={l.id} className="clickable" onClick={() => setSelected(l)}>
                   <td>
-                    <div style={{ fontWeight: 600 }}>{l.name || '—'}</div>
-                    <div className="ad-soft" style={{ fontSize: 12 }}>{l.email}{l.company ? ` · ${l.company}` : ''}</div>
+                    <div style={{ fontWeight: 600 }}>{l.name || '-'}</div>
+                    <div className="ad-soft" style={{ fontSize: 12 }}>#{l.id} · {l.email}{l.company ? ` · ${l.company}` : ''}</div>
                   </td>
-                  <td className="ad-mut" style={{ fontSize: 12.5 }}>{Array.isArray(ex.services) ? ex.services.join(', ') : '—'}</td>
-                  <td className="ad-mut" style={{ fontSize: 12.5 }}>{ex.budget || '—'}</td>
-                  <td style={{ fontSize: 12 }}>{l.session_channel_group ? <span className="ad-badge grey">{l.session_channel_group}</span> : '—'}</td>
-                  <td className="ad-mut" style={{ fontSize: 12.5 }}>{l.form_type}</td>
+                  <td className="ad-mut" style={{ fontSize: 12.5 }}>{serviceNames(ex.services) || '-'}</td>
+                  <td className="ad-mut" style={{ fontSize: 12.5 }}>{ex.budget || '-'}</td>
+                  <td style={{ fontSize: 12 }}>{l.session_channel_group ? <span className="ad-badge grey">{l.session_channel_group}</span> : '-'}</td>
+                  <td className="ad-mut" style={{ fontSize: 12.5 }}>{FORM_LABELS[l.form_type] ?? l.form_type}</td>
                   <td className="ad-soft" style={{ fontSize: 12, whiteSpace: 'nowrap' }}>{l.created_at}</td>
                   <td onClick={(e) => e.stopPropagation()}>
                     <select value={l.status} onChange={(e) => setStatus(l.id, e.target.value)}
                       className={STATUS_COLORS[l.status] || 'ad-badge grey'} style={{ border: 0, cursor: 'pointer' }}>
-                      {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
+                      {STATUSES.map((s) => <option key={s} value={s}>{STATUS_LABELS[s]}</option>)}
                     </select>
                   </td>
                 </tr>

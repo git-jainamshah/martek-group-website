@@ -1,5 +1,5 @@
 /**
- * Seed HTML for the editable Terms & Privacy pages — imported from the
+ * Seed HTML for the editable Terms & Privacy pages - imported from the
  * original hardcoded pages. After first run, the database is the source of truth.
  */
 

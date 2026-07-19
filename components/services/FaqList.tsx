@@ -7,7 +7,7 @@ export interface FaqItem {
   a: string
 }
 
-/** FAQ accordion — one item open at a time, first open by default (ported from site.js). */
+/** FAQ accordion - one item open at a time, first open by default (ported from site.js). */
 export default function FaqList({ items }: { items: FaqItem[] }) {
   const [open, setOpen] = useState(0)
 

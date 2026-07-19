@@ -49,7 +49,7 @@ const baseMetadata: Metadata = {
     template: '%s',
   },
   description:
-    'Founder-led digital studio in Toronto. Web development, data & analytics, social, SEO & ads, and engineering/CAD for startups — fixed-price quotes, weekly demos, you own everything.',
+    'Founder-led digital studio in Toronto. Web development, data & analytics, social, SEO & ads, and engineering/CAD for startups - fixed-price quotes, weekly demos, you own everything.',
   keywords: [
     'web development Toronto',
     'startup web design',
@@ -70,11 +70,11 @@ const baseMetadata: Metadata = {
     siteName: 'Martek Group',
     title: 'Martek Group · A small studio that ships big things',
     description:
-      'Founder-led digital studio in Toronto. Web, data, social, SEO & ads, and engineering for startups — fixed-price quotes, weekly demos.',
+      'Founder-led digital studio in Toronto. Web, data, social, SEO & ads, and engineering for startups - fixed-price quotes, weekly demos.',
     type: 'website',
     locale: 'en_CA',
     url: '/',
-    images: [{ url: '/assets/martek-group-header.png', width: 1200, height: 630, alt: 'Martek Group — digital studio' }],
+    images: [{ url: '/assets/martek-group-header.png', width: 1200, height: 630, alt: 'Martek Group - digital studio' }],
   },
   twitter: {
     card: 'summary_large_image',

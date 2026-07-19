@@ -15,7 +15,7 @@ export async function GET() {
   return NextResponse.json({ packages: rows, pageLabels: PAGE_LABELS })
 }
 
-/** PUT — bulk save for one page: { pageKey, packages: [{idx, name, price, ...}] } */
+/** PUT - bulk save for one page: { pageKey, packages: [{idx, name, price, ...}] } */
 export async function PUT(req: NextRequest) {
   const auth = await requireUser()
   if ('error' in auth) return auth.error

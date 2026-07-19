@@ -39,6 +39,6 @@ export async function POST(req: NextRequest) {
   )
   await audit(auth.user.email, 'user_add', em)
 
-  // Temp password is returned ONCE for the admin to hand over — never stored in plain text.
+  // Temp password is returned ONCE for the admin to hand over - never stored in plain text.
   return NextResponse.json({ ok: true, firstName: firstName.trim(), username: em, tempPassword })
 }

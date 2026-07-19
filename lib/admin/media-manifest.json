@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-07-19T15:15:58.536Z",
+ "generatedAt": "2026-07-19T15:36:05.427Z",
  "files": [
   {
    "filename": "analytics-bg.mp4",
@@ -262,7 +262,7 @@
   "/assets/hero-loop.mp4": [
    {
     "file": "components/Hero.tsx",
-    "label": "Home — hero",
+    "label": "Home - hero",
     "line": 8
    }
   ],

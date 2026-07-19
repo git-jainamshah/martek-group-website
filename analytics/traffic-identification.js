@@ -1,6 +1,6 @@
 /**
  * =====================================================================
- * MARTEK ANALYTICS — TRAFFIC IDENTIFICATION
+ * MARTEK ANALYTICS - TRAFFIC IDENTIFICATION
  * =====================================================================
  * Single source of truth for how a visitor was acquired. Runs in the
  * browser only. Captures:
@@ -30,8 +30,8 @@
  * =====================================================================
  */
 
-const FIRST_KEY = 'mk_first_touch'      // localStorage — first ever visit
-const SESSION_KEY = 'mk_session_touch'  // sessionStorage — this visit
+const FIRST_KEY = 'mk_first_touch'      // localStorage - first ever visit
+const SESSION_KEY = 'mk_session_touch'  // sessionStorage - this visit
 const SESSION_ID_KEY = 'mk_session_id'
 const SESSION_LAST_SEEN = 'mk_session_last_seen'
 const SESSION_TIMEOUT_MS = 30 * 60 * 1000 // 30 min, matching GA4 default
@@ -236,7 +236,7 @@ export function initTraffic() {
     if (!existing || (hasSignal(touch) && !hasSignal(JSON.parse(existing)))) {
       sessionStorage.setItem(SESSION_KEY, JSON.stringify(touch))
     }
-  } catch { /* storage blocked — degrade silently */ }
+  } catch { /* storage blocked - degrade silently */ }
 }
 
 /** Everything we know about how this visitor was acquired. */

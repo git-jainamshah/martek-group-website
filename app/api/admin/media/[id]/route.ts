@@ -9,7 +9,7 @@ import { isLinked, hasWritableStorage, READONLY_STORAGE_MSG } from '@/lib/admin/
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
-/** DELETE /api/admin/media/:id — blocked when the file is linked on the site */
+/** DELETE /api/admin/media/:id - blocked when the file is linked on the site */
 export async function DELETE(_req: NextRequest, { params }: { params: { id: string } }) {
   const auth = await requireUser()
   if ('error' in auth) return auth.error

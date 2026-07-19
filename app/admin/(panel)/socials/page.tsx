@@ -24,7 +24,7 @@ export default function SocialsPage() {
       body: JSON.stringify({ key: 'socials', value: socials }),
     })
     setBusy(false)
-    setToast(res.ok ? 'Social links saved — live within a minute.' : 'Save failed.')
+    setToast(res.ok ? 'Social links saved - live within a minute.' : 'Save failed.')
     setTimeout(() => setToast(''), 4000)
   }
 
@@ -38,10 +38,10 @@ export default function SocialsPage() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16, marginBottom: 24 }}>
         <div>
           <div className="ad-kicker">Settings</div>
-          <h1>Social <span className="it">links</span></h1>
+          <h1>Social <span className="it">Links</span></h1>
           <p className="ad-mut" style={{ fontSize: 14, marginTop: 8, maxWidth: 520 }}>
             Your handles across platforms. Toggle a platform off and it disappears from the live site
-            (header, footer, mobile menu) — toggle on to bring it back.
+            (header, footer, mobile menu) - toggle on to bring it back.
           </p>
         </div>
         <button onClick={save} disabled={busy} className="ad-btn"><Save size={15} /> {busy ? 'Saving…' : 'Save links'}</button>

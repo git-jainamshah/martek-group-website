@@ -52,7 +52,7 @@ export function toPdf(title: string, headers: string[], rows: string[][]): Buffe
 
   const pageStreams = pages.map((pageRows, pi) => {
     let y = H - margin
-    let s = `BT /F1 12 Tf ${margin} ${y} Td (${esc(title)}${pages.length > 1 ? ` — page ${pi + 1}/${pages.length}` : ''}) Tj ET\n`
+    let s = `BT /F1 12 Tf ${margin} ${y} Td (${esc(title)}${pages.length > 1 ? ` - page ${pi + 1}/${pages.length}` : ''}) Tj ET\n`
     y -= 24
     s += `BT /F2 ${headerSize} Tf ${margin} ${y} Td`
     headers.forEach((h, i) => {

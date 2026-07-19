@@ -8,14 +8,14 @@ export default async function robots(): Promise<MetadataRoute.Robots> {
     const cfg = await getSetting<{ extraDisallow: string[] }>('robots_txt')
     if (cfg?.extraDisallow) extraDisallow = cfg.extraDisallow
   } catch {
-    // no DB — defaults only
+    // no DB - defaults only
   }
 
   return {
     rules: {
       userAgent: '*',
       allow: '/',
-      // '/admin' is intentionally NOT listed here — listing it in robots.txt would
+      // '/admin' is intentionally NOT listed here - listing it in robots.txt would
       // advertise its existence. It's protected by auth + X-Robots-Tag + meta noindex
       // and excluded from the sitemap instead.
       disallow: ['/api/', '/_next/', ...extraDisallow],

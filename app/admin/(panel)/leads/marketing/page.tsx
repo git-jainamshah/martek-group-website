@@ -25,7 +25,7 @@ export default function LeadsMarketingPage() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 14, marginBottom: 20 }}>
         <div>
           <div className="ad-kicker">Growth</div>
-          <h1>Leads — <span className="it">marketing</span></h1>
+          <h1>Lead <span className="it">Marketing</span></h1>
           <p className="ad-mut" style={{ fontSize: 14, marginTop: 6, maxWidth: 560 }}>
             The same leads with their full acquisition story: channels, sources, campaigns, click IDs, and analytics identifiers.
           </p>
@@ -47,7 +47,7 @@ export default function LeadsMarketingPage() {
         <table className="ad-table" style={{ minWidth: 1180 }}>
           <thead>
             <tr>
-              <th>Lead</th><th>Channel</th><th>Session source / medium</th><th>Campaign</th>
+              <th>Lead</th><th>Channel</th><th>Session source / medium</th><th>Campaign</th><th>Term / Content</th>
               <th>First touch</th><th>Click IDs</th><th>Landing page</th><th>Referrer</th><th>GA4 client</th><th>Received</th>
             </tr>
           </thead>
@@ -55,29 +55,30 @@ export default function LeadsMarketingPage() {
             {leads.map((l) => (
               <tr key={l.id} className="clickable" onClick={() => setSelected(l)}>
                 <td>
-                  <div style={{ fontWeight: 600 }}>{l.name || '—'}</div>
-                  <div className="ad-soft" style={{ fontSize: 12 }}>{l.email}</div>
+                  <div style={{ fontWeight: 600 }}>{l.name || '-'}</div>
+                  <div className="ad-soft" style={{ fontSize: 12 }}>#{l.id} · {l.email}</div>
                 </td>
-                <td>{l.session_channel_group ? <span className="ad-badge blue">{l.session_channel_group}</span> : '—'}</td>
-                <td className="ad-mut" style={{ fontSize: 12.5 }}>{l.session_source ? `${l.session_source} / ${l.session_medium}` : '—'}</td>
-                <td className="ad-mut" style={{ fontSize: 12.5 }}>{l.session_campaign || '—'}</td>
+                <td>{l.session_channel_group ? <span className="ad-badge blue">{l.session_channel_group}</span> : '-'}</td>
+                <td className="ad-mut" style={{ fontSize: 12.5 }}>{l.session_source ? `${l.session_source} / ${l.session_medium}` : '-'}</td>
+                <td className="ad-mut" style={{ fontSize: 12.5 }}>{l.session_campaign || '-'}</td>
+                <td className="ad-mut" style={{ fontSize: 12 }}>{[l.session_term, l.session_content].filter(Boolean).join(' / ') || '-'}</td>
                 <td className="ad-mut" style={{ fontSize: 12 }}>
-                  {l.first_channel_group ? <>{l.first_channel_group}<div className="ad-soft" style={{ fontSize: 11 }}>{l.first_source} / {l.first_medium}</div></> : '—'}
+                  {l.first_channel_group ? <>{l.first_channel_group}<div className="ad-soft" style={{ fontSize: 11 }}>{l.first_source} / {l.first_medium}</div></> : '-'}
                 </td>
                 <td>
                   <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
                     {clickBadges(l).map((b) => <span key={b} className="ad-chip" style={{ fontSize: 11 }}>{b}</span>)}
-                    {clickBadges(l).length === 0 && <span className="ad-soft">—</span>}
+                    {clickBadges(l).length === 0 && <span className="ad-soft">-</span>}
                   </div>
                 </td>
-                <td className="ad-mut" style={{ fontSize: 12, maxWidth: 140, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={l.landing_page}>{l.landing_page || '—'}</td>
-                <td className="ad-mut" style={{ fontSize: 12, maxWidth: 140, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={l.referrer_url}>{l.referrer_url || '—'}</td>
-                <td className="ad-soft" style={{ fontSize: 11.5 }}>{l.ga_client_id || '—'}</td>
+                <td className="ad-mut" style={{ fontSize: 12, maxWidth: 140, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={l.landing_page}>{l.landing_page || '-'}</td>
+                <td className="ad-mut" style={{ fontSize: 12, maxWidth: 140, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={l.referrer_url}>{l.referrer_url || '-'}</td>
+                <td className="ad-soft" style={{ fontSize: 11.5 }}>{l.ga_client_id || '-'}</td>
                 <td className="ad-soft" style={{ fontSize: 12, whiteSpace: 'nowrap' }}>{l.created_at}</td>
               </tr>
             ))}
             {leads.length === 0 && !loading && (
-              <tr><td colSpan={10} style={{ textAlign: 'center', padding: 36 }} className="ad-soft">No leads match these filters.</td></tr>
+              <tr><td colSpan={11} style={{ textAlign: 'center', padding: 36 }} className="ad-soft">No leads match these filters.</td></tr>
             )}
           </tbody>
         </table>

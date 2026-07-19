@@ -1,5 +1,5 @@
 /**
- * Snapshot of the site's current hardcoded pricing — used to seed the DB
+ * Snapshot of the site's current hardcoded pricing - used to seed the DB
  * the first time the admin panel runs. After that, the DB is the source of truth.
  */
 export type PackageDefault = {
@@ -15,13 +15,13 @@ export type PackageDefault = {
 }
 
 export const PAGE_LABELS: Record<string, string> = {
-  home: 'Home — Pricing section',
-  'pricing-page': 'Pricing page — Packages',
-  'web-development': 'Services — Web Development',
-  'data-analytics': 'Services — Data & Analytics',
-  social: 'Services — Social',
-  'seo-ads': 'Services — SEO & Ads',
-  engineering: 'Services — Engineering & CAD',
+  home: 'Home - Pricing section',
+  'pricing-page': 'Pricing page - Packages',
+  'web-development': 'Services - Web Development',
+  'data-analytics': 'Services - Data & Analytics',
+  social: 'Services - Social',
+  'seo-ads': 'Services - SEO & Ads',
+  engineering: 'Services - Engineering & CAD',
 }
 
 export const PRICING_DEFAULTS: Record<string, PackageDefault[]> = {

@@ -37,9 +37,9 @@ export default function ChangePasswordPage() {
   return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
       <form onSubmit={submit} className="ad-card" style={{ width: '100%', maxWidth: 400, padding: 34 }}>
-        <h1 style={{ fontSize: 26, marginBottom: 6 }}>Create your <span className="it">new password</span></h1>
+        <h1 style={{ fontSize: 26, marginBottom: 6 }}>Create Your <span className="it">New Password</span></h1>
         <p className="ad-mut" style={{ fontSize: 14, marginBottom: 22 }}>
-          You signed in with a temporary password. Set a permanent one — the temporary password will be discarded.
+          You signed in with a temporary password. Set a permanent one - the temporary password will be discarded.
         </p>
 
         {error && <div className="ad-alert err" style={{ marginBottom: 16 }}>{error}</div>}

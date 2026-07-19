@@ -110,7 +110,7 @@ export function invalidateRefCache() {
 const COMPONENT_LABELS: Record<string, string> = {
   Navbar: 'Top navigation bar (every page)',
   Footer: 'Footer (every page)',
-  Hero: 'Home page — hero video',
+  Hero: 'Home page - hero video',
   PageHero: 'Page top banner (used on several pages)',
   PromoBanner: 'Promo pop-up banner',
   SocialLinks: 'Social media icons',

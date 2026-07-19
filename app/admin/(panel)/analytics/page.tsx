@@ -102,7 +102,7 @@ export default function AnalyticsSeoPage() {
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Analytics & SEO</h1>
         <p className="text-sm ad-mut mt-1">
-          Tag managers, custom scripts, and site-level SEO. Only linked tag managers ever load — if Tealium isn&apos;t linked, nothing Tealium-related is even requested.
+          Tag managers, custom scripts, and site-level SEO. Only linked tag managers ever load - if Tealium isn&apos;t linked, nothing Tealium-related is even requested.
         </p>
       </div>
 
@@ -132,7 +132,7 @@ export default function AnalyticsSeoPage() {
               </div>
             ))}
             {tms.filter((t) => t.environment === env).length === 0 && (
-              <p className="text-xs ad-soft">No tag managers linked to {env} — none will load there.</p>
+              <p className="text-xs ad-soft">No tag managers linked to {env} - none will load there.</p>
             )}
           </div>
         ))}

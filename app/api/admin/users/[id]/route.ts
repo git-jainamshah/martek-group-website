@@ -8,9 +8,9 @@ export const dynamic = 'force-dynamic'
 
 /**
  * PATCH actions:
- *  { action: 'revoke' }          — deactivate + kill sessions
- *  { action: 'restore' }         — reactivate
- *  { action: 'reset-password' }  — new temp password (returned once), forces change on next login
+ *  { action: 'revoke' }          - deactivate + kill sessions
+ *  { action: 'restore' }         - reactivate
+ *  { action: 'reset-password' }  - new temp password (returned once), forces change on next login
  */
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
   const auth = await requireUser()

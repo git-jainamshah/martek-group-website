@@ -39,7 +39,7 @@ function LegalEditor({ settingKey, title, pagePath }: { settingKey: string; titl
       const now = new Date().toISOString()
       setDoc({ html: draftHtml, updatedAt: now })
       setDirty(false)
-      setToast(`Saved — the live page now shows "Last Updated: ${fmtFull(now)}".`)
+      setToast(`Saved - the live page now shows "Last Updated: ${fmtFull(now)}".`)
     } else {
       setToast('Save failed.')
     }
@@ -53,7 +53,7 @@ function LegalEditor({ settingKey, title, pagePath }: { settingKey: string; titl
       {toast && <div className="ad-alert ok" style={{ marginBottom: 14 }}>{toast}</div>}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 10, marginBottom: 12 }}>
         <span className="ad-mut" style={{ fontSize: 13 }}>
-          Last updated: <b>{fmtFull(doc.updatedAt)}</b> — updates automatically on every save.
+          Last updated: <b>{fmtFull(doc.updatedAt)}</b> - updates automatically on every save.
         </span>
         <div style={{ display: 'flex', gap: 10 }}>
           <a href={pagePath} target="_blank" className="ad-btn-ghost" style={{ padding: '7px 14px', fontSize: 12.5 }}>

@@ -44,7 +44,7 @@ export default function PricingAdminPage() {
       body: JSON.stringify({ pageKey: page, packages: draft }),
     })
     setBusy(false)
-    setToast(res.ok ? 'Pricing saved — live on the site immediately.' : 'Save failed.')
+    setToast(res.ok ? 'Pricing saved - live on the site immediately.' : 'Save failed.')
     setTimeout(() => setToast(''), 4000)
     if (res.ok) load()
   }

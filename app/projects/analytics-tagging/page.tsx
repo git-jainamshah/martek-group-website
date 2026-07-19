@@ -81,7 +81,7 @@ export default function AnalyticsTaggingPage() {
                                 <p className="text-foreground font-medium italic">
                                     &quot;The clarity we gained after the first week of data collection completely changed our Q4 strategy.&quot;
                                 </p>
-                                <p className="text-sm mt-4 font-bold uppercase text-primary">— Marketing Director</p>
+                                <p className="text-sm mt-4 font-bold uppercase text-primary">- Marketing Director</p>
                             </div>
                         </motion.div>
                     </div>

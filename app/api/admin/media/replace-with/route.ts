@@ -10,7 +10,7 @@ export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
 /**
- * POST /api/admin/media/replace-with — replace a linked media slot with an
+ * POST /api/admin/media/replace-with - replace a linked media slot with an
  * EXISTING library file (must be unlinked, same type + format).
  * The target URL stays the same; the old file is archived.
  * body: { targetPath: string, sourceId: number }
@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
   if (source.rel_path === targetPath) {
     return NextResponse.json({ error: 'Source and target are the same file.' }, { status: 400 })
   }
-  // Reusing media that's already linked elsewhere is allowed — media is not
+  // Reusing media that's already linked elsewhere is allowed - media is not
   // one-time-use. The UI warns when the TARGET file is shared across pages.
 
   const targetExt = path.extname(targetPath).toLowerCase()

@@ -35,7 +35,7 @@ export async function getCompany(): Promise<Company> {
   }
 }
 
-/** Enabled socials only — what the live site should show. */
+/** Enabled socials only - what the live site should show. */
 export async function getEnabledSocials(): Promise<SocialEntry[]> {
   try {
     const { getSetting } = require('./admin/db') as typeof import('./admin/db')

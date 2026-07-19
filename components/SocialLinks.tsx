@@ -36,7 +36,7 @@ const fallbackIcon = (platform: string) => (
 )
 
 /**
- * Icon links row — `nav` (desktop header) or `drawer` (mobile menu) styling.
+ * Icon links row - `nav` (desktop header) or `drawer` (mobile menu) styling.
  * Pass `socials` (admin-managed, enabled platforms only) to override defaults.
  */
 export default function SocialLinks({ variant, socials }: { variant: 'nav' | 'drawer'; socials?: SocialItem[] }) {

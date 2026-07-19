@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic'
 
 const STATUSES = ['new', 'contacted', 'qualified', 'won', 'lost']
 
-/** Update status / notes. Leads are permanent — there is deliberately no DELETE. */
+/** Update status / notes. Leads are permanent - there is deliberately no DELETE. */
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
   const auth = await requireUser()
   if ('error' in auth) return auth.error

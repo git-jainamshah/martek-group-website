@@ -84,7 +84,7 @@ export default function PromoBanner() {
 
         {cfg.template === 'signup' ? (
           sent ? (
-            <p style={{ fontSize: 14, fontWeight: 600 }}>Thanks — you&apos;re on the list. Talk soon!</p>
+            <p style={{ fontSize: 14, fontWeight: 600 }}>Thanks - you&apos;re on the list. Talk soon!</p>
           ) : (
             <form onSubmit={submitSignup} style={{ display: 'grid', gap: 10 }}>
               <input required placeholder="Your name" value={form.name}

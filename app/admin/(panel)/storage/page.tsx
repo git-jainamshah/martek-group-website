@@ -154,7 +154,7 @@ export default function StoragePage() {
                     onClick={() => isLinked
                       ? setBlocked({ msg: `"${m.filename}" is linked on the production site and can't be deleted. Replace it from Manage Media instead.`, links: m.links })
                       : setConfirmDel(m)}
-                    title={isLinked ? 'Linked on the live site — deletion blocked' : 'Delete'}
+                    title={isLinked ? 'Linked on the live site - deletion blocked' : 'Delete'}
                     className={`absolute top-2 right-2 p-2 rounded-lg transition ${
                       isLinked
                         ? 'bg-[#EBE3D0]/90 ad-soft cursor-not-allowed'
@@ -195,7 +195,7 @@ export default function StoragePage() {
       {blocked && (
         <div className="ad-overlay" onClick={() => setBlocked(null)}>
           <div className="ad-modal p-6 w-full max-w-md space-y-4" onClick={(e) => e.stopPropagation()}>
-            <div className="text-lg font-bold text-[#C8141B]">Can&apos;t delete — file is in use</div>
+            <div className="text-lg font-bold text-[#C8141B]">Can&apos;t delete - file is in use</div>
             <p className="text-sm text-[#2B2B30]">{blocked.msg}</p>
             {blocked.links.length > 0 && (
               <ul className="text-sm ad-mut list-disc pl-5 space-y-1">

@@ -38,14 +38,14 @@ export default async function AdminDashboard() {
       <div>
         <h2 className="text-lg font-semibold mb-3">Latest leads</h2>
         {recentLeads.length === 0 ? (
-          <p className="text-sm ad-soft">No leads yet — they&apos;ll appear here as soon as a visitor submits a form.</p>
+          <p className="text-sm ad-soft">No leads yet - they&apos;ll appear here as soon as a visitor submits a form.</p>
         ) : (
           <div className="ad-table-wrap">
             <table className="w-full text-sm">
               <tbody>
                 {recentLeads.map((l: any) => (
                   <tr key={l.id} className="border-b border-[#E2D9C4] last:border-0">
-                    <td className="px-4 py-3 font-medium">{l.name || '—'}</td>
+                    <td className="px-4 py-3 font-medium">{l.name || '-'}</td>
                     <td className="px-4 py-3 ad-mut">{l.email}</td>
                     <td className="px-4 py-3 ad-mut">{l.form_type}</td>
                     <td className="px-4 py-3 ad-soft">{String(l.created_at).slice(0, 19).replace('T', ' ')}</td>

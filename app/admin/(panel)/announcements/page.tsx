@@ -46,7 +46,7 @@ export default function AnnouncementsPage() {
         <input className={input} value={bar.pill} onChange={(e) => set({ pill: e.target.value })} /></div>
       <div className="space-y-1"><label className="text-xs ad-mut">CTA label</label>
         <input className={input} value={bar.ctaLabel} onChange={(e) => set({ ctaLabel: e.target.value })} /></div>
-      <div className="space-y-1 md:col-span-2"><label className="text-xs ad-mut">Copy — use **double asterisks** for bold</label>
+      <div className="space-y-1 md:col-span-2"><label className="text-xs ad-mut">Copy - use **double asterisks** for bold</label>
         <input className={input} value={bar.text} onChange={(e) => set({ text: e.target.value })} /></div>
       <div className="space-y-1"><label className="text-xs ad-mut">CTA link</label>
         <input className={input} value={bar.ctaHref} onChange={(e) => set({ ctaHref: e.target.value })} /></div>
@@ -76,7 +76,7 @@ export default function AnnouncementsPage() {
           {ann.overrides.map((o, i) => (
             <div key={i} className="ad-card space-y-3">
               <div className="flex items-center justify-between">
-                <div className="text-xs uppercase tracking-widest ad-mut">Override — {o.path || 'new page'}</div>
+                <div className="text-xs uppercase tracking-widest ad-mut">Override - {o.path || 'new page'}</div>
                 <button onClick={() => setAnn({ ...ann, overrides: ann.overrides.filter((_, j) => j !== i) })}
                   className="ad-soft hover:text-[#C8141B]"><Trash2 className="w-4 h-4" /></button>
               </div>
@@ -93,7 +93,7 @@ export default function AnnouncementsPage() {
               className="flex items-center gap-2 text-sm border border-[#C9BEA3] rounded-lg px-4 py-2 hover:bg-[#F4EDDD]">
               <Plus className="w-4 h-4" /> Add page override
             </button>
-            <button onClick={() => save('announcement', ann, 'Announcement bar saved — live within a minute.')}
+            <button onClick={() => save('announcement', ann, 'Announcement bar saved - live within a minute.')}
               className="ad-btn">
               <Save className="w-4 h-4" /> Save announcement bar
             </button>
