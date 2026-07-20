@@ -7,7 +7,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import {
   LayoutDashboard, Image as ImageIcon, HardDrive, BarChart3, DollarSign,
   Megaphone, Users, Inbox, LogOut, Globe, Building2, Share2, ScrollText,
-  PanelLeftClose, PanelLeftOpen, LineChart,
+  PanelLeftClose, PanelLeftOpen, LineChart, PhoneCall, Presentation,
 } from 'lucide-react'
 
 const GROUPS: { label: string; items: { href: string; label: string; icon: any }[] }[] = [
@@ -31,6 +31,8 @@ const GROUPS: { label: string; items: { href: string; label: string; icon: any }
       { href: '/admin/leads/dashboard', label: 'Leads Dashboard', icon: BarChart3 },
       { href: '/admin/leads', label: 'Leads', icon: Inbox },
       { href: '/admin/leads/marketing', label: 'Lead Marketing', icon: Megaphone },
+      { href: '/admin/leads/offline', label: 'Offline Leads', icon: PhoneCall },
+      { href: '/admin/leads/pitches', label: 'Pitches', icon: Presentation },
       { href: '/admin/analytics', label: 'Analytics & SEO', icon: LineChart },
     ],
   },

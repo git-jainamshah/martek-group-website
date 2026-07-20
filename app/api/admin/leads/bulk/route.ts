@@ -55,6 +55,7 @@ export async function POST(req: NextRequest) {
     )
     for (const t of targets) {
       await run('DELETE FROM leads_marketing WHERE lead_id = $1', [t.id])
+      await run('DELETE FROM leads_offline WHERE lead_id = $1', [t.id])
       await run('DELETE FROM leads WHERE id = $1', [t.id])
     }
     await audit(auth.user.email, 'leads_bulk_destroy', `${targets.length} record(s) permanently deleted`)

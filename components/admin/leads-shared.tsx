@@ -14,7 +14,7 @@ export const SERVICE_LABELS: Record<string, string> = {
   web: 'Web Development', data: 'Data & Analytics', social: 'Social', seo: 'SEO & Ads', engineering: 'Engineering',
 }
 export const FORM_LABELS: Record<string, string> = {
-  contact: 'Contact Form', 'promo-banner': 'Promo Banner', other: 'Other',
+  contact: 'Contact Form', 'promo-banner': 'Promo Banner', offline: 'Offline Lead', pitch: 'Pitch', other: 'Other',
 }
 export const serviceNames = (arr: unknown) =>
   Array.isArray(arr) ? arr.map((s) => SERVICE_LABELS[s as string] ?? s).join(', ') : ''
@@ -86,6 +86,8 @@ export function LeadDrawer({ lead, onClose, onSaved, canEdit = true }: { lead: L
           <Row k="Budget" v={ex.budget} />
           <Row k="Timeline" v={ex.timeline} />
           <Row k="Heard via" v={[ex.referral, ex.referralDetail].filter(Boolean).join(' - ')} />
+          {lead.contact_method && <Row k="Contact method" v={lead.contact_method} />}
+          {lead.added_by && <Row k="Added by" v={lead.added_by} />}
         </div>
 
         <div className="ad-kicker" style={{ margin: '18px 0 8px' }}>Acquisition</div>

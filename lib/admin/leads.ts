@@ -88,9 +88,11 @@ export async function queryLeads(f: LeadFilters): Promise<any[]> {
       ${CLICK_COLS.map((c) => `m.${c}`).join(', ')}, m.other_click_ids,
       m.first_source, m.first_medium, m.first_campaign, m.first_term, m.first_content, m.first_channel_group, m.first_touch_at,
       m.session_source, m.session_medium, m.session_campaign, m.session_term, m.session_content, m.session_channel_group,
-      m.referrer_url, m.landing_page, m.user_agent, m.budget_min, m.budget_max
+      m.referrer_url, m.landing_page, m.user_agent, m.budget_min, m.budget_max,
+      o.lead_kind, o.contact_method, o.added_by
     FROM leads l
     LEFT JOIN leads_marketing m ON m.lead_id = l.id
+    LEFT JOIN leads_offline o ON o.lead_id = l.id
     WHERE ${where.join(' AND ')}
     ORDER BY l.id DESC`
   const rows = await q(sql, params)
