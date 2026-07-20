@@ -891,6 +891,7 @@ footer.mk .bottom{margin-top:48px; padding-top:24px; border-top:1px solid rgba(2
 .field input[type=text],
 .field input[type=email],
 .field input[type=tel],
+.field input[type=url],
 .field select,
 .field textarea{
   width:100%; font-family:var(--sans); font-size:15.5px; color:var(--ink);

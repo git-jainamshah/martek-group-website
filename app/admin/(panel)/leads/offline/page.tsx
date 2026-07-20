@@ -2,17 +2,20 @@
 
 import { useRef, useState } from 'react'
 import Link from 'next/link'
-import { UserPlus, Upload, FileDown, FileSpreadsheet, Inbox } from 'lucide-react'
+import { UserPlus, Upload, FileDown, FileSpreadsheet, Inbox, List } from 'lucide-react'
 import OfflineLeadForm from '@/components/admin/OfflineLeadForm'
+import LeadKindTable from '@/components/admin/LeadKindTable'
 
 type ImportResult = { added: number; skipped: { row: number; reason: string }[] }
 
 export default function OfflineLeadsPage() {
-  const [tab, setTab] = useState<'single' | 'batch'>('single')
+  const [tab, setTab] = useState<'manage' | 'single' | 'batch'>('manage')
   const [result, setResult] = useState<ImportResult | null>(null)
   const [err, setErr] = useState('')
   const [busy, setBusy] = useState(false)
+  const [reloadKey, setReloadKey] = useState(0)
   const fileRef = useRef<HTMLInputElement>(null)
+  const bump = () => setReloadKey((k) => k + 1)
 
   async function upload(file: File) {
     setErr(''); setResult(null); setBusy(true)
@@ -25,23 +28,27 @@ export default function OfflineLeadsPage() {
     if (fileRef.current) fileRef.current.value = ''
     if (!res.ok) return setErr(d.error || 'Import failed.')
     setResult({ added: d.added, skipped: d.skipped || [] })
+    bump()
   }
 
   return (
-    <div style={{ maxWidth: 860 }}>
+    <div style={{ maxWidth: 1040 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 14, marginBottom: 20 }}>
         <div>
           <div className="ad-kicker">Growth</div>
           <h1>Offline <span className="it">Leads</span></h1>
           <p className="ad-mut" style={{ fontSize: 14, marginTop: 6, maxWidth: 560 }}>
-            Leads that reached us by phone, email, walk-in, or events. They join the same
-            pipeline as website leads: same table, same dashboard, same statuses.
+            Leads that reached us by phone, email, walk-in, or events. Track each one&apos;s
+            status here; they also join the main pipeline and dashboard.
           </p>
         </div>
         <Link href="/admin/leads" className="ad-btn-ghost"><Inbox size={14} /> All Leads</Link>
       </div>
 
-      <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
+      <div style={{ display: 'flex', gap: 8, marginBottom: 16, flexWrap: 'wrap' }}>
+        <button className={tab === 'manage' ? 'ad-btn' : 'ad-btn-ghost'} onClick={() => setTab('manage')}>
+          <List size={14} /> Manage Leads
+        </button>
         <button className={tab === 'single' ? 'ad-btn' : 'ad-btn-ghost'} onClick={() => setTab('single')}>
           <UserPlus size={14} /> Add Single Lead
         </button>
@@ -50,11 +57,15 @@ export default function OfflineLeadsPage() {
         </button>
       </div>
 
-      {tab === 'single' ? (
+      {tab === 'manage' && <LeadKindTable kind="offline" reloadKey={reloadKey} />}
+
+      {tab === 'single' && (
         <div className="ad-card" style={{ padding: 22 }}>
-          <OfflineLeadForm kind="offline" />
+          <OfflineLeadForm kind="offline" onAdded={bump} />
         </div>
-      ) : (
+      )}
+
+      {tab === 'batch' && (
         <div className="ad-card" style={{ padding: 22, display: 'flex', flexDirection: 'column', gap: 16 }}>
           <div>
             <div className="ad-kicker" style={{ marginBottom: 8 }}>Before You Upload</div>
@@ -94,9 +105,6 @@ export default function OfflineLeadsPage() {
               )}
             </div>
           )}
-          <p className="ad-soft" style={{ fontSize: 12, margin: 0 }}>
-            Tip: the framework also accepts <b>lead_type = pitch</b>, so one CSV can carry both offline leads and pitches.
-          </p>
         </div>
       )}
     </div>
