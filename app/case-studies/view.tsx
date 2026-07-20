@@ -17,8 +17,8 @@ const studies = [
     category: 'Web Development',
     title: <>A website that <em>sells</em>, not just sits there</>,
     description:
-      'Rebuilding a slow, hard-to-edit site into a fast, measurable ecosystem the team can run themselves.',
-    metrics: [{ v: '0.8s', k: 'Load time' }, { v: '+150%', k: 'Conversion goal' }],
+      'How we’d rebuild a slow, hard-to-edit site into a fast, measurable one the team can run themselves.',
+    metrics: [{ v: '≈1.8s', k: 'Load target' }, { v: 'Fewer', k: 'Drop-offs' }],
   },
   {
     href: '/projects/analytics-tagging',
@@ -26,8 +26,8 @@ const studies = [
     category: 'Data & Analytics',
     title: <>Stop guessing. <em>Measure</em> what works</>,
     description:
-      'Turning a broken, untrusted analytics stack into an accurate GA4 and server-side tagging foundation.',
-    metrics: [{ v: '99.8%', k: 'Data accuracy' }, { v: '12x', k: 'ROI target' }],
+      'How we’d turn a broken, untrusted analytics stack into an accurate GA4 and server-side tagging setup.',
+    metrics: [{ v: 'Clear', k: 'Attribution' }, { v: 'Less', k: 'Wasted spend' }],
   },
   {
     href: '/projects/engineering-drawings',
@@ -35,8 +35,8 @@ const studies = [
     category: 'Engineering & CAD',
     title: <>Drawings that <em>leave no room to guess</em></>,
     description:
-      'Precise CAD/CAM documentation that cuts rework and helps small shops win bigger, precision jobs.',
-    metrics: [{ v: '±0.01mm', k: 'Tolerance' }, { v: '-25%', k: 'Material waste' }],
+      'How we’d produce precise CAD/CAM documentation that cuts rework and helps small shops win bigger jobs.',
+    metrics: [{ v: 'Tighter', k: 'Tolerances' }, { v: 'Fewer', k: 'Reworks' }],
   },
 ]
 
@@ -57,11 +57,11 @@ export default function CaseStudiesPageView({ bannerImage }: { bannerImage: stri
               <span className="svc-tag"><span className="no">CS</span>Case Studies</span>
               <h1>How we&apos;d <span className="it">help you win</span></h1>
               <p className="lede">
-                We are a young studio, so instead of borrowed logos we built something more honest:
-                worked-through examples of exactly how we approach real problems, end to end. Each one
-                shows the thinking, the build, and the outcome you could expect.
+                We are a young studio, so rather than borrow logos we did something more honest:
+                worked-through <b>hypothetical</b> examples of how we would approach common problems, end to end.
+                Think of each as an assumption, a way to show how we think, not a real project or the only way we would do it.
               </p>
-              <p className="cs-note" style={{ marginTop: 18 }}>Illustrative examples · not delivered client work</p>
+              <p className="cs-note" style={{ marginTop: 18 }}>Hypothetical examples · assumptions, not delivered client work</p>
               <div className="cta-row" style={{ marginTop: 26 }}>
                 <Link href="/contact" className="btn btn-primary">
                   Start your project
@@ -89,8 +89,8 @@ export default function CaseStudiesPageView({ bannerImage }: { bannerImage: stri
           <div className="sec-head" data-reveal>
             <h2>Worked <span className="it">examples</span></h2>
             <p className="intro">
-              Three disciplines, three real problems, one clear method. Open any one to see how we would take it from
-              brief to results.
+              Three disciplines, three made-up scenarios. Open any one to see how we would think it through, with a
+              small interactive sketch you can play with.
             </p>
           </div>
           <div className="cs-cards" data-reveal-stagger>

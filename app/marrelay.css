@@ -1177,3 +1177,35 @@ footer.mk .bottom{margin-top:48px; padding-top:24px; border-top:1px solid rgba(2
 .cs-lead .k{font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-mut)}
 .cs-lead p{font-size:17px; line-height:1.62; color:var(--ink-2)}
 .cs-lead p + p{margin-top:16px}
+
+/* ---- Case study interactive widgets ---- */
+.ix-wrap{border:1.5px solid var(--ink); border-radius:22px; background:var(--paper); padding:24px; box-shadow:7px 7px 0 var(--accent)}
+.ix-head{display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap; margin-bottom:18px}
+.ix-seg{display:inline-flex; border:1.5px solid var(--ink); border-radius:999px; overflow:hidden; font-family:var(--mono); font-size:12px}
+.ix-seg button{padding:8px 16px; background:var(--paper); border:0; cursor:pointer; color:var(--ink-2)}
+.ix-seg button.on{background:var(--ink); color:var(--paper)}
+.ix-grid2{display:grid; grid-template-columns:1fr 1fr; gap:22px; align-items:center}
+@media (max-width:720px){.ix-grid2{grid-template-columns:1fr}}
+.ix-bars{display:flex; flex-direction:column; gap:15px}
+.ix-bar .lab{display:flex; justify-content:space-between; align-items:baseline; font-family:var(--mono); font-size:11.5px; color:var(--ink-mut); margin-bottom:6px}
+.ix-bar .lab b{font-family:var(--serif); font-style:italic; font-size:17px; color:var(--ink)}
+.ix-bar .track{height:12px; background:var(--paper-2); border:1px solid var(--rule-strong); border-radius:999px; overflow:hidden}
+.ix-bar .fill{height:100%; background:var(--accent); border-radius:999px; transition:width .6s cubic-bezier(.2,.7,.3,1)}
+.ix-note{font-family:var(--mono); font-size:10.5px; color:var(--ink-soft); margin-top:16px; line-height:1.5}
+.ix-mock{border:1.5px solid var(--ink); border-radius:14px; overflow:hidden; background:var(--paper-2); aspect-ratio:4/3; position:relative; display:flex; flex-direction:column}
+.ix-mock .mbar{height:22px; background:var(--paper-3); border-bottom:1.5px solid var(--ink); display:flex; align-items:center; gap:5px; padding:0 9px}
+.ix-mock .mbar i{width:7px; height:7px; border-radius:50%; background:var(--ink-soft); display:block}
+.ix-mock .mbody{flex:1; padding:16px; display:flex; flex-direction:column; gap:9px}
+.ix-mock .ln{height:9px; border-radius:4px; background:var(--rule-strong)}
+.ix-mock .blk{border-radius:8px; background:var(--paper-3); border:1px solid var(--rule-strong)}
+.ix-mock .cta{height:26px; width:120px; border-radius:999px; background:var(--accent); border:1.5px solid var(--ink)}
+.ix-kpis{display:flex; gap:26px; flex-wrap:wrap; margin-top:16px}
+.ix-kpi .v{font-family:var(--serif); font-style:italic; font-size:27px; line-height:1}
+.ix-kpi .k{font-family:var(--mono); font-size:10.5px; color:var(--ink-mut); margin-top:4px}
+.ix-toggle-row{display:flex; gap:9px; flex-wrap:wrap; align-items:center}
+.ix-chip{font-family:var(--mono); font-size:11.5px; border:1.5px solid var(--ink); border-radius:999px; padding:7px 13px; background:var(--paper); cursor:pointer; display:inline-flex; gap:7px; align-items:center; color:var(--ink)}
+.ix-chip.on{background:var(--accent); color:var(--paper)}
+.ix-chart rect.bar{transition:height .5s cubic-bezier(.2,.7,.3,1), y .5s cubic-bezier(.2,.7,.3,1), opacity .2s}
+.ix-chart .barwrap:hover rect.bar{opacity:.82}
+.ix-slider{width:100%; accent-color:var(--accent); cursor:pointer}
+.ix-cad{border:1.5px solid var(--ink); border-radius:14px; background:var(--paper-2); overflow:hidden}
