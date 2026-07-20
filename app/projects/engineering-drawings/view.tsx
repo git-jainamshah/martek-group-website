@@ -1,7 +1,7 @@
 'use client'
 
 import CaseStudyPage, { CaseStudyData } from '@/components/case-studies/CaseStudyPage'
-import CadViewer from '@/components/case-studies/CadViewer'
+import CadMotor from '@/components/case-studies/CadMotor'
 
 const data: CaseStudyData = {
   slug: 'engineering-drawings',
@@ -22,7 +22,7 @@ const data: CaseStudyData = {
     'A situation we hear about often: parts made from hand sketches and verbal instructions. Tolerances live in someone’s head, revisions are scribbled on printouts, and every ambiguous dimension turns into scrap, rework, or a frustrated customer.',
     'The shop wants bigger, more precise jobs but cannot produce the professional drawings those clients expect. If this were the brief, our aim would be documentation a machinist can build from without a single phone call.',
   ],
-  interactiveTitle: <>Inspect a <span className="it">sample drawing</span></>,
+  interactiveTitle: <>Explore a <span className="it">sample assembly</span></>,
   approachIntro:
     'We would turn intent into precise, manufacturable documentation, handling tolerances and revisions the way a serious shop expects.',
   approach: [
@@ -58,5 +58,5 @@ const data: CaseStudyData = {
 }
 
 export default function EngineeringDrawingsPageView({ bannerVideo }: { bannerVideo: string }) {
-  return <CaseStudyPage data={{ ...data, interactive: <CadViewer /> }} media={bannerVideo} />
+  return <CaseStudyPage data={{ ...data, interactive: <CadMotor /> }} media={bannerVideo} />
 }
