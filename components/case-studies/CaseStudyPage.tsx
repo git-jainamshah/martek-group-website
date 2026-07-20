@@ -33,6 +33,9 @@ export interface CaseStudyData {
   quoteAttribution: string
   ctaH2: ReactNode
   ctaText: string
+  /** page-specific interactive demo */
+  interactive?: ReactNode
+  interactiveTitle?: ReactNode
   /** for SEO JSON-LD + meta */
   seoName: string
   seoDescription: string
@@ -82,11 +85,12 @@ export default function CaseStudyPage({ data, media }: { data: CaseStudyData; me
             <div data-reveal>
               <span className="svc-tag">
                 <span className="no">CS</span>
-                {data.category} · Illustrative
+                {data.category} · Hypothetical
               </span>
               <h1>{data.h1}</h1>
               <p className="lede">{data.summary}</p>
-              <div className="cta-row">
+              <p className="cs-note" style={{ marginTop: 16 }}>An imagined scenario · not a past project or a promise of results</p>
+              <div className="cta-row" style={{ marginTop: 24 }}>
                 <Link href={contactHref} className="btn btn-primary">
                   Start a project like this
                   <ArrowSvg />
@@ -127,8 +131,21 @@ export default function CaseStudyPage({ data, media }: { data: CaseStudyData; me
         </div>
       </section>
 
+      {/* INTERACTIVE SKETCH */}
+      {data.interactive && (
+        <section className="sec alt">
+          <div className="wrap">
+            <div className="sec-head" data-reveal>
+              <h2>{data.interactiveTitle ?? <>A quick <span className="it">interactive sketch</span></>}</h2>
+              <p className="intro">Have a play. It&apos;s a rough, made-up illustration of the kind of thing we&apos;d explore with you, not a real deliverable or a fixed method.</p>
+            </div>
+            <div data-reveal>{data.interactive}</div>
+          </div>
+        </section>
+      )}
+
       {/* OUR APPROACH */}
-      <section className="sec alt">
+      <section className="sec">
         <div className="wrap">
           <div className="sec-head" data-reveal>
             <h2>Our <span className="it">approach</span></h2>
@@ -148,7 +165,7 @@ export default function CaseStudyPage({ data, media }: { data: CaseStudyData; me
       </section>
 
       {/* WHAT WE'D BUILD */}
-      <section className="sec">
+      <section className="sec alt">
         <div className="wrap">
           <div className="sec-head" data-reveal>
             <h2>What we&apos;d <span className="it">build</span></h2>
@@ -161,7 +178,7 @@ export default function CaseStudyPage({ data, media }: { data: CaseStudyData; me
       </section>
 
       {/* THE OUTCOME */}
-      <section className="sec alt">
+      <section className="sec">
         <div className="wrap">
           <div className="casestudy" data-reveal>
             <div className="cs-media">
@@ -193,7 +210,7 @@ export default function CaseStudyPage({ data, media }: { data: CaseStudyData; me
               </div>
             </div>
           </div>
-          <p className="cs-note" style={{ marginTop: 20 }}>Illustrative example · figures are target outcomes, not a delivered client result</p>
+          <p className="cs-note" style={{ marginTop: 20 }}>Made-up example figures · the kind of outcome we&apos;d aim for, not a promise or a real result</p>
         </div>
       </section>
 
