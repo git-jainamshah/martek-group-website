@@ -74,6 +74,8 @@ export default function LeadsDashboardPage() {
             <option value="">All</option>
             <option value="contact">Contact Form</option>
             <option value="promo-banner">Promo Banner</option>
+            <option value="offline">Offline Lead</option>
+            <option value="pitch">Pitch</option>
           </select></div>
         {(from || to || formType) && (
           <button className="ad-btn-ghost" onClick={() => { setFrom(''); setTo(''); setFormType('') }}>Clear</button>
