@@ -26,6 +26,7 @@ const navLinks = [
   { label: 'Social', href: '/services/social' },
   { label: 'SEO & Ads', href: '/services/seo-ads' },
   { label: 'Engineering', href: '/services/engineering' },
+  { label: 'Case Studies', href: '/case-studies' },
   { label: 'Contact Us', href: '/contact' },
 ]
 
@@ -35,6 +36,13 @@ const serviceLinks = [
   { label: 'Social', href: '/services/social' },
   { label: 'SEO & Ads', href: '/services/seo-ads' },
   { label: 'Engineering & CAD', href: '/services/engineering' },
+]
+
+const caseStudyLinks = [
+  { label: 'All Case Studies', href: '/case-studies' },
+  { label: 'Web Development', href: '/projects/web-development' },
+  { label: 'Data & Analytics', href: '/projects/analytics-tagging' },
+  { label: 'Engineering & CAD', href: '/projects/engineering-drawings' },
 ]
 
 /* per-page announcement bar + contact link (ported from each reference page) */
@@ -242,6 +250,26 @@ export default function Navbar() {
                 </button>
                 <div className="nav-drop-panel" role="menu">
                   {serviceLinks.map((s) => (
+                    <Link key={s.href} href={s.href} role="menuitem"
+                      className={isActive(s.href) ? 'active' : undefined}>
+                      {s.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+              <div className="nav-drop">
+                <button
+                  type="button"
+                  className={`nav-drop-btn${pathname?.startsWith('/case-studies') || pathname?.startsWith('/projects') ? ' active' : ''}`}
+                  aria-haspopup="true"
+                >
+                  Case Studies
+                  <svg viewBox="0 0 10 6" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+                    <path d="M1 1 L5 5 L9 1" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+                <div className="nav-drop-panel" role="menu">
+                  {caseStudyLinks.map((s) => (
                     <Link key={s.href} href={s.href} role="menuitem"
                       className={isActive(s.href) ? 'active' : undefined}>
                       {s.label}

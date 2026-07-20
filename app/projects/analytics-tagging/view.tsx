@@ -1,92 +1,60 @@
 'use client'
 
-import PageHero from '@/components/PageHero'
-import VideoBackground from '@/components/VideoBackground'
-import PresentationStats from '@/components/PresentationStats'
-import Link from 'next/link'
-import { ArrowLeft, Download, PlayCircle } from 'lucide-react'
-import { motion } from 'framer-motion'
+import CaseStudyPage, { CaseStudyData } from '@/components/case-studies/CaseStudyPage'
+
+const data: CaseStudyData = {
+  slug: 'analytics-tagging',
+  accentClass: 'accent-data',
+  contactQuery: 'data',
+  category: 'Data & Analytics',
+  crumb: 'Analytics & Tagging',
+  h1: <>Stop guessing. <span className="it">Measure</span> what actually works</>,
+  summary:
+    'A hypothetical retail brand was spending on ads but flying blind, with broken tags and numbers no one trusted. Here is how we would rebuild their analytics into a clean, accurate tagging architecture that pays for itself.',
+  heroStats: [
+    { v: '99.8%', k: 'Data accuracy target' },
+    { v: '12x', k: 'First-quarter ROI goal' },
+    { v: '4 wks', k: 'Audit to live' },
+  ],
+  challengeKicker: 'The challenge',
+  challenge: [
+    'Years of quick fixes had left the analytics stack a mess: duplicate tags, events firing twice, conversions that did not match the payment processor, and a GA4 migration that stalled halfway.',
+    'Marketing could not trust a single number, so budget decisions were made on gut feel. They needed one source of truth, accurate enough to move real spend against and simple enough for the whole team to read.',
+  ],
+  approachIntro:
+    'A disciplined audit-first process. We fix the foundation before touching dashboards, so every number downstream is trustworthy.',
+  approach: [
+    { title: 'Tag audit', text: 'We inventory every tag, trigger, and event, then document what is broken, duplicated, or missing against your goals.', time: 'Week 1' },
+    { title: 'Measurement plan', text: 'A single spec that defines every event, parameter, and conversion, agreed with marketing before a line changes.', time: 'Week 1-2' },
+    { title: 'Rebuild in GTM/GA4', text: 'Clean server-side and client-side tagging, consent-aware, with QA on every event against the source of truth.', time: 'Week 2-3' },
+    { title: 'Dashboards & handover', text: 'Reports the team actually opens, plus a governance doc so the setup stays clean as you grow.', time: 'Week 4' },
+  ],
+  buildIntro: 'A measurement foundation that is accurate, privacy-compliant, and cheaper to run than the patchwork it replaces.',
+  build: [
+    { title: 'GA4 done right', text: 'A clean GA4 property with a proper event model, so reports match reality and the migration is finally finished.', tags: ['GA4', 'Event model'] },
+    { title: 'Server-side tagging', text: 'Server-side GTM for accuracy and resilience against ad blockers and browser tracking limits.', tags: ['GTM', 'Server-side'] },
+    { title: 'Consent & compliance', text: 'Consent Mode and a privacy-first setup so tracking is both accurate and compliant by default.', tags: ['Consent Mode', 'Privacy'] },
+    { title: 'Conversion accuracy', text: 'Conversions reconciled against your backend and ad platforms so every channel is measured on the same ruler.', tags: ['Reconciliation', 'Attribution'] },
+    { title: 'Trusted dashboards', text: 'Looker Studio or GA4 dashboards built around decisions, not vanity metrics, with clear owners.', tags: ['Looker', 'Reporting'] },
+    { title: 'Governance', text: 'Naming conventions and a change process so the stack stays clean instead of drifting back into chaos.', tags: ['Governance', 'Docs'] },
+  ],
+  outcomeTagline: 'What good looks like',
+  outcomeH3: <>A <em>data-driven</em> decision engine</>,
+  outcomeText:
+    'With accurate tracking, marketing can finally see which channels earn and which drain, shift budget with confidence, and cut wasted SaaS spend. The setup pays for itself many times over in the first quarter.',
+  outcomeMetrics: [
+    { v: '99.8', sup: '%', k: 'Data accuracy (from 85%)' },
+    { v: '40', sup: '%', k: 'SaaS spend saved' },
+    { v: '12x', k: 'First-quarter ROI target' },
+  ],
+  quote: 'One source of truth the whole team trusts.',
+  quoteAttribution: 'Marrelay · Data & Analytics',
+  ctaH2: <>Want numbers you can <span className="it">actually trust?</span></>,
+  ctaText: 'Send us your current setup. We will audit it, tell you what is broken, and show you the path to accurate, decision-ready data.',
+  seoName: 'Analytics & Tagging Case Study — Enterprise Retail Measurement',
+  seoDescription: 'How Marrelay rebuilds a broken analytics stack into an accurate, consent-compliant GA4 and server-side tagging architecture that marketing can trust.',
+}
 
 export default function AnalyticsTaggingPageView({ bannerVideo }: { bannerVideo: string }) {
-    const stats = [
-        { label: "Data Accuracy", value: "99.8%", subtext: "vs 85% industry avg" },
-        { label: "Cost Savings", value: "40%", subtext: "Annual SaaS spend" },
-        { label: "Implementation", value: "4 Wks", subtext: "From audit to live" },
-        { label: "ROI", value: "12x", subtext: "First quarter return" }
-    ]
-
-    return (
-        <div className="bg-background min-h-screen pb-24">
-            <div className="relative overflow-hidden">
-                <PageHero
-                    title="Analytics & Tagging"
-                    subtitle="SAMPLE CASE STUDY REPORT"
-                    backgroundComponent={<VideoBackground src={bannerVideo} />}
-                    className="h-[55vh] min-h-[400px]"
-                />
-            </div>
-
-            <div className="container-custom -mt-20 relative z-10 px-4 sm:px-6 lg:px-8">
-                <div className="bg-background border border-border shadow-2xl rounded-2xl p-8 md:p-12">
-                    {/* Header */}
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 border-b border-border pb-8">
-                        <div>
-                            <Link href="/case-studies" className="inline-flex items-center text-muted-foreground hover:text-primary text-sm font-bold uppercase tracking-widest mb-4">
-                                <ArrowLeft className="mr-2 h-4 w-4" /> Back to Showcase
-                            </Link>
-                            <h1 className="text-3xl md:text-4xl font-bold text-foreground">Data-Driven Strategy</h1>
-                            <p className="text-xl text-muted-foreground mt-2">Tagging Architecture for Enterprise Retail</p>
-                        </div>
-                        <div className="flex gap-4 mt-6 md:mt-0">
-                            <button className="flex items-center space-x-2 bg-primary text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-primary/90 transition-colors">
-                                <Download className="w-4 h-4" /> <span>Download Raw Data</span>
-                            </button>
-                            <button className="flex items-center space-x-2 bg-muted text-foreground px-4 py-2 rounded-lg text-sm font-bold hover:bg-muted/80 transition-colors">
-                                <PlayCircle className="w-4 h-4" /> <span>Watch Demo</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* Stats */}
-                    <PresentationStats stats={stats} />
-
-                    {/* Content Body */}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 text-lg leading-relaxed text-muted-foreground">
-                        <motion.div
-                            initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                        >
-                            <h3 className="text-foreground font-bold text-2xl mb-4">The Challenge</h3>
-                            <p className="mb-6">
-                                The client was flying blind. Despite having Google Analytics 4 installed, data discrepancies between their CRM and web tracking were exceeding 25%. They had no visibility into user drop-off points and were spending $50k/month on ads with unverified conversions.
-                            </p>
-                            <ul className="list-disc pl-6 space-y-2 mb-6 text-base">
-                                <li>Broken GTM Triggers</li>
-                                <li>Non-compliant Cookie Consent</li>
-                                <li>Zero Server-Side Tracking</li>
-                            </ul>
-                        </motion.div>
-
-                        <motion.div
-                            initial={{ opacity: 0, x: 20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                        >
-                            <h3 className="text-foreground font-bold text-2xl mb-4">The Solution</h3>
-                            <p className="mb-6">
-                                We re-architected their entire tagging infrastructure. Moving from client-side chaos to a clean Server-Side GTM setup ensured data accuracy and privacy compliance. We enriched the data layer with custom events, allowing for precise user journey mapping.
-                            </p>
-                            <div className="bg-muted/30 p-6 rounded-lg border-l-4 border-primary">
-                                <p className="text-foreground font-medium italic">
-                                    &quot;The clarity we gained after the first week of data collection completely changed our Q4 strategy.&quot;
-                                </p>
-                                <p className="text-sm mt-4 font-bold uppercase text-primary">- Marketing Director</p>
-                            </div>
-                        </motion.div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
+  return <CaseStudyPage data={data} media={bannerVideo} />
 }
