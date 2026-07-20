@@ -2,11 +2,13 @@
 
 import { useState } from 'react'
 import { STATUSES, STATUS_LABELS, SERVICE_LABELS } from '@/components/admin/leads-shared'
+import { COUNTRIES, PROVINCES } from '@/lib/locations'
 
 const METHODS_OFFLINE = ['Phone Call', 'Email', 'Walk-in', 'Text / WhatsApp', 'Event / Networking', 'Video Call', 'Other']
 const METHODS_PITCH = ['Cold Email', 'Cold Call', 'LinkedIn Outreach', 'Event / Networking', 'Proposal / RFP', 'Other']
 const BUDGETS = ['', '<5k', '5-10k', '10-25k', '25k+']
 const TIMELINES = ['', 'ASAP', '1-2 months', '3-6 months', 'Flexible']
+const REMOTE = ['', 'Yes', 'No', 'Hybrid']
 
 const Field = ({ label, children, hint }: { label: string; children: React.ReactNode; hint?: string }) => (
   <div>
@@ -17,7 +19,8 @@ const Field = ({ label, children, hint }: { label: string; children: React.React
 )
 
 const empty = {
-  name: '', email: '', phone: '', company: '', contactMethod: '',
+  name: '', email: '', phone: '', company: '', companyUrl: '',
+  companyCountry: '', companyProvince: '', companyRemote: '', contactMethod: '',
   contactDate: new Date().toISOString().slice(0, 10),
   budget: '', timeline: '', status: 'new', message: '', notes: '',
 }
@@ -60,6 +63,33 @@ export default function OfflineLeadForm({ kind, onAdded }: { kind: 'offline' | '
         </Field>
         <Field label="Company">
           <input className="ad-input" value={f.company} onChange={(e) => set({ company: e.target.value })} />
+        </Field>
+        <Field label="Company Website">
+          <input type="url" className="ad-input" placeholder="https://company.com" value={f.companyUrl} onChange={(e) => set({ companyUrl: e.target.value })} />
+        </Field>
+        <Field label="Company Location">
+          <select className="ad-input" value={f.companyCountry}
+            onChange={(e) => set({ companyCountry: e.target.value, companyProvince: '' })}>
+            <option value="">Select country…</option>
+            {COUNTRIES.map((c) => <option key={c} value={c}>{c}</option>)}
+          </select>
+        </Field>
+        {f.companyCountry && (
+          <Field label={PROVINCES[f.companyCountry] ? 'Province / State' : 'Province / Region'}>
+            {PROVINCES[f.companyCountry] ? (
+              <select className="ad-input" value={f.companyProvince} onChange={(e) => set({ companyProvince: e.target.value })}>
+                <option value="">Select…</option>
+                {PROVINCES[f.companyCountry].map((p) => <option key={p} value={p}>{p}</option>)}
+              </select>
+            ) : (
+              <input className="ad-input" placeholder="Province or region" value={f.companyProvince} onChange={(e) => set({ companyProvince: e.target.value })} />
+            )}
+          </Field>
+        )}
+        <Field label="Is The Company Remote?">
+          <select className="ad-input" value={f.companyRemote} onChange={(e) => set({ companyRemote: e.target.value })}>
+            {REMOTE.map((r) => <option key={r} value={r}>{r || 'Unknown'}</option>)}
+          </select>
         </Field>
         <Field label={kind === 'pitch' ? 'How Did We Pitch Them?' : 'How Did They Reach Us?'}>
           <select className="ad-input" value={f.contactMethod} onChange={(e) => set({ contactMethod: e.target.value })}>

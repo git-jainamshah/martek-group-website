@@ -3,6 +3,7 @@ import { ensureDb, audit, generateLeadPublicId } from '@/lib/admin/db'
 import { run, insertReturningId } from '@/lib/admin/pg'
 import { requireLeadsEditor } from '@/lib/admin/auth'
 import { budgetToRange } from '@/lib/admin/leads'
+import { COUNTRIES } from '@/lib/locations'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -16,7 +17,7 @@ export const dynamic = 'force-dynamic'
  * GET  ?download=sample         - a ready-to-edit sample CSV
  */
 
-const CSV_HEADER = 'lead_type,name,email,phone,company,contact_method,contact_date,services,budget,timeline,status,message,notes'
+const CSV_HEADER = 'lead_type,name,email,phone,company,company_website,company_country,company_province,company_remote,contact_method,contact_date,services,budget,timeline,status,message,notes'
 
 const KINDS = ['offline', 'pitch']
 const STATUSES = ['new', 'contacted', 'qualified', 'won', 'lost']
@@ -78,8 +79,16 @@ function parseCsv(text: string): string[][] {
   return rows.filter((r) => r.some((c) => clean(c) !== ''))
 }
 
+const REMOTE_MAP: Record<string, string> = { yes: 'Yes', no: 'No', hybrid: 'Hybrid' }
+function normCountry(raw: string): string {
+  const s = clean(raw)
+  if (!s) return ''
+  return COUNTRIES.find((c) => c.toLowerCase() === s.toLowerCase()) || smartTitle(s)
+}
+
 type LeadInput = {
   kind: string; name: string; email: string; phone: string; company: string
+  companyUrl?: string; companyCountry?: string; companyProvince?: string; companyRemote?: string
   contactMethod: string; contactDate: string; services: string[] | string
   budget: string; timeline: string; status: string; message: string; notes: string
 }
@@ -103,11 +112,17 @@ function validate(d: LeadInput): { ok: true; v: any } | { ok: false; error: stri
   const services = Array.isArray(d.services) ? d.services : normServices(String(d.services ?? ''))
   const methodClean = clean(d.contactMethod)
   const contactMethod = METHODS.find((m) => m.toLowerCase() === methodClean.toLowerCase()) || smartTitle(methodClean) || (kind === 'pitch' ? 'Cold Email' : 'Phone Call')
+  const remoteRaw = clean(d.companyRemote).toLowerCase()
+  if (remoteRaw && !REMOTE_MAP[remoteRaw]) return { ok: false, error: `company_remote "${d.companyRemote}" must be Yes, No, or Hybrid` }
   return {
     ok: true,
     v: {
       kind, name, email: email || null, phone: phone || null,
       company: smartTitle(clean(d.company)) || null, contactMethod,
+      companyUrl: clean(d.companyUrl) || null,
+      companyCountry: normCountry(String(d.companyCountry ?? '')) || null,
+      companyProvince: smartTitle(clean(d.companyProvince)) || null,
+      companyRemote: remoteRaw ? REMOTE_MAP[remoteRaw] : null,
       date, services, budget: budget || null, timeline: clean(d.timeline) || null,
       status, message: clean(d.message) || null, notes: clean(d.notes) || null,
     },
@@ -122,7 +137,11 @@ async function insertLead(v: any, addedBy: string) {
      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,1,$10,$11,$12,$10) RETURNING id`,
     [
       v.name, v.email, v.phone, v.company, v.message, null, v.kind,
-      JSON.stringify({ services: v.services.length ? v.services : undefined, budget: v.budget ?? undefined, timeline: v.timeline ?? undefined }),
+      JSON.stringify({
+        services: v.services.length ? v.services : undefined, budget: v.budget ?? undefined, timeline: v.timeline ?? undefined,
+        companyUrl: v.companyUrl ?? undefined, companyCountry: v.companyCountry ?? undefined,
+        companyProvince: v.companyProvince ?? undefined, companyRemote: v.companyRemote ?? undefined,
+      }),
       generateLeadPublicId(), atIso, v.status, v.notes,
     ]
   )
@@ -151,11 +170,15 @@ ${CSV_HEADER}
 
 Rules per column
 ----------------
-lead_type       "offline" or "pitch". Blank = offline.
-name            Required. The person's full name.
-email           Optional if phone is given. Must look like an email.
-phone           Optional if email is given.
-company         Optional.
+lead_type        "offline" or "pitch". Blank = offline.
+name             Required. The person's full name.
+email            Optional if phone is given. Must look like an email.
+phone            Optional if email is given.
+company          Optional.
+company_website  Optional. e.g. https://company.com
+company_country  Optional. Full country name, e.g. Canada, United States.
+company_province Optional. Province or state, e.g. Ontario, California.
+company_remote   Optional. One of: Yes, No, Hybrid.
 contact_method  How they reached us / how we reached them. Suggested values:
                 ${METHODS.join(', ')}.
                 Anything else is accepted and stored as typed.
@@ -179,9 +202,9 @@ Good to know
 `
 
 const SAMPLE = `${CSV_HEADER}
-offline,Jane Miller,jane.miller@example.com,+1 416 555 0192,Miller Renovations,Phone Call,2026-07-12,web;seo,10-25k,1-2 months,new,"Called about a new website, wants a quote before September.",Spoke with Jainam - send proposal
-offline,RAKESH SHARMA,,+1 647 555 0114,,Walk-in,2026-07-15,engineering,<5k,ASAP,contacted,"Needs CAD drawings for a basement permit.",
-pitch,Laura Chen,laura@brightpath.example.com,,Brightpath Physio,LinkedIn Outreach,2026-07-16,web;social,5-10k,3-6 months,qualified,"We pitched a site refresh + social management package.",Follow up Friday
+offline,Jane Miller,jane.miller@example.com,+1 416 555 0192,Miller Renovations,https://millerreno.com,Canada,Ontario,Hybrid,Phone Call,2026-07-12,web;seo,10-25k,1-2 months,new,"Called about a new website, wants a quote before September.",Spoke with Jainam - send proposal
+offline,RAKESH SHARMA,,+1 647 555 0114,,,Canada,Ontario,No,Walk-in,2026-07-15,engineering,<5k,ASAP,contacted,"Needs CAD drawings for a basement permit.",
+offline,Dan Reeves,dan@northpeak.example.com,,Northpeak Fitness,https://northpeak.example.com,United States,California,Yes,Email,2026-07-16,social;seo,5-10k,3-6 months,qualified,"Emailed asking about ongoing social + ads.",Follow up Friday
 `
 
 export async function GET(req: NextRequest) {
@@ -237,7 +260,9 @@ export async function POST(req: NextRequest) {
       const get = (name: string) => c[expected.indexOf(name)] ?? ''
       const res = validate({
         kind: get('lead_type'), name: get('name'), email: get('email'), phone: get('phone'),
-        company: get('company'), contactMethod: get('contact_method'), contactDate: get('contact_date'),
+        company: get('company'), companyUrl: get('company_website'), companyCountry: get('company_country'),
+        companyProvince: get('company_province'), companyRemote: get('company_remote'),
+        contactMethod: get('contact_method'), contactDate: get('contact_date'),
         services: get('services'), budget: get('budget'), timeline: get('timeline'),
         status: get('status'), message: get('message'), notes: get('notes'),
       })
