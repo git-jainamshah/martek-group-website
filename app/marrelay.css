@@ -1209,3 +1209,19 @@ footer.mk .bottom{margin-top:48px; padding-top:24px; border-top:1px solid rgba(2
 .ix-chart .barwrap:hover rect.bar{opacity:.82}
 .ix-slider{width:100%; accent-color:var(--accent); cursor:pointer}
 .ix-cad{border:1.5px solid var(--ink); border-radius:14px; background:var(--paper-2); overflow:hidden}
+
+/* ---- CAD motor viewport ---- */
+@keyframes cadspin{to{transform:rotate(360deg)}}
+.cad-spin{transform-box:fill-box; transform-origin:center; animation:cadspin 3.4s linear infinite}
+.cad-screen{border:1.5px solid var(--ink); border-radius:14px; overflow:hidden; background:#0e1420; position:relative}
+.cad-toolbar{display:flex; align-items:center; gap:5px; padding:7px 10px; background:#161d2b; border-bottom:1px solid #263148}
+.cad-toolbar i{width:14px; height:14px; border-radius:3px; display:block; background:#2b3550; border:1px solid #38445f}
+.cad-toolbar .sp{flex:1}
+.cad-toolbar .lbl{font-family:var(--mono); font-size:10px; color:#7c8aa6; letter-spacing:.08em}
+.cad-specs{display:flex; gap:8px; flex-wrap:wrap; margin-top:14px}
+.cad-spec{font-family:var(--mono); font-size:11px; border:1px solid var(--rule-strong); border-radius:8px; padding:6px 11px; background:var(--paper-2); color:var(--ink-2)}
+.cad-spec b{color:var(--ink)}
+.cad-ctrls{display:grid; grid-template-columns:1fr 1fr; gap:16px 22px; margin-top:16px}
+@media (max-width:600px){.cad-ctrls{grid-template-columns:1fr}}
+.cad-ctrl{display:flex; align-items:center; gap:12px}
+.cad-ctrl span{font-family:var(--mono); font-size:11px; color:var(--ink-mut); white-space:nowrap; min-width:64px}
