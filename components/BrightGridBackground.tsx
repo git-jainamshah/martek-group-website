@@ -42,7 +42,7 @@ export default function BrightGridBackground() {
 
                 // Randomly assign specialized colors occasionally
                 const rand = Math.random()
-                if (rand > 0.98) this.color = '#E4251F' // Martek Red
+                if (rand > 0.98) this.color = '#E4251F' // Marrelay Red
                 else if (rand > 0.95) this.color = '#ffffff' // White
                 else this.color = '#333333' // Dark Grey (default)
             }

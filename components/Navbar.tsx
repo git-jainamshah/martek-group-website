@@ -148,7 +148,7 @@ export default function Navbar() {
       .catch(() => {})
   }, [])
 
-  const brandName = company?.name || 'Martek Group'
+  const brandName = company?.name || 'Marrelay'
   const brandFirst = brandName.split(' ')[0]
   const brandRest = brandName.split(' ').slice(1).join(' ')
 
@@ -286,7 +286,7 @@ export default function Navbar() {
         <div className="m-nav-top">
           <span className="m-brand">
             <span className="lm">
-              <Image src="/assets/martek-mark.png" alt="Martek Group" width={34} height={34} />
+              <Image src="/assets/martek-mark.png" alt="Marrelay" width={34} height={34} />
             </span>
             <span className="bt">Menu</span>
           </span>
@@ -318,7 +318,7 @@ export default function Navbar() {
           </Link>
           <SocialLinks variant="drawer" socials={socials ?? undefined} />
           <p className="m-mail">
-            or email <a href="mailto:hello@martek.studio">hello@martek.studio</a>
+            or email <a href="mailto:hello@marrelay.com">hello@marrelay.com</a>
           </p>
         </div>
       </aside>

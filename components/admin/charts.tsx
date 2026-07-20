@@ -1,7 +1,7 @@
 'use client'
 
 /**
- * Dependency-free SVG charts in the Martek palette.
+ * Dependency-free SVG charts in the Marrelay palette.
  */
 
 const PALETTE = ['#ED1C24', '#6B9080', '#8390C8', '#E07A5F', '#8B5A8C', '#F2CC8F', '#6E6A62', '#C8141B']

@@ -5,7 +5,7 @@ import { ArrowRight } from 'lucide-react'
 import { getPackageOverrides } from '@/lib/pricing'
 
 export const metadata: Metadata = {
-  title: 'Pricing - Martek Group',
+  title: 'Pricing - Marrelay',
   description: 'Affordable pricing plans for web development, digital marketing, and engineering services. Choose from Starter, Professional, or Custom Enterprise packages.',
 }
 

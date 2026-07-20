@@ -34,10 +34,10 @@ const config: Config = {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
         },
-        'martek-red': '#E4251F', // Keeping legacy
-        'martek-black': '#000000',
-        'martek-gray': '#111111',
-        'martek-beige': '#F9F9F5',
+        'marrelay-red': '#E4251F', // Keeping legacy
+        'marrelay-black': '#000000',
+        'marrelay-gray': '#111111',
+        'marrelay-beige': '#F9F9F5',
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

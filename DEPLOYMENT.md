@@ -1,4 +1,4 @@
-# Deployment Guide - Martek Group Website
+# Deployment Guide - Marrelay Website
 
 ## Quick Deployment with Vercel (Recommended)
 
@@ -43,7 +43,7 @@ Vercel is the easiest way to deploy Next.js applications. Follow these steps:
 
 3. **Deploy from project directory**
    ```bash
-   cd "/Users/jainam.shah/Documents/Jainam Personal Projects/Martek Group"
+   cd "/Users/jainam.shah/Documents/Jainam Personal Projects/Marrelay"
    vercel
    ```
 
@@ -56,7 +56,7 @@ Vercel is the easiest way to deploy Next.js applications. Follow these steps:
 
 1. **Initialize Git repository** (if not already done)
    ```bash
-   cd "/Users/jainam.shah/Documents/Jainam Personal Projects/Martek Group"
+   cd "/Users/jainam.shah/Documents/Jainam Personal Projects/Marrelay"
    git init
    git add .
    git commit -m "Initial commit"

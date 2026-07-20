@@ -52,13 +52,13 @@ export default function Sidebar({ userName, userEmail, role = 'admin' }: { userN
   const [collapsed, setCollapsed] = useState(false)
 
   useEffect(() => {
-    setCollapsed(localStorage.getItem('martek_admin_sidebar') === 'collapsed')
+    setCollapsed(localStorage.getItem('marrelay_admin_sidebar') === 'collapsed')
   }, [])
 
   function toggle() {
     const next = !collapsed
     setCollapsed(next)
-    localStorage.setItem('martek_admin_sidebar', next ? 'collapsed' : 'open')
+    localStorage.setItem('marrelay_admin_sidebar', next ? 'collapsed' : 'open')
   }
 
   async function logout() {
@@ -70,10 +70,10 @@ export default function Sidebar({ userName, userEmail, role = 'admin' }: { userN
   return (
     <aside className={`ad-side ${collapsed ? 'collapsed' : ''}`}>
       <div className="ad-side-head">
-        <img src="/assets/martek-mark.png" alt="Martek" />
+        <img src="/assets/martek-mark.png" alt="Marrelay" />
         {!collapsed && (
           <div className="ad-side-title" style={{ flex: 1 }}>
-            <b>Martek <span>Admin</span></b>
+            <b>Marrelay <span>Admin</span></b>
             <small title={userEmail}>{userName}</small>
           </div>
         )}

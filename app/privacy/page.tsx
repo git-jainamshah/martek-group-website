@@ -2,8 +2,8 @@ import { Metadata } from 'next'
 import { PRIVACY_DEFAULT_HTML, formatLegalDate, sanitizeHtml } from '@/lib/admin/legal-defaults'
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy - Martek Group',
-  description: 'Privacy Policy for Martek Group website.',
+  title: 'Privacy Policy - Marrelay',
+  description: 'Privacy Policy for Marrelay website.',
 }
 
 export const revalidate = 60

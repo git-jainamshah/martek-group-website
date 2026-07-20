@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Social · Marrelay</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=DM+Sans:opsz,wght@9..40,400..700&family=JetBrains+Mono:wght@400;500&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="marrelay.css">
+<style>
+:root{ --accent:#CC7A33; --accent-soft:#F9E5BD; }
+.scene-phone{position:absolute; top:9%; left:50%; transform:translateX(-50%) rotate(-2deg); width:172px; height:78%; background:var(--paper); border:1.5px solid var(--ink); border-radius:26px; box-shadow:5px 5px 0 var(--ink); overflow:hidden; padding:0}
+.scene-phone .pbar{height:30px; background:var(--accent); border-bottom:1.5px solid var(--ink); display:flex; align-items:center; gap:7px; padding:0 12px}
+.scene-phone .pbar .av{width:16px;height:16px;border-radius:50%;background:var(--paper);border:1.5px solid var(--ink)}
+.scene-phone .pbar b{font-family:var(--mono); font-size:9px; color:var(--paper)}
+.scene-phone .post{margin:12px; border:1.5px solid var(--ink); border-radius:12px; overflow:hidden; background:var(--paper-2)}
+.scene-phone .post .img{height:78px; background:var(--accent-soft); border-bottom:1.5px solid var(--ink); display:grid; place-items:center; font-size:26px}
+.scene-phone .post .meta{display:flex; gap:8px; padding:9px 10px; align-items:center}
+.scene-phone .post .meta .heart{color:var(--accent); font-size:14px}
+.scene-phone .post .meta small{font-family:var(--mono); font-size:9px; color:var(--ink-mut)}
+.bubble{position:absolute; background:var(--paper); border:1.5px solid var(--ink); border-radius:14px; box-shadow:3px 3px 0 var(--ink); font-family:var(--mono); font-size:11px; padding:7px 11px}
+.bubble.b1{top:14%; left:4%; --rot:-6deg; transform:rotate(-6deg)}
+.bubble.b2{top:40%; right:3%; background:var(--ink); color:var(--paper); --rot:5deg; transform:rotate(5deg)}
+.bubble.b3{bottom:14%; left:6%; background:var(--accent); color:var(--paper); --rot:4deg; transform:rotate(4deg)}
+.badge-foll{bottom:8%; right:6%; --rot:-4deg; transform:rotate(-4deg)}
+</style>
+</head>
+<body class="dot-bg">
+
+<div class="bar">
+  <div class="wrap"><div class="row">
+    <span class="pill">Social</span>
+    <span>We become your <b>in-house content team</b>, strategy, posts, replies, and creator deals.</span>
+    <a href="contact.html?service=social" style="display:inline-flex;align-items:center;gap:6px;color:var(--paper)">Let's talk <span class="arr">→</span></a>
+  </div></div>
+</div>
+
+<nav class="main">
+  <div class="wrap"><div class="row">
+    <a href="Marrelay Reimagined.html" class="logo">
+      <span class="logo-mark"><img src="assets/martek-mark.png" alt="Marrelay"></span>
+      <span class="logo-name"><b>Marrelay <span class="grp">Group</span></b><span>Digital studio</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="web-development.html">Web</a>
+      <a href="data-analytics.html">Data</a>
+      <a href="social.html" class="active">Social</a>
+      <a href="seo-ads.html">SEO &amp; Ads</a>
+      <a href="engineering.html">Engineering</a>
+    </div>
+    <div class="nav-cta">
+      <a href="Marrelay Reimagined.html#pricing" class="btn btn-ghost">Pricing</a>
+      <a href="contact.html?service=social" class="btn btn-primary">Book a call
+        <svg class="arr-svg" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11 L11 3 M5 3 H11 V9"/></svg></a>
+    </div>
+  </div></div>
+</nav>
+
+<section class="svc-hero">
+  <div class="wrap">
+    <div class="crumb"><a href="Marrelay Reimagined.html">Home</a><span class="sep">/</span><a href="Marrelay Reimagined.html#what">Services</a><span class="sep">/</span><span class="here">Social</span></div>
+    <div class="svc-hero-grid" style="margin-top:18px">
+      <div data-reveal>
+        <span class="svc-tag"><span class="no">04</span>Social</span>
+        <h1>A <span class="hl">voice</span> people<br>actually <span class="it">follow</span>.</h1>
+        <p class="lede">Tiny brands don't need more posts, they need a point of view. We run your channels end to end: <b>strategy, content, community, and creator partnerships</b>.</p>
+        <div class="cta-row">
+          <a href="contact.html?service=social" class="btn btn-primary">Book a discovery call
+            <svg class="arr-svg" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11 L11 3 M5 3 H11 V9"/></svg></a>
+          <a href="#pricing" class="btn btn-ghost">See pricing</a>
+        </div>
+        <div class="mini-stats">
+          <div class="ms"><div class="v">12+</div><div class="k">posts a month</div></div>
+          <div class="ms"><div class="v">&lt;1h</div><div class="k">reply time, work hours</div></div>
+          <div class="ms"><div class="v">DMs</div><div class="k">turned into customers</div></div>
+        </div>
+      </div>
+
+      <div data-reveal>
+        <div class="hero-stage">
+          <div class="dotgrid"></div>
+          <div class="scene-phone float-a">
+            <div class="pbar"><span class="av"></span><b>@yourbrand</b></div>
+            <div class="post">
+              <div class="img">🍋</div>
+              <div class="meta"><span class="heart">♥</span><small>1,204</small><small style="margin-left:auto">just now</small></div>
+            </div>
+            <div class="post" style="margin-top:0">
+              <div class="img" style="background:var(--sage-soft)">✶</div>
+            </div>
+          </div>
+          <div class="bubble b1 float-b">love this 🙌</div>
+          <div class="bubble b2 float-c">where to buy?</div>
+          <div class="bubble b3 float-a">shipped! 📦</div>
+          <div class="badge badge-foll float-b"><span class="d" style="background:var(--accent)"></span>+318 followers</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <h2>What's <span class="hl">included</span></h2>
+      <p class="intro">We don't just schedule posts, we run the whole channel like it's our own brand. Pick what you need.</p>
+    </div>
+    <div class="deliverables" data-reveal-stagger>
+      <div class="deliv">
+        <div class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="var(--ink)" stroke-width="1.8"><circle cx="14" cy="14" r="10"/><path d="M14 4 V14 L21 18" stroke-linecap="round"/></svg></div>
+        <h4>Content strategy</h4>
+        <p>A clear voice, content pillars, and a calendar, so every post ladders up to something.</p>
+        <div class="tagrow"><span>Voice &amp; tone</span><span>Calendar</span></div>
+      </div>
+      <div class="deliv">
+        <div class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="var(--ink)" stroke-width="1.8"><rect x="5" y="3" width="14" height="22" rx="3"/><circle cx="12" cy="20" r="1.2" fill="var(--ink)" stroke="none"/><rect x="22" y="9" width="2" height="8" rx="1" fill="var(--accent)" stroke="none"/></svg></div>
+        <h4>Content production</h4>
+        <p>Monthly creative drops, graphics, short video, and carousels you'll actually want to post.</p>
+        <div class="tagrow"><span>Reels</span><span>Carousels</span><span>Graphics</span></div>
+      </div>
+      <div class="deliv">
+        <div class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="var(--ink)" stroke-width="1.8"><path d="M5 7 H23 V18 H13 L8 22 V18 H5 Z"/><path d="M9 12 H19 M9 15 H15" stroke-linecap="round"/></svg></div>
+        <h4>Community management</h4>
+        <p>We reply to comments and DMs in your voice, fast, turning lurkers into loyal customers.</p>
+        <div class="tagrow"><span>Replies</span><span>DMs</span><span>Moderation</span></div>
+      </div>
+      <div class="deliv">
+        <div class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="var(--ink)" stroke-width="1.8"><circle cx="10" cy="10" r="4"/><circle cx="19" cy="13" r="3"/><path d="M3 23 Q3 16 10 16 Q14 16 16 19 M16 19 Q17 17 19 17 Q25 17 25 23" stroke-linecap="round"/></svg></div>
+        <h4>Creator &amp; influencer deals</h4>
+        <p>We find, vet, and brief the right creators, and handle the awkward money conversations.</p>
+        <div class="tagrow"><span>Outreach</span><span>Briefs</span><span>UGC</span></div>
+      </div>
+      <div class="deliv">
+        <div class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="var(--ink)" stroke-width="1.8"><path d="M4 22 V6 M4 22 H24 M9 18 V12 M14 18 V8 M19 18 V14" stroke-linecap="round"/></svg></div>
+        <h4>Reporting</h4>
+        <p>A monthly readout that ties posts to followers, saves, and, where it counts, sales.</p>
+        <div class="tagrow"><span>Monthly report</span><span>Insights</span></div>
+      </div>
+      <div class="deliv">
+        <div class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="var(--ink)" stroke-width="1.8"><path d="M14 3 L17 11 L25 11 L18.5 16 L21 24 L14 19 L7 24 L9.5 16 L3 11 L11 11 Z" stroke-linejoin="round"/></svg></div>
+        <h4>Launch moments</h4>
+        <p>Product drops, giveaways, and campaigns that create a spike, and capture it for later.</p>
+        <div class="tagrow"><span>Campaigns</span><span>Giveaways</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec alt">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <h2>How we <span class="it">run it</span></h2>
+      <p class="intro">We start with a voice and a plan, then settle into a calm monthly rhythm. You approve, we handle the rest.</p>
+    </div>
+    <div class="flow" data-reveal-stagger>
+      <div class="fstep"><span class="fn">1</span><h4>Listen</h4><p>We study your brand, audience, and best-performing posts to find the real voice.</p><span class="ft">WEEK 1</span></div>
+      <div class="fstep"><span class="fn">2</span><h4>Plan</h4><p>Content pillars and a month-one calendar you sign off on before anything goes live.</p><span class="ft">WEEK 1–2</span></div>
+      <div class="fstep"><span class="fn">3</span><h4>Create &amp; post</h4><p>We produce, schedule, and publish, then reply to your community in real time.</p><span class="ft">ONGOING</span></div>
+      <div class="fstep"><span class="fn">4</span><h4>Review</h4><p>A monthly readout and a plan for next month, tuned to what's actually working.</p><span class="ft">MONTHLY</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <h2>Recent <span class="hl">work</span></h2>
+      <p class="intro">One brand, one quarter, a real community. Full case study on the call.</p>
+    </div>
+    <div class="casestudy" data-reveal>
+      <div class="cs-media">
+        <image-slot id="social-case" style="width:100%;height:100%" shape="rect" placeholder="Drop a grid of social posts / a reel still"></image-slot>
+      </div>
+      <div class="cs-body">
+        <div class="tagline">FIELD &amp; CO. · Brand social</div>
+        <h3>From quiet account to <em>a real community</em> in 90 days.</h3>
+        <p>FIELD &amp; CO. had a great product and a dead feed. We rebuilt the voice, shipped weekly video, and actually replied to people. Three months later, DMs were their best sales channel.</p>
+        <div class="cs-metrics">
+          <div class="m"><div class="v">5.2<sup>×</sup></div><div class="k">engagement rate</div></div>
+          <div class="m"><div class="v">+4.1<sup>k</sup></div><div class="k">followers in 90 days</div></div>
+          <div class="m"><div class="v">22<sup>%</sup></div><div class="k">of sales from DMs</div></div>
+        </div>
+        <div class="cs-author">
+          <div class="av">AK</div>
+          <div class="meta"><b>Aisha Khan</b><span>Founder, FIELD &amp; CO.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec alt" id="pricing">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <h2>Social <span class="it">pricing</span></h2>
+      <p class="intro">Pick the level of support you need. Most brands start with Manage and add campaigns as they grow.</p>
+    </div>
+    <div class="svc-price" data-reveal-stagger>
+      <div class="card c-starter">
+        <div class="pname"><span class="dot"></span><b>Kickstart</b></div>
+        <h3>Voice &amp; <span class="it">plan</span></h3>
+        <p class="desc">Strategy, voice, and a 30-day content calendar you can run yourself.</p>
+        <div class="price-line">$1,900 <small>flat</small></div>
+        <div class="billing">1–2 week delivery</div>
+        <ul>
+          <li>Voice &amp; tone guide</li>
+          <li>Content pillars</li>
+          <li>30-day calendar + 6 templates</li>
+          <li>Handover walkthrough</li>
+        </ul>
+        <a href="contact.html?service=social" class="cta">Get kickstarted →</a>
+      </div>
+      <div class="card c-growth featured">
+        <div class="tag">Most picked</div>
+        <div class="pname"><span class="dot"></span><b>Manage</b></div>
+        <h3>We <span class="it">run</span> it</h3>
+        <p class="desc">Your full social channel, handled, content, posting, and community.</p>
+        <div class="price-line">$3,200 <small>/mo</small></div>
+        <div class="billing">2-month minimum</div>
+        <ul>
+          <li>12+ posts / month</li>
+          <li>Daily community management</li>
+          <li>Monthly creative drop</li>
+          <li>Monthly performance report</li>
+          <li>1 channel (add more anytime)</li>
+        </ul>
+        <a href="contact.html?service=social" class="cta">Let us run it →</a>
+      </div>
+      <div class="card c-scale">
+        <div class="pname"><span class="dot"></span><b>Amplify</b></div>
+        <h3>Manage <span class="it">+ creators</span></h3>
+        <p class="desc">Everything in Manage, plus creator partnerships and launch campaigns.</p>
+        <div class="price-line">$5,400 <small>/mo</small></div>
+        <div class="billing">3-month minimum</div>
+        <ul>
+          <li>Everything in Manage</li>
+          <li>Creator sourcing &amp; deals</li>
+          <li>2 channels</li>
+          <li>Quarterly launch campaign</li>
+        </ul>
+        <a href="contact.html?service=social" class="cta">Talk amplify →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="faq-grid">
+      <div data-reveal>
+        <span class="kicker">FAQ · Social</span>
+        <h2 style="font-family:var(--display); font-weight:400; font-size:clamp(36px,4.4vw,56px); line-height:1; letter-spacing:-.02em; margin-top:14px">Social <span class="serif-it" style="font-style:italic">questions</span>.</h2>
+        <p class="sub">Couldn't find it? <a href="contact.html?service=social" style="text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--accent)">Ask on the call →</a></p>
+      </div>
+      <div class="faq-list" data-reveal>
+        <div class="faq-item open"><div class="q"><h4>Which platforms do you cover?</h4><span class="plus">+</span></div><div class="a"><p>Instagram, TikTok, LinkedIn, and X are our most common. We focus on the one or two where your audience actually is, rather than spreading thin across all of them.</p></div></div>
+        <div class="faq-item"><div class="q"><h4>Do you create the content or just schedule it?</h4><span class="plus">+</span></div><div class="a"><p>We create it, graphics, short video, and copy. If you have a product or founder happy to film quick clips, we'll turn that raw footage into a month of content.</p></div></div>
+        <div class="faq-item"><div class="q"><h4>Will it sound like us, not like an agency?</h4><span class="plus">+</span></div><div class="a"><p>That's the whole point. We build a voice guide with you first and check in often early on, so replies and posts feel like they came from your team.</p></div></div>
+        <div class="faq-item"><div class="q"><h4>How quickly do you reply to our community?</h4><span class="plus">+</span></div><div class="a"><p>Within an hour during work hours on Manage and Amplify plans. Fast replies are where small brands win, so we treat the inbox as a priority, not an afterthought.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta">
+  <div class="dot-bg"></div>
+  <div class="wrap final-cta-inner">
+    <div class="grid">
+      <div data-reveal>
+        <span class="kicker" style="color:var(--paper-3)">Ready when you are</span>
+        <h2 style="margin-top:14px">Let's give you<br>a <span class="stamp">voice</span>.</h2>
+      </div>
+      <div class="right" data-reveal>
+        <p>Tell us about your brand and where you want to show up. We'll reply within a few hours with a starting plan.</p>
+        <div class="cta-row">
+          <a href="contact.html?service=social" class="btn btn-primary">Book a discovery call
+            <svg class="arr-svg" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11 L11 3 M5 3 H11 V9"/></svg></a>
+          <a href="mailto:hello@marrelay.com" class="btn btn-ghost">hello@marrelay.com</a>
+        </div>
+      </div>
+    </div>
+    <div class="signoff">
+      <span><b>Marrelay</b> · social for startups.</span>
+      <span>Mumbai · Toronto · Lisbon</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="grid">
+      <div class="brand">
+        <a href="Marrelay Reimagined.html" class="logo">
+          <span class="logo-mark"><img src="assets/martek-mark.png" alt="Marrelay"></span>
+          <span class="logo-name"><b style="color:var(--paper)">Marrelay <span class="grp" style="color:var(--paper-3)">Group</span></b><span style="color:var(--ink-soft)">Digital studio</span></span>
+        </a>
+        <p>A small studio that ships big things for early-stage founders.</p>
+      </div>
+      <div><h5>Services</h5><ul>
+        <li><a href="web-development.html">Web development</a></li>
+        <li><a href="data-analytics.html">Data &amp; analytics</a></li>
+        <li><a href="social.html">Social</a></li>
+        <li><a href="seo-ads.html">SEO &amp; ads</a></li>
+        <li><a href="engineering.html">Engineering &amp; CAD</a></li>
+      </ul></div>
+      <div><h5>Studio</h5><ul>
+        <li><a href="Marrelay Reimagined.html#how">How we work</a></li>
+        <li><a href="Marrelay Reimagined.html#pricing">Pricing</a></li>
+        <li><a href="Marrelay Reimagined.html#work">Work</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul></div>
+      <div><h5>Elsewhere</h5><ul>
+        <li><a href="#">Read.cv</a></li><li><a href="#">LinkedIn</a></li><li><a href="#">GitHub</a></li><li><a href="#">Are.na</a></li>
+      </ul></div>
+    </div>
+    <div class="bottom">
+      <span>© 2026 Marrelay. Made with care, not chatGPT.</span>
+      <span><a href="#" style="color:var(--ink-soft)">Privacy</a> · <a href="#" style="color:var(--ink-soft)">Terms</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="image-slot.js"></script>
+<script src="site.js"></script>
+</body>
+</html>

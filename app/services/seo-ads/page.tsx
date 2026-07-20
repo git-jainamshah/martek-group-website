@@ -3,7 +3,7 @@ import ServicePage, { ServiceData } from '@/components/services/ServicePage'
 import { mergePackages } from '@/lib/pricing'
 
 export const metadata: Metadata = {
-  title: 'SEO & Ads · Martek Group',
+  title: 'SEO & Ads · Marrelay',
   description:
     'Technical SEO, content, and paid search & social that compound. Qualified leads at a falling cost, with the math shown weekly.',
   alternates: { canonical: '/services/seo-ads' },

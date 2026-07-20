@@ -8,7 +8,7 @@ const testimonials = [
     name: 'Sarah Johnson',
     company: 'TechStart Inc.',
     role: 'CEO',
-    content: 'Martek Group transformed our online presence. Our website traffic increased by 300% within 3 months!',
+    content: 'Marrelay transformed our online presence. Our website traffic increased by 300% within 3 months!',
     rating: 5,
     service: 'Web Development & SEO'
   },

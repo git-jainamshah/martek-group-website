@@ -12,7 +12,7 @@ type Company = {
 type Social = { platform: string; href: string }
 
 const COMPANY_FALLBACK: Company = {
-  name: 'Martek Group', tagline: 'Digital studio', addressLine1: '', addressLine2: '',
+  name: 'Marrelay', tagline: 'Digital studio', addressLine1: '', addressLine2: '',
   email: '', phone: '', logoIcon: '/assets/martek-mark.png',
 }
 

@@ -6,7 +6,7 @@ import { getCompany, getEnabledSocials } from '@/lib/site-config'
 import { getSlot } from '@/lib/media-slots-server'
 
 export const metadata: Metadata = {
-  title: 'Contact · Martek Group',
+  title: 'Contact · Marrelay',
   description:
     "Let's book a discovery call. Fill this in and we'll reply within a few hours with a couple of times that work.",
   alternates: { canonical: '/contact' },
@@ -82,7 +82,7 @@ export default async function ContactPage() {
               >
                 <span className="img-slot" style={{ width: '100%', height: '100%', position: 'absolute', inset: 0 }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={contactImage} alt="The Martek team on a call" />
+                  <img src={contactImage} alt="The Marrelay team on a call" />
                 </span>
               </div>
             </div>

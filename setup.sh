@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Martek Group Website - Automated Setup Script
+# Marrelay Website - Automated Setup Script
 # This script checks for dependencies and sets up the project automatically
 
 set -e  # Exit on any error
@@ -17,7 +17,7 @@ print_header() {
     echo ""
     echo -e "${BLUE}╔════════════════════════════════════════════════╗${NC}"
     echo -e "${BLUE}║                                                ║${NC}"
-    echo -e "${BLUE}║       🚀 Martek Group Website Setup 🚀         ║${NC}"
+    echo -e "${BLUE}║       🚀 Marrelay Website Setup 🚀         ║${NC}"
     echo -e "${BLUE}║                                                ║${NC}"
     echo -e "${BLUE}╔════════════════════════════════════════════════╗${NC}"
     echo ""
@@ -129,7 +129,7 @@ echo "📊 Project Information"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 
-print_info "Project Name: Martek Group Website"
+print_info "Project Name: Marrelay Website"
 print_info "Framework: Next.js 14.2"
 print_info "Language: TypeScript 5.3"
 print_info "Styling: Tailwind CSS 3.4"

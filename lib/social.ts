@@ -10,8 +10,8 @@ export interface SocialLink {
 }
 
 export const SOCIALS: SocialLink[] = [
-  { name: 'Instagram', label: '@martek.studio', href: 'https://www.instagram.com/martek.studio' },
-  { name: 'LinkedIn', label: '/company/martek-studio', href: 'https://www.linkedin.com/company/martek-studio' },
-  { name: 'X', label: '@martekgroup', href: 'https://x.com/martekgroup' },
-  { name: 'Facebook', label: '/martekgroup', href: 'https://www.facebook.com/martekgroup' },
+  { name: 'Instagram', label: '@marrelay', href: 'https://www.instagram.com/marrelay' },
+  { name: 'LinkedIn', label: '/company/marrelay', href: 'https://www.linkedin.com/company/marrelay' },
+  { name: 'X', label: '@marrelay', href: 'https://x.com/marrelay' },
+  { name: 'Facebook', label: '/marrelay', href: 'https://www.facebook.com/marrelay' },
 ]

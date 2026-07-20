@@ -1,4 +1,4 @@
-# 📋 Changelog - Martek Group Website
+# 📋 Changelog - Marrelay Website
 
 All notable changes to this project are documented here. This file is automatically updated with each release.
 
@@ -11,7 +11,7 @@ All notable changes to this project are documented here. This file is automatica
 | 4 | v1.0.4 | 2026-02-02 | Add large video files to gitignore to comply with GitHub limits |
 | 3 | v1.0.3 | 2026-02-02 | Merge remote repository and keep comprehensive README |
 | 2 | v1.0.2 | 2026-02-02 | Add comprehensive README and automated setup script |
-| 1 | v1.0.0 | 2026-02-02 | Initial commit - Complete Martek Group website features |
+| 1 | v1.0.0 | 2026-02-02 | Initial commit - Complete Marrelay website features |
 
 ---
 

@@ -123,7 +123,7 @@ clear
 echo ""
 echo -e "${HEADER}╔════════════════════════════════════════════════════════════════════════════════╗${NC}"
 echo -e "${HEADER}║                                                                                ║${NC}"
-echo -e "${HEADER}║              📋 Martek Group Website - Version History 📋                       ║${NC}"
+echo -e "${HEADER}║              📋 Marrelay Website - Version History 📋                       ║${NC}"
 echo -e "${HEADER}║                                                                                ║${NC}"
 echo -e "${HEADER}╚════════════════════════════════════════════════════════════════════════════════╝${NC}"
 echo ""

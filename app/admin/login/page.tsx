@@ -40,8 +40,8 @@ function LoginForm() {
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
       <form onSubmit={submit} className="ad-card" style={{ width: '100%', maxWidth: 400, padding: 34 }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/assets/martek-mark.png" alt="Martek" width={44} height={44} style={{ borderRadius: 11, marginBottom: 16 }} />
-        <h1 style={{ fontSize: 28, marginBottom: 4 }}>Martek <span className="it">Admin</span></h1>
+        <img src="/assets/martek-mark.png" alt="Marrelay" width={44} height={44} style={{ borderRadius: 11, marginBottom: 16 }} />
+        <h1 style={{ fontSize: 28, marginBottom: 4 }}>Marrelay <span className="it">Admin</span></h1>
         <p className="ad-mut" style={{ fontSize: 14, marginBottom: 22 }}>Sign in to manage the website.</p>
 
         {error && <div className="ad-alert err" style={{ marginBottom: 16 }}>{error}</div>}

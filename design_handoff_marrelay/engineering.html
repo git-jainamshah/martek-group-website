@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Engineering &amp; CAD · Marrelay</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=DM+Sans:opsz,wght@9..40,400..700&family=JetBrains+Mono:wght@400;500&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="marrelay.css">
+<style>
+:root{ --accent:#8B5A8C; --accent-soft:#C9A9CB; }
+.scene-bp{position:absolute; inset:9%; border:1.5px solid var(--ink); border-radius:14px; background:var(--paper); overflow:hidden; box-shadow:6px 6px 0 var(--ink)}
+.scene-bp .grid-lines{position:absolute; inset:0; background-image:linear-gradient(var(--accent-soft) 1px,transparent 1px),linear-gradient(90deg,var(--accent-soft) 1px,transparent 1px); background-size:26px 26px; opacity:.7}
+.scene-bp .tb{position:absolute; left:0; right:0; bottom:0; height:30px; border-top:1.5px solid var(--ink); display:flex; align-items:center; justify-content:space-between; padding:0 12px; font-family:var(--mono); font-size:9.5px; color:var(--ink-mut); background:var(--paper-2)}
+.scene-bp .iso{position:absolute; inset:0; display:grid; place-items:center}
+.scene-bp .iso svg{width:62%; overflow:visible}
+.scene-bp .dimpath{stroke:var(--accent); stroke-width:1.5; stroke-dasharray:4 3}
+@media (prefers-reduced-motion: no-preference){ .scene-bp .iso{animation:floatA 7s ease-in-out infinite} .scene-bp .spin{transform-box:fill-box; transform-origin:center; animation:spinSlow 22s linear infinite} }
+.badge-rev{top:7%; right:8%; --rot:5deg; transform:rotate(5deg)}
+.badge-tol{bottom:10%; left:7%; --rot:-4deg; transform:rotate(-4deg)}
+</style>
+</head>
+<body class="dot-bg">
+
+<div class="bar">
+  <div class="wrap"><div class="row">
+    <span class="pill">Engineering</span>
+    <span>The side of the studio we built <b>first</b>, 4 years of CAD, drafting &amp; 3D modelling.</span>
+    <a href="contact.html?service=engineering" style="display:inline-flex;align-items:center;gap:6px;color:var(--paper)">Send a brief <span class="arr">→</span></a>
+  </div></div>
+</div>
+
+<nav class="main">
+  <div class="wrap"><div class="row">
+    <a href="Marrelay Reimagined.html" class="logo">
+      <span class="logo-mark"><img src="assets/martek-mark.png" alt="Marrelay"></span>
+      <span class="logo-name"><b>Marrelay <span class="grp">Group</span></b><span>Digital studio</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="web-development.html">Web</a>
+      <a href="data-analytics.html">Data</a>
+      <a href="social.html">Social</a>
+      <a href="seo-ads.html">SEO &amp; Ads</a>
+      <a href="engineering.html" class="active">Engineering</a>
+    </div>
+    <div class="nav-cta">
+      <a href="Marrelay Reimagined.html#pricing" class="btn btn-ghost">Pricing</a>
+      <a href="contact.html?service=engineering" class="btn btn-primary">Book a call
+        <svg class="arr-svg" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11 L11 3 M5 3 H11 V9"/></svg></a>
+    </div>
+  </div></div>
+</nav>
+
+<section class="svc-hero">
+  <div class="wrap">
+    <div class="crumb"><a href="Marrelay Reimagined.html">Home</a><span class="sep">/</span><a href="Marrelay Reimagined.html#what">Services</a><span class="sep">/</span><span class="here">Engineering &amp; CAD</span></div>
+    <div class="svc-hero-grid" style="margin-top:18px">
+      <div data-reveal>
+        <span class="svc-tag"><span class="no">05</span>Engineering &amp; CAD</span>
+        <h1>Drawings &amp; <span class="it">drafts</span><br>done <span class="hl">right</span>.</h1>
+        <p class="lede">Before we wrote a line of code, we drew. <b>Mechanical drafting, blueprints, and 3D modelling</b> for hardware founders, fabricators, and contractors who need it precise, and on time.</p>
+        <div class="cta-row">
+          <a href="contact.html?service=engineering" class="btn btn-primary">Book a discovery call
+            <svg class="arr-svg" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11 L11 3 M5 3 H11 V9"/></svg></a>
+          <a href="#pricing" class="btn btn-ghost">See pricing</a>
+        </div>
+        <div class="mini-stats">
+          <div class="ms"><div class="v">4yr</div><div class="k">drafting experience</div></div>
+          <div class="ms"><div class="v">±0.1<sup style="font-size:.5em;color:var(--accent)">mm</sup></div><div class="k">tolerance you set</div></div>
+          <div class="ms"><div class="v">DWG</div><div class="k">+ STEP, PDF, STL</div></div>
+        </div>
+      </div>
+
+      <div data-reveal>
+        <div class="hero-stage" style="background:var(--accent-soft)">
+          <div class="scene-bp">
+            <div class="grid-lines"></div>
+            <div class="iso">
+              <svg viewBox="0 0 200 150" fill="none">
+                <g stroke="var(--ink)" stroke-width="2" class="spin">
+                  <path d="M60 70 L100 48 L140 70 L100 92 Z" fill="var(--accent-soft)"/>
+                  <path d="M60 70 L60 104 L100 126 L100 92 Z" fill="var(--paper)"/>
+                  <path d="M140 70 L140 104 L100 126 L100 92 Z" fill="var(--paper-2)"/>
+                  <circle cx="100" cy="70" r="7" fill="var(--paper)"/>
+                </g>
+                <path class="dimpath" d="M60 116 L100 138"/>
+                <path class="dimpath" d="M100 138 L140 116"/>
+                <text x="74" y="134" font-family="JetBrains Mono" font-size="9" fill="var(--accent)">42.0</text>
+              </svg>
+            </div>
+            <div class="tb"><span>MARTEK · PART-014</span><span>REV B · SCALE 1:2</span></div>
+          </div>
+          <div class="badge badge-rev float-c"><span class="d" style="background:var(--accent)"></span>REV B approved</div>
+          <div class="badge badge-tol float-b">tol ±0.1mm</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <h2>What's <span class="hl">included</span></h2>
+      <p class="intro">From a napkin sketch to a fabrication-ready drawing set. Send us what you have, even if it's a photo and a measurement.</p>
+    </div>
+    <div class="deliverables" data-reveal-stagger>
+      <div class="deliv">
+        <div class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="var(--ink)" stroke-width="1.8"><rect x="4" y="4" width="20" height="20" rx="2"/><path d="M4 10 H24 M10 10 V24" stroke-width="1.2"/><path d="M14 14 L20 20" stroke-linecap="round"/></svg></div>
+        <h4>2D drafting</h4>
+        <p>Clean, dimensioned production drawings to your standard, ready for the shop floor.</p>
+        <div class="tagrow"><span>AutoCAD</span><span>DWG</span><span>PDF</span></div>
+      </div>
+      <div class="deliv">
+        <div class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="var(--ink)" stroke-width="1.8"><path d="M14 3 L24 8.5 V19.5 L14 25 L4 19.5 V8.5 Z"/><path d="M4 8.5 L14 14 L24 8.5 M14 14 V25" stroke-width="1.3"/></svg></div>
+        <h4>3D modelling</h4>
+        <p>Parametric solid models for parts and assemblies, built to be edited, not just admired.</p>
+        <div class="tagrow"><span>SolidWorks</span><span>Fusion 360</span><span>STEP</span></div>
+      </div>
+      <div class="deliv">
+        <div class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="var(--ink)" stroke-width="1.8"><rect x="5" y="3" width="18" height="22" rx="2"/><path d="M9 8 H19 M9 12 H19 M9 16 H19 M9 20 H15" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+        <h4>Technical documentation</h4>
+        <p>BOMs, assembly instructions, and spec sheets that leave no room for guesswork.</p>
+        <div class="tagrow"><span>BOM</span><span>Spec sheets</span></div>
+      </div>
+      <div class="deliv">
+        <div class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="var(--ink)" stroke-width="1.8"><path d="M6 22 L6 6 L14 6 M6 14 L12 14" stroke-linecap="round"/><circle cx="19" cy="17" r="5"/><path d="M19 12 V7 M22.5 13.5 L26 10" stroke-linecap="round"/></svg></div>
+        <h4>Blueprint &amp; layout</h4>
+        <p>Architectural and site layouts, floor plans, and as-built drawings for contractors.</p>
+        <div class="tagrow"><span>Floor plans</span><span>As-builts</span></div>
+      </div>
+      <div class="deliv">
+        <div class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="var(--ink)" stroke-width="1.8"><path d="M4 18 L4 24 L10 24 M4 24 L11 17" stroke-linecap="round"/><path d="M24 10 L24 4 L18 4 M24 4 L17 11" stroke-linecap="round"/><circle cx="14" cy="14" r="3"/></svg></div>
+        <h4>Reverse engineering</h4>
+        <p>Turn an existing part or scan into a clean, editable model and drawing set.</p>
+        <div class="tagrow"><span>Scan-to-CAD</span><span>Measurement</span></div>
+      </div>
+      <div class="deliv">
+        <div class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="var(--ink)" stroke-width="1.8"><rect x="6" y="9" width="16" height="14" rx="2"/><path d="M10 9 V6 A4 4 0 0 1 18 6 V9" /><path d="M14 14 V18" stroke-linecap="round"/></svg></div>
+        <h4>Design for manufacture</h4>
+        <p>We sanity-check parts for cost, tolerance, and how they'll actually be made.</p>
+        <div class="tagrow"><span>DFM review</span><span>Tolerancing</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec alt">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <h2>How a draft <span class="it">works</span></h2>
+      <p class="intro">A tight loop with clear revisions. You approve at each gate, and every change is logged on the title block.</p>
+    </div>
+    <div class="flow" data-reveal-stagger>
+      <div class="fstep"><span class="fn">1</span><h4>Brief</h4><p>Send sketches, photos, references, or an existing file. We confirm scope &amp; standards.</p><span class="ft">DAYS 1–2</span></div>
+      <div class="fstep"><span class="fn">2</span><h4>Concept</h4><p>A first model or draft for direction, before we invest in full detailing.</p><span class="ft">WEEK 1</span></div>
+      <div class="fstep"><span class="fn">3</span><h4>Detail &amp; revise</h4><p>Full dimensioning and clean-up, with clearly tracked revisions you sign off.</p><span class="ft">WEEK 1–2</span></div>
+      <div class="fstep"><span class="fn">4</span><h4>Deliver</h4><p>Final files in every format you need, DWG, STEP, PDF, STL, plus the source.</p><span class="ft">ON APPROVAL</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <h2>Recent <span class="hl">work</span></h2>
+      <p class="intro">A representative drawing set. We'll show real project files (with permission) on the call.</p>
+    </div>
+    <div class="casestudy" data-reveal>
+      <div class="cs-media">
+        <image-slot id="eng-case" style="width:100%;height:100%" shape="rect" placeholder="Drop a CAD render / drawing set (e.g. engineering-drawings)"></image-slot>
+      </div>
+      <div class="cs-body">
+        <div class="tagline">northwind · Enclosure redesign</div>
+        <h3>A hardware part, <em>fabrication-ready</em> in nine days.</h3>
+        <p>northwind sent us a worn prototype and a deadline. We reverse-engineered it, fixed two tolerance issues for easier assembly, and delivered a full drawing set their fabricator approved first time.</p>
+        <div class="cs-metrics">
+          <div class="m"><div class="v">9</div><div class="k">days to drawing set</div></div>
+          <div class="m"><div class="v">1<sup>st</sup></div><div class="k">pass fab approval</div></div>
+          <div class="m"><div class="v">−18<sup>%</sup></div><div class="k">part cost after DFM</div></div>
+        </div>
+        <div class="cs-author">
+          <div class="av">TW</div>
+          <div class="meta"><b>Tom Wexler</b><span>Ops, northwind</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec alt" id="pricing">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <h2>Engineering <span class="it">pricing</span></h2>
+      <p class="intro">Small jobs are priced per drawing; bigger programmes run on a monthly retainer. We'll quote your exact scope on the call.</p>
+    </div>
+    <div class="svc-price" data-reveal-stagger>
+      <div class="card c-starter">
+        <div class="pname"><span class="dot"></span><b>Per drawing</b></div>
+        <h3>One <span class="it">part</span></h3>
+        <p class="desc">A single dimensioned drawing or model from your sketch or sample.</p>
+        <div class="price-line">$180 <small>from</small></div>
+        <div class="billing">2–4 day turnaround</div>
+        <ul>
+          <li>1 production drawing or model</li>
+          <li>Your standard &amp; title block</li>
+          <li>2 revision rounds</li>
+          <li>DWG, STEP &amp; PDF export</li>
+        </ul>
+        <a href="contact.html?service=engineering" class="cta">Send a drawing →</a>
+      </div>
+      <div class="card c-growth featured">
+        <div class="tag">Most picked</div>
+        <div class="pname"><span class="dot"></span><b>Project</b></div>
+        <h3>A full <span class="it">set</span></h3>
+        <p class="desc">A complete assembly: models, drawings, BOM, and documentation.</p>
+        <div class="price-line">$2,800 <small>from</small></div>
+        <div class="billing">1–2 week delivery</div>
+        <ul>
+          <li>Full assembly modelling</li>
+          <li>Complete drawing set + BOM</li>
+          <li>DFM review</li>
+          <li>All source &amp; export files</li>
+          <li>Revision tracking</li>
+        </ul>
+        <a href="contact.html?service=engineering" class="cta">Scope a project →</a>
+      </div>
+      <div class="card c-scale">
+        <div class="pname"><span class="dot"></span><b>Retainer</b></div>
+        <h3>Ongoing <span class="it">drafting</span></h3>
+        <p class="desc">A steady drafting partner for fabricators and product teams.</p>
+        <div class="price-line">$2,400 <small>/mo</small></div>
+        <div class="billing">Monthly, flexible</div>
+        <ul>
+          <li>40 hours / month of CAD</li>
+          <li>Priority turnaround</li>
+          <li>Consistent standards &amp; archive</li>
+          <li>Scale up or down monthly</li>
+        </ul>
+        <a href="contact.html?service=engineering" class="cta">Talk retainer →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="faq-grid">
+      <div data-reveal>
+        <span class="kicker">FAQ · Engineering</span>
+        <h2 style="font-family:var(--display); font-weight:400; font-size:clamp(36px,4.4vw,56px); line-height:1; letter-spacing:-.02em; margin-top:14px">CAD <span class="serif-it" style="font-style:italic">questions</span>.</h2>
+        <p class="sub">Couldn't find it? <a href="contact.html?service=engineering" style="text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--accent)">Ask on the call →</a></p>
+      </div>
+      <div class="faq-list" data-reveal>
+        <div class="faq-item open"><div class="q"><h4>What software and file formats do you deliver in?</h4><span class="plus">+</span></div><div class="a"><p>We work mainly in AutoCAD, SolidWorks, and Fusion 360, and deliver DWG, STEP, IGES, PDF, and STL, plus the editable source file. Tell us your downstream tool and we'll match it.</p></div></div>
+        <div class="faq-item"><div class="q"><h4>I only have a rough sketch. Is that enough to start?</h4><span class="plus">+</span></div><div class="a"><p>Usually, yes. A sketch with a few key measurements, or a photo of an existing part, is plenty to begin. We'll ask questions and confirm the critical dimensions before detailing.</p></div></div>
+        <div class="faq-item"><div class="q"><h4>Will you follow our drafting standards?</h4><span class="plus">+</span></div><div class="a"><p>Always. Send your title block and standard (ISO, ANSI, or in-house) and we'll match it exactly so the drawings drop straight into your workflow.</p></div></div>
+        <div class="faq-item"><div class="q"><h4>Is my design kept confidential?</h4><span class="plus">+</span></div><div class="a"><p>Yes. We sign an NDA before you share anything sensitive, and your files and IP remain entirely yours. We never reuse client designs.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta">
+  <div class="dot-bg"></div>
+  <div class="wrap final-cta-inner">
+    <div class="grid">
+      <div data-reveal>
+        <span class="kicker" style="color:var(--paper-3)">Ready when you are</span>
+        <h2 style="margin-top:14px">Let's draw<br>it <span class="stamp">up</span>.</h2>
+      </div>
+      <div class="right" data-reveal>
+        <p>Send a sketch, a photo, or an existing file and tell us the deadline. We'll reply within a few hours with a quote.</p>
+        <div class="cta-row">
+          <a href="contact.html?service=engineering" class="btn btn-primary">Book a discovery call
+            <svg class="arr-svg" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11 L11 3 M5 3 H11 V9"/></svg></a>
+          <a href="mailto:hello@marrelay.com" class="btn btn-ghost">hello@marrelay.com</a>
+        </div>
+      </div>
+    </div>
+    <div class="signoff">
+      <span><b>Marrelay</b> · engineering &amp; CAD, since day one.</span>
+      <span>Mumbai · Toronto · Lisbon</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="grid">
+      <div class="brand">
+        <a href="Marrelay Reimagined.html" class="logo">
+          <span class="logo-mark"><img src="assets/martek-mark.png" alt="Marrelay"></span>
+          <span class="logo-name"><b style="color:var(--paper)">Marrelay <span class="grp" style="color:var(--paper-3)">Group</span></b><span style="color:var(--ink-soft)">Digital studio</span></span>
+        </a>
+        <p>A small studio that ships big things for early-stage founders.</p>
+      </div>
+      <div><h5>Services</h5><ul>
+        <li><a href="web-development.html">Web development</a></li>
+        <li><a href="data-analytics.html">Data &amp; analytics</a></li>
+        <li><a href="social.html">Social</a></li>
+        <li><a href="seo-ads.html">SEO &amp; ads</a></li>
+        <li><a href="engineering.html">Engineering &amp; CAD</a></li>
+      </ul></div>
+      <div><h5>Studio</h5><ul>
+        <li><a href="Marrelay Reimagined.html#how">How we work</a></li>
+        <li><a href="Marrelay Reimagined.html#pricing">Pricing</a></li>
+        <li><a href="Marrelay Reimagined.html#work">Work</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul></div>
+      <div><h5>Elsewhere</h5><ul>
+        <li><a href="#">Read.cv</a></li><li><a href="#">LinkedIn</a></li><li><a href="#">GitHub</a></li><li><a href="#">Are.na</a></li>
+      </ul></div>
+    </div>
+    <div class="bottom">
+      <span>© 2026 Marrelay. Made with care, not chatGPT.</span>
+      <span><a href="#" style="color:var(--ink-soft)">Privacy</a> · <a href="#" style="color:var(--ink-soft)">Terms</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="image-slot.js"></script>
+<script src="site.js"></script>
+</body>
+</html>

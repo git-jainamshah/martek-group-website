@@ -26,7 +26,7 @@ export default function BottomSection() {
                 </div>
                 {/* URL Bar */}
                 <div className="flex-1 ml-2 bg-white rounded-md h-7 flex items-center px-3 text-xs text-gray-500 shadow-sm">
-                  martekgroup.com/trends
+                  marrelay.com/trends
                 </div>
               </div>
 

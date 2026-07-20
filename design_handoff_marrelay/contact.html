@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Book a discovery call · Marrelay</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=DM+Sans:opsz,wght@9..40,400..700&family=JetBrains+Mono:wght@400;500&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="marrelay.css">
+<style>
+/* contact-page specifics */
+.contact-hero{padding:36px 0 8px}
+.contact-hero .head{max-width:760px}
+.contact-hero h1{font-family:var(--display); font-weight:400; font-size:clamp(48px,6.4vw,88px); line-height:.96; letter-spacing:-.025em}
+.contact-hero h1 .it{font-style:italic}
+.contact-hero h1 .hl{background:var(--terra); color:var(--paper); padding:0 .1em; border-radius:9px; display:inline-block; transform:rotate(-1.5deg); font-style:italic}
+.contact-hero .lede{font-size:19px; color:var(--ink-2); margin-top:22px; max-width:560px; line-height:1.5}
+.contact-grid{display:grid; grid-template-columns:.82fr 1.18fr; gap:48px; align-items:start; padding:48px 0 96px}
+@media (max-width:980px){.contact-grid{grid-template-columns:1fr; gap:36px}}
+.aside-card{background:var(--paper-2); border:1.5px solid var(--ink); border-radius:22px; padding:26px; margin-bottom:18px}
+.aside-card h4{font-family:var(--display); font-style:italic; font-weight:400; font-size:24px; margin-bottom:16px}
+.what-next{list-style:none; display:flex; flex-direction:column; gap:16px}
+.what-next li{display:flex; gap:14px; align-items:flex-start}
+.what-next li .n{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--ink);background:var(--terra);color:var(--paper);display:grid;place-items:center;font-family:var(--mono);font-size:12px;font-weight:500;flex-shrink:0}
+.what-next li b{display:block; font-size:14.5px; font-weight:600; margin-bottom:2px}
+.what-next li span{font-size:13.5px; color:var(--ink-2); line-height:1.45}
+.contact-lines{display:flex; flex-direction:column; gap:12px}
+.contact-lines a{display:flex; align-items:center; gap:11px; font-size:14.5px; padding:10px 12px; border-radius:12px; border:1.5px solid transparent; transition:all .18s}
+.contact-lines a:hover{border-color:var(--ink); background:var(--paper)}
+.contact-lines a .ic{width:34px;height:34px;border-radius:10px;border:1.5px solid var(--ink);display:grid;place-items:center;flex-shrink:0;background:var(--paper)}
+.contact-lines a .ic svg{width:17px;height:17px}
+.contact-lines a b{font-weight:600; display:block; font-size:13px; font-family:var(--mono); color:var(--ink-mut); letter-spacing:.03em; text-transform:uppercase}
+.contact-lines a span{display:block; font-size:14.5px; color:var(--ink)}
+.trust-strip{display:flex; align-items:center; gap:16px; flex-wrap:wrap; padding:18px 0 0}
+.trust-strip .stars{color:var(--terra); letter-spacing:2px; font-size:15px}
+.trust-strip .t{font-family:var(--mono); font-size:12px; color:var(--ink-mut)}
+</style>
+</head>
+<body class="dot-bg">
+
+<!-- announcement bar -->
+<div class="bar">
+  <div class="wrap">
+    <div class="row">
+      <span class="pill">Open</span>
+      <span>Currently booking <b>July project starts</b>, usually 2–3 slots a month.</span>
+      <a href="#form" style="display:inline-flex;align-items:center;gap:6px;color:var(--paper)">Grab a slot <span class="arr">→</span></a>
+    </div>
+  </div>
+</div>
+
+<!-- nav -->
+<nav class="main">
+  <div class="wrap">
+    <div class="row">
+      <a href="Marrelay Reimagined.html" class="logo">
+        <span class="logo-mark"><img src="assets/martek-mark.png" alt="Marrelay"></span>
+        <span class="logo-name">
+          <b>Marrelay <span class="grp">Group</span></b>
+          <span>Digital studio</span>
+        </span>
+      </a>
+      <div class="nav-links">
+        <a href="web-development.html">Web</a>
+        <a href="data-analytics.html">Data</a>
+        <a href="social.html">Social</a>
+        <a href="seo-ads.html">SEO &amp; Ads</a>
+        <a href="engineering.html">Engineering</a>
+      </div>
+      <div class="nav-cta">
+        <a href="Marrelay Reimagined.html#pricing" class="btn btn-ghost">Pricing</a>
+        <a href="#form" class="btn btn-primary">
+          Book a call
+          <svg class="arr-svg" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11 L11 3 M5 3 H11 V9"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<section class="contact-hero">
+  <div class="wrap">
+    <div class="crumb"><a href="Marrelay Reimagined.html">Home</a><span class="sep">/</span><span class="here">Contact</span></div>
+    <div class="head" style="padding-top:24px" data-reveal>
+      <h1>Let's book a <span class="hl">discovery call</span>.</h1>
+      <p class="lede">Fill this in and we'll reply within a few hours with a couple of times that work. It takes about two minutes, and a real person reads every word.</p>
+      <div class="trust-strip">
+        <span class="stars">★★★★★</span>
+        <span class="t">5.0 across 17 founders</span>
+        <span class="t">· 0 missed deadlines</span>
+        <span class="t">· replies in &lt;2 hrs</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="contact-grid">
+    <!-- ASIDE -->
+    <aside data-reveal>
+      <div class="aside-card">
+        <h4>What happens next</h4>
+        <ul class="what-next">
+          <li><span class="n">1</span><div><b>We reply, fast</b><span>A real human emails you back within a few hours (work hours) to find a time.</span></div></li>
+          <li><span class="n">2</span><div><b>30-min discovery call</b><span>No pitch deck. We learn the goal and tell you honestly if we're a fit.</span></div></li>
+          <li><span class="n">3</span><div><b>One-page proposal</b><span>Scope, price, and timeline on a single page within 3 working days.</span></div></li>
+        </ul>
+      </div>
+
+      <div class="aside-card" style="padding:0; overflow:hidden">
+        <div class="media-frame" style="border:0; border-radius:0; box-shadow:none; aspect-ratio:4/3">
+          <image-slot id="contact-photo" style="width:100%;height:100%" shape="rect" placeholder="Drop a photo of the team / a call in progress"></image-slot>
+        </div>
+      </div>
+
+      <div class="aside-card">
+        <h4>Or reach us directly</h4>
+        <div class="contact-lines">
+          <a href="mailto:hello@marrelay.com">
+            <span class="ic"><svg viewBox="0 0 20 20" fill="none" stroke="var(--ink)" stroke-width="1.6"><rect x="2" y="4" width="16" height="12" rx="2"/><path d="M3 5 L10 11 L17 5"/></svg></span>
+            <span><b>Email</b>hello@marrelay.com</span>
+          </a>
+          <a href="#">
+            <span class="ic"><svg viewBox="0 0 20 20" fill="none" stroke="var(--ink)" stroke-width="1.6"><rect x="3" y="3" width="14" height="14" rx="3"/><circle cx="10" cy="10" r="3.4"/><circle cx="14.4" cy="5.6" r="1" fill="var(--ink)" stroke="none"/></svg></span>
+            <span><b>Instagram</b>@marrelay</span>
+          </a>
+          <a href="#">
+            <span class="ic"><svg viewBox="0 0 20 20" fill="none" stroke="var(--ink)" stroke-width="1.6"><rect x="3" y="3" width="14" height="14" rx="2"/><path d="M6 8.5 V14 M6 5.6 V5.7 M9.5 14 V10.6 Q9.5 8.6 11.4 8.6 T13.4 10.6 V14" stroke-linecap="round"/></svg></span>
+            <span><b>LinkedIn</b>/company/marrelay</span>
+          </a>
+        </div>
+        <p style="margin-top:14px; font-family:var(--mono); font-size:11.5px; color:var(--ink-mut); line-height:1.5">📍 Mumbai · Toronto · Lisbon<br>Async-first, with live call windows.</p>
+      </div>
+    </aside>
+
+    <!-- FORM -->
+    <div class="lead-wrap" id="form" data-reveal>
+      <form class="lead-form" novalidate>
+        <div class="form-body">
+          <div class="form-head">
+            <h3>Tell us about the <span class="it">project</span></h3>
+            <p>The more you share, the sharper our first reply. Only the starred fields are required.</p>
+          </div>
+
+          <div class="form-row">
+            <div class="field" data-required>
+              <label>Name <span class="req">*</span></label>
+              <input type="text" name="name" placeholder="Reena Tandon" autocomplete="name">
+              <span class="err">Please tell us your name.</span>
+            </div>
+            <div class="field" data-required>
+              <label>Work email <span class="req">*</span></label>
+              <input type="email" name="email" placeholder="you@company.com" autocomplete="email">
+              <span class="err">A valid email helps us reply.</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Company <span style="color:var(--ink-soft); text-transform:none; letter-spacing:0">(optional)</span></label>
+            <input type="text" name="company" placeholder="Brookhaven, Inc." autocomplete="organization">
+          </div>
+
+          <div class="field" data-required>
+            <label>Which service(s) are you interested in? <span class="req">*</span></label>
+            <div class="chips" data-multi="true" data-group="service">
+              <input type="checkbox" id="c-web" name="service" value="web"><label for="c-web"><span class="dot"></span>Web development</label>
+              <input type="checkbox" id="c-data" name="service" value="data"><label for="c-data"><span class="dot"></span>Data &amp; analytics</label>
+              <input type="checkbox" id="c-social" name="service" value="social"><label for="c-social"><span class="dot"></span>Social</label>
+              <input type="checkbox" id="c-seo" name="service" value="seo"><label for="c-seo"><span class="dot"></span>SEO &amp; ads</label>
+              <input type="checkbox" id="c-eng" name="service" value="engineering"><label for="c-eng"><span class="dot"></span>Engineering / CAD</label>
+            </div>
+            <span class="err">Pick at least one service.</span>
+          </div>
+
+          <div class="form-row">
+            <div class="field">
+              <label>Budget range</label>
+              <div class="chips" data-multi="false" data-group="budget">
+                <input type="radio" id="b1" name="budget" value="<5k"><label for="b1"><span class="dot"></span>&lt; $5k</label>
+                <input type="radio" id="b2" name="budget" value="5-15k"><label for="b2"><span class="dot"></span>$5–15k</label>
+                <input type="radio" id="b3" name="budget" value="15-40k"><label for="b3"><span class="dot"></span>$15–40k</label>
+                <input type="radio" id="b4" name="budget" value="40k+"><label for="b4"><span class="dot"></span>$40k+</label>
+                <input type="radio" id="b5" name="budget" value="unsure"><label for="b5"><span class="dot"></span>Not sure yet</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Timeline</label>
+            <div class="chips" data-multi="false" data-group="timeline">
+              <input type="radio" id="t1" name="timeline" value="asap"><label for="t1"><span class="dot"></span>ASAP</label>
+              <input type="radio" id="t2" name="timeline" value="1mo"><label for="t2"><span class="dot"></span>Within a month</label>
+              <input type="radio" id="t3" name="timeline" value="quarter"><label for="t3"><span class="dot"></span>This quarter</label>
+              <input type="radio" id="t4" name="timeline" value="exploring"><label for="t4"><span class="dot"></span>Just exploring</label>
+            </div>
+          </div>
+
+          <div class="field" data-required>
+            <label>Project description <span class="req">*</span></label>
+            <textarea name="message" rows="5" placeholder="What are you building? What's working, what's stuck, and what does 'done' look like? A scrappy paragraph is perfect."></textarea>
+            <span class="err">A sentence or two gets us started.</span>
+          </div>
+
+          <div class="field">
+            <label>How did you hear about us?</label>
+            <select name="referral">
+              <option value="">Select one…</option>
+              <option value="referral">A friend / referral</option>
+              <option value="google">Google search</option>
+              <option value="instagram">Instagram</option>
+              <option value="linkedin">LinkedIn</option>
+              <option value="twitter">X / Twitter</option>
+              <option value="event">An event or meetup</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <button type="submit" class="form-submit">
+            Request my discovery call
+            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11 L11 3 M5 3 H11 V9"/></svg>
+          </button>
+          <p class="form-foot"><span class="lock">🔒</span> Your details stay private, never sold, never spammed. We reply personally, usually within 2 hours.</p>
+        </div>
+
+        <div class="form-success">
+          <div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="var(--paper)" stroke-width="2.4"><path d="M4 12 L10 18 L20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>Thanks, <span class="it" data-name-slot>friend</span>, got it ✦</h3>
+          <p>Your project brief just landed in our inbox. A real human will reply within a few hours (work hours) with a couple of times for the call.</p>
+          <div class="next">
+            <span>⏱ Typical reply: under 2 hours</span>
+            <span>📨 Check your inbox, and your spam, just in case</span>
+            <span>📍 Mumbai · Toronto · Lisbon</span>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- footer -->
+<footer>
+  <div class="wrap">
+    <div class="grid">
+      <div class="brand">
+        <a href="Marrelay Reimagined.html" class="logo">
+          <span class="logo-mark"><img src="assets/martek-mark.png" alt="Marrelay"></span>
+          <span class="logo-name">
+            <b style="color:var(--paper)">Marrelay <span class="grp" style="color:var(--paper-3)">Group</span></b>
+            <span style="color:var(--ink-soft)">Digital studio</span>
+          </span>
+        </a>
+        <p>A small studio that ships big things for early-stage founders. Hand-built, mostly by humans, occasionally with help from a robot.</p>
+      </div>
+      <div>
+        <h5>Services</h5>
+        <ul>
+          <li><a href="web-development.html">Web development</a></li>
+          <li><a href="data-analytics.html">Data &amp; analytics</a></li>
+          <li><a href="social.html">Social</a></li>
+          <li><a href="seo-ads.html">SEO &amp; ads</a></li>
+          <li><a href="engineering.html">Engineering &amp; CAD</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Studio</h5>
+        <ul>
+          <li><a href="Marrelay Reimagined.html#how">How we work</a></li>
+          <li><a href="Marrelay Reimagined.html#pricing">Pricing</a></li>
+          <li><a href="Marrelay Reimagined.html#work">Work</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Elsewhere</h5>
+        <ul>
+          <li><a href="#">Read.cv</a></li>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">GitHub</a></li>
+          <li><a href="#">Are.na</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="bottom">
+      <span>© 2026 Marrelay. Made with care, not chatGPT.</span>
+      <span><a href="#" style="color:var(--ink-soft)">Privacy</a> · <a href="#" style="color:var(--ink-soft)">Terms</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="image-slot.js"></script>
+<script src="site.js"></script>
+</body>
+</html>

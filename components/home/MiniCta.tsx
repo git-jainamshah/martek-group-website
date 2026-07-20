@@ -44,7 +44,7 @@ export default function MiniCta({ imageSrc = '/assets/contact-us-form.jpg' }: { 
             </ul>
             <div className="media-frame" style={{ marginTop: 28, aspectRatio: '5/3', maxWidth: 380 }}>
               <span className="img-slot" style={{ width: '100%', height: '100%', position: 'absolute', inset: 0 }}>
-                <img src={imageSrc} alt="The Martek studio" />
+                <img src={imageSrc} alt="The Marrelay studio" />
               </span>
             </div>
           </div>

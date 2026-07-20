@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data &amp; Analytics · Marrelay</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=DM+Sans:opsz,wght@9..40,400..700&family=JetBrains+Mono:wght@400;500&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="marrelay.css">
+<style>
+:root{ --accent:#6B9080; --accent-soft:#B7CDC0; }
+.scene-dash{position:absolute; top:12%; left:8%; width:64%; padding:16px}
+.scene-dash .top{display:flex; justify-content:space-between; align-items:center; margin-bottom:14px}
+.scene-dash .top b{font-family:var(--mono); font-size:11px}
+.scene-dash .top .pill2{font-family:var(--mono); font-size:9px; background:var(--accent); color:var(--paper); border:1.5px solid var(--ink); border-radius:999px; padding:2px 8px}
+.scene-dash .bars{display:flex; align-items:flex-end; gap:8px; height:96px; border-bottom:1.5px solid var(--ink); padding-bottom:0}
+.scene-dash .bars span{flex:1; background:var(--accent); border:1.5px solid var(--ink); border-radius:5px 5px 0 0; transform-origin:bottom}
+.scene-dash .bars span:nth-child(1){height:38%}
+.scene-dash .bars span:nth-child(2){height:60%}
+.scene-dash .bars span:nth-child(3){height:48%}
+.scene-dash .bars span:nth-child(4){height:82%; background:var(--butter)}
+.scene-dash .bars span:nth-child(5){height:66%}
+@media (prefers-reduced-motion: no-preference){
+  .scene-dash .bars span{animation:growBar .9s cubic-bezier(.2,.8,.3,1) both}
+  .scene-dash .bars span:nth-child(2){animation-delay:.1s}
+  .scene-dash .bars span:nth-child(3){animation-delay:.2s}
+  .scene-dash .bars span:nth-child(4){animation-delay:.3s}
+  .scene-dash .bars span:nth-child(5){animation-delay:.4s}
+}
+.scene-line{position:absolute; bottom:12%; right:7%; width:48%; padding:14px}
+.scene-line svg{width:100%; height:74px; overflow:visible}
+.scene-line .pth{stroke:var(--accent); stroke-width:3; fill:none; stroke-linecap:round; stroke-dasharray:240; }
+@media (prefers-reduced-motion: no-preference){ .scene-line .pth{animation:drawLine 2.4s ease forwards} @keyframes drawLine{from{stroke-dashoffset:240}to{stroke-dashoffset:0}} }
+.badge-live{top:8%; right:10%}
+.badge-up{bottom:7%; left:8%; --rot:-5deg; transform:rotate(-5deg)}
+</style>
+</head>
+<body class="dot-bg">
+
+<div class="bar">
+  <div class="wrap"><div class="row">
+    <span class="pill">Data</span>
+    <span>Most teams get a <b>clean dashboard + weekly report</b> within two weeks of kickoff.</span>
+    <a href="contact.html?service=data" style="display:inline-flex;align-items:center;gap:6px;color:var(--paper)">Get set up <span class="arr">→</span></a>
+  </div></div>
+</div>
+
+<nav class="main">
+  <div class="wrap"><div class="row">
+    <a href="Marrelay Reimagined.html" class="logo">
+      <span class="logo-mark"><img src="assets/martek-mark.png" alt="Marrelay"></span>
+      <span class="logo-name"><b>Marrelay <span class="grp">Group</span></b><span>Digital studio</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="web-development.html">Web</a>
+      <a href="data-analytics.html" class="active">Data</a>
+      <a href="social.html">Social</a>
+      <a href="seo-ads.html">SEO &amp; Ads</a>
+      <a href="engineering.html">Engineering</a>
+    </div>
+    <div class="nav-cta">
+      <a href="Marrelay Reimagined.html#pricing" class="btn btn-ghost">Pricing</a>
+      <a href="contact.html?service=data" class="btn btn-primary">Book a call
+        <svg class="arr-svg" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11 L11 3 M5 3 H11 V9"/></svg></a>
+    </div>
+  </div></div>
+</nav>
+
+<section class="svc-hero">
+  <div class="wrap">
+    <div class="crumb"><a href="Marrelay Reimagined.html">Home</a><span class="sep">/</span><a href="Marrelay Reimagined.html#what">Services</a><span class="sep">/</span><span class="here">Data &amp; analytics</span></div>
+    <div class="svc-hero-grid" style="margin-top:18px">
+      <div data-reveal>
+        <span class="svc-tag"><span class="no">02</span>Data &amp; analytics</span>
+        <h1>Dashboards that <span class="it">someone</span> <span class="hl">reads</span>.</h1>
+        <p class="lede">We tag your product, wire up the tools, and turn the firehose into <b>one weekly page</b> that actually drives decisions, not another chart nobody opens.</p>
+        <div class="cta-row">
+          <a href="contact.html?service=data" class="btn btn-primary">Book a discovery call
+            <svg class="arr-svg" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11 L11 3 M5 3 H11 V9"/></svg></a>
+          <a href="#pricing" class="btn btn-ghost">See pricing</a>
+        </div>
+        <div class="mini-stats">
+          <div class="ms"><div class="v">2wk</div><div class="k">to first dashboard</div></div>
+          <div class="ms"><div class="v">1<sup style="font-size:.5em;color:var(--accent)">pg</sup></div><div class="k">weekly report</div></div>
+          <div class="ms"><div class="v">GA4</div><div class="k">+ Mixpanel, Looker</div></div>
+        </div>
+      </div>
+
+      <div data-reveal>
+        <div class="hero-stage">
+          <div class="dotgrid"></div>
+          <div class="float-card scene-dash float-a" style="--rot:-2deg">
+            <div class="top"><b>Weekly · signups</b><span class="pill2">▲ 24%</span></div>
+            <div class="bars"><span></span><span></span><span></span><span></span><span></span></div>
+          </div>
+          <div class="float-card scene-line float-b" style="--rot:4deg">
+            <svg viewBox="0 0 200 74" preserveAspectRatio="none">
+              <path class="pth" d="M4 64 Q 40 40, 70 48 T 130 24 T 196 10"/>
+            </svg>
+          </div>
+          <div class="badge badge-live float-c"><span class="d"></span>live data</div>
+          <div class="badge badge-up float-b">CAC ▼ 31%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <h2>What's <span class="hl">included</span></h2>
+      <p class="intro">From a blank Google Analytics property to a board-ready report. We meet you wherever your data mess currently lives.</p>
+    </div>
+    <div class="deliverables" data-reveal-stagger>
+      <div class="deliv">
+        <div class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="var(--ink)" stroke-width="1.8"><path d="M4 6 H24 M4 6 L7 22 H21 L24 6" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 11 V17 M17 11 V17" stroke-linecap="round"/></svg></div>
+        <h4>Tracking &amp; tagging</h4>
+        <p>Event tracking that actually maps to your funnel, set up cleanly in GA4, GTM, or your tool of choice.</p>
+        <div class="tagrow"><span>GA4</span><span>GTM</span><span>Segment</span></div>
+      </div>
+      <div class="deliv">
+        <div class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="var(--ink)" stroke-width="1.8"><rect x="4" y="4" width="20" height="20" rx="3"/><path d="M8 18 V13 M14 18 V9 M20 18 V15" stroke-linecap="round"/></svg></div>
+        <h4>Dashboards</h4>
+        <p>One source of truth your whole team can read, built in Looker Studio, Metabase, or Mixpanel.</p>
+        <div class="tagrow"><span>Looker</span><span>Metabase</span><span>Mixpanel</span></div>
+      </div>
+      <div class="deliv">
+        <div class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="var(--ink)" stroke-width="1.8"><rect x="5" y="3" width="18" height="22" rx="2"/><path d="M9 9 H19 M9 13 H19 M9 17 H15" stroke-linecap="round"/></svg></div>
+        <h4>Weekly 1-pagers</h4>
+        <p>A plain-English summary every Monday: what moved, why, and what we'd try next.</p>
+        <div class="tagrow"><span>Notion</span><span>Slack digest</span></div>
+      </div>
+      <div class="deliv">
+        <div class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="var(--ink)" stroke-width="1.8"><path d="M5 20 Q14 4 23 20" /><circle cx="9" cy="15" r="1.6" fill="var(--accent)" stroke="none"/><circle cx="19" cy="15" r="1.6" fill="var(--accent)" stroke="none"/></svg></div>
+        <h4>Funnel &amp; cohort analysis</h4>
+        <p>Where people drop, who sticks, and which cohort is quietly your best. We find the leaks.</p>
+        <div class="tagrow"><span>Funnels</span><span>Retention</span></div>
+      </div>
+      <div class="deliv">
+        <div class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="var(--ink)" stroke-width="1.8"><ellipse cx="14" cy="7" rx="9" ry="3.4"/><path d="M5 7 V21 Q5 24 14 24 Q23 24 23 21 V7 M5 14 Q5 17 14 17 Q23 17 23 14"/></svg></div>
+        <h4>Data plumbing</h4>
+        <p>Pipelines and warehouses when you outgrow spreadsheets, modeled cleanly in SQL.</p>
+        <div class="tagrow"><span>BigQuery</span><span>dbt</span><span>SQL</span></div>
+      </div>
+      <div class="deliv">
+        <div class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="var(--ink)" stroke-width="1.8"><circle cx="14" cy="14" r="10"/><path d="M14 8 V14 L18 17" stroke-linecap="round"/></svg></div>
+        <h4>Experiment readouts</h4>
+        <p>A/B test design and honest readouts, so you ship what works, not what's loudest.</p>
+        <div class="tagrow"><span>A/B testing</span><span>Stat sig</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec alt">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <h2>How we <span class="it">set it up</span></h2>
+      <p class="intro">Two weeks to trustworthy numbers, then a steady weekly rhythm you can build a company around.</p>
+    </div>
+    <div class="flow" data-reveal-stagger>
+      <div class="fstep"><span class="fn">1</span><h4>Audit</h4><p>We map what you track today, find the gaps, and agree on the metrics that matter.</p><span class="ft">DAYS 1–3</span></div>
+      <div class="fstep"><span class="fn">2</span><h4>Instrument</h4><p>Clean event tracking and a tidy tagging plan, wired into your tools.</p><span class="ft">WEEK 1</span></div>
+      <div class="fstep"><span class="fn">3</span><h4>Build dashboard</h4><p>Your single source of truth, reviewed with you until the numbers are trusted.</p><span class="ft">WEEK 2</span></div>
+      <div class="fstep"><span class="fn">4</span><h4>Weekly rhythm</h4><p>Every Monday: a 1-page readout and a recommendation. Optional retainer.</p><span class="ft">ONGOING</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <h2>Recent <span class="hl">work</span></h2>
+      <p class="intro">A snapshot of what "clarity" looked like for one client. Full walkthrough on the call.</p>
+    </div>
+    <div class="casestudy" data-reveal>
+      <div class="cs-media">
+        <image-slot id="data-case" style="width:100%;height:100%" shape="rect" placeholder="Drop a dashboard screenshot (e.g. analytics-bg)"></image-slot>
+      </div>
+      <div class="cs-body">
+        <div class="tagline">Lemonette · Growth analytics</div>
+        <h3>They stopped guessing and <em>cut CAC by a third</em>.</h3>
+        <p>Lemonette had five tools and zero agreement on the numbers. We consolidated to one dashboard, fixed broken tracking, and ran weekly readouts. Within a quarter they knew exactly which channel to fund.</p>
+        <div class="cs-metrics">
+          <div class="m"><div class="v">−31<sup>%</sup></div><div class="k">cost per acquisition</div></div>
+          <div class="m"><div class="v">1</div><div class="k">source of truth</div></div>
+          <div class="m"><div class="v">12wk</div><div class="k">to profitability clarity</div></div>
+        </div>
+        <div class="cs-author">
+          <div class="av">DM</div>
+          <div class="meta"><b>DevinMara</b><span>Co-founder, Lemonette</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec alt" id="pricing">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <h2>Data <span class="it">pricing</span></h2>
+      <p class="intro">Start with a clean setup, then keep us on for the weekly rhythm, or take it in-house. Your call.</p>
+    </div>
+    <div class="svc-price" data-reveal-stagger>
+      <div class="card c-starter">
+        <div class="pname"><span class="dot"></span><b>Audit</b></div>
+        <h3>Find the <span class="it">leaks</span></h3>
+        <p class="desc">A full review of your tracking &amp; funnel, with a prioritized fix list.</p>
+        <div class="price-line">$1,800 <small>flat</small></div>
+        <div class="billing">1-week turnaround</div>
+        <ul>
+          <li>Tracking &amp; tagging review</li>
+          <li>Funnel drop-off analysis</li>
+          <li>Prioritized fix list</li>
+          <li>60-min walkthrough call</li>
+        </ul>
+        <a href="contact.html?service=data" class="cta">Start an audit →</a>
+      </div>
+      <div class="card c-growth featured">
+        <div class="tag">Most picked</div>
+        <div class="pname"><span class="dot"></span><b>Setup</b></div>
+        <h3>The <span class="it">full</span> stack</h3>
+        <p class="desc">Tracking, a dashboard, and a working weekly report, done right.</p>
+        <div class="price-line">$5,200 <small>from</small></div>
+        <div class="billing">2–3 week delivery</div>
+        <ul>
+          <li>Event tracking &amp; tagging plan</li>
+          <li>Custom dashboard build</li>
+          <li>First month of weekly reports</li>
+          <li>Team training session</li>
+          <li>30-day support</li>
+        </ul>
+        <a href="contact.html?service=data" class="cta">Book a setup →</a>
+      </div>
+      <div class="card c-scale">
+        <div class="pname"><span class="dot"></span><b>Weekly</b></div>
+        <h3>On <span class="it">retainer</span></h3>
+        <p class="desc">We run your analytics rhythm so you can run your company.</p>
+        <div class="price-line">$2,600 <small>/mo</small></div>
+        <div class="billing">3-month minimum</div>
+        <ul>
+          <li>Weekly 1-page readout</li>
+          <li>Dashboard upkeep</li>
+          <li>Experiment design &amp; analysis</li>
+          <li>Pause or cancel anytime</li>
+        </ul>
+        <a href="contact.html?service=data" class="cta">Talk retainer →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="faq-grid">
+      <div data-reveal>
+        <span class="kicker">FAQ · Data</span>
+        <h2 style="font-family:var(--display); font-weight:400; font-size:clamp(36px,4.4vw,56px); line-height:1; letter-spacing:-.02em; margin-top:14px">Data <span class="serif-it" style="font-style:italic">questions</span>.</h2>
+        <p class="sub">Couldn't find it? <a href="contact.html?service=data" style="text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--accent)">Ask on the call →</a></p>
+      </div>
+      <div class="faq-list" data-reveal>
+        <div class="faq-item open"><div class="q"><h4>Which analytics tools do you work with?</h4><span class="plus">+</span></div><div class="a"><p>GA4 and Google Tag Manager for most, plus Mixpanel or PostHog for product analytics, and Looker Studio or Metabase for dashboards. If you're already invested in a stack, we'll work within it.</p></div></div>
+        <div class="faq-item"><div class="q"><h4>Our tracking is a mess. Is that a problem?</h4><span class="plus">+</span></div><div class="a"><p>That's the normal starting point, not a dealbreaker. The audit exists exactly for this, we untangle what's there before building anything new.</p></div></div>
+        <div class="faq-item"><div class="q"><h4>Is our data kept private?</h4><span class="plus">+</span></div><div class="a"><p>Yes. We work in your accounts with least-privilege access, sign an NDA on day one, and never share or resell anything.</p></div></div>
+        <div class="faq-item"><div class="q"><h4>Can you train our team to run it?</h4><span class="plus">+</span></div><div class="a"><p>Absolutely, the setup package includes a training session and documentation so you're not dependent on us. Many clients run it themselves after a month or two.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta">
+  <div class="dot-bg"></div>
+  <div class="wrap final-cta-inner">
+    <div class="grid">
+      <div data-reveal>
+        <span class="kicker" style="color:var(--paper-3)">Ready when you are</span>
+        <h2 style="margin-top:14px">Let's make<br>your data <span class="stamp">clear</span>.</h2>
+      </div>
+      <div class="right" data-reveal>
+        <p>Tell us what you wish you knew about your product. We'll reply within a few hours with where to start.</p>
+        <div class="cta-row">
+          <a href="contact.html?service=data" class="btn btn-primary">Book a discovery call
+            <svg class="arr-svg" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11 L11 3 M5 3 H11 V9"/></svg></a>
+          <a href="mailto:hello@marrelay.com" class="btn btn-ghost">hello@marrelay.com</a>
+        </div>
+      </div>
+    </div>
+    <div class="signoff">
+      <span><b>Marrelay</b> · analytics for startups.</span>
+      <span>Mumbai · Toronto · Lisbon</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="grid">
+      <div class="brand">
+        <a href="Marrelay Reimagined.html" class="logo">
+          <span class="logo-mark"><img src="assets/martek-mark.png" alt="Marrelay"></span>
+          <span class="logo-name"><b style="color:var(--paper)">Marrelay <span class="grp" style="color:var(--paper-3)">Group</span></b><span style="color:var(--ink-soft)">Digital studio</span></span>
+        </a>
+        <p>A small studio that ships big things for early-stage founders.</p>
+      </div>
+      <div><h5>Services</h5><ul>
+        <li><a href="web-development.html">Web development</a></li>
+        <li><a href="data-analytics.html">Data &amp; analytics</a></li>
+        <li><a href="social.html">Social</a></li>
+        <li><a href="seo-ads.html">SEO &amp; ads</a></li>
+        <li><a href="engineering.html">Engineering &amp; CAD</a></li>
+      </ul></div>
+      <div><h5>Studio</h5><ul>
+        <li><a href="Marrelay Reimagined.html#how">How we work</a></li>
+        <li><a href="Marrelay Reimagined.html#pricing">Pricing</a></li>
+        <li><a href="Marrelay Reimagined.html#work">Work</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul></div>
+      <div><h5>Elsewhere</h5><ul>
+        <li><a href="#">Read.cv</a></li><li><a href="#">LinkedIn</a></li><li><a href="#">GitHub</a></li><li><a href="#">Are.na</a></li>
+      </ul></div>
+    </div>
+    <div class="bottom">
+      <span>© 2026 Marrelay. Made with care, not chatGPT.</span>
+      <span><a href="#" style="color:var(--ink-soft)">Privacy</a> · <a href="#" style="color:var(--ink-soft)">Terms</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="image-slot.js"></script>
+<script src="site.js"></script>
+</body>
+</html>

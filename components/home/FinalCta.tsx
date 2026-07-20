@@ -31,8 +31,8 @@ export default function FinalCta() {
                   <path d="M3 11 L11 3 M5 3 H11 V9" />
                 </svg>
               </Link>
-              <a href="mailto:hello@martek.studio" className="btn btn-ghost">
-                hello@martek.studio
+              <a href="mailto:hello@marrelay.com" className="btn btn-ghost">
+                hello@marrelay.com
               </a>
             </div>
           </div>
@@ -40,7 +40,7 @@ export default function FinalCta() {
 
         <div className="signoff">
           <span>
-            <b>Martek Group</b> · a founder-led digital studio.
+            <b>Marrelay</b> · a founder-led digital studio.
           </span>
           <span>Toronto, Canada</span>
         </div>
