@@ -1,0 +1,5 @@
+﻿{
+  "Description": "Domain ownership verification file for Microsoft 365 - place in the website root",
+  "Domain": "marrelay.com",
+  "Id": "c56a8b3b-9013-4975-a099-568fa6a31571"
+}
