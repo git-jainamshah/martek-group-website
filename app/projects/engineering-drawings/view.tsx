@@ -1,92 +1,60 @@
 'use client'
 
-import PageHero from '@/components/PageHero'
-import VideoBackground from '@/components/VideoBackground'
-import PresentationStats from '@/components/PresentationStats'
-import Link from 'next/link'
-import { ArrowLeft, Download, Component } from 'lucide-react'
-import { motion } from 'framer-motion'
+import CaseStudyPage, { CaseStudyData } from '@/components/case-studies/CaseStudyPage'
+
+const data: CaseStudyData = {
+  slug: 'engineering-drawings',
+  accentClass: 'accent-eng',
+  contactQuery: 'engineering',
+  category: 'Engineering & CAD',
+  crumb: 'Engineering Drawings',
+  h1: <>Shop-floor drawings that <span className="it">leave no room to guess</span></>,
+  summary:
+    'A hypothetical small-scale manufacturer was losing time and material to vague sketches and rework. Here is how we would deliver precise CAD/CAM drawings that let them quote faster, build cleaner, and compete with much larger shops.',
+  heroStats: [
+    { v: '±0.01mm', k: 'Tolerance target' },
+    { v: '3x', k: 'Faster to production' },
+    { v: '-25%', k: 'Material waste goal' },
+  ],
+  challengeKicker: 'The challenge',
+  challenge: [
+    'Parts were being made from hand sketches and verbal instructions. Tolerances lived in someone’s head, revisions were scribbled on printouts, and every ambiguous dimension turned into scrap, rework, or a frustrated customer.',
+    'They wanted to take on bigger, more precise jobs but could not produce the professional, unambiguous drawings those clients expect. They needed engineering documentation that a machinist could build from without a single phone call.',
+  ],
+  approachIntro:
+    'We turn intent into precise, manufacturable documentation, with tolerances and revisions handled the way a serious shop expects.',
+  approach: [
+    { title: 'Requirements & intent', text: 'We capture function, fit, and constraints so the model is built around how the part actually has to perform.', time: 'Step 1' },
+    { title: 'CAD modelling', text: 'Parametric 3D models that are easy to revise, with a clean feature tree instead of a fragile one-off file.', time: 'Step 2' },
+    { title: 'Drawings & tolerancing', text: 'Fully dimensioned drawings with GD&T, so tolerances are explicit and nothing is left to interpretation.', time: 'Step 3' },
+    { title: 'CAM & handover', text: 'Toolpaths and manufacturing-ready files, with a revision system so the shop always builds the right version.', time: 'Step 4' },
+  ],
+  buildIntro: 'Documentation precise enough for professional manufacturing, and organised enough to reuse on the next job.',
+  build: [
+    { title: 'Parametric 3D models', text: 'Clean, editable CAD models that flex when the design changes instead of forcing a rebuild from scratch.', tags: ['SolidWorks', 'Fusion 360'] },
+    { title: 'GD&T drawings', text: 'Geometric dimensioning and tolerancing so fit and function are guaranteed, not hoped for.', tags: ['GD&T', 'ISO'] },
+    { title: 'CAM & toolpaths', text: 'Manufacturing-ready CAM output that minimises material waste and machine time on the floor.', tags: ['CAM', 'Toolpaths'] },
+    { title: 'Revision control', text: 'A clear revision and release system so the shop never machines an out-of-date drawing.', tags: ['Rev control', 'Release'] },
+    { title: 'Design for manufacture', text: 'DFM review to flag features that are expensive or risky to make before a single chip is cut.', tags: ['DFM', 'Cost'] },
+    { title: 'Quote-ready packages', text: 'Complete drawing packages that let you quote bigger, more demanding jobs with confidence.', tags: ['Docs', 'Quoting'] },
+  ],
+  outcomeTagline: 'What good looks like',
+  outcomeH3: <>CAD/CAM <em>precision</em>, shop-floor ready</>,
+  outcomeText:
+    'With unambiguous drawings, the shop cuts rework to near zero, moves through production noticeably faster, and wins the kind of precision work that used to go to larger competitors.',
+  outcomeMetrics: [
+    { v: '0', sup: '%', k: 'Defect rate post-design' },
+    { v: '3x', k: 'Faster production' },
+    { v: '-25', sup: '%', k: 'Material waste' },
+  ],
+  quote: 'Precise enough to build from, with zero phone calls.',
+  quoteAttribution: 'Marrelay · Engineering & CAD',
+  ctaH2: <>Have a part that needs <span className="it">real drawings?</span></>,
+  ctaText: 'Send us a sketch, a sample, or an idea. We will turn it into precise, manufacturable CAD/CAM documentation your shop can build from.',
+  seoName: 'Engineering & CAD Case Study — CAD/CAM for Small-Scale Manufacturing',
+  seoDescription: 'How Marrelay turns vague sketches into precise, GD&T-toleranced CAD/CAM drawings that cut rework and help small manufacturers win bigger, precision work.',
+}
 
 export default function EngineeringDrawingsPageView({ bannerVideo }: { bannerVideo: string }) {
-    const stats = [
-        { label: "Precision", value: "±0.01mm", subtext: "Tolerance achieved" },
-        { label: "Efficiency", value: "3x Faster", subtext: "Production speed" },
-        { label: "Errors", value: "0%", subtext: "Defect rate post-design" },
-        { label: "Cost", value: "-25%", subtext: "Material waste reduction" }
-    ]
-
-    return (
-        <div className="bg-background min-h-screen pb-24">
-            <div className="relative overflow-hidden">
-                <PageHero
-                    title="Engineering Design"
-                    subtitle="SAMPLE CASE STUDY REPORT"
-                    backgroundComponent={<VideoBackground src={bannerVideo} />}
-                    className="h-[55vh] min-h-[400px]"
-                />
-            </div>
-
-            <div className="container-custom -mt-20 relative z-10 px-4 sm:px-6 lg:px-8">
-                <div className="bg-background border border-border shadow-2xl rounded-2xl p-8 md:p-12">
-                    {/* Header */}
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 border-b border-border pb-8">
-                        <div>
-                            <Link href="/case-studies" className="inline-flex items-center text-muted-foreground hover:text-primary text-sm font-bold uppercase tracking-widest mb-4">
-                                <ArrowLeft className="mr-2 h-4 w-4" /> Back to Showcase
-                            </Link>
-                            <h1 className="text-3xl md:text-4xl font-bold text-foreground">CAD/CAM Precision</h1>
-                            <p className="text-xl text-muted-foreground mt-2">Professional Modeling for Small-Scale Manufacturing</p>
-                        </div>
-                        <div className="flex gap-4 mt-6 md:mt-0">
-                            <button className="flex items-center space-x-2 bg-primary text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-primary/90 transition-colors">
-                                <Download className="w-4 h-4" /> <span>Download Schematics</span>
-                            </button>
-                            <button className="flex items-center space-x-2 bg-muted text-foreground px-4 py-2 rounded-lg text-sm font-bold hover:bg-muted/80 transition-colors">
-                                <Component className="w-4 h-4" /> <span>View 3D Model</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* Stats */}
-                    <PresentationStats stats={stats} />
-
-                    {/* Content Body */}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 text-lg leading-relaxed text-muted-foreground">
-                        <motion.div
-                            initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                        >
-                            <h3 className="text-foreground font-bold text-2xl mb-4">The Challenge</h3>
-                            <p className="mb-6">
-                                A boutique hardware manufacturer was facing high rejection rates due to inconsistent manual drawings. They needed to move to professional CAD/CAM workflows to scale production but lacked the in-house engineering expertise to create the necessary 3D models and toolpaths.
-                            </p>
-                            <ul className="list-disc pl-6 space-y-2 mb-6 text-base">
-                                <li>High Material Wastage</li>
-                                <li>Inconsistent Part Fitment</li>
-                                <li>Production Bottlenecks</li>
-                            </ul>
-                        </motion.div>
-
-                        <motion.div
-                            initial={{ opacity: 0, x: 20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                        >
-                            <h3 className="text-foreground font-bold text-2xl mb-4">The Solution</h3>
-                            <p className="mb-6">
-                                We provided a complete digital engineering package. From 3D scanning existing parts to creating production-ready CAD files and optimizing CAM toolpaths. We essentially acted as their on-demand engineering department, enabling them to use CNC machinery with full confidence.
-                            </p>
-                            <div className="bg-muted/30 p-6 rounded-lg border-l-4 border-primary">
-                                <p className="text-foreground font-medium italic">
-                                    &quot;Marrelay gave us the engineering rigor of a large factory without the overhead. We are now shipping globally.&quot;
-                                </p>
-                                <p className="text-sm mt-4 font-bold uppercase text-primary">- Operations Manager</p>
-                            </div>
-                        </motion.div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
+  return <CaseStudyPage data={data} media={bannerVideo} />
 }
