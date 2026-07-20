@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🚀 Starting Martek Group Website Locally..."
+echo "🚀 Starting Marrelay Website Locally..."
 echo ""
 
 # Check if Node.js is installed

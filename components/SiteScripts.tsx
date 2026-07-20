@@ -18,7 +18,9 @@ type ScriptRow = {
 type TagManagerRow = { id: number; provider: string; container_id: string; environment: string; enabled: number }
 
 export function currentEnvironment(): 'production' | 'qa' | 'dev' {
-  const explicit = process.env.MARTEK_ENV?.trim().toLowerCase()
+  // MARRELAY_ENV is the current name; MARTEK_ENV kept as a fallback so any
+  // value already set in Vercel keeps working through the rebrand.
+  const explicit = (process.env.MARRELAY_ENV ?? process.env.MARTEK_ENV)?.trim().toLowerCase()
   if (explicit === 'production' || explicit === 'qa' || explicit === 'dev') return explicit
   const vercel = process.env.VERCEL_ENV
   if (vercel === 'production') return 'production'

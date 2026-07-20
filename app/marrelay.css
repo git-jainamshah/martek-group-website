@@ -1,6 +1,6 @@
 /* =====================================================================
-   MARTEK DESIGN SYSTEM - ported from design_handoff_martek/martek.css
-   + inline lux-hero styles from "Martek Reimagined v2.html"
+   MARTEK DESIGN SYSTEM - ported from design_handoff_martek/marrelay.css
+   + inline lux-hero styles from "Marrelay Reimagined v2.html"
    Fonts are wired to next/font CSS variables (see app/layout.tsx).
    ===================================================================== */
 
@@ -36,7 +36,7 @@
   --mono:var(--font-jetbrains, "JetBrains Mono"), ui-monospace, Menlo, Consolas, monospace;
   --brand-font:var(--font-poppins, "Poppins"), -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
 
-  /* Martek Group brand */
+  /* Marrelay brand */
   --brand:#ED1C24;
   --brand-ink:#C8141B;
   --brand-soft:#FBD9DA;
@@ -238,7 +238,7 @@ body.m-open .m-links a:nth-child(8){transition-delay:.41s}
   .m-nav, .m-backdrop{display:none}
 }
 
-/* ---------- CINEMATIC BLACK HERO (homepage - "Martek Reimagined") ---------- */
+/* ---------- CINEMATIC BLACK HERO (homepage - "Marrelay Reimagined") ---------- */
 .cine-hero{position:relative; min-height:94vh; display:flex; align-items:center; overflow:hidden; background:#0B0B0D; isolation:isolate}
 .cine-bg{position:absolute; inset:0; z-index:0}
 .cine-video{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 1.4s ease}

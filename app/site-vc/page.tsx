@@ -227,13 +227,13 @@ export default function VersionControlPage() {
           <div className="flex items-center gap-3">
             <Image
               src="/assets/martek-only-logo.png"
-              alt="Martek Group"
+              alt="Marrelay"
               width={40}
               height={40}
               className="w-10 h-10"
             />
             <div>
-              <h1 className="text-lg font-bold text-white">Martek Group</h1>
+              <h1 className="text-lg font-bold text-white">Marrelay</h1>
               <p className="text-xs text-gray-400">Admin Dashboard</p>
             </div>
           </div>

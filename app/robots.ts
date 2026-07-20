@@ -20,6 +20,6 @@ export default async function robots(): Promise<MetadataRoute.Robots> {
       // and excluded from the sitemap instead.
       disallow: ['/api/', '/_next/', ...extraDisallow],
     },
-    sitemap: `${process.env.NEXT_PUBLIC_SITE_URL?.trim() || 'https://www.martekgroup.com'}/sitemap.xml`,
+    sitemap: `${process.env.NEXT_PUBLIC_SITE_URL?.trim() || 'https://www.marrelay.com'}/sitemap.xml`,
   }
 }

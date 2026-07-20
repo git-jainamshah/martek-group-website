@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'About · Martek Group',
+  title: 'About · Marrelay',
   description:
-    'Martek Group is a founder-led digital studio in Toronto. We started in engineering drawings, grew into web, data, social, and SEO - and kept the honest, hands-on way of working.',
+    'Marrelay is a founder-led digital studio in Toronto. We started in engineering drawings, grew into web, data, social, and SEO - and kept the honest, hands-on way of working.',
   alternates: { canonical: '/about' },
   openGraph: { url: '/about' },
 }
@@ -36,7 +36,7 @@ export default function AboutPage() {
             <div data-reveal>
               <span className="svc-tag">
                 <span className="no">✦</span>
-                About Martek Group
+                About Marrelay
               </span>
               <h1>
                 A studio built
@@ -44,7 +44,7 @@ export default function AboutPage() {
                 the <span className="hl">honest</span> <span className="it">way</span>.
               </h1>
               <p className="lede">
-                We started Martek to sit in the gap between <b>fast-but-messy freelancers</b> and{' '}
+                We started Marrelay to sit in the gap between <b>fast-but-messy freelancers</b> and{' '}
                 <b>perfect-but-slow agencies</b>. Founder-led, based in Toronto, and hands-on with every single
                 project.
               </p>
@@ -122,7 +122,7 @@ export default function AboutPage() {
               Where we <span className="it">come from</span>
             </h2>
             <p className="intro">
-              Before we wrote a line of code, we drew. Martek started on the engineering side - CAD drawings,
+              Before we wrote a line of code, we drew. Marrelay started on the engineering side - CAD drawings,
               drafting, technical docs - where &quot;almost right&quot; doesn&apos;t exist. That precision habit
               followed us when we grew into websites, data, social, and search. We build digital things the way a
               draftsperson builds a drawing set: scoped up front, checked at every gate, and delivered so you can
@@ -285,15 +285,15 @@ export default function AboutPage() {
                   Book a discovery call
                   <ArrowSvg />
                 </Link>
-                <a href="mailto:hello@martek.studio" className="btn btn-ghost">
-                  hello@martek.studio
+                <a href="mailto:hello@marrelay.com" className="btn btn-ghost">
+                  hello@marrelay.com
                 </a>
               </div>
             </div>
           </div>
           <div className="signoff">
             <span>
-              <b>Martek Group</b> · a founder-led digital studio.
+              <b>Marrelay</b> · a founder-led digital studio.
             </span>
             <span>Toronto, Canada</span>
           </div>

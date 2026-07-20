@@ -310,15 +310,15 @@ export default function ServicePage({ data }: { data: ServiceData }) {
                   Book a discovery call
                   <ArrowSvg />
                 </Link>
-                <a href="mailto:hello@martek.studio" className="btn btn-ghost">
-                  hello@martek.studio
+                <a href="mailto:hello@marrelay.com" className="btn btn-ghost">
+                  hello@marrelay.com
                 </a>
               </div>
             </div>
           </div>
           <div className="signoff">
             <span>
-              <b>Martek Group</b> · {data.signoff}
+              <b>Marrelay</b> · {data.signoff}
             </span>
             <span>Toronto, Canada</span>
           </div>

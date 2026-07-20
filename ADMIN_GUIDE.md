@@ -1,4 +1,4 @@
-# Martek Admin Panel
+# Marrelay Admin Panel
 
 A hidden admin backend at **`/admin`**, backed by **Postgres** — works on Vercel (Neon),
 any hosted Postgres, or locally. One env var (`DATABASE_URL`) is the only configuration.

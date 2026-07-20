@@ -3,7 +3,7 @@ import './admin.css'
 
 // Hard noindex for the entire admin area (also excluded from sitemap + robots + X-Robots-Tag header)
 export const metadata: Metadata = {
-  title: 'Martek Admin',
+  title: 'Marrelay Admin',
   robots: { index: false, follow: false, noarchive: true, nosnippet: true, noimageindex: true },
 }
 

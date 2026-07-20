@@ -12,7 +12,7 @@ export default function Proof({ imageSrc = '/assets/office-dark-hero.png' }: { i
               <span className="it">for founders</span>.
             </h2>
             <p className="lede">
-              We started Martek because every agency we&apos;d dealt with charged like a multinational and showed up
+              We started Marrelay because every agency we&apos;d dealt with charged like a multinational and showed up
               like a junior. When you work with us, you talk directly to the people doing the work - no account
               managers, no handoffs, no surprise invoices.
             </p>
@@ -52,7 +52,7 @@ export default function Proof({ imageSrc = '/assets/office-dark-hero.png' }: { i
 
             <div className="media-frame" style={{ marginTop: 32, aspectRatio: '16/9' }}>
               <span className="img-slot" style={{ width: '100%', height: '100%', position: 'absolute', inset: 0 }}>
-                <img src={imageSrc} alt="Martek Group at work" />
+                <img src={imageSrc} alt="Marrelay at work" />
               </span>
               <span className="media-tag">built in Toronto ✷</span>
             </div>
@@ -68,7 +68,7 @@ export default function Proof({ imageSrc = '/assets/office-dark-hero.png' }: { i
             <div className="author">
               <div className="av">MG</div>
               <div className="ad">
-                <b>The founders, Martek Group</b>
+                <b>The founders, Marrelay</b>
                 <span>Toronto, Canada</span>
               </div>
             </div>

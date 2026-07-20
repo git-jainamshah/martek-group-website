@@ -2,8 +2,8 @@ import { Metadata } from 'next'
 import { TERMS_DEFAULT_HTML, formatLegalDate, sanitizeHtml } from '@/lib/admin/legal-defaults'
 
 export const metadata: Metadata = {
-  title: 'Terms of Service - Martek Group',
-  description: 'Terms of Service for Martek Group.',
+  title: 'Terms of Service - Marrelay',
+  description: 'Terms of Service for Marrelay.',
 }
 
 export const revalidate = 60

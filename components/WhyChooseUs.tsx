@@ -48,7 +48,7 @@ export default function WhyChooseUs() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">
-            Why Choose Martek Group?
+            Why Choose Marrelay?
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             We combine expertise, innovation, and dedication to deliver exceptional results

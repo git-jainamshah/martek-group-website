@@ -6,7 +6,7 @@ import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import { q1, run } from './pg'
 
-export const SESSION_COOKIE = 'martek_admin_session'
+export const SESSION_COOKIE = 'marrelay_admin_session'
 const SESSION_DAYS = 7
 
 export function hashPassword(password: string): string {

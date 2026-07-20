@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Instrument_Serif, Fraunces, DM_Sans, JetBrains_Mono, Poppins } from 'next/font/google'
 import './globals.css'
-import './martek.css'
+import './marrelay.css'
 import LayoutWrapper from '@/components/LayoutWrapper'
 import { SOCIALS } from '@/lib/social'
 import { HeadScripts, BodyStartScripts, FooterScripts } from '@/components/SiteScripts'
@@ -36,7 +36,7 @@ const poppins = Poppins({
   variable: '--font-poppins',
 })
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.trim() || 'https://www.martekgroup.com'
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.trim() || 'https://www.marrelay.com'
 
 // ISR: pages stay statically served (fast) but refresh within 60s, so
 // admin changes (scripts, pricing, announcement copy) go live within a minute.
@@ -45,7 +45,7 @@ export const revalidate = 60
 const baseMetadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Martek Group · A small studio that ships big things',
+    default: 'Marrelay · A small studio that ships big things',
     template: '%s',
   },
   description:
@@ -61,24 +61,24 @@ const baseMetadata: Metadata = {
     'engineering drawings',
     'digital studio Toronto',
   ],
-  authors: [{ name: 'Martek Group' }],
-  creator: 'Martek Group',
+  authors: [{ name: 'Marrelay' }],
+  creator: 'Marrelay',
   alternates: {
     canonical: '/',
   },
   openGraph: {
-    siteName: 'Martek Group',
-    title: 'Martek Group · A small studio that ships big things',
+    siteName: 'Marrelay',
+    title: 'Marrelay · A small studio that ships big things',
     description:
       'Founder-led digital studio in Toronto. Web, data, social, SEO & ads, and engineering for startups - fixed-price quotes, weekly demos.',
     type: 'website',
     locale: 'en_CA',
     url: '/',
-    images: [{ url: '/assets/martek-group-header.png', width: 1200, height: 630, alt: 'Martek Group - digital studio' }],
+    images: [{ url: '/assets/martek-group-header.png', width: 1200, height: 630, alt: 'Marrelay - digital studio' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Martek Group · A small studio that ships big things',
+    title: 'Marrelay · A small studio that ships big things',
     description:
       'Founder-led digital studio in Toronto. Web, data, social, SEO & ads, and engineering for startups.',
     images: ['/assets/martek-group-header.png'],
@@ -125,7 +125,7 @@ const buildOrgLd = (c: { name: string; email: string; logoIcon: string; logoFull
   url: SITE_URL,
   logo: `${SITE_URL}${c.logoIcon || '/assets/martek-mark.png'}`,
   image: `${SITE_URL}${c.logoFull || '/assets/martek-group-header.png'}`,
-  email: c.email || 'hello@martek.studio',
+  email: c.email || 'hello@marrelay.com',
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'Toronto',
@@ -135,7 +135,7 @@ const buildOrgLd = (c: { name: string; email: string; logoIcon: string; logoFull
   areaServed: 'Worldwide',
   priceRange: '$$',
   sameAs: sameAs.length ? sameAs : SOCIALS.map((s) => s.href),
-  founder: { '@type': 'Person', name: 'Martek Group founders' },
+  founder: { '@type': 'Person', name: 'Marrelay founders' },
   makesOffer: [
     { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Web development', url: `${SITE_URL}/services/web-development` } },
     { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Data & analytics', url: `${SITE_URL}/services/data-analytics` } },

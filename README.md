@@ -1,4 +1,4 @@
-# 🚀 Martek Group Website
+# 🚀 Marrelay Website
 
 A modern, professional business website built with cutting-edge web technologies. Features a responsive design, dark mode support, dynamic animations, and comprehensive project showcases.
 
@@ -536,14 +536,14 @@ http://localhost:3000/site-vc
 ## 📧 Support
 
 For questions, issues, or support:
-- 📧 Email: info@martekgroup.com
+- 📧 Email: info@marrelay.com
 - 🐛 Issues: [GitHub Issues](https://github.com/git-jainamshah/martek-group-website/issues)
 - 📖 Documentation: [Next.js Docs](https://nextjs.org/docs)
 - 🔐 VC Dashboard: [VC_DASHBOARD.md](VC_DASHBOARD.md)
 
 ## 📄 License
 
-© 2024 Martek Group. All rights reserved.
+© 2024 Marrelay. All rights reserved.
 
 ---
 

@@ -15,11 +15,11 @@ export type Company = {
 export type SocialEntry = { platform: string; label: string; href: string; enabled: boolean }
 
 export const COMPANY_DEFAULTS: Company = {
-  name: 'Martek Group',
+  name: 'Marrelay',
   tagline: 'Digital studio',
   addressLine1: 'Toronto, ON',
   addressLine2: 'Canada',
-  email: 'hello@martek.studio',
+  email: 'hello@marrelay.com',
   phone: '',
   logoFull: '/assets/martek-group-header.png',
   logoIcon: '/assets/martek-mark.png',

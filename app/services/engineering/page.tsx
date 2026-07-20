@@ -3,7 +3,7 @@ import ServicePage, { ServiceData } from '@/components/services/ServicePage'
 import { mergePackages } from '@/lib/pricing'
 
 export const metadata: Metadata = {
-  title: 'Engineering & CAD · Martek Group',
+  title: 'Engineering & CAD · Marrelay',
   description:
     'Mechanical drafting, blueprints, and 3D modelling for hardware founders, fabricators, and contractors who need it precise, and on time.',
   alternates: { canonical: '/services/engineering' },

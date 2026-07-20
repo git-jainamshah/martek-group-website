@@ -3,7 +3,7 @@ import ServicePage, { ServiceData } from '@/components/services/ServicePage'
 import { mergePackages } from '@/lib/pricing'
 
 export const metadata: Metadata = {
-  title: 'Web Development · Martek Group',
+  title: 'Web Development · Marrelay',
   description:
     'Marketing sites, product UIs, and stores, designed and coded by the same small team. Fast, accessible, and easy for you to update.',
   alternates: { canonical: '/services/web-development' },

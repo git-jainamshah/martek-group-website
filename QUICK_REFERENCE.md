@@ -1,4 +1,4 @@
-# 🚀 Quick Reference Guide - Martek Group Website
+# 🚀 Quick Reference Guide - Marrelay Website
 
 Your go-to guide for common tasks and commands.
 
@@ -16,7 +16,7 @@ This shows you exactly what you asked for:
 ```
 Sr#   Version   Commit     Date                 Summary
 ────────────────────────────────────────────────────────────────
-1     v1.0.0    90ea98c    3 weeks ago          Initial commit - Martek...
+1     v1.0.0    90ea98c    3 weeks ago          Initial commit - Marrelay...
 2     v1.0.1    1258458    24 hours ago         Add complete features
 3     v1.0.2    e715635    37 minutes ago       Initial commit
 ...
@@ -336,7 +336,7 @@ git gc --prune=now --aggressive
 - **Documentation**: See README.md
 - **Contributing Guide**: See CONTRIBUTING.md
 - **Changelog**: See CHANGELOG.md
-- **Support**: info@martekgroup.com
+- **Support**: info@marrelay.com
 - **GitHub Issues**: https://github.com/git-jainamshah/martek-group-website/issues
 
 ---

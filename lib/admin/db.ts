@@ -216,6 +216,30 @@ async function migrateAndSeed() {
     }
   } catch { /* ok */ }
 
+  // ---- One-time rebrand: Martek -> Marrelay in already-stored settings ----
+  // The live DB was seeded with the old brand. This rewrites brand text inside
+  // company profile, SEO, socials, and legal copy. Targeted tokens only, so it
+  // never touches asset paths (/assets/martek-mark.png) or custom values.
+  try {
+    const done = await q1<{ key: string }>(`SELECT key FROM settings WHERE key = 'brand_marrelay_v1'`)
+    if (!done) {
+      const rebrand = (s: string) => s
+        .split('hello@martek.studio').join('hello@marrelay.com')
+        .split('Martek Reimagined').join('Marrelay Reimagined')
+        .split('Martek Group').join('Marrelay')
+        .split('martek-studio').join('marrelay')
+        .split('martek.studio').join('marrelay')
+        .split('martekgroup').join('marrelay')
+        .split('Martek').join('Marrelay')
+      const rows = await q<{ key: string; value: string }>('SELECT key, value FROM settings')
+      for (const r of rows) {
+        const nv = rebrand(r.value)
+        if (nv !== r.value) await run('UPDATE settings SET value = $1 WHERE key = $2', [nv, r.key])
+      }
+      await run(`INSERT INTO settings (key, value) VALUES ('brand_marrelay_v1', '"done"') ON CONFLICT (key) DO NOTHING`)
+    }
+  } catch { /* ok */ }
+
   // ---- Seed first admin ----
   const userCount = await q1<{ c: string }>('SELECT COUNT(*)::int AS c FROM users')
   if (Number(userCount?.c) === 0) {
@@ -292,22 +316,22 @@ async function migrateAndSeed() {
       frequency: 'once-per-session',
     },
     robots_txt: { extraDisallow: [] as string[], extraRules: '' },
-    seo: { siteUrl: 'https://www.martekgroup.com', googleVerification: '', bingVerification: '' },
+    seo: { siteUrl: 'https://www.marrelay.com', googleVerification: '', bingVerification: '' },
     company: {
-      name: 'Martek Group',
+      name: 'Marrelay',
       tagline: 'Digital studio',
       addressLine1: 'Toronto, ON',
       addressLine2: 'Canada',
-      email: 'hello@martek.studio',
+      email: 'hello@marrelay.com',
       phone: '',
       logoFull: '/assets/martek-group-header.png',
       logoIcon: '/assets/martek-mark.png',
     },
     socials: [
-      { platform: 'Instagram', label: '@martek.studio', href: 'https://www.instagram.com/martek.studio', enabled: true },
-      { platform: 'LinkedIn', label: '/company/martek-studio', href: 'https://www.linkedin.com/company/martek-studio', enabled: true },
-      { platform: 'X', label: '@martekgroup', href: 'https://x.com/martekgroup', enabled: true },
-      { platform: 'Facebook', label: '/martekgroup', href: 'https://www.facebook.com/martekgroup', enabled: true },
+      { platform: 'Instagram', label: '@marrelay', href: 'https://www.instagram.com/marrelay', enabled: true },
+      { platform: 'LinkedIn', label: '/company/marrelay', href: 'https://www.linkedin.com/company/marrelay', enabled: true },
+      { platform: 'X', label: '@marrelay', href: 'https://x.com/marrelay', enabled: true },
+      { platform: 'Facebook', label: '/marrelay', href: 'https://www.facebook.com/marrelay', enabled: true },
     ],
   }
   for (const [k, v] of Object.entries(defaults)) {
@@ -391,5 +415,5 @@ export function generateTempPassword(): string {
   const w = words[crypto.randomInt(words.length)]
   const n = crypto.randomInt(1000, 9999)
   const s = '!@#$%'[crypto.randomInt(5)]
-  return `Martek-${w}${n}${s}`
+  return `Marrelay-${w}${n}${s}`
 }

@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Abstracts - Martek Group',
+  title: 'Abstracts - Marrelay',
   description: 'View our abstracts and case studies.',
 }
 

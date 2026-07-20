@@ -1,6 +1,6 @@
-# Contributing to Martek Group Website
+# Contributing to Marrelay Website
 
-Thank you for your interest in contributing to the Martek Group website! This document provides guidelines and workflows for making changes.
+Thank you for your interest in contributing to the Marrelay website! This document provides guidelines and workflows for making changes.
 
 ## 🔄 Version Control Workflow
 
@@ -240,7 +240,7 @@ If you encounter issues:
 
 1. Check existing [GitHub Issues](https://github.com/git-jainamshah/martek-group-website/issues)
 2. Read the [README.md](README.md) for setup instructions
-3. Contact the team at info@martekgroup.com
+3. Contact the team at info@marrelay.com
 
 ## 📝 Code Style
 
@@ -261,4 +261,4 @@ If you encounter issues:
 
 ---
 
-**Thank you for contributing to the Martek Group website! 🚀**
+**Thank you for contributing to the Marrelay website! 🚀**

@@ -8,10 +8,10 @@ Since Node.js isn't installed locally, here's the fastest way to deploy:
 
 1. **Initialize Git** (if you haven't already):
    ```bash
-   cd "/Users/jainam.shah/Documents/Jainam Personal Projects/Martek Group"
+   cd "/Users/jainam.shah/Documents/Jainam Personal Projects/Marrelay"
    git init
    git add .
-   git commit -m "Initial commit - Martek Group website"
+   git commit -m "Initial commit - Marrelay website"
    ```
 
 2. **Push to GitHub**:
@@ -67,7 +67,7 @@ If you don't want to use GitHub:
 
 2. **Set Up Custom Domain** (Optional):
    - Vercel dashboard > Settings > Domains
-   - Add your domain (e.g., martekgroup.com)
+   - Add your domain (e.g., marrelay.com)
 
 3. **Test Everything**:
    - Video banner loads

@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
   const headers = marketing ? MARKETING_EXPORT_HEADERS : LEAD_EXPORT_HEADERS
   const rows = leads.map(marketing ? leadToMarketingRow : leadToRow)
   const stamp = new Date().toISOString().slice(0, 10)
-  const base = marketing ? 'martek-leads-marketing' : 'martek-leads'
+  const base = marketing ? 'marrelay-leads-marketing' : 'marrelay-leads'
 
   if (format === 'xls') {
     return new NextResponse(toXls('Leads', headers, rows), {
@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
     })
   }
   if (format === 'pdf') {
-    const pdf = toPdf(`Martek Group - Leads (${stamp})`, headers, rows)
+    const pdf = toPdf(`Marrelay - Leads (${stamp})`, headers, rows)
     return new NextResponse(new Uint8Array(pdf), {
       headers: {
         'Content-Type': 'application/pdf',

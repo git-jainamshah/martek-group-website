@@ -13,7 +13,7 @@ const ArrowSvg = () => (
   </svg>
 )
 
-/* drifting embers / city lights (ported from "Martek Reimagined.html") */
+/* drifting embers / city lights (ported from "Marrelay Reimagined.html") */
 const particles = [
   { left: '8%', duration: '13s', delay: '-2s' },
   { left: '15%', duration: '17s', delay: '-9s', terra: true },
@@ -102,7 +102,7 @@ export default function Hero({ videoSrc }: { videoSrc?: string } = {}) {
           <span className="stamp2">startups</span>.
         </h1>
         <p className="cine-lede">
-          We&apos;re <b>Martek Group</b>, a founder-led studio designing, building, and growing products for founders
+          We&apos;re <b>Marrelay</b>, a founder-led studio designing, building, and growing products for founders
           who sweat the details, around the clock.
         </p>
         <div className="cine-cta">

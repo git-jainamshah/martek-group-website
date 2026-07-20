@@ -28,7 +28,7 @@ export default async function AdminDashboard() {
     <div className="space-y-8 max-w-5xl">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
-        <p className="text-sm ad-mut mt-1">Everything that keeps martekgroup.com running.</p>
+        <p className="text-sm ad-mut mt-1">Everything that keeps marrelay.com running.</p>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">

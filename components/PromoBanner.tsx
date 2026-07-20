@@ -19,7 +19,7 @@ type PromoCfg = {
   frequency: 'once-per-session' | 'every-visit'
 }
 
-const SEEN_KEY = 'martek_promo_seen'
+const SEEN_KEY = 'marrelay_promo_seen'
 
 export default function PromoBanner() {
   const [cfg, setCfg] = useState<PromoCfg | null>(null)
