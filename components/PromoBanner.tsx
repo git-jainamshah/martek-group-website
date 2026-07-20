@@ -24,10 +24,11 @@ const SEEN_KEY = 'martek_promo_seen'
 export default function PromoBanner() {
   const [cfg, setCfg] = useState<PromoCfg | null>(null)
   const [open, setOpen] = useState(false)
-  const [form, setForm] = useState({ name: '', email: '' })
+  const [form, setForm] = useState({ name: '', email: '', phone: '' })
   const [sent, setSent] = useState(false)
   const [consent, setConsent] = useState(false)
   const [consentErr, setConsentErr] = useState(false)
+  const [phoneErr, setPhoneErr] = useState(false)
   const [busy, setBusy] = useState(false)
 
   useEffect(() => {
@@ -51,6 +52,10 @@ export default function PromoBanner() {
 
   async function submitSignup(e: React.FormEvent) {
     e.preventDefault()
+    if ((form.phone.match(/\d/g) ?? []).length < 7) {
+      setPhoneErr(true)
+      return
+    }
     if (!consent) {
       setConsentErr(true)
       return
@@ -61,7 +66,7 @@ export default function PromoBanner() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: form.name, email: form.email,
+          name: form.name, email: form.email, phone: form.phone,
           formType: 'promo-banner', sourcePage: window.location.pathname,
           consent: true,
           message: `Signed up via promo banner: ${cfg!.title}`,
@@ -98,6 +103,11 @@ export default function PromoBanner() {
                 onChange={(e) => setForm({ ...form, name: e.target.value })} style={inputStyle} />
               <input required type="email" placeholder="Email address" value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })} style={inputStyle} />
+              <input required type="tel" placeholder="Phone number" value={form.phone}
+                onChange={(e) => { setForm({ ...form, phone: e.target.value }); setPhoneErr(false) }} style={inputStyle} />
+              {phoneErr && (
+                <p style={{ color: '#c0392b', fontSize: 12.5, margin: 0 }}>Please enter a valid phone number.</p>
+              )}
               <label style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 12.5, lineHeight: 1.45, color: '#444', cursor: 'pointer' }}>
                 <input type="checkbox" checked={consent}
                   onChange={(e) => { setConsent(e.target.checked); setConsentErr(false) }}

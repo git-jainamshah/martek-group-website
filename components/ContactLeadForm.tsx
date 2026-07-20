@@ -6,6 +6,7 @@ import { getTrafficData } from '@/analytics/traffic-identification'
 import { COUNTRIES, PROVINCES } from '@/lib/locations'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const phoneValid = (p: string) => (p.match(/\d/g) ?? []).length >= 7
 
 const SERVICES = [
   { value: 'web', label: 'Web development' },
@@ -34,13 +35,14 @@ export default function ContactLeadForm() {
   const searchParams = useSearchParams()
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
   const [company, setCompany] = useState('')
   const [services, setServices] = useState<string[]>([])
   const [budget, setBudget] = useState('')
   const [timeline, setTimeline] = useState('')
   const [message, setMessage] = useState('')
   const [referral, setReferral] = useState('')
-  const [invalid, setInvalid] = useState<{ name?: boolean; email?: boolean; services?: boolean; message?: boolean; consent?: boolean }>({})
+  const [invalid, setInvalid] = useState<{ name?: boolean; email?: boolean; phone?: boolean; services?: boolean; message?: boolean; consent?: boolean }>({})
   const [done, setDone] = useState(false)
   const [sending, setSending] = useState(false)
   const [submitError, setSubmitError] = useState('')
@@ -70,13 +72,14 @@ export default function ContactLeadForm() {
     const bad = {
       name: name.trim() === '',
       email: !EMAIL_RE.test(email.trim()),
+      phone: !phoneValid(phone),
       services: services.length === 0,
       message: message.trim() === '',
       consent: !consent,
     }
     setInvalid(bad)
     const form = e.target as HTMLFormElement
-    if (bad.name || bad.email || bad.services || bad.message || bad.consent) {
+    if (bad.name || bad.email || bad.phone || bad.services || bad.message || bad.consent) {
       const firstBad = form.querySelector('.field.invalid') || form
       const top = firstBad.getBoundingClientRect().top + window.pageYOffset - 140
       window.scrollTo({ top, behavior: 'smooth' })
@@ -90,7 +93,7 @@ export default function ContactLeadForm() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name, email, company, message,
+          name, email, phone, company, message,
           services, budget, timeline, referral, referralDetail, website,
           companyUrl, companyCountry, companyProvince, companyRemote,
           consent,
@@ -147,7 +150,7 @@ export default function ContactLeadForm() {
           </div>
           <div className={`field${invalid.email ? ' invalid' : ''}`}>
             <label htmlFor="c-email">
-              Work email <span className="req">*</span>
+              Email <span className="req">*</span>
             </label>
             <input
               type="email"
@@ -163,6 +166,25 @@ export default function ContactLeadForm() {
             />
             <span className="err">A valid email helps us reply.</span>
           </div>
+        </div>
+
+        <div className={`field${invalid.phone ? ' invalid' : ''}`}>
+          <label htmlFor="c-phone">
+            Phone <span className="req">*</span>
+          </label>
+          <input
+            type="tel"
+            id="c-phone"
+            name="phone"
+            placeholder="+1 (555) 000-0000"
+            autoComplete="tel"
+            value={phone}
+            onChange={(e) => {
+              setPhone(e.target.value)
+              setInvalid((p) => ({ ...p, phone: false }))
+            }}
+          />
+          <span className="err">A phone number helps us reach you.</span>
         </div>
 
         <div className="field">

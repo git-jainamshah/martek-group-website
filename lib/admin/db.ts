@@ -151,6 +151,15 @@ async function migrateAndSeed() {
     created_at TIMESTAMPTZ NOT NULL DEFAULT now()
   );
 
+  CREATE TABLE IF NOT EXISTS lead_notes (
+    id SERIAL PRIMARY KEY,
+    lead_id INTEGER NOT NULL REFERENCES leads(id),
+    author_name TEXT,
+    author_email TEXT,
+    body TEXT NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+  );
+
   CREATE TABLE IF NOT EXISTS audit_log (
     id SERIAL PRIMARY KEY,
     user_email TEXT,
@@ -362,6 +371,7 @@ export async function purgeExpiredDeletedLeads(): Promise<number> {
     for (const r of expired) {
       await run('DELETE FROM leads_marketing WHERE lead_id = $1', [r.id])
       await run('DELETE FROM leads_offline WHERE lead_id = $1', [r.id])
+      await run('DELETE FROM lead_notes WHERE lead_id = $1', [r.id])
       await run('DELETE FROM leads WHERE id = $1', [r.id])
     }
     return expired.length

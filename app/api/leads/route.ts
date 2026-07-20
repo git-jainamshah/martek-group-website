@@ -29,8 +29,12 @@ export async function POST(req: NextRequest) {
 
   const email = String(body.email ?? '').trim().slice(0, 200)
   const name = String(body.name ?? '').trim().slice(0, 200)
+  const phone = String(body.phone ?? '').trim().slice(0, 50)
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return NextResponse.json({ error: 'A valid email is required.' }, { status: 400 })
+  }
+  if (!phone || (phone.match(/\d/g) ?? []).length < 7) {
+    return NextResponse.json({ error: 'A valid phone number is required.' }, { status: 400 })
   }
   if (body.consent !== true) {
     return NextResponse.json({ error: 'Please consent to sharing your details to continue.' }, { status: 400 })
@@ -47,7 +51,7 @@ export async function POST(req: NextRequest) {
       [
         name || null,
         email,
-        String(body.phone ?? '').slice(0, 50) || null,
+        phone || null,
         String(body.company ?? '').slice(0, 200) || null,
         String(body.message ?? '').slice(0, 5000) || null,
         String(body.sourcePage ?? '').slice(0, 300) || null,

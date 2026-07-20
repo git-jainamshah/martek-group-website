@@ -100,8 +100,10 @@ function validate(d: LeadInput): { ok: true; v: any } | { ok: false; error: stri
   const email = clean(d.email).toLowerCase()
   const phone = clean(d.phone)
   if (!name) return { ok: false, error: 'name is required' }
-  if (!email && !phone) return { ok: false, error: 'at least one of email or phone is required' }
-  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return { ok: false, error: `invalid email "${email}"` }
+  if (!email) return { ok: false, error: 'email is required' }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return { ok: false, error: `invalid email "${email}"` }
+  if (!phone) return { ok: false, error: 'phone is required' }
+  if ((phone.match(/\d/g) ?? []).length < 7) return { ok: false, error: `phone "${d.phone}" needs at least 7 digits` }
   const date = normDate(d.contactDate)
   if (!date) return { ok: false, error: `contact_date "${d.contactDate}" not understood (use YYYY-MM-DD)` }
   const status = clean(d.status).toLowerCase() || 'new'
@@ -172,8 +174,8 @@ Rules per column
 ----------------
 lead_type        "offline" or "pitch". Blank = offline.
 name             Required. The person's full name.
-email            Optional if phone is given. Must look like an email.
-phone            Optional if email is given.
+email            Required. Must look like an email.
+phone            Required. At least 7 digits.
 company          Optional.
 company_website  Optional. e.g. https://company.com
 company_country  Optional. Full country name, e.g. Canada, United States.
@@ -203,8 +205,8 @@ Good to know
 
 const SAMPLE = `${CSV_HEADER}
 offline,Jane Miller,jane.miller@example.com,+1 416 555 0192,Miller Renovations,https://millerreno.com,Canada,Ontario,Hybrid,Phone Call,2026-07-12,web;seo,10-25k,1-2 months,new,"Called about a new website, wants a quote before September.",Spoke with Jainam - send proposal
-offline,RAKESH SHARMA,,+1 647 555 0114,,,Canada,Ontario,No,Walk-in,2026-07-15,engineering,<5k,ASAP,contacted,"Needs CAD drawings for a basement permit.",
-offline,Dan Reeves,dan@northpeak.example.com,,Northpeak Fitness,https://northpeak.example.com,United States,California,Yes,Email,2026-07-16,social;seo,5-10k,3-6 months,qualified,"Emailed asking about ongoing social + ads.",Follow up Friday
+offline,RAKESH SHARMA,rakesh@example.com,+1 647 555 0114,,,Canada,Ontario,No,Walk-in,2026-07-15,engineering,<5k,ASAP,contacted,"Needs CAD drawings for a basement permit.",
+offline,Dan Reeves,dan@northpeak.example.com,+1 212 555 0177,Northpeak Fitness,https://northpeak.example.com,United States,California,Yes,Email,2026-07-16,social;seo,5-10k,3-6 months,qualified,"Emailed asking about ongoing social + ads.",Follow up Friday
 `
 
 export async function GET(req: NextRequest) {

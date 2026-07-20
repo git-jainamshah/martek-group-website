@@ -55,11 +55,11 @@ export default function OfflineLeadForm({ kind, onAdded }: { kind: 'offline' | '
         <Field label="Full Name *">
           <input className="ad-input" value={f.name} onChange={(e) => set({ name: e.target.value })} />
         </Field>
-        <Field label="Email" hint="Email or phone - at least one is required.">
+        <Field label="Email *">
           <input type="email" className="ad-input" value={f.email} onChange={(e) => set({ email: e.target.value })} />
         </Field>
-        <Field label="Phone">
-          <input className="ad-input" value={f.phone} onChange={(e) => set({ phone: e.target.value })} />
+        <Field label="Phone *">
+          <input type="tel" className="ad-input" value={f.phone} onChange={(e) => set({ phone: e.target.value })} />
         </Field>
         <Field label="Company">
           <input className="ad-input" value={f.company} onChange={(e) => set({ company: e.target.value })} />
@@ -136,7 +136,7 @@ export default function OfflineLeadForm({ kind, onAdded }: { kind: 'offline' | '
       </Field>
 
       <div>
-        <button className="ad-btn" disabled={busy || !f.name.trim() || (!f.email.trim() && !f.phone.trim())} onClick={submit}>
+        <button className="ad-btn" disabled={busy || !f.name.trim() || !f.email.trim() || (f.phone.match(/\d/g) ?? []).length < 7} onClick={submit}>
           {busy ? 'Saving…' : kind === 'pitch' ? 'Add Pitch Lead' : 'Add Offline Lead'}
         </button>
       </div>
