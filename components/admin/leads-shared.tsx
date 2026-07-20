@@ -46,9 +46,29 @@ export function useLeads() {
   return { filters, setFilters, leads, loading, load, qs, role, canEdit }
 }
 
+type LeadNote = { id: number; author_name: string; author_email: string; body: string; created_at: string }
+
 export function LeadDrawer({ lead, onClose, onSaved, canEdit = true }: { lead: Lead; onClose: () => void; onSaved: () => void; canEdit?: boolean }) {
-  const [notes, setNotes] = useState(lead.notes ?? '')
+  const [thread, setThread] = useState<LeadNote[]>([])
+  const [draft, setDraft] = useState('')
+  const [posting, setPosting] = useState(false)
   const ex = extraOf(lead)
+
+  const loadNotes = useCallback(() => {
+    fetch(`/api/admin/leads/${lead.id}/notes`).then((r) => r.json()).then((d) => setThread(d.notes || [])).catch(() => {})
+  }, [lead.id])
+  useEffect(() => { loadNotes() }, [loadNotes])
+
+  async function addNote() {
+    const body = draft.trim()
+    if (!body) return
+    setPosting(true)
+    const res = await fetch(`/api/admin/leads/${lead.id}/notes`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ body }),
+    })
+    setPosting(false)
+    if (res.ok) { setDraft(''); loadNotes() }
+  }
   const Row = ({ k, v }: { k: string; v: React.ReactNode }) => (
     <div style={{ display: 'flex', gap: 10, fontSize: 13 }}>
       <span className="ad-soft" style={{ width: 118, flexShrink: 0 }}>{k}</span>
@@ -107,26 +127,50 @@ export function LeadDrawer({ lead, onClose, onSaved, canEdit = true }: { lead: L
         <div className="ad-kicker" style={{ margin: '18px 0 8px' }}>Message</div>
         <p style={{ fontSize: 13.5, whiteSpace: 'pre-wrap', background: '#fffdf7', border: '1px solid var(--rule)', borderRadius: 12, padding: 12 }}>{lead.message || '-'}</p>
 
-        <div className="ad-kicker" style={{ margin: '18px 0 8px' }}>Internal notes</div>
+        <div className="ad-kicker" style={{ margin: '18px 0 8px' }}>Status</div>
         {canEdit ? (
-          <>
-            <textarea rows={4} className="ad-input" value={notes} onChange={(e) => setNotes(e.target.value)} />
-            <div style={{ display: 'flex', gap: 10, marginTop: 12 }}>
-              <select className="ad-input" style={{ width: 150 }} value={lead.status} onChange={(e) => save({ status: e.target.value })}>
-                {STATUSES.map((s) => <option key={s} value={s}>{STATUS_LABELS[s]}</option>)}
-              </select>
-              <button className="ad-btn" onClick={() => { save({ notes }); onClose() }}>Save notes</button>
-            </div>
-          </>
+          <select className="ad-input" style={{ width: 180 }} value={lead.status} onChange={(e) => save({ status: e.target.value })}>
+            {STATUSES.map((s) => <option key={s} value={s}>{STATUS_LABELS[s]}</option>)}
+          </select>
         ) : (
-          <>
-            <p style={{ fontSize: 13.5, whiteSpace: 'pre-wrap' }} className="ad-mut">{lead.notes || 'None'}</p>
-            <div style={{ marginTop: 12 }}>
-              <span className={STATUS_COLORS[lead.status] || 'ad-badge grey'}>{STATUS_LABELS[lead.status] ?? lead.status}</span>
-              <span className="ad-soft" style={{ fontSize: 12, marginLeft: 10 }}>View-only access</span>
-            </div>
-          </>
+          <span className={STATUS_COLORS[lead.status] || 'ad-badge grey'}>{STATUS_LABELS[lead.status] ?? lead.status}</span>
         )}
+
+        <div className="ad-kicker" style={{ margin: '18px 0 8px' }}>Notes & Activity</div>
+        {canEdit ? (
+          <div style={{ marginBottom: 14 }}>
+            <textarea rows={3} className="ad-input" placeholder="Add an update - call outcome, next step, who to follow up..."
+              value={draft} onChange={(e) => setDraft(e.target.value)} />
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 8 }}>
+              <button className="ad-btn" disabled={posting || !draft.trim()} onClick={addNote}>
+                {posting ? 'Adding…' : 'Add note'}
+              </button>
+            </div>
+          </div>
+        ) : (
+          <p className="ad-soft" style={{ fontSize: 12, marginBottom: 10 }}>View-only access - you can read the activity log but not add notes.</p>
+        )}
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {lead.notes && (
+            <div style={{ background: '#fffdf7', border: '1px solid var(--rule)', borderRadius: 10, padding: '10px 12px' }}>
+              <div className="ad-soft" style={{ fontSize: 11, marginBottom: 4 }}>Original note (at intake)</div>
+              <div style={{ fontSize: 13, whiteSpace: 'pre-wrap' }}>{lead.notes}</div>
+            </div>
+          )}
+          {thread.map((n) => (
+            <div key={n.id} style={{ background: 'var(--paper)', border: '1px solid var(--rule)', borderRadius: 10, padding: '10px 12px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, marginBottom: 4 }}>
+                <b style={{ fontSize: 12.5 }}>{n.author_name || n.author_email}</b>
+                <span className="ad-soft" style={{ fontSize: 11, whiteSpace: 'nowrap' }}>{n.created_at}</span>
+              </div>
+              <div style={{ fontSize: 13, whiteSpace: 'pre-wrap' }}>{n.body}</div>
+            </div>
+          ))}
+          {thread.length === 0 && !lead.notes && (
+            <p className="ad-soft" style={{ fontSize: 13 }}>No notes yet. Add the first update to start the activity log.</p>
+          )}
+        </div>
       </div>
     </div>
   )
