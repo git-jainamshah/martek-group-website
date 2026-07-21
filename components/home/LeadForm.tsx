@@ -1,8 +1,11 @@
 'use client'
 
-import { useState, useEffect, FormEvent } from 'react'
+import { useState, useEffect, useRef, FormEvent } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { getTrafficData } from '@/analytics/traffic-identification'
+import {
+  trackFormView, trackFormStart, trackFormError, trackAddToCart, trackBeginCheckout, trackLead,
+} from '@/analytics/events'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const phoneValid = (p: string) => (p.match(/\d/g) ?? []).length >= 7
@@ -36,8 +39,23 @@ export default function LeadForm({ idPrefix = 'hs' }: { idPrefix?: string }) {
     }
   }, [searchParams])
 
+  const startedRef = useRef(false)
+  useEffect(() => {
+    trackFormView({ formId: 'home-lead-form', formType: 'home', location: 'home' })
+  }, [])
+  const onFirstInteract = () => {
+    if (startedRef.current) return
+    startedRef.current = true
+    trackFormStart({ formId: 'home-lead-form', formType: 'home' })
+    trackBeginCheckout(services, '', 'home')
+  }
+
   const toggleService = (value: string) => {
-    setServices((prev) => (prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]))
+    setServices((prev) => {
+      const next = prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]
+      if (!prev.includes(value)) trackAddToCart(next, '')
+      return next
+    })
     setInvalid((prev) => ({ ...prev, services: false }))
   }
 
@@ -53,6 +71,7 @@ export default function LeadForm({ idPrefix = 'hs' }: { idPrefix?: string }) {
     setInvalid(bad)
     const form = e.target as HTMLFormElement
     if (bad.name || bad.email || bad.phone || bad.services || bad.consent) {
+      trackFormError({ formId: 'home-lead-form', formType: 'home', errorFields: Object.keys(bad).filter((k) => (bad as Record<string, boolean>)[k]) })
       const firstBad = form.querySelector('.field.invalid') || form
       const top = firstBad.getBoundingClientRect().top + window.pageYOffset - 140
       window.scrollTo({ top, behavior: 'smooth' })
@@ -76,6 +95,7 @@ export default function LeadForm({ idPrefix = 'hs' }: { idPrefix?: string }) {
         setSubmitError(d.error || 'Something went wrong - please try again.')
         return
       }
+      await trackLead({ name, email, phone, services, formType: 'home', consent })
       setDone(true)
       const top = form.getBoundingClientRect().top + window.pageYOffset - 120
       window.scrollTo({ top, behavior: 'smooth' })
@@ -89,7 +109,7 @@ export default function LeadForm({ idPrefix = 'hs' }: { idPrefix?: string }) {
   const firstName = name.trim().split(' ')[0] || 'friend'
 
   return (
-    <form className={`lead-form${done ? ' done' : ''}`} noValidate onSubmit={handleSubmit}>
+    <form className={`lead-form${done ? ' done' : ''}`} noValidate onSubmit={handleSubmit} onFocusCapture={onFirstInteract} id="home-lead-form">
       <div className="form-body">
         <div className="form-head">
           <h3>

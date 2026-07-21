@@ -1,8 +1,11 @@
 'use client'
 
-import { useState, useEffect, FormEvent } from 'react'
+import { useState, useEffect, useRef, FormEvent } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { getTrafficData } from '@/analytics/traffic-identification'
+import {
+  trackFormView, trackFormStart, trackFormError, trackAddToCart, trackBeginCheckout, trackLead,
+} from '@/analytics/events'
 import { COUNTRIES, PROVINCES } from '@/lib/locations'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -54,6 +57,8 @@ export default function ContactLeadForm() {
   const [companyProvince, setCompanyProvince] = useState('')
   const [companyRemote, setCompanyRemote] = useState('')
 
+  const startedRef = useRef(false)
+
   // prefill service from ?service= query string (ported from site.js)
   useEffect(() => {
     const svc = searchParams?.get('service')
@@ -62,8 +67,26 @@ export default function ContactLeadForm() {
     }
   }, [searchParams])
 
+  // funnel: form entered viewport / mounted
+  useEffect(() => {
+    trackFormView({ formId: 'contact-lead-form', formType: 'contact', location: 'contact-page' })
+  }, [])
+
+  // first interaction with the form -> form_start + begin_checkout (once)
+  const onFirstInteract = () => {
+    if (startedRef.current) return
+    startedRef.current = true
+    trackFormStart({ formId: 'contact-lead-form', formType: 'contact' })
+    trackBeginCheckout(services, budget, 'contact')
+  }
+
   const toggleService = (value: string) => {
-    setServices((prev) => (prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]))
+    setServices((prev) => {
+      const next = prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]
+      // ecommerce: adding a service to the "cart"
+      if (!prev.includes(value)) trackAddToCart(next, budget)
+      return next
+    })
     setInvalid((prev) => ({ ...prev, services: false }))
   }
 
@@ -80,6 +103,7 @@ export default function ContactLeadForm() {
     setInvalid(bad)
     const form = e.target as HTMLFormElement
     if (bad.name || bad.email || bad.phone || bad.services || bad.message || bad.consent) {
+      trackFormError({ formId: 'contact-lead-form', formType: 'contact', errorFields: Object.keys(bad).filter((k) => (bad as Record<string, boolean>)[k]) })
       const firstBad = form.querySelector('.field.invalid') || form
       const top = firstBad.getBoundingClientRect().top + window.pageYOffset - 140
       window.scrollTo({ top, behavior: 'smooth' })
@@ -107,6 +131,12 @@ export default function ContactLeadForm() {
         setSubmitError(d.error || 'Something went wrong - please try again or email us directly.')
         return
       }
+      // conversion: generate_lead + purchase with hashed PII
+      await trackLead({
+        name, email, phone, services, budget, timeline,
+        formType: 'contact', company, companyCountry, companyProvince, companyRemote,
+        consent,
+      })
       setDone(true)
       const top = form.getBoundingClientRect().top + window.pageYOffset - 120
       window.scrollTo({ top, behavior: 'smooth' })
@@ -120,7 +150,7 @@ export default function ContactLeadForm() {
   const firstName = name.trim().split(' ')[0] || 'friend'
 
   return (
-    <form className={`lead-form${done ? ' done' : ''}`} noValidate onSubmit={handleSubmit}>
+    <form className={`lead-form${done ? ' done' : ''}`} noValidate onSubmit={handleSubmit} onFocusCapture={onFirstInteract} id="contact-lead-form">
       <div className="form-body">
         <div className="form-head">
           <h3>

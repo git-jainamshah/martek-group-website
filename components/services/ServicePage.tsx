@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 import Link from 'next/link'
 import AccentSetter from '@/components/AccentSetter'
+import ViewItem from '@/analytics/ViewItem'
 import FaqList, { FaqItem } from './FaqList'
 
 const ArrowSvg = () => (
@@ -89,6 +90,7 @@ export default function ServicePage({ data }: { data: ServiceData }) {
   return (
     <>
       <AccentSetter accentClass={data.accentClass} />
+      <ViewItem serviceKey={data.contactQuery} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
 
       {/* HERO */}
