@@ -90,12 +90,12 @@ export default function LeadForm({ idPrefix = 'hs' }: { idPrefix?: string }) {
           traffic: getTrafficData(),
         }),
       })
+      const d = await res.json().catch(() => ({}))
       if (!res.ok) {
-        const d = await res.json().catch(() => ({}))
         setSubmitError(d.error || 'Something went wrong - please try again.')
         return
       }
-      await trackLead({ name, email, phone, services, formType: 'home', consent })
+      await trackLead({ name, email, phone, services, formType: 'home', publicId: d.leadId, consent })
       setDone(true)
       const top = form.getBoundingClientRect().top + window.pageYOffset - 120
       window.scrollTo({ top, behavior: 'smooth' })

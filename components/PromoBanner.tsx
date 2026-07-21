@@ -70,7 +70,7 @@ export default function PromoBanner() {
     }
     setBusy(true)
     try {
-      await fetch('/api/leads', {
+      const res = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -81,7 +81,8 @@ export default function PromoBanner() {
           traffic: getTrafficData(),
         }),
       })
-      await trackLead({ name: form.name, email: form.email, phone: form.phone, formType: 'promo-banner', consent: true })
+      const d = await res.json().catch(() => ({}))
+      await trackLead({ name: form.name, email: form.email, phone: form.phone, formType: 'promo-banner', publicId: d.leadId, consent: true })
       setSent(true)
     } finally {
       setBusy(false)

@@ -126,16 +126,16 @@ export default function ContactLeadForm() {
           traffic: getTrafficData(),
         }),
       })
+      const d = await res.json().catch(() => ({}))
       if (!res.ok) {
-        const d = await res.json().catch(() => ({}))
         setSubmitError(d.error || 'Something went wrong - please try again or email us directly.')
         return
       }
-      // conversion: generate_lead + purchase with hashed PII
+      // conversion: generate_lead + purchase with hashed PII + DB lead_id
       await trackLead({
         name, email, phone, services, budget, timeline,
         formType: 'contact', company, companyCountry, companyProvince, companyRemote,
-        consent,
+        publicId: d.leadId, consent,
       })
       setDone(true)
       const top = form.getBoundingClientRect().top + window.pageYOffset - 120

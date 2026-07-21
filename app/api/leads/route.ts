@@ -45,6 +45,7 @@ export async function POST(req: NextRequest) {
     const { run, insertReturningId } = require('@/lib/admin/pg') as typeof import('@/lib/admin/pg')
     await ensureDb()
 
+    const publicId = generateLeadPublicId()
     const leadId = await insertReturningId(
       `INSERT INTO leads (name, email, phone, company, message, source_page, form_type, package_interest, extra, public_id, consent, consent_at)
        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,1,now()) RETURNING id`,
@@ -68,7 +69,7 @@ export async function POST(req: NextRequest) {
           companyProvince: String(body.companyProvince ?? '').slice(0, 100) || undefined,
           companyRemote: ['Yes', 'No', 'Hybrid'].includes(body.companyRemote) ? body.companyRemote : undefined,
         }),
-        generateLeadPublicId(),
+        publicId,
       ]
     )
 
@@ -111,7 +112,9 @@ export async function POST(req: NextRequest) {
       console.error('marketing snapshot failed (lead saved)', e)
     }
 
-    return NextResponse.json({ ok: true })
+    // Return the DB-generated public lead id so the client can stamp it onto
+    // the generate_lead / purchase dataLayer events (lead_id + transaction_id).
+    return NextResponse.json({ ok: true, leadId: publicId })
   } catch (e) {
     console.error('lead store failed', e)
     return NextResponse.json({ error: 'Could not save your message - please email us directly.' }, { status: 500 })
