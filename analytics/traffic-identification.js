@@ -64,6 +64,24 @@ function getCookie(name) {
   return m ? decodeURIComponent(m[1]) : ''
 }
 
+/** Write a first-party cookie (days=0 -> session cookie). */
+function setCookie(name, value, days) {
+  try {
+    const maxAge = days ? `; Max-Age=${Math.floor(days * 86400)}` : ''
+    const secure = window.location.protocol === 'https:' ? '; Secure' : ''
+    document.cookie = `${name}=${encodeURIComponent(value)}; Path=/${maxAge}; SameSite=Lax${secure}`
+  } catch { /* blocked - degrade */ }
+}
+
+/** Compact acquisition snapshot for cookie storage (small, server-readable). */
+function compactTouch(t) {
+  const sm = inferSourceMedium(t)
+  return JSON.stringify({
+    s: sm.source, m: sm.medium, c: t.campaign || '',
+    ch: channelGroup(t), lp: t.landingPage || '', at: t.at || '',
+  })
+}
+
 /** GA4 client id, from the _ga cookie: GA1.1.111111.222222 -> 111111.222222 */
 function ga4ClientId() {
   const v = getCookie('_ga')
@@ -224,10 +242,17 @@ export function initTraffic() {
       sessionStorage.removeItem(SESSION_KEY) // new session -> new session attribution
     }
     sessionStorage.setItem(SESSION_LAST_SEEN, String(now))
+    // mirror session id into a session cookie so the server can read it
+    setCookie('mk_sid', sessionStorage.getItem(SESSION_ID_KEY), 0)
 
-    // --- first-touch: only set once, ever ---
+    // --- first-touch: only set once, ever (localStorage + 400-day cookie) ---
     if (!localStorage.getItem(FIRST_KEY)) {
       localStorage.setItem(FIRST_KEY, JSON.stringify(touch))
+    }
+    // keep the first-touch cookie in sync (backfills if the cookie was cleared)
+    if (!getCookie('mk_first_touch')) {
+      const firstStored = JSON.parse(localStorage.getItem(FIRST_KEY) || 'null') || touch
+      setCookie('mk_first_touch', compactTouch(firstStored), 400)
     }
 
     // --- session-touch: first signal of the session wins; a NEW signal
@@ -236,6 +261,9 @@ export function initTraffic() {
     if (!existing || (hasSignal(touch) && !hasSignal(JSON.parse(existing)))) {
       sessionStorage.setItem(SESSION_KEY, JSON.stringify(touch))
     }
+    // mirror session-touch into a session cookie (kept fresh each page)
+    const sessStored = JSON.parse(sessionStorage.getItem(SESSION_KEY) || 'null') || touch
+    setCookie('mk_session_touch', compactTouch(sessStored), 0)
   } catch { /* storage blocked - degrade silently */ }
 }
 

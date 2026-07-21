@@ -1,9 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { X } from 'lucide-react'
 import { getTrafficData } from '@/analytics/traffic-identification'
+import { trackFormView, trackFormStart, trackLead } from '@/analytics/events'
 
 type PromoCfg = {
   enabled: boolean
@@ -30,6 +31,12 @@ export default function PromoBanner() {
   const [consentErr, setConsentErr] = useState(false)
   const [phoneErr, setPhoneErr] = useState(false)
   const [busy, setBusy] = useState(false)
+  const startedRef = useRef(false)
+  const onFirstInteract = () => {
+    if (startedRef.current) return
+    startedRef.current = true
+    trackFormStart({ formId: 'promo-signup', formType: 'promo-banner' })
+  }
 
   useEffect(() => {
     fetch('/api/public/site-config')
@@ -42,6 +49,7 @@ export default function PromoBanner() {
         const t = setTimeout(() => {
           setOpen(true)
           sessionStorage.setItem(SEEN_KEY, '1')
+          if (c.template === 'signup') trackFormView({ formId: 'promo-signup', formType: 'promo-banner', location: 'promo' })
         }, Math.max(0, (c.delaySeconds ?? 3) * 1000))
         return () => clearTimeout(t)
       })
@@ -73,6 +81,7 @@ export default function PromoBanner() {
           traffic: getTrafficData(),
         }),
       })
+      await trackLead({ name: form.name, email: form.email, phone: form.phone, formType: 'promo-banner', consent: true })
       setSent(true)
     } finally {
       setBusy(false)
@@ -98,7 +107,7 @@ export default function PromoBanner() {
           sent ? (
             <p style={{ fontSize: 14, fontWeight: 600 }}>Thanks - you&apos;re on the list. Talk soon!</p>
           ) : (
-            <form onSubmit={submitSignup} style={{ display: 'grid', gap: 10 }}>
+            <form onSubmit={submitSignup} onFocusCapture={onFirstInteract} style={{ display: 'grid', gap: 10 }}>
               <input required placeholder="Your name" value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })} style={inputStyle} />
               <input required type="email" placeholder="Email address" value={form.email}

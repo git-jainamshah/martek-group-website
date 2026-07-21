@@ -6,6 +6,7 @@ import Footer from './Footer';
 import RevealInit from './RevealInit';
 import PromoBanner from './PromoBanner';
 import TrafficInit from './TrafficInit';
+import AutoTrack from '@/analytics/AutoTrack';
 
 export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -25,6 +26,7 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
       <RevealInit />
       <PromoBanner />
       <TrafficInit />
+      <AutoTrack />
     </>
   );
 }
