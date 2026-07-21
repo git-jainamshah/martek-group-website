@@ -250,7 +250,7 @@ const data: ServiceData = {
     </>
   ),
   ctaText: "Tell us what you wish you knew about your product. We'll reply within a few hours with where to start.",
-  signoff: 'analytics for startups.',
+  signoff: 'analytics for ambitious teams.',
 }
 
 export default async function DataAnalyticsPage() {
