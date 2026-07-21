@@ -51,6 +51,15 @@ const SOCIAL_SITES = [
 ]
 const VIDEO_SITES = ['youtube.', 'vimeo.', 'twitch.']
 
+// Internal / debug referrers. Traffic that arrives from these is NOT real
+// acquisition - it's us testing tags. tagassistant.google.com is the Google
+// Tag Assistant preview; gtm-msr.appspot.com is GTM server preview. Flagged as
+// its own "GTM Debug" channel so it can be excluded from reports.
+const INTERNAL_REFERRERS = ['tagassistant.google.com', 'gtm-msr.appspot.com']
+function isInternalRef(host) {
+  return !!host && INTERNAL_REFERRERS.some((d) => host === d || host.endsWith('.' + d))
+}
+
 /* ------------------------------------------------------------------ */
 /* small helpers                                                       */
 /* ------------------------------------------------------------------ */
@@ -169,6 +178,11 @@ function inferSourceMedium(t) {
   let source = t.source
   let medium = t.medium
 
+  // Internal GTM/Tag Assistant debug traffic is never real acquisition.
+  if (t.referrer && isInternalRef(hostOf(t.referrer))) {
+    return { source: 'gtm-debug', medium: 'internal' }
+  }
+
   if (!source) {
     if (t.clickIds.gclid || t.clickIds.gbraid || t.clickIds.wbraid) { source = 'google'; medium = medium || 'cpc' }
     else if (t.clickIds.fbclid) { source = 'facebook'; medium = medium || 'paid-social' }
@@ -198,6 +212,8 @@ function inferSourceMedium(t) {
  * Direct is ONLY used when there is no source signal whatsoever.
  */
 function channelGroup(t) {
+  // Internal GTM/Tag Assistant debug traffic → its own channel, never Organic.
+  if (t.referrer && isInternalRef(hostOf(t.referrer))) return 'GTM Debug'
   const { source, medium } = inferSourceMedium(t)
   const src = source.toLowerCase()
   const med = medium.toLowerCase()
