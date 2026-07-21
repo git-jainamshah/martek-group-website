@@ -3,9 +3,9 @@ import ServicePage, { ServiceData } from '@/components/services/ServicePage'
 import { mergePackages } from '@/lib/pricing'
 
 export const metadata: Metadata = {
-  title: 'Social · Marrelay',
+  title: 'Social Media Marketing in Toronto · Marrelay',
   description:
-    'We run your channels end to end: strategy, content, community, and creator partnerships.',
+    'Toronto social media studio. We run your channels end to end: strategy, content, community, and creator partnerships.',
   alternates: { canonical: '/services/social' },
   openGraph: { url: '/services/social' },
 }

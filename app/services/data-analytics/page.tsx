@@ -3,9 +3,9 @@ import ServicePage, { ServiceData } from '@/components/services/ServicePage'
 import { mergePackages } from '@/lib/pricing'
 
 export const metadata: Metadata = {
-  title: 'Data & Analytics · Marrelay',
+  title: 'Data & Analytics in Toronto · Marrelay',
   description:
-    'We tag your product, wire up the tools, and turn the firehose into one weekly page that actually drives decisions.',
+    'Toronto analytics studio. We tag your product, wire up GA4 and your tools, and turn the firehose into one weekly page that actually drives decisions.',
   alternates: { canonical: '/services/data-analytics' },
   openGraph: { url: '/services/data-analytics' },
 }

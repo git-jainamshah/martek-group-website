@@ -2,8 +2,13 @@ import { MetadataRoute } from 'next'
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || 'https://www.marrelay.com'
 
+// Stable per-build timestamp. Using a fresh Date() on every request makes every
+// URL look "changed" on every crawl, which search engines learn to distrust.
+// This is fixed at build/module-load time and moves forward each deploy.
+const LAST_BUILD = new Date()
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date()
+  const now = LAST_BUILD
 
   const routes: { path: string; changeFrequency: 'weekly' | 'monthly'; priority: number }[] = [
     { path: '', changeFrequency: 'weekly', priority: 1 },

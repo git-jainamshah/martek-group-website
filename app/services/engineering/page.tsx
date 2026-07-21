@@ -3,9 +3,9 @@ import ServicePage, { ServiceData } from '@/components/services/ServicePage'
 import { mergePackages } from '@/lib/pricing'
 
 export const metadata: Metadata = {
-  title: 'Engineering & CAD · Marrelay',
+  title: 'Engineering & CAD Drafting in Toronto · Marrelay',
   description:
-    'Mechanical drafting, blueprints, and 3D modelling for hardware founders, fabricators, and contractors who need it precise, and on time.',
+    'Toronto CAD drafting and engineering. Mechanical drafting, blueprints, and 3D modelling for founders, fabricators, and contractors who need it precise, and on time.',
   alternates: { canonical: '/services/engineering' },
   openGraph: { url: '/services/engineering' },
 }

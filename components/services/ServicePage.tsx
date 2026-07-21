@@ -74,8 +74,14 @@ export interface ServiceData {
   signoff: string
 }
 
+const SERVICE_SLUG: Record<string, string> = {
+  web: 'web-development', data: 'data-analytics', social: 'social', seo: 'seo-ads', engineering: 'engineering',
+}
+const SITE = process.env.NEXT_PUBLIC_SITE_URL?.trim() || 'https://www.marrelay.com'
+
 export default function ServicePage({ data }: { data: ServiceData }) {
   const contactHref = `/contact?service=${data.contactQuery}`
+  const slug = SERVICE_SLUG[data.contactQuery] || data.contactQuery
 
   const faqLd = {
     '@context': 'https://schema.org',
@@ -87,11 +93,22 @@ export default function ServicePage({ data }: { data: ServiceData }) {
     })),
   }
 
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: SITE },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: `${SITE}/services` },
+      { '@type': 'ListItem', position: 3, name: data.crumb, item: `${SITE}/services/${slug}` },
+    ],
+  }
+
   return (
     <>
       <AccentSetter accentClass={data.accentClass} />
       <ViewItem serviceKey={data.contactQuery} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
 
       {/* HERO */}
       <section className="svc-hero">
