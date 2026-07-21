@@ -64,7 +64,9 @@ export function trackFormStart({ formId, formType }) {
 }
 
 export function trackFormError({ formId, formType, errorFields }) {
-  dlPush('form_error', { form_id: formId, form_type: formType, error_fields: errorFields || [] })
+  const list = errorFields || []
+  // array for GTM/BigQuery + comma-string so it works as a GA4 custom dimension
+  dlPush('form_error', { form_id: formId, form_type: formType, error_fields: list, error_field_list: list.join(',') })
 }
 
 /* ---------------- GA4 ecommerce ---------------- */
@@ -146,6 +148,7 @@ export async function trackLead(opts = {}) {
   const shared = {
     lead_type: formType,
     services,
+    services_list: services.join(','), // comma-string for GA4 custom dimension use
     service_count: services.length,
     budget: budget || '',
     timeline: timeline || '',
