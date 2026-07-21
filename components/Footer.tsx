@@ -50,7 +50,7 @@ export default function Footer() {
               </span>
             </Link>
             <p>
-              A small studio that ships big things for early-stage founders. Hand-built, mostly by humans, occasionally
+              A small studio that ships big things. Hand-built, mostly by humans, occasionally
               with help from a robot.
             </p>
             {(company.email || company.phone || company.addressLine1) && (

@@ -49,7 +49,7 @@ const baseMetadata: Metadata = {
     template: '%s',
   },
   description:
-    'Founder-led digital studio in Toronto. Web development, data & analytics, social, SEO & ads, and engineering/CAD for startups - fixed-price quotes, weekly demos, you own everything.',
+    'Founder-led digital studio in Toronto. Web development, data & analytics, social, SEO & ads, and engineering/CAD for teams that sweat the details - fixed-price quotes, weekly demos, you own everything.',
   keywords: [
     'web development Toronto',
     'startup web design',
@@ -70,7 +70,7 @@ const baseMetadata: Metadata = {
     siteName: 'Marrelay',
     title: 'Marrelay · A small studio that ships big things',
     description:
-      'Founder-led digital studio in Toronto. Web, data, social, SEO & ads, and engineering for startups - fixed-price quotes, weekly demos.',
+      'Founder-led digital studio in Toronto. Web, data, social, SEO & ads, and engineering for teams that sweat the details - fixed-price quotes, weekly demos.',
     type: 'website',
     locale: 'en_CA',
     url: '/',
@@ -80,7 +80,7 @@ const baseMetadata: Metadata = {
     card: 'summary_large_image',
     title: 'Marrelay · A small studio that ships big things',
     description:
-      'Founder-led digital studio in Toronto. Web, data, social, SEO & ads, and engineering for startups.',
+      'Founder-led digital studio in Toronto. Web, data, social, SEO & ads, and engineering for teams that sweat the details.',
     images: ['/assets/martek-group-header.png'],
   },
   robots: {
@@ -121,7 +121,7 @@ const buildOrgLd = (c: { name: string; email: string; logoIcon: string; logoFull
   '@id': `${SITE_URL}/#organization`,
   name: c.name,
   description:
-    'Founder-led digital studio building websites, analytics, social, SEO & ads, and engineering/CAD deliverables for startups.',
+    'Founder-led digital studio building websites, analytics, social, SEO & ads, and engineering/CAD deliverables for teams that sweat the details.',
   url: SITE_URL,
   logo: `${SITE_URL}${c.logoIcon || '/assets/martek-mark.png'}`,
   image: `${SITE_URL}${c.logoFull || '/assets/martek-group-header.png'}`,

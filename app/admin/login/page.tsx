@@ -27,6 +27,18 @@ function LoginForm() {
         setError(data.error || 'Login failed.')
         return
       }
+      // Internal-only: a single lightweight dataLayer push on successful admin login.
+      if (typeof window !== 'undefined') {
+        const w = window as unknown as { dataLayer: Record<string, unknown>[] }
+        w.dataLayer = w.dataLayer || []
+        w.dataLayer.push({
+          event: 'admin_login',
+          login_status: 'success',
+          login_method: 'password',
+          user_role: data?.user?.role || '',
+          must_change_password: !!data.mustChangePassword,
+        })
+      }
       router.push(data.mustChangePassword ? '/admin/change-password' : (params.get('next') || '/admin'))
       router.refresh()
     } catch {

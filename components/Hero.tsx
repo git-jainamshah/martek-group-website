@@ -98,11 +98,10 @@ export default function Hero({ videoSrc }: { videoSrc?: string } = {}) {
           <span className="where">Founder-led · Based in Toronto, Canada</span>
         </div>
         <h1 className="cine-title">
-          A small studio that ships <span className="it">big things</span> for{' '}
-          <span className="stamp2">startups</span>.
+          A small studio that ships <span className="it">big things</span>.
         </h1>
         <p className="cine-lede">
-          We&apos;re <b>Marrelay</b>, a founder-led studio designing, building, and growing products for founders
+          We&apos;re <b>Marrelay</b>, a founder-led studio designing, building, and growing products for teams
           who sweat the details, around the clock.
         </p>
         <div className="cine-cta">
