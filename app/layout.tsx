@@ -45,7 +45,7 @@ export const revalidate = 60
 const baseMetadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Marrelay · A small studio that ships big things',
+    default: 'Web, Data, SEO & CAD Studio in Toronto · Marrelay',
     template: '%s',
   },
   description:
@@ -68,7 +68,7 @@ const baseMetadata: Metadata = {
   },
   openGraph: {
     siteName: 'Marrelay',
-    title: 'Marrelay · A small studio that ships big things',
+    title: 'Web, Data, SEO & CAD Studio in Toronto · Marrelay',
     description:
       'Founder-led digital studio in Toronto. Web, data, social, SEO & ads, and engineering for teams that sweat the details - fixed-price quotes, weekly demos.',
     type: 'website',
@@ -78,7 +78,7 @@ const baseMetadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Marrelay · A small studio that ships big things',
+    title: 'Web, Data, SEO & CAD Studio in Toronto · Marrelay',
     description:
       'Founder-led digital studio in Toronto. Web, data, social, SEO & ads, and engineering for teams that sweat the details.',
     images: ['/assets/martek-group-header.png'],
@@ -115,24 +115,31 @@ export const viewport = {
   initialScale: 1,
 }
 
-const buildOrgLd = (c: { name: string; email: string; logoIcon: string; logoFull: string }, sameAs: string[]) => ({
+const buildOrgLd = (c: { name: string; email: string; phone?: string; logoIcon: string; logoFull: string }, sameAs: string[]) => ({
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
   '@id': `${SITE_URL}/#organization`,
   name: c.name,
   description:
-    'Founder-led digital studio building websites, analytics, social, SEO & ads, and engineering/CAD deliverables for teams that sweat the details.',
+    'Toronto-based founder-led digital studio building websites, analytics, social, SEO & ads, and engineering/CAD deliverables. Serving Toronto and the GTA, and clients remotely worldwide.',
   url: SITE_URL,
   logo: `${SITE_URL}${c.logoIcon || '/assets/martek-mark.png'}`,
   image: `${SITE_URL}${c.logoFull || '/assets/martek-group-header.png'}`,
   email: c.email || 'hello@marrelay.com',
+  ...(c.phone ? { telephone: c.phone } : {}),
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'Toronto',
     addressRegion: 'ON',
     addressCountry: 'CA',
   },
-  areaServed: 'Worldwide',
+  geo: { '@type': 'GeoCoordinates', latitude: 43.6532, longitude: -79.3832 },
+  areaServed: [
+    { '@type': 'City', name: 'Toronto' },
+    { '@type': 'AdministrativeArea', name: 'Greater Toronto Area' },
+    { '@type': 'AdministrativeArea', name: 'Ontario' },
+    { '@type': 'Country', name: 'Canada' },
+  ],
   priceRange: '$$',
   sameAs: sameAs.length ? sameAs : SOCIALS.map((s) => s.href),
   founder: { '@type': 'Person', name: 'Marrelay founders' },

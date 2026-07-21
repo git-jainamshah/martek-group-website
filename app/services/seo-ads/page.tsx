@@ -3,9 +3,9 @@ import ServicePage, { ServiceData } from '@/components/services/ServicePage'
 import { mergePackages } from '@/lib/pricing'
 
 export const metadata: Metadata = {
-  title: 'SEO & Ads · Marrelay',
+  title: 'SEO & Google Ads in Toronto · Marrelay',
   description:
-    'Technical SEO, content, and paid search & social that compound. Qualified leads at a falling cost, with the math shown weekly.',
+    'Toronto SEO and paid ads. Technical SEO, content, and paid search & social that compound - qualified leads at a falling cost, with the math shown weekly.',
   alternates: { canonical: '/services/seo-ads' },
   openGraph: { url: '/services/seo-ads' },
 }

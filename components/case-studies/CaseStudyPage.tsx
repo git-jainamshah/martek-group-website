@@ -51,8 +51,19 @@ const Deliv = ({ d }: { d: CaseStudyData['build'][number] }) => (
   </div>
 )
 
+const SITE = process.env.NEXT_PUBLIC_SITE_URL?.trim() || 'https://www.marrelay.com'
+
 export default function CaseStudyPage({ data, media }: { data: CaseStudyData; media: string }) {
   const contactHref = `/contact?service=${data.contactQuery}`
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: SITE },
+      { '@type': 'ListItem', position: 2, name: 'Case Studies', item: `${SITE}/case-studies` },
+      { '@type': 'ListItem', position: 3, name: data.category, item: `${SITE}/projects/${data.slug}` },
+    ],
+  }
   const ld = {
     '@context': 'https://schema.org',
     '@type': 'CreativeWork',
@@ -69,6 +80,7 @@ export default function CaseStudyPage({ data, media }: { data: CaseStudyData; me
     <>
       <AccentSetter accentClass={data.accentClass} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
 
       {/* HERO */}
       <section className="svc-hero">
