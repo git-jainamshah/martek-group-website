@@ -8,7 +8,7 @@ import {
   LayoutDashboard, Image as ImageIcon, HardDrive, BarChart3, DollarSign,
   Megaphone, Users, Inbox, LogOut, Globe, Building2, Share2, ScrollText,
   PanelLeftClose, PanelLeftOpen, LineChart, PhoneCall, Presentation,
-  Wallet, Receipt, PieChart,
+  Wallet, Receipt, PieChart, TrendingUp, FileText, Briefcase,
 } from 'lucide-react'
 
 const GROUPS: { label: string; items: { href: string; label: string; icon: any }[] }[] = [
@@ -40,6 +40,9 @@ const GROUPS: { label: string; items: { href: string; label: string; icon: any }
   {
     label: 'Finance',
     items: [
+      { href: '/admin/finance/revenue', label: 'Revenue Dashboard', icon: TrendingUp },
+      { href: '/admin/finance/invoices', label: 'Invoices & Receipts', icon: FileText },
+      { href: '/admin/finance/clients', label: 'Clients & Projects', icon: Briefcase },
       { href: '/admin/finance/dashboard', label: 'Expenses Dashboard', icon: PieChart },
       { href: '/admin/finance/expenses', label: 'Expenses', icon: Receipt },
       { href: '/admin/finance/accounts', label: 'Billing Accounts', icon: Wallet },

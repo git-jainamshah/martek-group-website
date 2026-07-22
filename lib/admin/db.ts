@@ -196,6 +196,54 @@ async function migrateAndSeed() {
     created_at TIMESTAMPTZ NOT NULL DEFAULT now()
   );
 
+  CREATE TABLE IF NOT EXISTS clients (
+    id SERIAL PRIMARY KEY,
+    public_id TEXT,
+    name TEXT NOT NULL,
+    company TEXT,
+    email TEXT,
+    phone TEXT,
+    address TEXT,
+    notes TEXT,
+    created_by TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+  );
+
+  CREATE TABLE IF NOT EXISTS client_projects (
+    id SERIAL PRIMARY KEY,
+    public_id TEXT,
+    client_id INTEGER NOT NULL REFERENCES clients(id),
+    name TEXT NOT NULL,
+    description TEXT,
+    status TEXT NOT NULL DEFAULT 'active',
+    currency TEXT NOT NULL DEFAULT 'CAD',
+    created_by TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+  );
+
+  CREATE TABLE IF NOT EXISTS invoices (
+    id SERIAL PRIMARY KEY,
+    invoice_number TEXT NOT NULL,
+    project_id INTEGER REFERENCES client_projects(id),
+    client_id INTEGER NOT NULL REFERENCES clients(id),
+    issue_date DATE,
+    due_date DATE,
+    status TEXT NOT NULL DEFAULT 'draft',
+    currency TEXT NOT NULL DEFAULT 'CAD',
+    items TEXT,
+    discount_type TEXT NOT NULL DEFAULT 'none',
+    discount_value NUMERIC NOT NULL DEFAULT 0,
+    tax_rate NUMERIC NOT NULL DEFAULT 13,
+    subtotal NUMERIC NOT NULL DEFAULT 0,
+    discount_amount NUMERIC NOT NULL DEFAULT 0,
+    tax_amount NUMERIC NOT NULL DEFAULT 0,
+    total NUMERIC NOT NULL DEFAULT 0,
+    amount_paid NUMERIC NOT NULL DEFAULT 0,
+    notes TEXT,
+    created_by TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+  );
+
   CREATE TABLE IF NOT EXISTS audit_log (
     id SERIAL PRIMARY KEY,
     user_email TEXT,
