@@ -160,6 +160,40 @@ async function migrateAndSeed() {
     created_at TIMESTAMPTZ NOT NULL DEFAULT now()
   );
 
+  CREATE TABLE IF NOT EXISTS billing_accounts (
+    id SERIAL PRIMARY KEY,
+    public_id TEXT,
+    bank_name TEXT NOT NULL,
+    account_type TEXT NOT NULL,
+    last4 TEXT,
+    currency TEXT NOT NULL DEFAULT 'CAD',
+    owner_type TEXT NOT NULL DEFAULT 'company',
+    owner_name TEXT,
+    active INTEGER NOT NULL DEFAULT 1,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+  );
+
+  CREATE TABLE IF NOT EXISTS expenses (
+    id SERIAL PRIMARY KEY,
+    expense_id TEXT NOT NULL,
+    kind TEXT NOT NULL DEFAULT 'one_off',
+    category TEXT,
+    vendor TEXT,
+    tool_name TEXT,
+    description TEXT,
+    amount NUMERIC NOT NULL DEFAULT 0,
+    currency TEXT NOT NULL DEFAULT 'CAD',
+    billing_account_id INTEGER REFERENCES billing_accounts(id),
+    frequency TEXT,
+    start_date DATE,
+    expiry_date DATE,
+    expense_date DATE,
+    receipt_id TEXT,
+    notes TEXT,
+    created_by TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+  );
+
   CREATE TABLE IF NOT EXISTS audit_log (
     id SERIAL PRIMARY KEY,
     user_email TEXT,
@@ -317,6 +351,9 @@ async function migrateAndSeed() {
     },
     robots_txt: { extraDisallow: [] as string[], extraRules: '' },
     seo: { siteUrl: 'https://www.marrelay.com', googleVerification: '', bingVerification: '' },
+    // Finance: FX rates express "1 unit of currency = X CAD" (base = CAD).
+    // Editable in Admin → Finance. Defaults are approximate - update as needed.
+    fx_rates: { base: 'CAD', updatedAt: new Date().toISOString(), rates: { CAD: 1, USD: 1.37, EUR: 1.48, INR: 0.016 } },
     company: {
       name: 'Marrelay',
       tagline: 'Digital studio',

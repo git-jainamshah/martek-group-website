@@ -26,9 +26,16 @@ export default async function PanelLayout({ children }: { children: React.ReactN
   if (!user) redirect('/admin/login')
   if (user.must_change_password) redirect('/admin/change-password')
 
+  const allowedPrefixes =
+    user.role === 'leads_view' || user.role === 'leads_edit'
+      ? ['/admin/leads']
+      : user.role === 'manager'
+        ? ['/admin/leads', '/admin/finance']
+        : undefined
+
   return (
     <div className="ad-shell">
-      <RoleGate leadsOnly={user.role === 'leads_view' || user.role === 'leads_edit'} />
+      <RoleGate allowedPrefixes={allowedPrefixes} />
       <Sidebar userName={`${user.first_name} ${user.last_name}`} userEmail={user.email} role={user.role} />
       <main className="ad-main">{children}</main>
     </div>

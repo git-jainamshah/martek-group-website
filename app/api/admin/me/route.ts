@@ -11,6 +11,7 @@ export async function GET() {
   const { id, first_name, last_name, email, role } = auth.user
   return NextResponse.json({
     user: { id, name: `${first_name} ${last_name}`, email, role },
-    canEditLeads: ['admin', 'editor', 'leads_edit'].includes(role),
+    canEditLeads: ['admin', 'editor', 'leads_edit', 'manager'].includes(role),
+    canManageFinance: ['admin', 'manager'].includes(role),
   })
 }
