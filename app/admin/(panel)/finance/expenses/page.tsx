@@ -54,8 +54,8 @@ export default function ExpensesPage() {
 
       <div style={{ display: 'flex', gap: 8, marginTop: 16, borderBottom: '1px solid var(--rule)' }}>
         {([['list', 'All Expenses'], ['recurring', 'Add Recurring'], ['oneoff', 'Add One-off']] as [Tab, string][]).map(([t, l]) => (
-          <button key={t} onClick={() => setTab(t)} className={tab === t ? 'ad-tab active' : 'ad-tab'}
-            style={{ padding: '8px 14px', border: 0, background: 'none', cursor: 'pointer', fontWeight: tab === t ? 700 : 400, borderBottom: tab === t ? '2px solid var(--brand)' : '2px solid transparent' }}>{l}</button>
+          <button key={t} onClick={() => setTab(t)}
+            style={{ padding: '8px 14px', border: 0, background: 'none', cursor: 'pointer', fontWeight: tab === t ? 700 : 400, color: tab === t ? 'var(--ink)' : 'var(--ink-mut)', borderBottom: tab === t ? '2px solid var(--brand)' : '2px solid transparent' }}>{l}</button>
         ))}
       </div>
 
