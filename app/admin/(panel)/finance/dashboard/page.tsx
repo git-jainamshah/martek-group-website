@@ -15,6 +15,10 @@ type Stats = {
   byAccount: { label: string; value: number }[]
   byCurrency: { label: string; value: number }[]
   byFrequency: { label: string; count: number; monthly: number }[]
+  marketingTotal: number
+  marketingByType: { label: string; value: number }[]
+  marketingByPlatform: { label: string; value: number }[]
+  byPerson: { label: string; value: number }[]
   upcoming: { expense_id: string; name: string; date: string; amount_cad: number; amount_original: number; currency: string; frequency: string }[]
 }
 
@@ -72,6 +76,22 @@ export default function FinanceDashboard() {
           </table>
         </Card>
       </div>
+
+      {/* Marketing / Ads breakdown */}
+      {s.marketingByType.length > 0 && (
+        <>
+          <div className="ad-kicker" style={{ marginTop: 24 }}>Marketing / Ads — {fmtMoney(s.marketingTotal)} (run-rate + one-off YTD, CAD)</div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))', gap: 16, marginTop: 8 }}>
+            <Card title="By marketing type (CAD)"><MoneyBars data={s.marketingByType} /></Card>
+            <Card title="By platform (CAD)"><MoneyBars data={s.marketingByPlatform} /></Card>
+          </div>
+        </>
+      )}
+
+      {/* Who logged spend */}
+      {s.byPerson.length > 0 && (
+        <Card title="Spend logged by person (CAD)"><MoneyBars data={s.byPerson} /></Card>
+      )}
 
       {/* Upcoming renewals */}
       <Card title="Upcoming renewals (next 60 days)">

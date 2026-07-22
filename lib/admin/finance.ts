@@ -41,8 +41,21 @@ export const FREQ_DAYS: Record<string, number> = {
 }
 
 /** Recurring expense sub-types + a starter list of common tools. */
-export const RECURRING_CATEGORIES = ['Tool / Software', 'Hosting / Domain', 'Office / Rent', 'Insurance', 'Payroll / Contractor', 'Other'] as const
+export const RECURRING_CATEGORIES = ['Tool / Software', 'Hosting / Domain', 'Marketing / Ads', 'Office / Rent', 'Insurance', 'Payroll / Contractor', 'Other'] as const
 export const EXPENSE_CATEGORIES = ['Software', 'Hardware', 'Office', 'Travel', 'Meals', 'Marketing / Ads', 'Contractor', 'Fees / Bank', 'Taxes', 'Other'] as const
+
+/** The category that unlocks the marketing type + platform fields. */
+export const MARKETING_CATEGORY = 'Marketing / Ads'
+/** What kind of marketing spend this is. */
+export const MARKETING_TYPES = [
+  'Display Ads', 'Paid Search Ads', 'Paid Social Ads', 'Video Ads', 'Retargeting',
+  'Print / Pamphlets', 'Sponsorship', 'Influencer / Creator', 'Content / SEO', 'Email Marketing', 'Events', 'Other',
+] as const
+/** Which platform / channel the spend went to. "Other" opens a free-text field. */
+export const MARKETING_PLATFORMS = [
+  'Meta (Facebook/Instagram)', 'TikTok', 'LinkedIn', 'X (Twitter)', 'Google Ads', 'Google SA360',
+  'Google DV360', 'YouTube Ads', 'Microsoft / Bing Ads', 'Pinterest', 'Snapchat', 'Reddit', 'Amazon Ads', 'Other',
+] as const
 export const TOOL_PRESETS = [
   'Microsoft 365', 'Google Workspace', 'Squarespace Domain', 'Vercel', 'Canva', 'Claude',
   'ChatGPT', 'Adobe Creative Cloud', 'Figma', 'Notion', 'Slack', 'GitHub', 'Zoom', 'QuickBooks',
