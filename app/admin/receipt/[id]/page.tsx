@@ -12,6 +12,7 @@ export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 export const metadata: Metadata = { title: 'Receipt', robots: { index: false, follow: false } }
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.trim() || 'https://www.marrelay.com'
 const money = (n: number, cur: string) => (CURRENCY_SYMBOL[cur] || cur + ' ') + (Number(n) || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 function fmtDate(v: unknown): string {
   if (!v) return '-'
@@ -59,12 +60,18 @@ export default async function ReceiptPage({ params }: { params: { id: string } }
       <div className="rcpt-wrap" style={{ maxWidth: 800, margin: '0 auto 40px', background: '#fff', border: '1px solid #E2D9C4', borderRadius: 8, boxShadow: '0 10px 40px rgba(0,0,0,.12)', padding: '44px 48px' }}>
         {/* header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', borderBottom: '2px solid #ED1C24', paddingBottom: 20 }}>
-          <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={company.logoIcon || '/assets/martek-mark.png'} alt={company.name} width={44} height={44} />
-            <div>
-              <div className="rcpt-serif" style={{ fontSize: 24, fontWeight: 700 }}>{company.name || 'Marrelay'}</div>
-              <div style={{ fontSize: 12, color: '#6E6A62' }}>{company.tagline || 'Digital studio'}</div>
+          <div>
+            <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={company.logoIcon || '/assets/martek-mark.png'} alt={company.name} width={44} height={44} />
+              <div>
+                <div className="rcpt-serif" style={{ fontSize: 24, fontWeight: 700 }}>{company.name || 'Marrelay'}</div>
+                <div style={{ fontSize: 12, color: '#6E6A62' }}>{company.tagline || 'Digital studio'}</div>
+              </div>
+            </div>
+            <div style={{ marginTop: 12 }}>
+              <Barcode value={inv.invoice_number} mod={1} h={26} />
+              <div style={{ fontFamily: 'var(--font-jetbrains, monospace)', fontSize: 9.5, letterSpacing: '.14em', color: '#6E6A62', marginTop: 2 }}>{inv.invoice_number}</div>
             </div>
           </div>
           <div style={{ textAlign: 'right' }}>
@@ -128,15 +135,10 @@ export default async function ReceiptPage({ params }: { params: { id: string } }
 
         {inv.notes && <div style={{ marginTop: 24, fontSize: 13, color: '#2B2B30', textAlign: 'center' }}><b>Notes:</b> {inv.notes}</div>}
 
-        {/* barcode of the invoice number */}
-        <div style={{ textAlign: 'center', marginTop: 26 }}>
-          <Barcode value={inv.invoice_number} />
-          <div style={{ fontFamily: 'var(--font-jetbrains, monospace)', fontSize: 11, letterSpacing: '.18em', color: '#6E6A62', marginTop: 4 }}>{inv.invoice_number}</div>
-        </div>
-
-        <div style={{ marginTop: 26, paddingTop: 16, borderTop: '1px solid #E2D9C4', fontSize: 12, color: '#6E6A62', textAlign: 'center' }}>
+        <div style={{ marginTop: 30, paddingTop: 16, borderTop: '1px solid #E2D9C4', fontSize: 12, color: '#6E6A62', textAlign: 'center' }}>
           {isPaid ? 'Thank you - this invoice has been paid in full.' : balance > 0 ? `Please remit ${money(balance, cur)} by ${inv.due_date ? fmtDate(inv.due_date) : 'the due date'}.` : 'Thank you for your business.'}
           <br />Questions? {company.email || 'hello@marrelay.com'}{company.phone ? ` · ${company.phone}` : ''}
+          <br /><a href={SITE_URL} style={{ color: '#C8141B', fontWeight: 600, textDecoration: 'none' }}>{SITE_URL.replace(/^https?:\/\//, '')}</a>
         </div>
       </div>
     </div>
@@ -154,9 +156,8 @@ const CODE39: Record<string, string> = {
   'U': 'WWNNNNNNW', 'V': 'NWWNNNNNW', 'W': 'WWWNNNNNN', 'X': 'NWNNWNNNW', 'Y': 'WWNNWNNNN',
   'Z': 'NWWNWNNNN', '-': 'NWNNNNWNW', '.': 'WWNNNNWNN', ' ': 'NWWNNNWNN', '*': 'NWNNWNWNN',
 }
-function Barcode({ value }: { value: string }) {
+function Barcode({ value, mod = 1.5, h = 42 }: { value: string; mod?: number; h?: number }) {
   const text = '*' + String(value).toUpperCase().replace(/[^0-9A-Z\- .]/g, '') + '*'
-  const mod = 1.5, h = 42
   let x = 0
   const bars: { x: number; w: number }[] = []
   for (const ch of text) {
