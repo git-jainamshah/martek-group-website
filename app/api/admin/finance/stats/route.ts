@@ -32,6 +32,15 @@ export async function GET() {
   const rows = (await q('SELECT * FROM expenses')) as Row[]
   const list = rows.map((r) => ({ ...r, amount: Number(r.amount) || 0 }))
 
+  // email -> "First Last" for friendly "who logged spend" labels
+  const userRows = (await q('SELECT email, first_name, last_name FROM users')) as { email: string; first_name: string; last_name: string }[]
+  const nameByEmail = new Map<string, string>()
+  for (const u of userRows) nameByEmail.set(String(u.email).toLowerCase(), `${u.first_name || ''} ${u.last_name || ''}`.trim())
+  const personLabel = (email: string | null | undefined) => {
+    if (!email) return 'Unknown'
+    return nameByEmail.get(String(email).toLowerCase()) || String(email).split('@')[0]
+  }
+
   const now = new Date()
   const thisMonth = ym(now)
   const yearStart = new Date(now.getFullYear(), 0, 1)
@@ -97,7 +106,7 @@ export async function GET() {
   let marketingTotal = 0
   for (const e of list) {
     const c = contrib(e)
-    if (c > 0) bump(byPerson, e.created_by, c)
+    if (c > 0) bump(byPerson, personLabel(e.created_by), c)
     if (e.category === 'Marketing / Ads' && c > 0) {
       marketingTotal += c
       bump(mktByType, e.marketing_type, c)
