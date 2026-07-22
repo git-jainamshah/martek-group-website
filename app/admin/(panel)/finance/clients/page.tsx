@@ -72,7 +72,7 @@ export default function ClientsPage() {
               <input className="ad-input" placeholder="Company" value={cf.company} onChange={(e) => setCf({ ...cf, company: e.target.value })} />
               <input className="ad-input" placeholder="Email" value={cf.email} onChange={(e) => setCf({ ...cf, email: e.target.value })} />
               <input className="ad-input" placeholder="Phone" value={cf.phone} onChange={(e) => setCf({ ...cf, phone: e.target.value })} />
-              <textarea className="ad-input" rows={2} placeholder="Billing address" value={cf.address} onChange={(e) => setCf({ ...cf, address: e.target.value })} />
+              <textarea className="ad-input" rows={3} placeholder={'Billing address (one line each)\nStreet address\nCity, Province, Postal\nCountry'} value={cf.address} onChange={(e) => setCf({ ...cf, address: e.target.value })} />
               {err && <div style={{ color: 'var(--brand-ink)', fontSize: 12.5 }}>{err}</div>}
               <button className="ad-btn" disabled={!cf.name.trim()} onClick={addClient}>Save client</button>
             </div>
