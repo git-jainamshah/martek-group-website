@@ -53,7 +53,7 @@ const data: CaseStudyData = {
   quoteAttribution: 'Marrelay · Engineering & CAD',
   ctaH2: <>Have a part that needs <span className="it">real drawings?</span></>,
   ctaText: 'Send us a sketch, a sample, or an idea. We will give you a realistic view of how we would turn it into manufacturable CAD/CAM documentation.',
-  seoName: 'Engineering & CAD Case Study — CAD/CAM Drawings (Illustrative)',
+  seoName: 'Engineering & CAD Case Study - CAD/CAM Drawings (Illustrative)',
   seoDescription: 'An illustrative example of how Marrelay would turn vague sketches into precise, GD&T-toleranced CAD/CAM drawings that reduce rework for small manufacturers.',
 }
 

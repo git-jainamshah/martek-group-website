@@ -118,7 +118,7 @@ export default function ExpensesPage() {
                   return (
                     <tr key={e.id}>
                       <td>
-                        <div style={{ fontWeight: 600 }}>{e.marketing_platform || e.tool_name || e.vendor || e.description || '—'}</div>
+                        <div style={{ fontWeight: 600 }}>{e.marketing_platform || e.tool_name || e.vendor || e.description || '-'}</div>
                         <div className="ad-soft" style={{ fontSize: 12 }}>{e.expense_id}{e.category ? ` · ${e.category}` : ''}{e.marketing_type ? ` · ${e.marketing_type}` : ''}{e.marketing_platform && (e.tool_name || e.vendor) ? ` · ${e.vendor || e.tool_name}` : ''}</div>
                       </td>
                       <td style={{ fontSize: 12 }}>{e.kind === 'recurring'
@@ -126,14 +126,14 @@ export default function ExpensesPage() {
                         : <span className="ad-badge grey">One-off</span>}</td>
                       <td style={{ fontSize: 12.5, whiteSpace: 'nowrap' }}>{fmtMoney(Number(e.amount), e.currency)}</td>
                       <td style={{ fontSize: 12.5, whiteSpace: 'nowrap', fontWeight: 600 }}>{fmtMoney(perPeriodCAD(e), 'CAD')}{e.kind === 'one_off' && <span className="ad-soft" style={{ fontWeight: 400, fontSize: 10.5 }}> (one-off)</span>}</td>
-                      <td className="ad-mut" style={{ fontSize: 12 }}>{e.account_name ? `${e.account_name}${e.account_last4 ? ` ····${e.account_last4}` : ''}` : '—'}</td>
+                      <td className="ad-mut" style={{ fontSize: 12 }}>{e.account_name ? `${e.account_name}${e.account_last4 ? ` ····${e.account_last4}` : ''}` : '-'}</td>
                       <td className="ad-soft" style={{ fontSize: 11.5, whiteSpace: 'nowrap' }}>
                         {e.kind === 'recurring'
                           ? <>Since {e.start_date}{renew ? <><br />Renews {renew}</> : ''}{e.expiry_date ? <><br />Expires {e.expiry_date}</> : ''}</>
                           : e.expense_date}
                       </td>
-                      <td className="ad-soft" style={{ fontSize: 11.5 }}>{e.receipt_id || '—'}</td>
-                      <td className="ad-soft" style={{ fontSize: 11.5 }} title={e.created_by || ''}>{e.created_by ? String(e.created_by).split('@')[0] : '—'}</td>
+                      <td className="ad-soft" style={{ fontSize: 11.5 }}>{e.receipt_id || '-'}</td>
+                      <td className="ad-soft" style={{ fontSize: 11.5 }} title={e.created_by || ''}>{e.created_by ? String(e.created_by).split('@')[0] : '-'}</td>
                       <td style={{ textAlign: 'right' }}><button className="ad-icon-btn" title="Delete" onClick={() => remove(e.id)}><Trash2 size={14} /></button></td>
                     </tr>
                   )
@@ -157,7 +157,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 function AccountSelect({ accounts, value, onChange }: { accounts: Account[]; value: string; onChange: (v: string) => void }) {
   return (
     <select className="ad-input" value={value} onChange={(e) => onChange(e.target.value)}>
-      <option value="">— No account —</option>
+      <option value="">No account</option>
       {accounts.filter((a) => a.active).map((a) => <option key={a.id} value={a.id}>{a.bank_name}{a.last4 ? ` ····${a.last4}` : ''} ({a.currency})</option>)}
     </select>
   )

@@ -53,7 +53,7 @@ const data: CaseStudyData = {
   quoteAttribution: 'Marrelay · Web Development',
   ctaH2: <>Curious what this could look like for <span className="it">your site?</span></>,
   ctaText: 'Tell us what you are building. We will sketch a realistic, no-pressure path from your current site to one that converts and scales.',
-  seoName: 'Web Development Case Study — A Faster, Measurable Site (Illustrative)',
+  seoName: 'Web Development Case Study - A Faster, Measurable Site (Illustrative)',
   seoDescription: 'An illustrative example of how Marrelay would rebuild a slow, hard-to-edit website into a fast, measurable, conversion-focused site a team can run themselves.',
 }
 
