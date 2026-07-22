@@ -85,10 +85,11 @@ export default async function ReceiptPage({ params }: { params: { id: string } }
           </div>
           <div style={{ flex: 1 }}>
             <div style={{ fontSize: 10.5, textTransform: 'uppercase', letterSpacing: '.08em', color: '#6E6A62', marginBottom: 6 }}>Bill to</div>
-            <div style={{ fontWeight: 700 }}>{inv.client_name}{inv.client_company ? `, ${inv.client_company}` : ''}</div>
-            {inv.client_address && <div style={{ fontSize: 13, color: '#2B2B30', whiteSpace: 'pre-wrap' }}>{inv.client_address}</div>}
-            {inv.client_email && <div style={{ fontSize: 13, color: '#2B2B30' }}>{inv.client_email}</div>}
-            {inv.client_phone && <div style={{ fontSize: 13, color: '#2B2B30' }}>{inv.client_phone}</div>}
+            <div style={{ fontWeight: 700, fontSize: 16 }}>{inv.client_company || inv.client_name}</div>
+            {inv.client_company && <div style={{ fontSize: 13, color: '#2B2B30', marginTop: 3 }}>Billed to: {inv.client_name}</div>}
+            {inv.client_address && <div style={{ fontSize: 13, color: '#2B2B30', whiteSpace: 'pre-wrap', marginTop: 3 }}>{inv.client_address}</div>}
+            {inv.client_email && <div style={{ fontSize: 13, color: '#2B2B30', marginTop: 3 }}>Client email: {inv.client_email}</div>}
+            {inv.client_phone && <div style={{ fontSize: 13, color: '#2B2B30' }}>Client contact: {inv.client_phone}</div>}
           </div>
           <div style={{ textAlign: 'right', fontSize: 13, minWidth: 150 }}>
             {inv.project_name && <div style={{ marginBottom: 6 }}><span style={{ color: '#6E6A62' }}>Project</span><br /><b>{inv.project_name}</b></div>}
