@@ -41,8 +41,11 @@ export async function GET(req: NextRequest) {
   }
 
   const rows = await q(
-    `SELECT e.*, a.bank_name AS account_name, a.account_type AS account_type, a.last4 AS account_last4
-     FROM expenses e LEFT JOIN billing_accounts a ON a.id = e.billing_account_id
+    `SELECT e.*, a.bank_name AS account_name, a.account_type AS account_type, a.last4 AS account_last4,
+       u.first_name AS creator_first, u.last_name AS creator_last
+     FROM expenses e
+     LEFT JOIN billing_accounts a ON a.id = e.billing_account_id
+     LEFT JOIN users u ON LOWER(u.email) = LOWER(e.created_by)
      ${where.length ? 'WHERE ' + where.join(' AND ') : ''}
      ORDER BY COALESCE(e.expense_date, e.start_date, e.created_at::date) DESC, e.id DESC`,
     args

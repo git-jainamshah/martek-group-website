@@ -28,9 +28,9 @@ export default async function PanelLayout({ children }: { children: React.ReactN
 
   const allowedPrefixes =
     user.role === 'leads_view' || user.role === 'leads_edit'
-      ? ['/admin/leads']
+      ? ['/admin/leads', '/admin/account']
       : user.role === 'manager'
-        ? ['/admin/leads', '/admin/finance']
+        ? ['/admin/leads', '/admin/finance', '/admin/account']
         : undefined
 
   return (

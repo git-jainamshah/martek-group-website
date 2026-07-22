@@ -19,7 +19,8 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   const target = await q1<any>('SELECT * FROM users WHERE id = $1', [id])
   if (!target) return NextResponse.json({ error: 'User not found.' }, { status: 404 })
 
-  const { action, role } = await req.json().catch(() => ({}))
+  const b = await req.json().catch(() => ({}))
+  const { action, role } = b
 
   if (action === 'revoke') {
     if (target.id === auth.user.id) {
@@ -53,6 +54,19 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     }
     await run('UPDATE users SET role = $1 WHERE id = $2', [role, id])
     await audit(auth.user.email, 'user_set_role', `${target.email} → ${role}`)
+    return NextResponse.json({ ok: true })
+  }
+
+  if (action === 'update-profile') {
+    const firstName = String(b.firstName ?? '').trim().slice(0, 80)
+    const lastName = String(b.lastName ?? '').trim().slice(0, 80)
+    const email = String(b.email ?? '').trim().toLowerCase().slice(0, 200)
+    if (!firstName || !lastName) return NextResponse.json({ error: 'First and last name are required.' }, { status: 400 })
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return NextResponse.json({ error: 'A valid email is required.' }, { status: 400 })
+    const dup = await q1<{ id: number }>('SELECT id FROM users WHERE email = $1 AND id <> $2', [email, id])
+    if (dup) return NextResponse.json({ error: 'That email is already in use.' }, { status: 400 })
+    await run('UPDATE users SET first_name = $1, last_name = $2, email = $3 WHERE id = $4', [firstName, lastName, email, id])
+    await audit(auth.user.email, 'user_update_profile', `${target.email} → ${firstName} ${lastName} (${email})`)
     return NextResponse.json({ ok: true })
   }
 

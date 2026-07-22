@@ -133,7 +133,7 @@ export default function ExpensesPage() {
                           : e.expense_date}
                       </td>
                       <td className="ad-soft" style={{ fontSize: 11.5 }}>{e.receipt_id || '-'}</td>
-                      <td className="ad-soft" style={{ fontSize: 11.5 }} title={e.created_by || ''}>{e.created_by ? String(e.created_by).split('@')[0] : '-'}</td>
+                      <td className="ad-soft" style={{ fontSize: 11.5 }} title={e.created_by || ''}>{(e.creator_first || e.creator_last) ? `${e.creator_first || ''} ${e.creator_last || ''}`.trim() : (e.created_by ? String(e.created_by).split('@')[0] : '-')}</td>
                       <td style={{ textAlign: 'right' }}><button className="ad-icon-btn" title="Delete" onClick={() => remove(e.id)}><Trash2 size={14} /></button></td>
                     </tr>
                   )

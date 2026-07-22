@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { UserPlus, KeyRound, UserX, UserCheck, Copy, ShieldCheck } from 'lucide-react'
+import { UserPlus, KeyRound, UserX, UserCheck, Copy, ShieldCheck, Pencil, X } from 'lucide-react'
 
 const ROLES: { value: string; label: string; blurb: string }[] = [
   { value: 'admin', label: 'Admin', blurb: 'Full access to everything, including Access Management. Only Admins can add, remove, or change users.' },
@@ -25,6 +25,24 @@ export default function UsersPage() {
   const [creds, setCreds] = useState<{ firstName: string; username: string; tempPassword: string } | null>(null)
   const [err, setErr] = useState('')
   const [copied, setCopied] = useState(false)
+  const [editUser, setEditUser] = useState<User | null>(null)
+  const [editForm, setEditForm] = useState({ firstName: '', lastName: '', email: '' })
+  const [editErr, setEditErr] = useState(''); const [editBusy, setEditBusy] = useState(false)
+
+  function openEdit(u: User) {
+    setEditUser(u); setEditErr('')
+    setEditForm({ firstName: u.first_name, lastName: u.last_name, email: u.email })
+  }
+  async function saveProfile() {
+    if (!editUser) return
+    setEditBusy(true); setEditErr('')
+    const res = await fetch(`/api/admin/users/${editUser.id}`, {
+      method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'update-profile', ...editForm }),
+    })
+    const d = await res.json().catch(() => ({})); setEditBusy(false)
+    if (!res.ok) return setEditErr(d.error || 'Could not save.')
+    setEditUser(null); load()
+  }
 
   const load = () => fetch('/api/admin/users').then(async (r) => {
     if (r.status === 403) { setNotAllowed(true); return }
@@ -131,6 +149,9 @@ export default function UsersPage() {
                 <td className="px-4 py-3 ad-soft text-xs">{u.last_login || 'Never'}</td>
                 <td className="px-4 py-3">
                   <div className="flex gap-2 justify-end">
+                    <button onClick={() => openEdit(u)} title="Edit name / email" className="ad-icon-btn">
+                      <Pencil className="w-4 h-4" />
+                    </button>
                     <button onClick={() => act(u.id, 'reset-password')} title="Reset password (issues a new temp password)"
                       className="ad-icon-btn">
                       <KeyRound className="w-4 h-4" />
@@ -220,6 +241,32 @@ export default function UsersPage() {
                 <Copy className="w-4 h-4" /> {copied ? 'Copied!' : 'Copy'}
               </button>
               <button onClick={() => setCreds(null)} className="ad-btn">Done</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit name / email modal */}
+      {editUser && (
+        <div className="ad-overlay" onClick={() => setEditUser(null)}>
+          <div className="ad-modal p-6 w-full max-w-sm space-y-4" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between">
+              <div className="text-lg font-bold">Edit details</div>
+              <button onClick={() => setEditUser(null)} className="ad-icon-btn" title="Close"><X className="w-4 h-4" /></button>
+            </div>
+            <div className="space-y-3">
+              <div className="space-y-1"><label className="text-xs ad-mut">First name</label>
+                <input className={input} value={editForm.firstName} onChange={(e) => setEditForm({ ...editForm, firstName: e.target.value })} /></div>
+              <div className="space-y-1"><label className="text-xs ad-mut">Last name</label>
+                <input className={input} value={editForm.lastName} onChange={(e) => setEditForm({ ...editForm, lastName: e.target.value })} /></div>
+              <div className="space-y-1"><label className="text-xs ad-mut">Email (username)</label>
+                <input type="email" className={input} value={editForm.email} onChange={(e) => setEditForm({ ...editForm, email: e.target.value })} />
+                <p className="text-xs ad-soft" style={{ marginTop: 4 }}>Changing the email also changes how this user signs in.</p></div>
+            </div>
+            {editErr && <div className="ad-alert" style={{ color: 'var(--brand-ink)' }}>{editErr}</div>}
+            <div className="flex gap-3 justify-end">
+              <button onClick={() => setEditUser(null)} className="ad-btn-ghost">Cancel</button>
+              <button onClick={saveProfile} className="ad-btn" disabled={editBusy || !editForm.firstName.trim() || !editForm.lastName.trim()}>{editBusy ? 'Saving…' : 'Save'}</button>
             </div>
           </div>
         </div>

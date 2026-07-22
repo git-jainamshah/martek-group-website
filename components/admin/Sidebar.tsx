@@ -8,7 +8,7 @@ import {
   LayoutDashboard, Image as ImageIcon, HardDrive, BarChart3, DollarSign,
   Megaphone, Users, Inbox, LogOut, Globe, Building2, Share2, ScrollText,
   PanelLeftClose, PanelLeftOpen, LineChart, PhoneCall, Presentation,
-  Wallet, Receipt, PieChart, TrendingUp, FileText, Briefcase,
+  Wallet, Receipt, PieChart, TrendingUp, FileText, Briefcase, UserCog,
 } from 'lucide-react'
 
 const GROUPS: { label: string; items: { href: string; label: string; icon: any }[] }[] = [
@@ -136,6 +136,10 @@ export default function Sidebar({ userName, userEmail, role = 'admin' }: { userN
       </nav>
 
       <div className="ad-side-foot">
+        <Link href="/admin/account" className={`ad-nav-item${pathname === '/admin/account' ? ' active' : ''}`} title="My account">
+          <UserCog />
+          {!collapsed && 'My Account'}
+        </Link>
         <a href="/" target="_blank" className="ad-nav-item" title="View site">
           <Globe />
           {!collapsed && 'View site'}
