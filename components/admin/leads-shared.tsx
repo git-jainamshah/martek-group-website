@@ -94,6 +94,7 @@ export function LeadDrawer({ lead, onClose, onSaved, canEdit = true }: { lead: L
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
           <Row k="Email" v={<a href={`mailto:${lead.email}`} style={{ textDecoration: 'underline', color: 'var(--brand-ink)' }}>{lead.email}</a>} />
+          <Row k="Phone" v={lead.phone ? <a href={`tel:${lead.phone}`} style={{ textDecoration: 'underline', color: 'var(--brand-ink)' }}>{lead.phone}</a> : undefined} />
           <Row k="Company" v={lead.company} />
           <Row k="Company URL" v={ex.companyUrl && <a href={ex.companyUrl} target="_blank" style={{ textDecoration: 'underline', color: 'var(--brand-ink)' }}>{ex.companyUrl}</a>} />
           <Row k="Location" v={[ex.companyProvince, ex.companyCountry].filter(Boolean).join(', ')} />

@@ -80,6 +80,7 @@ export default function LeadsPage() {
                   <SelectRowCell show={canEdit} id={l.id} selected={sel.selected} toggle={sel.toggle} />
                   <td>
                     <div style={{ fontWeight: 600 }}>{l.name || '-'}</div>
+                    {l.phone && <div style={{ fontSize: 12.5, fontWeight: 500 }}>{l.phone}</div>}
                     <div className="ad-soft" style={{ fontSize: 12 }}>{l.public_id || `#${l.id}`} · {l.email}{l.company ? ` · ${l.company}` : ''}</div>
                   </td>
                   <td className="ad-mut" style={{ fontSize: 12.5 }}>{serviceNames(ex.services) || '-'}</td>
