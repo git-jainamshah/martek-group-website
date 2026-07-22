@@ -88,8 +88,8 @@ export default async function ReceiptPage({ params }: { params: { id: string } }
             <div style={{ fontWeight: 700, fontSize: 16 }}>{inv.client_company || inv.client_name}</div>
             {inv.client_company && <div style={{ fontSize: 13, color: '#2B2B30', marginTop: 3 }}>Billed to: {inv.client_name}</div>}
             {inv.client_address && <div style={{ fontSize: 13, color: '#2B2B30', whiteSpace: 'pre-wrap', marginTop: 3 }}>{inv.client_address}</div>}
-            {inv.client_email && <div style={{ fontSize: 13, color: '#2B2B30', marginTop: 3 }}>Client email: {inv.client_email}</div>}
-            {inv.client_phone && <div style={{ fontSize: 13, color: '#2B2B30' }}>Client contact: {inv.client_phone}</div>}
+            {inv.client_email && <div style={{ fontSize: 13, color: '#2B2B30', marginTop: 3 }}>{inv.client_email}</div>}
+            {inv.client_phone && <div style={{ fontSize: 13, color: '#2B2B30' }}>{inv.client_phone}</div>}
           </div>
           <div style={{ textAlign: 'right', fontSize: 13, minWidth: 150 }}>
             {inv.project_name && <div style={{ marginBottom: 6 }}><span style={{ color: '#6E6A62' }}>Project</span><br /><b>{inv.project_name}</b></div>}
@@ -126,14 +126,53 @@ export default async function ReceiptPage({ params }: { params: { id: string } }
           </div>
         </div>
 
-        {inv.notes && <div style={{ marginTop: 24, fontSize: 13, color: '#2B2B30' }}><b>Notes:</b> {inv.notes}</div>}
+        {inv.notes && <div style={{ marginTop: 24, fontSize: 13, color: '#2B2B30', textAlign: 'center' }}><b>Notes:</b> {inv.notes}</div>}
 
-        <div style={{ marginTop: 30, paddingTop: 16, borderTop: '1px solid #E2D9C4', fontSize: 12, color: '#6E6A62', textAlign: 'center' }}>
+        {/* barcode of the invoice number */}
+        <div style={{ textAlign: 'center', marginTop: 26 }}>
+          <Barcode value={inv.invoice_number} />
+          <div style={{ fontFamily: 'var(--font-jetbrains, monospace)', fontSize: 11, letterSpacing: '.18em', color: '#6E6A62', marginTop: 4 }}>{inv.invoice_number}</div>
+        </div>
+
+        <div style={{ marginTop: 26, paddingTop: 16, borderTop: '1px solid #E2D9C4', fontSize: 12, color: '#6E6A62', textAlign: 'center' }}>
           {isPaid ? 'Thank you - this invoice has been paid in full.' : balance > 0 ? `Please remit ${money(balance, cur)} by ${inv.due_date ? fmtDate(inv.due_date) : 'the due date'}.` : 'Thank you for your business.'}
           <br />Questions? {company.email || 'hello@marrelay.com'}{company.phone ? ` · ${company.phone}` : ''}
         </div>
       </div>
     </div>
+  )
+}
+
+// Code 39 barcode (self-contained, no dependencies). Encodes the invoice number.
+const CODE39: Record<string, string> = {
+  '0': 'NNNWWNWNN', '1': 'WNNWNNNNW', '2': 'NNWWNNNNW', '3': 'WNWWNNNNN', '4': 'NNNWWNNNW',
+  '5': 'WNNWWNNNN', '6': 'NNWWWNNNN', '7': 'NNNWNNWNW', '8': 'WNNWNNWNN', '9': 'NNWWNNWNN',
+  'A': 'WNNNNWNNW', 'B': 'NNWNNWNNW', 'C': 'WNWNNWNNN', 'D': 'NNNNWWNNW', 'E': 'WNNNWWNNN',
+  'F': 'NNWNWWNNN', 'G': 'NNNNNWWNW', 'H': 'WNNNNWWNN', 'I': 'NNWNNWWNN', 'J': 'NNNNWWWNN',
+  'K': 'WNNNNNNWW', 'L': 'NNWNNNNWW', 'M': 'WNWNNNNWN', 'N': 'NNNNWNNWW', 'O': 'WNNNWNNWN',
+  'P': 'NNWNWNNWN', 'Q': 'NNNNNNWWW', 'R': 'WNNNNNWWN', 'S': 'NNWNNNWWN', 'T': 'NNNNWNWWN',
+  'U': 'WWNNNNNNW', 'V': 'NWWNNNNNW', 'W': 'WWWNNNNNN', 'X': 'NWNNWNNNW', 'Y': 'WWNNWNNNN',
+  'Z': 'NWWNWNNNN', '-': 'NWNNNNWNW', '.': 'WWNNNNWNN', ' ': 'NWWNNNWNN', '*': 'NWNNWNWNN',
+}
+function Barcode({ value }: { value: string }) {
+  const text = '*' + String(value).toUpperCase().replace(/[^0-9A-Z\- .]/g, '') + '*'
+  const mod = 1.5, h = 42
+  let x = 0
+  const bars: { x: number; w: number }[] = []
+  for (const ch of text) {
+    const p = CODE39[ch]
+    if (!p) continue
+    for (let i = 0; i < 9; i++) {
+      const w = (p[i] === 'W' ? 3 : 1) * mod
+      if (i % 2 === 0) bars.push({ x, w }) // bars sit on even indices
+      x += w
+    }
+    x += mod // narrow inter-character gap
+  }
+  return (
+    <svg width={x} height={h} viewBox={`0 0 ${x} ${h}`} role="img" aria-label={`Barcode ${value}`} style={{ maxWidth: '100%' }}>
+      {bars.map((b, i) => <rect key={i} x={b.x} y={0} width={b.w} height={h} fill="#1A1A1E" />)}
+    </svg>
   )
 }
 
