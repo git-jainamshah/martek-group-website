@@ -9,6 +9,7 @@ const ROLES: { value: string; label: string; blurb: string }[] = [
   { value: 'viewer', label: 'Viewer', blurb: 'Read-only across the whole panel. Can view and download leads, but cannot change anything.' },
   { value: 'leads_view', label: 'Leads View', blurb: 'Sees only the Leads area (Leads, Lead Marketing, Leads Dashboard). Can view, filter, and download lead data. Editing or deleting leads is blocked, and no website management options are shown.' },
   { value: 'leads_edit', label: 'Leads Edit', blurb: 'Everything Leads View can do, plus editing lead status and notes and deleting or recovering lead records. Still limited to the Leads area only.' },
+  { value: 'manager', label: 'Manager', blurb: 'Sees only the Leads area and the Finance area (Expenses, Billing Accounts, Expenses Dashboard). Can manage leads and company expenses. No website content or Access Management.' },
 ]
 
 type User = {

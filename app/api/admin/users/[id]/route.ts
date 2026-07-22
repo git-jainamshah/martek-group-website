@@ -42,7 +42,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   }
 
   if (action === 'set-role') {
-    if (!['admin', 'editor', 'viewer', 'leads_view', 'leads_edit'].includes(role)) {
+    if (!['admin', 'editor', 'viewer', 'leads_view', 'leads_edit', 'manager'].includes(role)) {
       return NextResponse.json({ error: 'Invalid role.' }, { status: 400 })
     }
     if (target.role === 'admin' && role !== 'admin') {
