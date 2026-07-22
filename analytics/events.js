@@ -49,8 +49,13 @@ export function trackSocial(platform) {
   dlPush('social_click', { platform })
 }
 
-export function trackSiteSearch(term, resultsCount, selectedUrl) {
-  dlPush('search', { search_term: term, results_count: resultsCount, selected_url: selectedUrl || '' })
+/** Fired when a visitor performs a site search (debounced on the query). */
+export function trackSiteSearch(term, resultsCount) {
+  dlPush('site_search', { search_term: term, results_count: resultsCount })
+}
+/** Fired when a visitor opens one of the search results. */
+export function trackSiteSearchSelect(term, url, position, resultsCount) {
+  dlPush('site_search_select', { search_term: term, selected_url: url, result_position: position, results_count: resultsCount })
 }
 
 export function trackCaseStudyInteraction({ widget, action, value }) {
