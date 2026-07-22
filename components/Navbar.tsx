@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import SocialLinks from './SocialLinks'
+import SiteSearch from './SiteSearch'
 
 const ArrowSvg = ({ strokeWidth = 1.6, className }: { strokeWidth?: number; className?: string }) => (
   <svg className={className} viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth={strokeWidth}>
@@ -283,6 +284,7 @@ export default function Navbar() {
             </div>
 
             <div className="nav-cta">
+              <SiteSearch />
               <SocialLinks variant="nav" socials={socials ?? undefined} />
               <Link href="/#pricing" className="btn btn-ghost">
                 Pricing
@@ -324,6 +326,16 @@ export default function Navbar() {
             </svg>
           </button>
         </div>
+        <button
+          type="button"
+          className="m-search"
+          onClick={() => { close(); setTimeout(() => window.dispatchEvent(new Event('open-site-search')), 60) }}
+        >
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
+            <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" strokeLinecap="round" /></svg>
+            Search the site
+          </span>
+        </button>
         <nav className="m-links">
           {navLinks.map((l) => (
             <Link key={l.href} href={l.href} className={isActive(l.href) ? 'active' : undefined} onClick={close}>

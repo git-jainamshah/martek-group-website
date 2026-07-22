@@ -49,6 +49,10 @@ export function trackSocial(platform) {
   dlPush('social_click', { platform })
 }
 
+export function trackSiteSearch(term, resultsCount, selectedUrl) {
+  dlPush('search', { search_term: term, results_count: resultsCount, selected_url: selectedUrl || '' })
+}
+
 export function trackCaseStudyInteraction({ widget, action, value }) {
   dlPush('case_study_interaction', { widget, action, interaction_value: value != null ? value : '' })
 }
