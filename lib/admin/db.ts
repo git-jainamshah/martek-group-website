@@ -189,6 +189,8 @@ async function migrateAndSeed() {
     expiry_date DATE,
     expense_date DATE,
     receipt_id TEXT,
+    marketing_type TEXT,
+    marketing_platform TEXT,
     notes TEXT,
     created_by TEXT,
     created_at TIMESTAMPTZ NOT NULL DEFAULT now()
@@ -208,6 +210,8 @@ async function migrateAndSeed() {
     `ALTER TABLE leads ADD COLUMN IF NOT EXISTS consent INTEGER NOT NULL DEFAULT 1`,
     `ALTER TABLE leads ADD COLUMN IF NOT EXISTS consent_at TIMESTAMPTZ`,
     `ALTER TABLE leads ADD COLUMN IF NOT EXISTS deleted_at TIMESTAMPTZ`,
+    `ALTER TABLE expenses ADD COLUMN IF NOT EXISTS marketing_type TEXT`,
+    `ALTER TABLE expenses ADD COLUMN IF NOT EXISTS marketing_platform TEXT`,
   ]
   for (const sql of alters) { try { await run(sql) } catch { /* column exists */ } }
   try { await run(`CREATE UNIQUE INDEX IF NOT EXISTS leads_public_id_idx ON leads (public_id)`) } catch { /* exists */ }

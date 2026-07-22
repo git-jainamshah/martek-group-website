@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Receipt, Trash2 } from 'lucide-react'
 import {
   CURRENCIES, FREQUENCIES, RECURRING_CATEGORIES, EXPENSE_CATEGORIES, TOOL_PRESETS,
+  MARKETING_CATEGORY, MARKETING_TYPES, MARKETING_PLATFORMS,
   fmtMoney, toCAD, annualCAD, nextRenewal, FREQ_PER_YEAR, FxRates, DEFAULT_FX,
 } from '@/lib/admin/finance'
 
@@ -11,8 +12,28 @@ type Expense = Record<string, any>
 type Account = { id: number; bank_name: string; account_type: string; last4: string | null; currency: string; active: number }
 type Tab = 'list' | 'recurring' | 'oneoff'
 
-const recBlank = { kind: 'recurring', category: RECURRING_CATEGORIES[0] as string, toolName: '', vendor: '', amount: '', currency: 'CAD', frequency: 'monthly', startDate: '', expiryDate: '', billingAccountId: '', receiptId: '', description: '', notes: '' }
-const offBlank = { kind: 'one_off', category: EXPENSE_CATEGORIES[0] as string, vendor: '', amount: '', currency: 'CAD', expenseDate: new Date().toISOString().slice(0, 10), billingAccountId: '', receiptId: '', description: '', notes: '' }
+const recBlank = { kind: 'recurring', category: RECURRING_CATEGORIES[0] as string, toolName: '', vendor: '', amount: '', currency: 'CAD', frequency: 'monthly', startDate: '', expiryDate: '', billingAccountId: '', receiptId: '', marketingType: MARKETING_TYPES[0] as string, marketingPlatform: MARKETING_PLATFORMS[0] as string, marketingPlatformOther: '', description: '', notes: '' }
+const offBlank = { kind: 'one_off', category: EXPENSE_CATEGORIES[0] as string, vendor: '', amount: '', currency: 'CAD', expenseDate: new Date().toISOString().slice(0, 10), billingAccountId: '', receiptId: '', marketingType: MARKETING_TYPES[0] as string, marketingPlatform: MARKETING_PLATFORMS[0] as string, marketingPlatformOther: '', description: '', notes: '' }
+
+function MarketingFields({ f, set }: { f: any; set: (p: any) => void }) {
+  return (
+    <>
+      <Field label="Marketing type *">
+        <select className="ad-input" value={f.marketingType} onChange={(e) => set({ marketingType: e.target.value })}>
+          {MARKETING_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
+        </select>
+      </Field>
+      <Field label="Platform *">
+        <select className="ad-input" value={f.marketingPlatform} onChange={(e) => set({ marketingPlatform: e.target.value })}>
+          {MARKETING_PLATFORMS.map((p) => <option key={p} value={p}>{p}</option>)}
+        </select>
+      </Field>
+      {f.marketingPlatform === 'Other' && (
+        <Field label="Other platform *"><input className="ad-input" value={f.marketingPlatformOther} onChange={(e) => set({ marketingPlatformOther: e.target.value })} placeholder="Name the platform" /></Field>
+      )}
+    </>
+  )
+}
 
 export default function ExpensesPage() {
   const [tab, setTab] = useState<Tab>('list')
@@ -20,7 +41,7 @@ export default function ExpensesPage() {
   const [accounts, setAccounts] = useState<Account[]>([])
   const [fx, setFx] = useState<FxRates>(DEFAULT_FX)
   const [period, setPeriod] = useState<string>('monthly')
-  const [filters, setFilters] = useState({ kind: 'all', category: 'all', currency: 'all', account: 'all', frequency: 'all', from: '', to: '', q: '' })
+  const [filters, setFilters] = useState({ kind: 'all', category: 'all', currency: 'all', account: 'all', frequency: 'all', platform: 'all', from: '', to: '', q: '' })
   const [msg, setMsg] = useState('')
 
   const qs = useMemo(() => {
@@ -73,6 +94,7 @@ export default function ExpensesPage() {
             <select className="ad-input" value={filters.currency} onChange={(e) => setFilters({ ...filters, currency: e.target.value })}><option value="all">All currencies</option>{CURRENCIES.map((c) => <option key={c} value={c}>{c}</option>)}</select>
             <select className="ad-input" value={filters.frequency} onChange={(e) => setFilters({ ...filters, frequency: e.target.value })}><option value="all">Any frequency</option>{FREQUENCIES.map((f) => <option key={f} value={f}>{f}</option>)}</select>
             <select className="ad-input" value={filters.account} onChange={(e) => setFilters({ ...filters, account: e.target.value })}><option value="all">All accounts</option>{accounts.map((a) => <option key={a.id} value={a.id}>{a.bank_name}{a.last4 ? ` ····${a.last4}` : ''}</option>)}</select>
+            <select className="ad-input" value={filters.platform} onChange={(e) => setFilters({ ...filters, platform: e.target.value })}><option value="all">All ad platforms</option>{MARKETING_PLATFORMS.map((p) => <option key={p} value={p}>{p}</option>)}</select>
             <input className="ad-input" type="date" value={filters.from} onChange={(e) => setFilters({ ...filters, from: e.target.value })} title="From date" />
             <input className="ad-input" type="date" value={filters.to} onChange={(e) => setFilters({ ...filters, to: e.target.value })} title="To date" />
             <select className="ad-input" value={period} onChange={(e) => setPeriod(e.target.value)} title="Normalise recurring to period">
@@ -89,15 +111,15 @@ export default function ExpensesPage() {
 
           <div className="ad-table-wrap" style={{ overflowX: 'auto', marginTop: 14 }}>
             <table className="ad-table" style={{ minWidth: 1000 }}>
-              <thead><tr><th>Expense</th><th>Type</th><th>Amount</th><th>CAD / {period}</th><th>Account</th><th>Date</th><th>Receipt</th><th></th></tr></thead>
+              <thead><tr><th>Expense</th><th>Type</th><th>Amount</th><th>CAD / {period}</th><th>Account</th><th>Date</th><th>Receipt</th><th>Added by</th><th></th></tr></thead>
               <tbody>
                 {expenses.map((e) => {
                   const renew = e.kind === 'recurring' ? nextRenewal(e.start_date, e.frequency, e.expiry_date) : null
                   return (
                     <tr key={e.id}>
                       <td>
-                        <div style={{ fontWeight: 600 }}>{e.tool_name || e.vendor || e.description || '—'}</div>
-                        <div className="ad-soft" style={{ fontSize: 12 }}>{e.expense_id}{e.category ? ` · ${e.category}` : ''}</div>
+                        <div style={{ fontWeight: 600 }}>{e.marketing_platform || e.tool_name || e.vendor || e.description || '—'}</div>
+                        <div className="ad-soft" style={{ fontSize: 12 }}>{e.expense_id}{e.category ? ` · ${e.category}` : ''}{e.marketing_type ? ` · ${e.marketing_type}` : ''}{e.marketing_platform && (e.tool_name || e.vendor) ? ` · ${e.vendor || e.tool_name}` : ''}</div>
                       </td>
                       <td style={{ fontSize: 12 }}>{e.kind === 'recurring'
                         ? <span className="ad-badge grey">Recurring · {e.frequency}</span>
@@ -111,11 +133,12 @@ export default function ExpensesPage() {
                           : e.expense_date}
                       </td>
                       <td className="ad-soft" style={{ fontSize: 11.5 }}>{e.receipt_id || '—'}</td>
+                      <td className="ad-soft" style={{ fontSize: 11.5 }} title={e.created_by || ''}>{e.created_by ? String(e.created_by).split('@')[0] : '—'}</td>
                       <td style={{ textAlign: 'right' }}><button className="ad-icon-btn" title="Delete" onClick={() => remove(e.id)}><Trash2 size={14} /></button></td>
                     </tr>
                   )
                 })}
-                {!expenses.length && <tr><td colSpan={8} style={{ textAlign: 'center', padding: 30 }} className="ad-soft">No expenses match these filters.</td></tr>}
+                {!expenses.length && <tr><td colSpan={9} style={{ textAlign: 'center', padding: 30 }} className="ad-soft">No expenses match these filters.</td></tr>}
               </tbody>
             </table>
           </div>
@@ -145,6 +168,7 @@ function RecurringForm({ accounts, onDone }: { accounts: Account[]; onDone: () =
   const [busy, setBusy] = useState(false); const [err, setErr] = useState('')
   const set = (p: Partial<typeof recBlank>) => setF((s) => ({ ...s, ...p }))
   const isTool = f.category === 'Tool / Software' || f.category === 'Hosting / Domain'
+  const isMkt = f.category === MARKETING_CATEGORY
   async function submit() {
     setBusy(true); setErr('')
     const res = await fetch('/api/admin/finance/expenses', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(f) })
@@ -156,9 +180,11 @@ function RecurringForm({ accounts, onDone }: { accounts: Account[]; onDone: () =
       <div className="ad-kicker" style={{ marginBottom: 12 }}>Add recurring expense</div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(190px,1fr))', gap: 14 }}>
         <Field label="What kind *"><select className="ad-input" value={f.category} onChange={(e) => set({ category: e.target.value })}>{RECURRING_CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}</select></Field>
-        {isTool
-          ? <Field label="Tool name *"><input className="ad-input" list="tool-presets" value={f.toolName} onChange={(e) => set({ toolName: e.target.value })} placeholder="Microsoft 365, Canva…" /><datalist id="tool-presets">{TOOL_PRESETS.map((t) => <option key={t} value={t} />)}</datalist></Field>
-          : <Field label="Vendor / for *"><input className="ad-input" value={f.vendor} onChange={(e) => set({ vendor: e.target.value })} placeholder="e.g. Office rent" /></Field>}
+        {isMkt
+          ? <><MarketingFields f={f} set={set} /><Field label="Campaign / vendor (optional)"><input className="ad-input" value={f.vendor} onChange={(e) => set({ vendor: e.target.value })} placeholder="e.g. Q3 retargeting" /></Field></>
+          : isTool
+            ? <Field label="Tool name *"><input className="ad-input" list="tool-presets" value={f.toolName} onChange={(e) => set({ toolName: e.target.value })} placeholder="Microsoft 365, Canva…" /><datalist id="tool-presets">{TOOL_PRESETS.map((t) => <option key={t} value={t} />)}</datalist></Field>
+            : <Field label="Vendor / for *"><input className="ad-input" value={f.vendor} onChange={(e) => set({ vendor: e.target.value })} placeholder="e.g. Office rent" /></Field>}
         <Field label="Amount *"><input className="ad-input" inputMode="decimal" value={f.amount} onChange={(e) => set({ amount: e.target.value.replace(/[^\d.]/g, '') })} placeholder="0.00" /></Field>
         <Field label="Currency *"><select className="ad-input" value={f.currency} onChange={(e) => set({ currency: e.target.value })}>{CURRENCIES.map((c) => <option key={c} value={c}>{c}</option>)}</select></Field>
         <Field label="Frequency *"><select className="ad-input" value={f.frequency} onChange={(e) => set({ frequency: e.target.value })}>{FREQUENCIES.map((c) => <option key={c} value={c}>{c}</option>)}</select></Field>
@@ -189,7 +215,8 @@ function OneOffForm({ accounts, onDone }: { accounts: Account[]; onDone: () => v
       <div className="ad-kicker" style={{ marginBottom: 12 }}>Add one-off expense</div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(190px,1fr))', gap: 14 }}>
         <Field label="Category *"><select className="ad-input" value={f.category} onChange={(e) => set({ category: e.target.value })}>{EXPENSE_CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}</select></Field>
-        <Field label="Vendor / for *"><input className="ad-input" value={f.vendor} onChange={(e) => set({ vendor: e.target.value })} placeholder="e.g. Staples, flight" /></Field>
+        {f.category === MARKETING_CATEGORY && <MarketingFields f={f} set={set} />}
+        <Field label={f.category === MARKETING_CATEGORY ? 'Campaign / vendor (optional)' : 'Vendor / for *'}><input className="ad-input" value={f.vendor} onChange={(e) => set({ vendor: e.target.value })} placeholder="e.g. Staples, flight" /></Field>
         <Field label="Amount *"><input className="ad-input" inputMode="decimal" value={f.amount} onChange={(e) => set({ amount: e.target.value.replace(/[^\d.]/g, '') })} placeholder="0.00" /></Field>
         <Field label="Currency *"><select className="ad-input" value={f.currency} onChange={(e) => set({ currency: e.target.value })}>{CURRENCIES.map((c) => <option key={c} value={c}>{c}</option>)}</select></Field>
         <Field label="Date *"><input className="ad-input" type="date" value={f.expenseDate} onChange={(e) => set({ expenseDate: e.target.value })} /></Field>

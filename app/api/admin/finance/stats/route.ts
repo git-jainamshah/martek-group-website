@@ -13,6 +13,7 @@ type Row = {
   id: number; expense_id: string; kind: string; category: string | null; vendor: string | null; tool_name: string | null
   description: string | null; amount: any; currency: string; frequency: string | null; start_date: string | null; expiry_date: string | null
   expense_date: string | null; billing_account_id: number | null; account_name?: string | null
+  marketing_type?: string | null; marketing_platform?: string | null; created_by?: string | null
 }
 
 const ym = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
@@ -85,6 +86,25 @@ export async function GET() {
   for (const e of activeRecurring) byCurrency[e.currency] = (byCurrency[e.currency] || 0) + (e.amount * (FREQ_PER_YEAR[e.frequency || 'monthly'] ?? 12)) / 12
   for (const e of oneoff.filter((e) => e.expense_date && new Date(e.expense_date) >= yearStart)) byCurrency[e.currency] = (byCurrency[e.currency] || 0) + e.amount
 
+  // marketing breakdowns + who logged spend (recurring run-rate + one-off YTD, CAD)
+  const mktByType: Record<string, number> = {}
+  const mktByPlatform: Record<string, number> = {}
+  const byPerson: Record<string, number> = {}
+  const contrib = (e: typeof list[number]) =>
+    e.kind === 'recurring'
+      ? (isActiveOn(e, now) ? monthlyCAD(e, fx) : 0)
+      : (e.expense_date && new Date(e.expense_date) >= yearStart ? toCAD(e.amount, e.currency, fx) : 0)
+  let marketingTotal = 0
+  for (const e of list) {
+    const c = contrib(e)
+    if (c > 0) bump(byPerson, e.created_by, c)
+    if (e.category === 'Marketing / Ads' && c > 0) {
+      marketingTotal += c
+      bump(mktByType, e.marketing_type, c)
+      bump(mktByPlatform, e.marketing_platform, c)
+    }
+  }
+
   // upcoming renewals (next 60 days)
   const soon = new Date(now.getTime() + 60 * 864e5)
   const upcoming = activeRecurring
@@ -117,6 +137,10 @@ export async function GET() {
     byAccount: toArr(byAccount),
     byCurrency: Object.entries(byCurrency).map(([label, value]) => ({ label, value: Math.round(value * 100) / 100 })),
     byFrequency: Object.keys(byFreqCount).map((f) => ({ label: f, count: byFreqCount[f], monthly: Math.round(byFreqAmt[f] * 100) / 100 })),
+    marketingTotal: Math.round(marketingTotal * 100) / 100,
+    marketingByType: toArr(mktByType),
+    marketingByPlatform: toArr(mktByPlatform),
+    byPerson: toArr(byPerson),
     upcoming,
   })
 }

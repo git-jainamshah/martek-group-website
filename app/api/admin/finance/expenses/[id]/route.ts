@@ -34,12 +34,21 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   const start_date = row.kind === 'recurring' ? (b.startDate !== undefined ? date(b.startDate) : row.start_date) : null
   const expiry_date = row.kind === 'recurring' ? (b.expiryDate !== undefined ? date(b.expiryDate) : row.expiry_date) : null
   const expense_date = row.kind === 'one_off' ? (b.expenseDate !== undefined ? date(b.expenseDate) : row.expense_date) : null
+  const isMarketing = category === 'Marketing / Ads'
+  const marketing_type = isMarketing ? (b.marketingType !== undefined ? (String(b.marketingType).trim().slice(0, 80) || null) : row.marketing_type) : null
+  const rawPlatform = b.marketingPlatform !== undefined ? String(b.marketingPlatform).trim() : undefined
+  const marketing_platform = isMarketing
+    ? (rawPlatform === undefined ? row.marketing_platform
+      : rawPlatform === 'Other' ? (String(b.marketingPlatformOther ?? '').trim().slice(0, 120) || 'Other')
+        : (rawPlatform.slice(0, 120) || null))
+    : null
 
   await run(
     `UPDATE expenses SET category=$1, vendor=$2, tool_name=$3, description=$4, amount=$5, currency=$6,
-       billing_account_id=$7, frequency=$8, start_date=$9, expiry_date=$10, expense_date=$11, receipt_id=$12, notes=$13
-     WHERE id=$14`,
-    [category, vendor, tool_name, description, amount, currency, billing_account_id, frequency, start_date, expiry_date, expense_date, receipt_id, notes, id]
+       billing_account_id=$7, frequency=$8, start_date=$9, expiry_date=$10, expense_date=$11, receipt_id=$12,
+       marketing_type=$13, marketing_platform=$14, notes=$15
+     WHERE id=$16`,
+    [category, vendor, tool_name, description, amount, currency, billing_account_id, frequency, start_date, expiry_date, expense_date, receipt_id, marketing_type, marketing_platform, notes, id]
   )
   await audit(auth.user.email, 'expense_update', `#${id}`)
   return NextResponse.json({ ok: true })
