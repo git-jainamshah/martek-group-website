@@ -14,12 +14,12 @@ export type SearchDoc = {
 export const SEARCH_INDEX: SearchDoc[] = [
   {
     title: 'Home', url: '/', section: 'Marrelay',
-    description: 'A small studio that ships big things — web, data, social, SEO & ads, and engineering/CAD.',
+    description: 'A small studio that ships big things - web, data, social, SEO & ads, and engineering/CAD.',
     keywords: ['home', 'studio', 'marrelay', 'digital studio', 'toronto', 'overview'],
   },
   {
     title: 'About Us', url: '/about', section: 'Studio',
-    description: 'Who we are — a founder-led studio in Toronto that sweats the details.',
+    description: 'Who we are - a founder-led studio in Toronto that sweats the details.',
     keywords: ['about', 'team', 'founders', 'story', 'who we are', 'toronto'],
   },
   {
@@ -35,7 +35,7 @@ export const SEARCH_INDEX: SearchDoc[] = [
   // Services
   {
     title: 'Web Development', url: '/services/web-development', section: 'Services',
-    description: 'Marketing sites, product UIs, and online stores — fast, accessible, easy to update.',
+    description: 'Marketing sites, product UIs, and online stores - fast, accessible, easy to update.',
     keywords: ['web', 'website', 'web development', 'landing page', 'next.js', 'react', 'ecommerce', 'store', 'ui', 'cms', 'redesign'],
   },
   {
@@ -55,7 +55,7 @@ export const SEARCH_INDEX: SearchDoc[] = [
   },
   {
     title: 'Engineering & CAD', url: '/services/engineering', section: 'Services',
-    description: 'Mechanical drafting, blueprints, and 3D modelling — precise and on time.',
+    description: 'Mechanical drafting, blueprints, and 3D modelling - precise and on time.',
     keywords: ['engineering', 'cad', 'cam', 'drafting', 'blueprint', 'drawings', '3d modelling', 'mechanical', 'solidworks', 'fusion 360', 'gd&t'],
   },
   // Case studies
@@ -65,17 +65,17 @@ export const SEARCH_INDEX: SearchDoc[] = [
     keywords: ['case studies', 'work', 'examples', 'portfolio', 'projects', 'results'],
   },
   {
-    title: 'Web Development — Case Study', url: '/projects/web-development', section: 'Case Studies',
+    title: 'Web Development - Case Study', url: '/projects/web-development', section: 'Case Studies',
     description: 'How we would rebuild a slow site into a fast, measurable one that converts.',
     keywords: ['case study', 'web', 'website', 'conversion', 'redesign', 'example'],
   },
   {
-    title: 'Data & Analytics — Case Study', url: '/projects/analytics-tagging', section: 'Case Studies',
+    title: 'Data & Analytics - Case Study', url: '/projects/analytics-tagging', section: 'Case Studies',
     description: 'How we would turn a broken analytics stack into accurate GA4 + server-side tagging.',
     keywords: ['case study', 'data', 'analytics', 'ga4', 'tagging', 'dashboard', 'example'],
   },
   {
-    title: 'Engineering & CAD — Case Study', url: '/projects/engineering-drawings', section: 'Case Studies',
+    title: 'Engineering & CAD - Case Study', url: '/projects/engineering-drawings', section: 'Case Studies',
     description: 'How we would turn sketches into precise, manufacturable CAD/CAM drawings.',
     keywords: ['case study', 'engineering', 'cad', 'cam', 'drawings', 'manufacturing', 'example', 'motor'],
   },

@@ -53,7 +53,7 @@ const data: CaseStudyData = {
   quoteAttribution: 'Marrelay · Data & Analytics',
   ctaH2: <>Want numbers you can <span className="it">actually trust?</span></>,
   ctaText: 'Send us your current setup. We will take a realistic look, tell you what is likely broken, and sketch a path to decision-ready data.',
-  seoName: 'Analytics & Tagging Case Study — Clearer Measurement (Illustrative)',
+  seoName: 'Analytics & Tagging Case Study - Clearer Measurement (Illustrative)',
   seoDescription: 'An illustrative example of how Marrelay would rebuild a broken analytics stack into an accurate, consent-compliant GA4 and server-side tagging setup marketing can trust.',
 }
 

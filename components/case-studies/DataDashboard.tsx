@@ -41,7 +41,7 @@ export default function DataDashboard() {
       <div className="ix-kpis">
         <div className="ix-kpi"><div className="v">{total.toLocaleString()}</div><div className="k">Total {metric}</div></div>
         <div className="ix-kpi"><div className="v">{top.k}</div><div className="k">Top channel</div></div>
-        <div className="ix-kpi"><div className="v">{active ?? '—'}</div><div className="k">Selected</div></div>
+        <div className="ix-kpi"><div className="v">{active ?? '-'}</div><div className="k">Selected</div></div>
       </div>
 
       <svg className="ix-chart" viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', marginTop: 12 }} role="img" aria-label={`${metric} by channel`}>

@@ -80,7 +80,7 @@ export default function FinanceDashboard() {
       {/* Marketing / Ads breakdown */}
       {s.marketingByType.length > 0 && (
         <>
-          <div className="ad-kicker" style={{ marginTop: 24 }}>Marketing / Ads — {fmtMoney(s.marketingTotal)} (run-rate + one-off YTD, CAD)</div>
+          <div className="ad-kicker" style={{ marginTop: 24 }}>Marketing / Ads - {fmtMoney(s.marketingTotal)} (run-rate + one-off YTD, CAD)</div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))', gap: 16, marginTop: 8 }}>
             <Card title="By marketing type (CAD)"><MoneyBars data={s.marketingByType} /></Card>
             <Card title="By platform (CAD)"><MoneyBars data={s.marketingByPlatform} /></Card>
