@@ -69,9 +69,12 @@ export default function LaunchPage({ searchParams }: { searchParams?: { hero?: s
   //   ?hero=single  -> one image (defaults to photo 2, the colourful city shot)
   //   ?hero=1|2|3   -> single, using that specific photo
   const heroFlag = (searchParams?.hero || '').toLowerCase()
-  const singleIndex =
-    heroFlag === '1' ? 0 : heroFlag === '2' ? 1 : heroFlag === '3' ? 2 : heroFlag === 'single' ? 1 : -1
-  const single = singleIndex >= 0
+  // Default hero = the single skyline photo (photo-3).
+  //   ?hero=three (or panorama|all) -> the 3-photo panorama
+  //   ?hero=1|2                     -> preview the other single photos
+  const triptych = heroFlag === 'three' || heroFlag === 'panorama' || heroFlag === 'all'
+  const single = !triptych
+  const singleIndex = heroFlag === '1' ? 0 : heroFlag === '2' ? 1 : 2
 
   return (
     <>
@@ -107,12 +110,12 @@ export default function LaunchPage({ searchParams }: { searchParams?: { hero?: s
         {/* form starts mid-hero and overflows below it */}
         <div className="wrap">
           <div className="lp-overlap">
-            <div className="lp-form-card" id="form" data-reveal>
+            <div className="lp-form-card" id="form">
               <Suspense fallback={null}>
                 <ContactLeadForm />
               </Suspense>
             </div>
-            <aside className="lp-offer-aside" data-reveal>
+            <aside className="lp-offer-aside">
               <div className="lp-facts">
                 {[
                   { n: '30%', t: 'Flat discount', d: 'A straight 30% off your project total. No tiers, no fine print.' },
