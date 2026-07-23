@@ -56,19 +56,36 @@ const PRODUCTS = [
   },
 ]
 
-export default function LaunchPage() {
+const PHOTOS = [
+  { src: '/assets/lp/photo-1.jpg', alt: 'Commuters in motion' },
+  { src: '/assets/lp/photo-2.jpg', alt: 'City light trails at night' },
+  { src: '/assets/lp/photo-3.jpg', alt: 'City skyline at dusk' },
+]
+
+export default function LaunchPage({ searchParams }: { searchParams?: { hero?: string } }) {
+  // Feature flag to A/B the hero: default = three-photo panorama.
+  //   ?hero=single  -> one image (defaults to photo 2, the colourful city shot)
+  //   ?hero=1|2|3   -> single, using that specific photo
+  const heroFlag = (searchParams?.hero || '').toLowerCase()
+  const singleIndex =
+    heroFlag === '1' ? 0 : heroFlag === '2' ? 1 : heroFlag === '3' ? 2 : heroFlag === 'single' ? 1 : -1
+  const single = singleIndex >= 0
+
   return (
     <>
-      {/* HERO: three photos combined into one panorama, with the form overflowing it */}
+      {/* HERO: three photos combined into one panorama (or a single image via ?hero flag) */}
       <section className="lp-hero-wrap">
         <div className="lp-hero">
-          <div className="lp-hero-imgs">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/assets/lp/photo-1.jpg" alt="Commuters in motion" />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/assets/lp/photo-2.jpg" alt="City light trails at night" />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/assets/lp/photo-3.jpg" alt="City skyline at dusk" />
+          <div className={`lp-hero-imgs${single ? ' one' : ''}`}>
+            {single ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={PHOTOS[singleIndex].src} alt={PHOTOS[singleIndex].alt} />
+            ) : (
+              PHOTOS.map((p) => (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img key={p.src} src={p.src} alt={p.alt} />
+              ))
+            )}
           </div>
           <div className="lp-hero-scrim" />
           <div className="wrap lp-hero-inner">
@@ -155,6 +172,7 @@ export default function LaunchPage() {
         .lp-hero-wrap{position:relative}
         .lp-hero{position:relative; height:clamp(440px,54vw,640px); overflow:hidden}
         .lp-hero-imgs{position:absolute; inset:0; display:grid; grid-template-columns:1fr 1fr 1fr}
+        .lp-hero-imgs.one{grid-template-columns:1fr}
         .lp-hero-imgs img{width:100%; height:100%; object-fit:cover; display:block}
         .lp-hero-imgs img + img{box-shadow:-1px 0 0 rgba(0,0,0,.28)}
         .lp-hero-scrim{position:absolute; inset:0;
