@@ -5,6 +5,12 @@ const nextConfig = {
     domains: [],
     unoptimized: false,
   },
+  async redirects() {
+    return [
+      // Landing pages live under /landing-page/* so they are easy to identify.
+      { source: '/launch', destination: '/landing-page/launch', permanent: true },
+    ]
+  },
 }
 
 module.exports = nextConfig

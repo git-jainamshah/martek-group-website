@@ -7,11 +7,11 @@ export const metadata: Metadata = {
   title: 'Launch Offer - 30% Off Your First Project · Marrelay',
   description:
     'Our launch offer: a flat 30% off for the first 3 clients. Web, data & analytics, social, SEO & ads, and engineering/CAD. Founder-led, fixed-price, Toronto-based. Claim a spot below.',
-  alternates: { canonical: '/launch' },
+  alternates: { canonical: '/landing-page/launch' },
   openGraph: {
     title: 'Launch Offer - 30% Off Your First Project · Marrelay',
     description: 'Flat 30% off for the first 3 clients. Claim a spot. Founder-led, fixed-price, Toronto-based.',
-    url: '/launch',
+    url: '/landing-page/launch',
     images: [{ url: '/assets/martek-group-header.png', width: 1200, height: 630, alt: 'Marrelay launch offer' }],
   },
   // Paid-social landing. Kept out of the index so it does not compete with core pages.
