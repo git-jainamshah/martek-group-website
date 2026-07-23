@@ -57,9 +57,11 @@ const PRODUCTS = [
 ]
 
 const PHOTOS = [
-  { src: '/assets/lp/photo-1.jpg', alt: 'Commuters in motion' },
-  { src: '/assets/lp/photo-2.jpg', alt: 'City light trails at night' },
-  { src: '/assets/lp/photo-3.jpg', alt: 'City skyline at dusk' },
+  // pos = object-position, biased down so the subject (crowd / towers / skyline) is in frame,
+  // not the ceiling or empty sky at the top of each square photo.
+  { src: '/assets/lp/photo-1.jpg', alt: 'Commuters in motion', pos: '50% 82%' },
+  { src: '/assets/lp/photo-2.jpg', alt: 'City light trails at night', pos: '50% 66%' },
+  { src: '/assets/lp/photo-3.jpg', alt: 'City skyline at dusk', pos: '50% 78%' },
 ]
 
 export default function LaunchPage({ searchParams }: { searchParams?: { hero?: string } }) {
@@ -79,11 +81,11 @@ export default function LaunchPage({ searchParams }: { searchParams?: { hero?: s
           <div className={`lp-hero-imgs${single ? ' one' : ''}`}>
             {single ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={PHOTOS[singleIndex].src} alt={PHOTOS[singleIndex].alt} />
+              <img src={PHOTOS[singleIndex].src} alt={PHOTOS[singleIndex].alt} style={{ objectPosition: PHOTOS[singleIndex].pos }} />
             ) : (
               PHOTOS.map((p) => (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img key={p.src} src={p.src} alt={p.alt} />
+                <img key={p.src} src={p.src} alt={p.alt} style={{ objectPosition: p.pos }} />
               ))
             )}
           </div>
