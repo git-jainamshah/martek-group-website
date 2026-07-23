@@ -7,8 +7,9 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      // Landing pages live under /landing-page/* so they are easy to identify.
-      { source: '/launch', destination: '/landing-page/launch', permanent: true },
+      // Landing pages live under /lp/* so they are easy to identify.
+      { source: '/launch', destination: '/lp/launch', permanent: true },
+      { source: '/landing-page/launch', destination: '/lp/launch', permanent: true },
     ]
   },
 }
