@@ -3,7 +3,7 @@ import ServicePage, { ServiceData } from '@/components/services/ServicePage'
 import { mergePackages } from '@/lib/pricing'
 
 export const metadata: Metadata = {
-  title: 'SEO & Google Ads in Toronto · Marrelay',
+  title: 'SEO & Google Ads in Toronto',
   description:
     'Toronto SEO and paid ads. Technical SEO, content, and paid search & social that compound - qualified leads at a falling cost, with the math shown weekly.',
   alternates: { canonical: '/services/seo-ads' },

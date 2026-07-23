@@ -4,7 +4,7 @@ import Link from 'next/link'
 import ContactLeadForm from '@/components/ContactLeadForm'
 
 export const metadata: Metadata = {
-  title: 'Marrelay - Launch Offer',
+  title: 'Launch Offer',
   description:
     'Our launch offer: a flat 30% off for the first 3 clients. Web, data & analytics, social, SEO & ads, and engineering/CAD. Founder-led, fixed-price, Toronto-based. Claim a spot below.',
   alternates: { canonical: '/lp/launch' },

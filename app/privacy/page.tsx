@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import { PRIVACY_DEFAULT_HTML, formatLegalDate, sanitizeHtml } from '@/lib/admin/legal-defaults'
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy - Marrelay',
+  title: 'Privacy Policy',
   description: 'Privacy Policy for Marrelay website.',
 }
 

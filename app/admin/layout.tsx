@@ -3,7 +3,8 @@ import './admin.css'
 
 // Hard noindex for the entire admin area (also excluded from sitemap + robots + X-Robots-Tag header)
 export const metadata: Metadata = {
-  title: 'Marrelay Admin',
+  // absolute stops the public "Marrelay - %s" template from prefixing admin titles.
+  title: { absolute: 'Marrelay Admin' },
   robots: { index: false, follow: false, noarchive: true, nosnippet: true, noimageindex: true },
 }
 

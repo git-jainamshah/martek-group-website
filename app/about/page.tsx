@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'About · Marrelay',
+  title: 'About',
   description:
     'Marrelay is a founder-led digital studio in Toronto. We started in engineering drawings, grew into web, data, social, and SEO - and kept the honest, hands-on way of working.',
   alternates: { canonical: '/about' },

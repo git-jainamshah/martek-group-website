@@ -3,7 +3,7 @@ import ServicePage, { ServiceData } from '@/components/services/ServicePage'
 import { mergePackages } from '@/lib/pricing'
 
 export const metadata: Metadata = {
-  title: 'Data & Analytics in Toronto · Marrelay',
+  title: 'Data & Analytics in Toronto',
   description:
     'Toronto analytics studio. We tag your product, wire up GA4 and your tools, and turn the firehose into one weekly page that actually drives decisions.',
   alternates: { canonical: '/services/data-analytics' },

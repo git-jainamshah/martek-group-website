@@ -6,7 +6,7 @@ import { getCompany, getEnabledSocials } from '@/lib/site-config'
 import { getSlot } from '@/lib/media-slots-server'
 
 export const metadata: Metadata = {
-  title: 'Contact · Marrelay',
+  title: 'Contact',
   description:
     "Let's book a discovery call. Fill this in and we'll reply within a few hours with a couple of times that work.",
   alternates: { canonical: '/contact' },
