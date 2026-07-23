@@ -45,8 +45,8 @@ export const revalidate = 60
 const baseMetadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Web, Data, SEO & CAD Studio in Toronto · Marrelay',
-    template: '%s',
+    default: 'Marrelay - Web, Data, SEO & CAD Studio in Toronto',
+    template: 'Marrelay - %s',
   },
   description:
     'Founder-led digital studio in Toronto. Web development, data & analytics, social, SEO & ads, and engineering/CAD for teams that sweat the details - fixed-price quotes, weekly demos, you own everything.',
@@ -68,7 +68,7 @@ const baseMetadata: Metadata = {
   },
   openGraph: {
     siteName: 'Marrelay',
-    title: 'Web, Data, SEO & CAD Studio in Toronto · Marrelay',
+    title: 'Marrelay - Web, Data, SEO & CAD Studio in Toronto',
     description:
       'Founder-led digital studio in Toronto. Web, data, social, SEO & ads, and engineering for teams that sweat the details - fixed-price quotes, weekly demos.',
     type: 'website',
@@ -78,7 +78,7 @@ const baseMetadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Web, Data, SEO & CAD Studio in Toronto · Marrelay',
+    title: 'Marrelay - Web, Data, SEO & CAD Studio in Toronto',
     description:
       'Founder-led digital studio in Toronto. Web, data, social, SEO & ads, and engineering for teams that sweat the details.',
     images: ['/assets/martek-group-header.png'],
