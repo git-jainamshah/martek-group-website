@@ -59,9 +59,9 @@ const PRODUCTS = [
 const PHOTOS = [
   // pos = object-position, biased down so the subject (crowd / towers / skyline) is in frame,
   // not the ceiling or empty sky at the top of each square photo.
-  { src: '/assets/lp/photo-1.jpg', alt: 'Commuters in motion', pos: '50% 82%' },
-  { src: '/assets/lp/photo-2.jpg', alt: 'City light trails at night', pos: '50% 66%' },
-  { src: '/assets/lp/photo-3.jpg', alt: 'City skyline at dusk', pos: '50% 78%' },
+  { src: '/assets/lp/photo-1.jpg', alt: 'Commuters in motion', pos: '50% 100%' },
+  { src: '/assets/lp/photo-2.jpg', alt: 'City light trails at night', pos: '50% 100%' },
+  { src: '/assets/lp/photo-3.jpg', alt: 'City skyline at dusk', pos: '50% 100%' },
 ]
 
 export default function LaunchPage({ searchParams }: { searchParams?: { hero?: string } }) {
