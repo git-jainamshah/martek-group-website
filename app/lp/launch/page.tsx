@@ -198,7 +198,7 @@ export default function LaunchPage({ searchParams }: { searchParams?: { hero?: s
           display:grid; grid-template-columns:1.15fr .85fr; gap:26px; align-items:start; padding-bottom:56px}
         .lp-form-card{background:var(--paper); border:1.5px solid var(--ink); border-radius:22px;
           box-shadow:8px 8px 0 var(--ink); overflow:hidden}
-        .lp-offer-aside{position:sticky; top:24px; margin-top:96px}
+        .lp-offer-aside{position:sticky; top:24px; margin-top:0}
         .lp-facts{display:grid; gap:12px}
         .lp-fact{background:var(--paper-2); border:1.5px solid var(--ink); border-radius:16px; padding:16px;
           display:grid; grid-template-columns:auto 1fr; column-gap:14px; align-items:baseline}
