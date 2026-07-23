@@ -59,9 +59,9 @@ const PRODUCTS = [
 const PHOTOS = [
   // pos = object-position, biased down so the subject (crowd / towers / skyline) is in frame,
   // not the ceiling or empty sky at the top of each square photo.
-  { src: '/assets/lp/photo-1.jpg', alt: 'Commuters in motion', pos: '50% 100%' },
-  { src: '/assets/lp/photo-2.jpg', alt: 'City light trails at night', pos: '50% 100%' },
-  { src: '/assets/lp/photo-3.jpg', alt: 'City skyline at dusk', pos: '50% 100%' },
+  { src: '/assets/lp/photo-1.jpg', alt: 'Commuters in motion', pos: '50% 60%' },
+  { src: '/assets/lp/photo-2.jpg', alt: 'City light trails at night', pos: '50% 55%' },
+  { src: '/assets/lp/photo-3.jpg', alt: 'City skyline at dusk', pos: '50% 60%' },
 ]
 
 export default function LaunchPage({ searchParams }: { searchParams?: { hero?: string } }) {
@@ -178,8 +178,7 @@ export default function LaunchPage({ searchParams }: { searchParams?: { hero?: s
         .lp-hero-imgs img{width:100%; height:100%; object-fit:cover; display:block}
         .lp-hero-imgs img + img{box-shadow:-1px 0 0 rgba(0,0,0,.28)}
         .lp-hero-scrim{position:absolute; inset:0;
-          background:linear-gradient(90deg, rgba(10,10,14,.84) 0%, rgba(10,10,14,.55) 44%, rgba(10,10,14,.22) 100%),
-                     linear-gradient(0deg, rgba(10,10,14,.6) 0%, rgba(10,10,14,0) 48%)}
+          background:linear-gradient(90deg, rgba(10,10,14,.62) 0%, rgba(10,10,14,.28) 34%, rgba(10,10,14,0) 60%)}
         .lp-hero-inner{position:relative; height:100%; display:flex; align-items:center}
         .lp-hero-copy{color:var(--paper); max-width:620px; padding:32px 0}
         .lp-badge{display:inline-block; font-family:var(--mono); font-size:11.5px; letter-spacing:.14em;
