@@ -4,12 +4,12 @@ import Link from 'next/link'
 import ContactLeadForm from '@/components/ContactLeadForm'
 
 export const metadata: Metadata = {
-  title: 'Launch Offer - 30% Off Your First Project · Marrelay',
+  title: 'Marrelay - Launch Offer',
   description:
     'Our launch offer: a flat 30% off for the first 3 clients. Web, data & analytics, social, SEO & ads, and engineering/CAD. Founder-led, fixed-price, Toronto-based. Claim a spot below.',
   alternates: { canonical: '/lp/launch' },
   openGraph: {
-    title: 'Launch Offer - 30% Off Your First Project · Marrelay',
+    title: 'Marrelay - Launch Offer',
     description: 'Flat 30% off for the first 3 clients. Claim a spot. Founder-led, fixed-price, Toronto-based.',
     url: '/lp/launch',
     images: [{ url: '/assets/martek-group-header.png', width: 1200, height: 630, alt: 'Marrelay launch offer' }],
