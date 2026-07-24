@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next'
+import { POSTS } from '@/lib/blog'
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || 'https://www.marrelay.com'
 
@@ -25,6 +26,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/services', changeFrequency: 'monthly', priority: 0.6 },
     { path: '/about', changeFrequency: 'monthly', priority: 0.5 },
     { path: '/pricing', changeFrequency: 'monthly', priority: 0.5 },
+    { path: '/blogs', changeFrequency: 'weekly', priority: 0.8 },
+    ...POSTS.map((post) => ({
+      path: `/blogs/${post.slug}`,
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    })),
   ]
 
   return routes.map((r) => ({

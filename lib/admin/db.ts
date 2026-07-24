@@ -250,6 +250,12 @@ async function migrateAndSeed() {
     action TEXT NOT NULL,
     detail TEXT,
     created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+  );
+
+  CREATE TABLE IF NOT EXISTS blog_views (
+    slug TEXT PRIMARY KEY,
+    views INTEGER NOT NULL DEFAULT 0,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
   )`)
 
   // ---- Migrations for existing databases (idempotent) ----
