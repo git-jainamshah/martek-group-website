@@ -58,6 +58,27 @@ export const SEARCH_INDEX: SearchDoc[] = [
     description: 'Mechanical drafting, blueprints, and 3D modelling - precise and on time.',
     keywords: ['engineering', 'cad', 'cam', 'drafting', 'blueprint', 'drawings', '3d modelling', 'mechanical', 'solidworks', 'fusion 360', 'gd&t'],
   },
+  // Blog
+  {
+    title: 'Blog', url: '/blogs', section: 'Blog',
+    description: 'Practical guides on analytics, performance, and engineering files.',
+    keywords: ['blog', 'guides', 'articles', 'how to', 'tutorial', 'insights', 'resources'],
+  },
+  {
+    title: 'Google Consent Mode v2 in 3 Steps', url: '/blogs/google-consent-mode-v2-in-3-steps', section: 'Blog',
+    description: 'Implement Consent Mode v2 in GTM, Shopify, or plain HTML, with verification steps.',
+    keywords: ['consent mode', 'consent mode v2', 'gtm', 'google tag manager', 'gdpr', 'cookie banner', 'privacy', 'ad_storage', 'analytics_storage', 'shopify'],
+  },
+  {
+    title: 'Core Web Vitals for Non-Developers', url: '/blogs/core-web-vitals-for-non-developers', section: 'Blog',
+    description: 'What LCP, INP and CLS mean, how to measure them, and the fixes that work.',
+    keywords: ['core web vitals', 'lcp', 'inp', 'cls', 'page speed', 'performance', 'pagespeed insights', 'slow website'],
+  },
+  {
+    title: 'DWG vs STEP vs STL Explained', url: '/blogs/dwg-vs-step-vs-stl-cad-file-formats-explained', section: 'Blog',
+    description: 'Which CAD file format to send for machining, cutting, or 3D printing.',
+    keywords: ['dwg', 'step', 'stl', 'dxf', 'iges', '3mf', 'cad file formats', 'cad', '3d printing', 'machining', 'manufacturing'],
+  },
   // Case studies
   {
     title: 'Case Studies', url: '/case-studies', section: 'Case Studies',

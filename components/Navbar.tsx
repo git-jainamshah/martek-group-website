@@ -28,6 +28,7 @@ const navLinks = [
   { label: 'SEO & Ads', href: '/services/seo-ads' },
   { label: 'Engineering', href: '/services/engineering' },
   { label: 'Case Studies', href: '/case-studies' },
+  { label: 'Blog', href: '/blogs' },
   { label: 'Contact Us', href: '/contact' },
 ]
 
@@ -278,6 +279,9 @@ export default function Navbar() {
                   ))}
                 </div>
               </div>
+              <Link href="/blogs" className={pathname?.startsWith('/blogs') ? 'active' : undefined}>
+                Blog
+              </Link>
               <Link href="/contact" className={isActive('/contact') ? 'active' : undefined}>
                 Contact Us
               </Link>
