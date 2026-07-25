@@ -49,6 +49,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
     '@type': 'Article',
     headline: post.title,
     description: post.description,
+    image: [`${SITE}/assets/martek-group-header.png`],
     datePublished: post.date,
     dateModified: post.updated ?? post.date,
     author: { '@type': 'Organization', name: 'Marrelay', url: SITE },
@@ -58,7 +59,21 @@ export default async function ArticlePage({ params }: { params: { slug: string }
       logo: { '@type': 'ImageObject', url: `${SITE}/assets/martek-mark.png` },
     },
     mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE}/blogs/${post.slug}` },
+    articleSection: post.category,
+    wordCount: post.readMinutes * 220,
+    inLanguage: 'en',
     keywords: post.tags.join(', '),
+  }
+
+  // Breadcrumbs help Google show the Home > Blog > Article path in results.
+  const crumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: SITE },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: `${SITE}/blogs` },
+      { '@type': 'ListItem', position: 3, name: post.title, item: `${SITE}/blogs/${post.slug}` },
+    ],
   }
 
   const faqBlock = post.blocks.find((b) => b.t === 'faq')
@@ -78,6 +93,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(crumbLd) }} />
       {faqLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />}
 
       <ArticleClient slug={post.slug} title={post.title} category={post.category} readMinutes={post.readMinutes} />

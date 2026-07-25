@@ -2,12 +2,20 @@ import type { Post } from './types'
 import { consentModeV2 } from './posts/consent-mode-v2'
 import { coreWebVitals } from './posts/core-web-vitals'
 import { cadFileFormats } from './posts/cad-file-formats'
+import { cheapestDigitalSetup } from './posts/cheapest-digital-setup'
+import { websiteCostComparison } from './posts/website-cost-comparison'
 
 export type { Post, Block } from './types'
 export { tocOf, blockText } from './types'
 
 /** All published posts, newest first. */
-export const POSTS: Post[] = [consentModeV2, coreWebVitals, cadFileFormats].sort(
+export const POSTS: Post[] = [
+  consentModeV2,
+  coreWebVitals,
+  cadFileFormats,
+  cheapestDigitalSetup,
+  websiteCostComparison,
+].sort(
   (a, b) => (a.date < b.date ? 1 : -1)
 )
 

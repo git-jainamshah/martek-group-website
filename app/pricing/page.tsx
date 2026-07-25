@@ -7,6 +7,12 @@ import { getPackageOverrides } from '@/lib/pricing'
 export const metadata: Metadata = {
   title: 'Pricing',
   description: 'Affordable pricing plans for web development, digital marketing, and engineering services. Choose from Starter, Professional, or Custom Enterprise packages.',
+  alternates: { canonical: '/pricing' },
+  openGraph: {
+    title: 'Marrelay - Pricing',
+    description: 'Fixed-price packages for web development, digital marketing, and engineering services.',
+    url: '/pricing',
+  },
 }
 
 export default async function PricingPage() {
