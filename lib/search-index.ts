@@ -79,6 +79,16 @@ export const SEARCH_INDEX: SearchDoc[] = [
     description: 'Which CAD file format to send for machining, cutting, or 3D printing.',
     keywords: ['dwg', 'step', 'stl', 'dxf', 'iges', '3mf', 'cad file formats', 'cad', '3d printing', 'machining', 'manufacturing'],
   },
+  {
+    title: 'The Cheapest Way to Start a Business Online', url: '/blogs/cheapest-way-to-start-a-business-online', section: 'Blog',
+    description: 'The minimum digital setup for a new business, with real 2026 costs.',
+    keywords: ['cheapest website', 'start a business online', 'startup costs', 'free website', 'small business setup', 'domain', 'business email', 'minimal', 'budget'],
+  },
+  {
+    title: 'What a Small Business Website Really Costs', url: '/blogs/how-much-does-a-small-business-website-cost', section: 'Blog',
+    description: 'DIY vs freelancer vs agency, compared on real five-year costs.',
+    keywords: ['website cost', 'how much does a website cost', 'freelancer vs agency', 'web design pricing', 'small business website price', 'budget', 'quote'],
+  },
   // Case studies
   {
     title: 'Case Studies', url: '/case-studies', section: 'Case Studies',

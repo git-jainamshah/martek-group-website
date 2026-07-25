@@ -3,6 +3,8 @@ import { TERMS_DEFAULT_HTML, formatLegalDate, sanitizeHtml } from '@/lib/admin/l
 
 export const metadata: Metadata = {
   title: 'Terms of Service',
+  alternates: { canonical: '/terms' },
+  openGraph: { title: 'Marrelay - Terms of Service', url: '/terms' },
   description: 'Terms of Service for Marrelay.',
 }
 

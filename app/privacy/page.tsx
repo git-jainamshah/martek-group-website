@@ -3,6 +3,8 @@ import { PRIVACY_DEFAULT_HTML, formatLegalDate, sanitizeHtml } from '@/lib/admin
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
+  alternates: { canonical: '/privacy' },
+  openGraph: { title: 'Marrelay - Privacy Policy', url: '/privacy' },
   description: 'Privacy Policy for Marrelay website.',
 }
 
