@@ -130,3 +130,39 @@ export function fmtMoney(amount: number, currency = 'CAD'): string {
   const sym = CURRENCY_SYMBOL[currency] || (currency + ' ')
   return sym + (Number(amount) || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 }
+
+/**
+ * Compact money for headline figures: 20227 -> "CA$20.2K", 1500000 -> "CA$1.5M".
+ * Keeps big numbers inside their card; pair it with fmtMoney underneath so the
+ * exact value is still one glance away.
+ */
+export function fmtMoneyShort(amount: number, currency = 'CAD'): string {
+  const sym = CURRENCY_SYMBOL[currency] || (currency + ' ')
+  const n = Number(amount) || 0
+  const abs = Math.abs(n)
+  const sign = n < 0 ? '-' : ''
+  const round = (v: number) => {
+    // One decimal, but drop a trailing ".0" so we get 20.2K and 5K, not 5.0K.
+    const r = Math.round(v * 10) / 10
+    return (Number.isInteger(r) ? r.toFixed(0) : r.toFixed(1))
+  }
+  if (abs >= 1_000_000_000) return `${sign}${sym}${round(abs / 1_000_000_000)}B`
+  if (abs >= 1_000_000) return `${sign}${sym}${round(abs / 1_000_000)}M`
+  if (abs >= 1_000) return `${sign}${sym}${round(abs / 1_000)}K`
+  // Under a thousand there is nothing to shorten; show whole dollars.
+  return `${sign}${sym}${abs.toLocaleString(undefined, { maximumFractionDigits: abs % 1 === 0 ? 0 : 2 })}`
+}
+
+/** Compact plain counts: 1200 -> "1.2K". Used for non-currency KPIs. */
+export function fmtCountShort(value: number): string {
+  const n = Number(value) || 0
+  const abs = Math.abs(n)
+  const sign = n < 0 ? '-' : ''
+  const round = (v: number) => {
+    const r = Math.round(v * 10) / 10
+    return Number.isInteger(r) ? r.toFixed(0) : r.toFixed(1)
+  }
+  if (abs >= 1_000_000) return `${sign}${round(abs / 1_000_000)}M`
+  if (abs >= 10_000) return `${sign}${round(abs / 1_000)}K`
+  return `${sign}${abs.toLocaleString()}`
+}

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { TrendingUp } from 'lucide-react'
 import { StatCard } from '@/components/admin/charts'
-import { fmtMoney } from '@/lib/admin/finance'
+import { fmtMoney, fmtMoneyShort } from '@/lib/admin/finance'
 import { INVOICE_STATUS_LABELS, INVOICE_STATUS_COLOR } from '@/lib/admin/billing'
 import { fmtDate } from '@/lib/admin/dates'
 
@@ -28,10 +28,10 @@ export default function RevenueDashboard() {
       <p className="ad-mut" style={{ fontSize: 14, marginTop: 6 }}>Client revenue and payment status, converted to CAD. Billed = invoiced; collected = paid.</p>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(160px,1fr))', gap: 12, marginTop: 18 }}>
-        <StatCard label="Total billed" value={fmtMoney(s.kpis.billed)} sub="all non-void invoices" />
-        <StatCard label="Collected" value={fmtMoney(s.kpis.collected)} sub={`${s.kpis.collectionRate}% collection rate`} />
-        <StatCard label="Outstanding" value={fmtMoney(s.kpis.outstanding)} sub="billed − collected" />
-        <StatCard label="Overdue" value={fmtMoney(s.kpis.overdue)} sub="past due, unpaid" />
+        <StatCard label="Total billed" value={fmtMoneyShort(s.kpis.billed)} exact={fmtMoney(s.kpis.billed)} sub="all non-void invoices" />
+        <StatCard label="Collected" value={fmtMoneyShort(s.kpis.collected)} exact={fmtMoney(s.kpis.collected)} sub={`${s.kpis.collectionRate}% collection rate`} />
+        <StatCard label="Outstanding" value={fmtMoneyShort(s.kpis.outstanding)} exact={fmtMoney(s.kpis.outstanding)} sub="billed − collected" />
+        <StatCard label="Overdue" value={fmtMoneyShort(s.kpis.overdue)} exact={fmtMoney(s.kpis.overdue)} sub="past due, unpaid" />
         <StatCard label="Invoices" value={String(s.kpis.invoices)} sub={`${s.kpis.clients} clients · ${s.kpis.projects} projects`} />
       </div>
 
