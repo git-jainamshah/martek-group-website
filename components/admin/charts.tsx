@@ -85,11 +85,33 @@ export function TimeSeries({ data, height = 130 }: { data: { date: string; value
   )
 }
 
-export function StatCard({ label, value, sub }: { label: string; value: React.ReactNode; sub?: string }) {
+export function StatCard({
+  label, value, sub, exact,
+}: {
+  label: string
+  value: React.ReactNode
+  sub?: string
+  /** Full-precision figure shown under the compact headline (e.g. "CA$20,227.00"). */
+  exact?: string
+}) {
   return (
-    <div className="ad-card" style={{ padding: 18 }}>
-      <div style={{ fontSize: 30, fontWeight: 700, fontFamily: 'var(--serif)' }}>{value}</div>
-      <div className="ad-mut" style={{ fontSize: 13, marginTop: 2 }}>{label}</div>
+    <div className="ad-card" style={{ padding: 18, minWidth: 0 }}>
+      <div
+        style={{
+          fontSize: 30, fontWeight: 700, fontFamily: 'var(--serif)', lineHeight: 1.12,
+          // Headline figures must never spill out of the card.
+          minWidth: 0, overflowWrap: 'anywhere',
+        }}
+        title={exact}
+      >
+        {value}
+      </div>
+      {exact && (
+        <div className="ad-soft" style={{ fontSize: 11.5, marginTop: 3, fontFamily: 'var(--mono)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          {exact}
+        </div>
+      )}
+      <div className="ad-mut" style={{ fontSize: 13, marginTop: exact ? 4 : 2 }}>{label}</div>
       {sub && <div className="ad-soft" style={{ fontSize: 11.5, marginTop: 2 }}>{sub}</div>}
     </div>
   )
@@ -105,7 +127,7 @@ function Empty() {
 
 /** KPI card with a week-over-week delta and optional sparkline. */
 export function TrendCard({
-  label, value, delta, sub, spark, href,
+  label, value, delta, sub, spark, href, exact,
 }: {
   label: string
   value: React.ReactNode
@@ -113,15 +135,20 @@ export function TrendCard({
   sub?: string
   spark?: number[]
   href?: string
+  /** Full-precision figure shown under the compact headline. */
+  exact?: string
 }) {
   const up = (delta ?? 0) > 0
   const flat = delta === 0 || delta === null || delta === undefined
   const body = (
     <div className="ad-card" style={{ padding: 18, height: '100%' }}>
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 10 }}>
-        <div>
-          <div style={{ fontSize: 30, fontWeight: 700, fontFamily: 'var(--serif)', lineHeight: 1.1 }}>{value}</div>
-          <div className="ad-mut" style={{ fontSize: 13, marginTop: 2 }}>{label}</div>
+        <div style={{ minWidth: 0 }}>
+          <div style={{ fontSize: 30, fontWeight: 700, fontFamily: 'var(--serif)', lineHeight: 1.1, overflowWrap: 'anywhere' }} title={exact}>{value}</div>
+          {exact && (
+            <div className="ad-soft" style={{ fontSize: 11.5, marginTop: 3, fontFamily: 'var(--mono)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{exact}</div>
+          )}
+          <div className="ad-mut" style={{ fontSize: 13, marginTop: exact ? 4 : 2 }}>{label}</div>
         </div>
         {!flat && (
           <span

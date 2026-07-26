@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { PieChart } from 'lucide-react'
 import { StatCard } from '@/components/admin/charts'
-import { fmtMoney, CURRENCIES } from '@/lib/admin/finance'
+import { fmtMoney, fmtMoneyShort, CURRENCIES } from '@/lib/admin/finance'
 import { fmtDate } from '@/lib/admin/dates'
 
 type Stats = {
@@ -40,10 +40,10 @@ export default function FinanceDashboard() {
 
       {/* KPIs */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(160px,1fr))', gap: 12, marginTop: 18 }}>
-        <StatCard label="Monthly run-rate" value={fmtMoney(s.kpis.monthlyRunRate)} sub="active recurring, CAD/mo" />
-        <StatCard label="Projected annual" value={fmtMoney(s.kpis.annualRunRate)} sub="recurring × 12, CAD" />
-        <StatCard label="Spend this month" value={fmtMoney(s.kpis.spendThisMonth)} sub="recurring + one-off" />
-        <StatCard label="One-off YTD" value={fmtMoney(s.kpis.oneOffYTD)} sub="this calendar year" />
+        <StatCard label="Monthly run-rate" value={fmtMoneyShort(s.kpis.monthlyRunRate)} exact={fmtMoney(s.kpis.monthlyRunRate)} sub="active recurring, CAD/mo" />
+        <StatCard label="Projected annual" value={fmtMoneyShort(s.kpis.annualRunRate)} exact={fmtMoney(s.kpis.annualRunRate)} sub="recurring × 12, CAD" />
+        <StatCard label="Spend this month" value={fmtMoneyShort(s.kpis.spendThisMonth)} exact={fmtMoney(s.kpis.spendThisMonth)} sub="recurring + one-off" />
+        <StatCard label="One-off YTD" value={fmtMoneyShort(s.kpis.oneOffYTD)} exact={fmtMoney(s.kpis.oneOffYTD)} sub="this calendar year" />
         <StatCard label="Active subscriptions" value={String(s.kpis.activeSubscriptions)} sub="recurring, not expired" />
         <StatCard label="Total records" value={String(s.kpis.totalExpenses)} sub="all expenses" />
       </div>
