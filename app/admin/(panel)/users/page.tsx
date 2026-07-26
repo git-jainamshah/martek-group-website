@@ -135,7 +135,7 @@ export default function UsersPage() {
                   <div className="ad-soft text-xs">{u.email}</div>
                 </td>
                 <td className="px-4 py-3">
-                  <select className="ad-input" style={{ width: 130, padding: '6px 10px', fontSize: 13 }}
+                  <select className="ad-input ad-select-sm" style={{ minWidth: 132 }}
                     value={u.role} onChange={(e) => setRole(u.id, e.target.value)}>
                     {ROLES.map((r) => <option key={r.value} value={r.value}>{r.label}</option>)}
                   </select>
