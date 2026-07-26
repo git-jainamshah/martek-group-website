@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { fmtDateTime } from '@/lib/admin/dates'
 import { UserPlus, KeyRound, UserX, UserCheck, Copy, ShieldCheck, Pencil, X } from 'lucide-react'
 
 const ROLES: { value: string; label: string; blurb: string }[] = [
@@ -146,7 +147,7 @@ export default function UsersPage() {
                       : <span className="ad-badge green">Active</span>
                     : <span className="ad-badge grey">Revoked</span>}
                 </td>
-                <td className="px-4 py-3 ad-soft text-xs">{u.last_login || 'Never'}</td>
+                <td className="px-4 py-3 ad-soft text-xs">{u.last_login ? fmtDateTime(u.last_login) : 'Never'}</td>
                 <td className="px-4 py-3">
                   <div className="flex gap-2 justify-end">
                     <button onClick={() => openEdit(u)} title="Edit name / email" className="ad-icon-btn">

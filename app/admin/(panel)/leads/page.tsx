@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Download, BarChart3, Megaphone, Trash2, Sparkles } from 'lucide-react'
 import LeadFilters from '@/components/admin/LeadFilters'
+import { fmtDateTime } from '@/lib/admin/dates'
 import { useLeads, LeadDrawer, extraOf, STATUSES, STATUS_COLORS, STATUS_LABELS, FORM_LABELS, serviceNames, Lead, useSelection, BulkDeleteBar, SelectHeaderCell, SelectRowCell } from '@/components/admin/leads-shared'
 
 export default function LeadsPage() {
@@ -87,7 +88,7 @@ export default function LeadsPage() {
                   <td className="ad-mut" style={{ fontSize: 12.5 }}>{ex.budget || '-'}</td>
                   <td style={{ fontSize: 12 }}>{l.session_channel_group ? <span className="ad-badge grey">{l.session_channel_group}</span> : '-'}</td>
                   <td className="ad-mut" style={{ fontSize: 12.5 }}>{FORM_LABELS[l.form_type] ?? l.form_type}</td>
-                  <td className="ad-soft" style={{ fontSize: 12, whiteSpace: 'nowrap' }}>{l.created_at}</td>
+                  <td className="ad-soft" style={{ fontSize: 12, whiteSpace: 'nowrap' }}>{fmtDateTime(l.created_at)}</td>
                   <td onClick={(e) => e.stopPropagation()}>
                     {canEdit ? (
                       <select value={l.status} onChange={(e) => setStatus(l.id, e.target.value)}

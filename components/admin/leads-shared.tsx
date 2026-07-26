@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { X, Trash2, CheckSquare } from 'lucide-react'
 import LeadFilters, { LeadFilterState, EMPTY_FILTERS, filtersToQs } from '@/components/admin/LeadFilters'
+import { fmtDateTime, fmtDate, fmtRelative } from '@/lib/admin/dates'
 
 export type Lead = Record<string, any>
 
@@ -99,8 +100,8 @@ export function LeadDrawer({ lead, onClose, onSaved, canEdit = true }: { lead: L
           <Row k="Company URL" v={ex.companyUrl && <a href={ex.companyUrl} target="_blank" style={{ textDecoration: 'underline', color: 'var(--brand-ink)' }}>{ex.companyUrl}</a>} />
           <Row k="Location" v={[ex.companyProvince, ex.companyCountry].filter(Boolean).join(', ')} />
           <Row k="Remote" v={ex.companyRemote} />
-          <Row k="Received" v={lead.created_at} />
-          <Row k="Consent" v={lead.consent ? `Yes${lead.consent_at ? ' - ' + String(lead.consent_at).slice(0, 10) : ''}` : 'No'} />
+          <Row k="Received" v={`${fmtDateTime(lead.created_at)} (${fmtRelative(lead.created_at)})`} />
+          <Row k="Consent" v={lead.consent ? `Yes${lead.consent_at ? ' - ' + fmtDate(lead.consent_at) : ''}` : 'No'} />
           <Row k="Form" v={FORM_LABELS[lead.form_type] ?? lead.form_type} />
           <Row k="Page" v={lead.source_page} />
           <Row k="Services" v={serviceNames(ex.services)} />
@@ -163,7 +164,7 @@ export function LeadDrawer({ lead, onClose, onSaved, canEdit = true }: { lead: L
             <div key={n.id} style={{ background: 'var(--paper)', border: '1px solid var(--rule)', borderRadius: 10, padding: '10px 12px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, marginBottom: 4 }}>
                 <b style={{ fontSize: 12.5 }}>{n.author_name || n.author_email}</b>
-                <span className="ad-soft" style={{ fontSize: 11, whiteSpace: 'nowrap' }}>{n.created_at}</span>
+                <span className="ad-soft" style={{ fontSize: 11, whiteSpace: 'nowrap' }}>{fmtDateTime(n.created_at)}</span>
               </div>
               <div style={{ fontSize: 13, whiteSpace: 'pre-wrap' }}>{n.body}</div>
             </div>

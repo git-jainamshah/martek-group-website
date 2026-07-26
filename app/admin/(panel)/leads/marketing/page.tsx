@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { Download, ArrowLeft, BarChart3 } from 'lucide-react'
 import LeadFilters from '@/components/admin/LeadFilters'
 import { useLeads, LeadDrawer, Lead, useSelection, BulkDeleteBar, SelectHeaderCell, SelectRowCell } from '@/components/admin/leads-shared'
+import { fmtDateTime } from '@/lib/admin/dates'
 
 const clickBadges = (l: Lead) => {
   const map: [string, string][] = [
@@ -80,7 +81,7 @@ export default function LeadsMarketingPage() {
                 <td className="ad-mut" style={{ fontSize: 12, maxWidth: 140, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={l.landing_page}>{l.landing_page || '-'}</td>
                 <td className="ad-mut" style={{ fontSize: 12, maxWidth: 140, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={l.referrer_url}>{l.referrer_url || '-'}</td>
                 <td className="ad-soft" style={{ fontSize: 11.5 }}>{l.ga_client_id || '-'}</td>
-                <td className="ad-soft" style={{ fontSize: 12, whiteSpace: 'nowrap' }}>{l.created_at}</td>
+                <td className="ad-soft" style={{ fontSize: 12, whiteSpace: 'nowrap' }}>{fmtDateTime(l.created_at)}</td>
               </tr>
             ))}
             {leads.length === 0 && !loading && (
