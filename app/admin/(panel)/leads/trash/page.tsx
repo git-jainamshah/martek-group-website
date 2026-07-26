@@ -4,10 +4,13 @@ import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { ArrowLeft, RotateCcw, Trash2, CheckSquare, AlertTriangle } from 'lucide-react'
 import { extraOf, serviceNames, useSelection, Lead } from '@/components/admin/leads-shared'
+import { fmtDateTime } from '@/lib/admin/dates'
 
 /** Days left before a trashed record is purged (60-day window). */
 function daysLeft(deletedAt: string): number {
-  const del = new Date(deletedAt.replace(' ', 'T') + 'Z').getTime()
+  const s = String(deletedAt)
+  const hasZone = /(?:Z|[+-]\d{2}:?\d{2})$/i.test(s)
+  const del = new Date((s.includes('T') ? s : s.replace(' ', 'T')) + (hasZone ? '' : 'Z')).getTime()
   return Math.max(0, 60 - Math.floor((Date.now() - del) / 864e5))
 }
 
@@ -114,7 +117,7 @@ export default function DeleteFolderPage() {
                     <div className="ad-soft" style={{ fontSize: 12 }}>{l.public_id || `#${l.id}`} · {l.email}{l.company ? ` · ${l.company}` : ''}</div>
                   </td>
                   <td className="ad-mut" style={{ fontSize: 12.5 }}>{serviceNames(ex.services) || '-'}</td>
-                  <td className="ad-soft" style={{ fontSize: 12, whiteSpace: 'nowrap' }}>{l.deleted_at}</td>
+                  <td className="ad-soft" style={{ fontSize: 12, whiteSpace: 'nowrap' }}>{fmtDateTime(l.deleted_at)}</td>
                   <td>
                     <span className={`ad-badge ${left <= 7 ? 'red' : 'grey'}`}>{left} day{left === 1 ? '' : 's'}</span>
                   </td>
