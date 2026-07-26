@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { ArrowLeft, Megaphone } from 'lucide-react'
 import { HBarChart, Donut, TimeSeries, StatCard } from '@/components/admin/charts'
+import { fmtDateTime } from '@/lib/admin/dates'
 
 type Stats = {
   total: number; withCompany: number; withClickId: number
@@ -129,7 +130,7 @@ export default function LeadsDashboardPage() {
                         <td style={{ fontWeight: 600 }}>{c.company}</td>
                         <td className="ad-mut">{c.name}</td>
                         <td><span className="ad-badge grey">{STATUS_LABELS[c.status] ?? c.status}</span></td>
-                        <td className="ad-soft" style={{ fontSize: 12 }}>{c.created}</td>
+                        <td className="ad-soft" style={{ fontSize: 12 }}>{fmtDateTime(c.created)}</td>
                       </tr>
                     ))}
                   </tbody>

@@ -102,7 +102,7 @@ export default function FinanceDashboard() {
             {s.upcoming.length ? s.upcoming.map((u) => (
               <tr key={u.expense_id + u.date}>
                 <td><div style={{ fontWeight: 600 }}>{u.name}</div><div className="ad-soft" style={{ fontSize: 11 }}>{u.expense_id}</div></td>
-                <td className="ad-mut" style={{ fontSize: 12.5, whiteSpace: 'nowrap' }}>{u.date}</td>
+                <td className="ad-mut" style={{ fontSize: 12.5, whiteSpace: 'nowrap' }}>{fmtDate(u.date)}</td>
                 <td className="ad-mut" style={{ fontSize: 12.5, textTransform: 'capitalize' }}>{u.frequency}</td>
                 <td style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>{fmtMoney(u.amount_cad)}<div className="ad-soft" style={{ fontSize: 10.5 }}>{fmtMoney(u.amount_original, u.currency)}</div></td>
               </tr>
