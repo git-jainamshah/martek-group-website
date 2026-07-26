@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState, useCallback } from 'react'
 import { FileText, Trash2, Plus, ExternalLink } from 'lucide-react'
 import { CURRENCIES, fmtMoney } from '@/lib/admin/finance'
 import { computeTotals, paymentState, INVOICE_STATUSES, INVOICE_STATUS_LABELS, INVOICE_STATUS_COLOR, DEFAULT_TAX_RATE, InvoiceItem } from '@/lib/admin/billing'
+import { fmtDate } from '@/lib/admin/dates'
 
 type Client = { id: number; name: string; company: string | null }
 type Project = { id: number; name: string; currency: string }
@@ -63,9 +64,9 @@ export default function InvoicesPage() {
                   return (
                     <>
                       <tr key={inv.id}>
-                        <td><div style={{ fontWeight: 600 }}>{inv.invoice_number}</div><div className="ad-soft" style={{ fontSize: 11 }}>{inv.issue_date}{inv.due_date ? ` · due ${inv.due_date}` : ''}</div></td>
+                        <td><div style={{ fontWeight: 600 }}>{inv.invoice_number}</div><div className="ad-soft" style={{ fontSize: 11 }}>{fmtDate(inv.issue_date)}{inv.due_date ? ` · due ${fmtDate(inv.due_date)}` : ''}</div></td>
                         <td className="ad-mut" style={{ fontSize: 12.5 }}>{inv.client_name}{inv.project_name ? <div className="ad-soft" style={{ fontSize: 11 }}>{inv.project_name}</div> : null}</td>
-                        <td className="ad-soft" style={{ fontSize: 12, whiteSpace: 'nowrap' }}>{inv.issue_date}</td>
+                        <td className="ad-soft" style={{ fontSize: 12, whiteSpace: 'nowrap' }}>{fmtDate(inv.issue_date)}</td>
                         <td><span className={`ad-badge ${badge[INVOICE_STATUS_COLOR[st]] || 'grey'}`}>{INVOICE_STATUS_LABELS[st] || st}</span></td>
                         <td style={{ textAlign: 'right', whiteSpace: 'nowrap', fontWeight: 600 }}>{fmtMoney(Number(inv.total), inv.currency)}</td>
                         <td style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>{fmtMoney(Number(inv.amount_paid), inv.currency)}</td>

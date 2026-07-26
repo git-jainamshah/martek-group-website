@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { PieChart } from 'lucide-react'
 import { StatCard } from '@/components/admin/charts'
 import { fmtMoney, CURRENCIES } from '@/lib/admin/finance'
+import { fmtDate } from '@/lib/admin/dates'
 
 type Stats = {
   fx: { base: string; updatedAt?: string; rates: Record<string, number> }
@@ -185,7 +186,7 @@ function FxCard({ fx, onSaved }: { fx: Stats['fx']; onSaved: () => void }) {
   }
   return (
     <Card title="Conversion rates → CAD (editable)">
-      <p className="ad-soft" style={{ fontSize: 12, marginBottom: 12 }}>1 unit of each currency equals this many CAD. Update these to keep totals accurate.{fx.updatedAt ? ` Last updated ${fx.updatedAt.slice(0, 10)}.` : ''}</p>
+      <p className="ad-soft" style={{ fontSize: 12, marginBottom: 12 }}>1 unit of each currency equals this many CAD. Update these to keep totals accurate.{fx.updatedAt ? ` Last updated ${fmtDate(fx.updatedAt)}.` : ''}</p>
       <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', alignItems: 'flex-end' }}>
         {CURRENCIES.map((c) => (
           <label key={c} style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
