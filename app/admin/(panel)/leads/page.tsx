@@ -92,7 +92,7 @@ export default function LeadsPage() {
                   <td onClick={(e) => e.stopPropagation()}>
                     {canEdit ? (
                       <select value={l.status} onChange={(e) => setStatus(l.id, e.target.value)}
-                        className={STATUS_COLORS[l.status] || 'ad-badge grey'} style={{ border: 0, cursor: 'pointer' }}>
+                        className={STATUS_COLORS[l.status] || 'ad-badge grey'}>
                         {STATUSES.map((s) => <option key={s} value={s}>{STATUS_LABELS[s]}</option>)}
                       </select>
                     ) : (
