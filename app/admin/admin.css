@@ -122,6 +122,10 @@
   width: auto; min-width: 0; display: inline-flex; align-items: center;
   padding: 6px 30px 6px 13px;
   font-size: 12.5px; line-height: 1.35;
+  /* The .ad-badge colour rules use the `background` shorthand, which resets
+     background-repeat to `repeat` at a higher specificity than .adm select.
+     Without re-declaring it here the chevron tiles across the whole pill. */
+  background-repeat: no-repeat;
   background-position: right 10px center;
   background-size: 10px 6px;
 }
