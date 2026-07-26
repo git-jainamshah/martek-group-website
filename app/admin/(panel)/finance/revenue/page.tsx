@@ -5,6 +5,7 @@ import { TrendingUp } from 'lucide-react'
 import { StatCard } from '@/components/admin/charts'
 import { fmtMoney } from '@/lib/admin/finance'
 import { INVOICE_STATUS_LABELS, INVOICE_STATUS_COLOR } from '@/lib/admin/billing'
+import { fmtDate } from '@/lib/admin/dates'
 
 type Stats = {
   kpis: { billed: number; collected: number; outstanding: number; overdue: number; invoices: number; clients: number; projects: number; collectionRate: number }
@@ -72,7 +73,7 @@ export default function RevenueDashboard() {
               <tr key={r.id}>
                 <td style={{ fontWeight: 600 }}>{r.invoice_number}</td>
                 <td className="ad-mut" style={{ fontSize: 12.5 }}>{r.client_name}</td>
-                <td className="ad-soft" style={{ fontSize: 12 }}>{r.issue_date}</td>
+                <td className="ad-soft" style={{ fontSize: 12 }}>{fmtDate(r.issue_date)}</td>
                 <td><span className={`ad-badge ${badge[INVOICE_STATUS_COLOR[r.status]] || 'grey'}`}>{INVOICE_STATUS_LABELS[r.status] || r.status}</span></td>
                 <td style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>{fmtMoney(r.total, r.currency)}</td>
                 <td style={{ textAlign: 'right' }}><a href={`/admin/receipt/${r.id}`} target="_blank" className="ad-btn-ghost" style={{ fontSize: 12 }}>Receipt</a></td>

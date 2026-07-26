@@ -1,5 +1,6 @@
 import { q } from './pg'
 import { ensureDb } from './db'
+import { fmtDateTime, fmtDate, easternDayKey } from './dates'
 
 /** Budget chips → numeric range ('5-15k' → 5000..15000). */
 export function budgetToRange(b: string): { min: number | null; max: number | null } {
@@ -99,9 +100,22 @@ export async function queryLeads(f: LeadFilters): Promise<any[]> {
   return rows.map((r) => ({ ...r, created_at: fmt(r.created_at), updated_at: fmt(r.updated_at), deleted_at: r.deleted_at ? fmt(r.deleted_at) : null }))
 }
 
+/**
+ * Serialise a timestamp for the API as full ISO 8601 **with** the timezone marker.
+ *
+ * This used to return "2026-07-25 05:40:50" (T and Z stripped). Without a
+ * timezone the browser parses it as LOCAL time, so a UTC timestamp rendered as
+ * if it were already Eastern and every lead looked hours newer than it was.
+ * Keep it unambiguous here and let the display layer (lib/admin/dates.ts)
+ * convert to Eastern.
+ */
 function fmt(v: unknown): string {
-  if (v instanceof Date) return v.toISOString().replace('T', ' ').slice(0, 19)
-  return String(v ?? '')
+  if (v instanceof Date) return v.toISOString()
+  const s = String(v ?? '')
+  if (!s) return ''
+  // Postgres text form "2026-07-25 05:40:50+00" -> normalise to ISO.
+  const d = new Date(s.includes('T') ? s : s.replace(' ', 'T') + (/[+-]\d{2}|Z$/.test(s) ? '' : 'Z'))
+  return isNaN(d.getTime()) ? s : d.toISOString()
 }
 
 export function parseFilters(p: URLSearchParams): LeadFilters {
@@ -146,12 +160,12 @@ export function leadToRow(l: any): string[] {
   let extra: any = {}
   try { extra = JSON.parse(l.extra || '{}') } catch {}
   return [
-    l.public_id || String(l.id), l.created_at ?? '', l.name ?? '', l.email ?? '', l.company ?? '', l.phone ?? '',
+    l.public_id || String(l.id), fmtDateTime(l.created_at, ''), l.name ?? '', l.email ?? '', l.company ?? '', l.phone ?? '',
     l.form_type ?? '', l.source_page ?? '',
     Array.isArray(extra.services) ? extra.services.join('; ') : '',
     extra.budget ?? '', [extra.timeline].filter(Boolean).join(''), [extra.referral, extra.referralDetail].filter(Boolean).join(' - '),
     l.status ?? '', l.message ?? '', l.notes ?? '',
-    l.consent ? 'Yes' : 'No', l.consent_at ? String(l.consent_at).slice(0, 19) : '',
+    l.consent ? 'Yes' : 'No', l.consent_at ? fmtDateTime(l.consent_at, '') : '',
     extra.companyUrl ?? '', [extra.companyProvince, extra.companyCountry].filter(Boolean).join(', '), extra.companyRemote ?? '',
   ]
 }
@@ -183,7 +197,7 @@ export async function leadStats(f: LeadFilters) {
   // per-day series
   const byDay = new Map<string, number>()
   for (const l of leads) {
-    const d = String(l.created_at).slice(0, 10)
+    const d = easternDayKey(l.created_at)
     byDay.set(d, (byDay.get(d) ?? 0) + 1)
   }
   const series = [...byDay.entries()].sort((a, b) => a[0].localeCompare(b[0])).map(([date, value]) => ({ date, value }))

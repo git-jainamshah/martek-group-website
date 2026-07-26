@@ -5,6 +5,7 @@ import {
   LeadDrawer, extraOf, STATUSES, STATUS_COLORS, STATUS_LABELS, serviceNames,
   Lead, useSelection, BulkDeleteBar, SelectHeaderCell, SelectRowCell,
 } from '@/components/admin/leads-shared'
+import { fmtDateTime } from '@/lib/admin/dates'
 
 /**
  * Management table for one kind of lead (offline or pitch). Lists the records
@@ -81,7 +82,7 @@ export default function LeadKindTable({ kind, reloadKey = 0 }: { kind: 'offline'
                   <td className="ad-mut" style={{ fontSize: 12.5 }}>{l.contact_method || '-'}</td>
                   <td className="ad-mut" style={{ fontSize: 12.5 }}>{serviceNames(ex.services) || '-'}</td>
                   <td className="ad-mut" style={{ fontSize: 12.5 }}>{ex.budget || '-'}</td>
-                  <td className="ad-soft" style={{ fontSize: 12, whiteSpace: 'nowrap' }}>{l.created_at}</td>
+                  <td className="ad-soft" style={{ fontSize: 12, whiteSpace: 'nowrap' }}>{fmtDateTime(l.created_at)}</td>
                   <td onClick={(e) => e.stopPropagation()}>
                     {canEdit ? (
                       <select value={l.status} onChange={(e) => setStatus(l.id, e.target.value)}

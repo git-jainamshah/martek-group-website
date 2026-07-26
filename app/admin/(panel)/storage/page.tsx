@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Trash2, Lock, Upload, Film, Image as ImageIcon } from 'lucide-react'
+import { fmtDate } from '@/lib/admin/dates'
 
 type Media = {
   id: number; filename: string; relPath: string; kind: 'photo' | 'video'
@@ -13,7 +14,7 @@ type SortKey = 'addedAt' | 'modifiedAt' | 'size' | 'filename'
 type GroupKey = 'none' | 'addedAt' | 'modifiedAt'
 
 const fmtSize = (b: number) => b > 1048576 ? `${(b / 1048576).toFixed(1)} MB` : `${Math.max(1, Math.round(b / 1024))} KB`
-const dayOf = (iso: string) => new Date(iso).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })
+const dayOf = (iso: string) => fmtDate(iso)
 const isTransparentCapable = (p: string) => ['png', 'svg', 'webp', 'avif', 'gif'].includes(p.split('.').pop()?.toLowerCase() ?? '')
 
 export default function StoragePage() {
@@ -149,7 +150,7 @@ export default function StoragePage() {
                   </div>
                   <div className="p-2.5">
                     <div className="text-xs font-medium truncate">{m.filename}</div>
-                    <div className="text-[11px] ad-soft">{fmtSize(m.size)} · {new Date(m.addedAt).toLocaleDateString()}</div>
+                    <div className="text-[11px] ad-soft">{fmtSize(m.size)} · {fmtDate(m.addedAt)}</div>
                   </div>
                   <button
                     onClick={() => isLinked

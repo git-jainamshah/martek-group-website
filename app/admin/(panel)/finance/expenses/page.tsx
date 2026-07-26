@@ -7,6 +7,7 @@ import {
   MARKETING_CATEGORY, MARKETING_TYPES, MARKETING_PLATFORMS,
   fmtMoney, toCAD, annualCAD, nextRenewal, FREQ_PER_YEAR, FxRates, DEFAULT_FX,
 } from '@/lib/admin/finance'
+import { fmtDate } from '@/lib/admin/dates'
 
 type Expense = Record<string, any>
 type Account = { id: number; bank_name: string; account_type: string; last4: string | null; currency: string; active: number }
@@ -129,7 +130,7 @@ export default function ExpensesPage() {
                       <td className="ad-mut" style={{ fontSize: 12 }}>{e.account_name ? `${e.account_name}${e.account_last4 ? ` ····${e.account_last4}` : ''}` : '-'}</td>
                       <td className="ad-soft" style={{ fontSize: 11.5, whiteSpace: 'nowrap' }}>
                         {e.kind === 'recurring'
-                          ? <>Since {e.start_date}{renew ? <><br />Renews {renew}</> : ''}{e.expiry_date ? <><br />Expires {e.expiry_date}</> : ''}</>
+                          ? <>Since {fmtDate(e.start_date)}{renew ? <><br />Renews {fmtDate(renew)}</> : ''}{e.expiry_date ? <><br />Expires {fmtDate(e.expiry_date)}</> : ''}</>
                           : e.expense_date}
                       </td>
                       <td className="ad-soft" style={{ fontSize: 11.5 }}>{e.receipt_id || '-'}</td>

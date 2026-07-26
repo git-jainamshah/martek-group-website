@@ -13,14 +13,37 @@
 
 export const ADMIN_TZ = 'America/Toronto'
 
-/** Accepts a Date, an ISO string, or a Postgres timestamp string. */
+/**
+ * Accepts a Date, an ISO string, a Unix epoch, or a Postgres timestamp string.
+ *
+ * Important: a timestamp with no timezone marker ("2026-07-25 05:40:50") is
+ * treated as **UTC**, because that is what the database stores. Left to the
+ * browser, JS would parse it as local time and every timestamp would be wrong
+ * by the viewer's offset - which is exactly the bug this guards against.
+ */
 function toDate(value: unknown): Date | null {
-  if (!value) return null
+  if (value === null || value === undefined || value === '') return null
   if (value instanceof Date) return isNaN(value.getTime()) ? null : value
+
+  // Epoch (seconds or milliseconds)
+  if (typeof value === 'number') {
+    const ms = value < 1e12 ? value * 1000 : value
+    const d = new Date(ms)
+    return isNaN(d.getTime()) ? null : d
+  }
+
   const s = String(value).trim()
   if (!s) return null
-  // Postgres may hand back "2026-07-25 05:40:50+00" - normalise for Safari/JS.
-  const normalised = s.includes('T') ? s : s.replace(' ', 'T')
+
+  // Numeric string epoch
+  if (/^\d{10}$|^\d{13}$/.test(s)) {
+    const n = Number(s)
+    return new Date(n < 1e12 ? n * 1000 : n)
+  }
+
+  // "2026-07-25 05:40:50" / "2026-07-25 05:40:50+00" / full ISO
+  const hasZone = /(?:Z|[+-]\d{2}:?\d{2})$/i.test(s)
+  const normalised = (s.includes('T') ? s : s.replace(' ', 'T')) + (hasZone ? '' : 'Z')
   const d = new Date(normalised)
   return isNaN(d.getTime()) ? null : d
 }
@@ -40,14 +63,41 @@ export function fmtDateTime(value: unknown, fallback = '-'): string {
   return `${date}, ${time}`
 }
 
+const MONTHS = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December',
+]
+
 /**
  * Date only: "July 26, 2026"
+ *
+ * A plain calendar date ("2026-07-26", as stored in DATE columns such as
+ * invoice issue_date) is rendered literally with **no** timezone conversion.
+ * Converting it would shift it to the previous day for anyone west of UTC,
+ * which is how invoices end up dated a day early.
  */
 export function fmtDate(value: unknown, fallback = '-'): string {
+  if (typeof value === 'string') {
+    const m = value.trim().match(/^(\d{4})-(\d{2})-(\d{2})$/)
+    if (m) return `${MONTHS[Number(m[2]) - 1]} ${Number(m[3])}, ${m[1]}`
+  }
   const d = toDate(value)
   if (!d) return fallback
   return d.toLocaleDateString('en-US', {
     month: 'long', day: 'numeric', year: 'numeric', timeZone: ADMIN_TZ,
+  })
+}
+
+/** Compact calendar date: "Jul 26, 2026". Same no-shift rule as fmtDate. */
+export function fmtDateShort(value: unknown, fallback = '-'): string {
+  if (typeof value === 'string') {
+    const m = value.trim().match(/^(\d{4})-(\d{2})-(\d{2})$/)
+    if (m) return `${MONTHS[Number(m[2]) - 1].slice(0, 3)} ${Number(m[3])}, ${m[1]}`
+  }
+  const d = toDate(value)
+  if (!d) return fallback
+  return d.toLocaleDateString('en-US', {
+    month: 'short', day: 'numeric', year: 'numeric', timeZone: ADMIN_TZ,
   })
 }
 

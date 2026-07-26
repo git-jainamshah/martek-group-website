@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { Save, Star } from 'lucide-react'
+import { fmtDateTime } from '@/lib/admin/dates'
 
 type Pkg = {
   id: number; page_key: string; idx: number; name: string; price: string
@@ -108,7 +109,7 @@ export default function PricingAdminPage() {
                 onChange={(e) => set(i, { items: e.target.value.split('\n').filter((s: string) => s.trim()) })} /></div>
             <div className="space-y-1"><label className="text-xs ad-mut">Button label</label>
               <input className={input} value={p.ctaLabel} onChange={(e) => set(i, { ctaLabel: e.target.value })} /></div>
-            <div className="text-[11px] ad-soft">Last updated {new Date(p.updatedAt).toLocaleString()}</div>
+            <div className="text-[11px] ad-soft">Last updated {fmtDateTime(p.updatedAt)}</div>
           </div>
         ))}
       </div>
