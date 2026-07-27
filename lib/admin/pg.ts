@@ -9,6 +9,53 @@ import type { Pool as PgPool } from 'pg'
 
 let pool: PgPool | null = null
 
+/**
+ * Pick the connection string for the current environment.
+ *
+ * Each environment reads a DIFFERENT variable name, which is what keeps the
+ * databases isolated:
+ *
+ *   production  DATABASE_URL              (unchanged - the original Neon database)
+ *   qa          QA_DATABASE_URL           (falls back to the name Vercel's Neon
+ *                                          integration generates when a second
+ *                                          database is connected)
+ *   dev         DEV_DATABASE_URL
+ *
+ * Production resolves exactly as it always has, because NEXT_PUBLIC_APP_ENV is
+ * unset there and the first branch below is the only one that can match.
+ *
+ * QA and DEV deliberately do NOT fall back to DATABASE_URL. If their own
+ * variable is missing we throw, because silently connecting QA to the
+ * production database is the one failure worth crashing over.
+ */
+function resolveConnectionString(): string | undefined {
+  const env = (process.env.NEXT_PUBLIC_APP_ENV ?? '').trim().toLowerCase()
+
+  if (env === 'qa') {
+    const url = process.env.QA_DATABASE_URL || process.env.marrelayqa_DATABASE_URL
+    if (!url) {
+      throw new Error(
+        'QA environment is missing QA_DATABASE_URL. Refusing to fall back to the ' +
+        'production database. Add QA_DATABASE_URL in Vercel for the qa branch.'
+      )
+    }
+    return url
+  }
+
+  if (env === 'dev' || env === 'development') {
+    const url = process.env.DEV_DATABASE_URL || process.env.marrelaydev_DATABASE_URL
+    if (!url) {
+      throw new Error(
+        'DEV environment is missing DEV_DATABASE_URL. Refusing to fall back to the ' +
+        'production database. Add DEV_DATABASE_URL in Vercel for the dev branch.'
+      )
+    }
+    return url
+  }
+
+  return process.env.DATABASE_URL || process.env.POSTGRES_URL
+}
+
 export function getPool(): PgPool {
   if (pool) return pool
 
@@ -22,10 +69,10 @@ export function getPool(): PgPool {
     return pool!
   }
 
-  const url = process.env.DATABASE_URL || process.env.POSTGRES_URL
+  const url = resolveConnectionString()
   if (!url) {
     throw new Error(
-      'DATABASE_URL is not set. The admin backend needs a Postgres database ' +
+      'No database connection string found. The admin backend needs a Postgres database ' +
       '(Vercel: Storage → Create Database → Neon; locally: add DATABASE_URL to .env.local).'
     )
   }

@@ -53,7 +53,13 @@ export const SITE_URL =
  * confirm at a glance that QA is not pointed at the production database.
  */
 export function dbFingerprint(): string {
-  const url = process.env.DATABASE_URL || process.env.POSTGRES_URL || ''
+  // Mirrors resolveConnectionString() in lib/admin/pg.ts.
+  const url =
+    (isQA
+      ? process.env.QA_DATABASE_URL || process.env.marrelayqa_DATABASE_URL
+      : isDev
+        ? process.env.DEV_DATABASE_URL || process.env.marrelaydev_DATABASE_URL
+        : process.env.DATABASE_URL || process.env.POSTGRES_URL) || ''
   if (!url) return 'no database configured'
   try {
     const u = new URL(url)
