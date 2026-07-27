@@ -5,6 +5,7 @@ import './marrelay.css'
 import LayoutWrapper from '@/components/LayoutWrapper'
 import { SOCIALS } from '@/lib/social'
 import { HeadScripts, BodyStartScripts, FooterScripts } from '@/components/SiteScripts'
+import { SITE_URL, isProduction } from '@/lib/env'
 
 const instrument = Instrument_Serif({
   subsets: ['latin'],
@@ -36,7 +37,6 @@ const poppins = Poppins({
   variable: '--font-poppins',
 })
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.trim() || 'https://www.marrelay.com'
 
 // ISR: pages stay statically served (fast) but refresh within 60s, so
 // admin changes (scripts, pricing, announcement copy) go live within a minute.
@@ -83,17 +83,21 @@ const baseMetadata: Metadata = {
       'Founder-led digital studio in Toronto. Web, data, social, SEO & ads, and engineering for teams that sweat the details.',
     images: ['/assets/martek-group-header.png'],
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-      'max-video-preview': -1,
-    },
-  },
+  // QA and DEV are full copies of the site; letting them be indexed would create
+  // duplicate content competing with marrelay.com. Production is unaffected.
+  robots: isProduction
+    ? {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          'max-image-preview': 'large',
+          'max-snippet': -1,
+          'max-video-preview': -1,
+        },
+      }
+    : { index: false, follow: false, nocache: true },
 }
 
 export async function generateMetadata(): Promise<Metadata> {

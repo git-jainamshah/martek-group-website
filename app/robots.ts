@@ -1,6 +1,13 @@
 import { MetadataRoute } from 'next'
+import { isProduction, SITE_URL } from '@/lib/env'
 
 export default async function robots(): Promise<MetadataRoute.Robots> {
+  // QA and DEV must never be crawled: an indexed qa.marrelay.com would be a full
+  // duplicate of the production site and would compete with it in search.
+  if (!isProduction) {
+    return { rules: { userAgent: '*', disallow: '/' } }
+  }
+
   // Admin-managed extra rules (graceful fallback when DB is unavailable)
   let extraDisallow: string[] = []
   try {
@@ -20,6 +27,6 @@ export default async function robots(): Promise<MetadataRoute.Robots> {
       // and excluded from the sitemap instead.
       disallow: ['/api/', '/_next/', ...extraDisallow],
     },
-    sitemap: `${process.env.NEXT_PUBLIC_SITE_URL?.trim() || 'https://www.marrelay.com'}/sitemap.xml`,
+    sitemap: `${SITE_URL}/sitemap.xml`,
   }
 }
