@@ -56,6 +56,10 @@ export function baseParams() {
   return {
     event_id: uuid(),
     event_time: new Date().toISOString(),
+    // Which deployment produced this hit. Lets GA4/GTM keep QA and DEV traffic
+    // out of production reporting (filter on environment !== 'production').
+    // Unset => 'production', so live behaviour is unchanged.
+    environment: (process.env.NEXT_PUBLIC_APP_ENV || 'production').toLowerCase(),
     page_location: window.location.href,
     page_path: window.location.pathname + window.location.search,
     page_title: document.title,

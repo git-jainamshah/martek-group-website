@@ -1,7 +1,8 @@
 import { MetadataRoute } from 'next'
 import { POSTS } from '@/lib/blog'
+import { SITE_URL } from '@/lib/env'
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || 'https://www.marrelay.com'
+const baseUrl = SITE_URL
 
 // Stable per-build timestamp. Using a fresh Date() on every request makes every
 // URL look "changed" on every crawl, which search engines learn to distrust.
