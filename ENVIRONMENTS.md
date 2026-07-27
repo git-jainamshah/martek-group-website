@@ -1,193 +1,157 @@
 # Environments: production, QA, dev
 
-One Vercel project, three branches, **three completely separate databases**.
-Nothing crosses between them — the only connection to data is `DATABASE_URL`,
-and each environment has its own.
+One Vercel project, three branches. **Production has its own database; QA and dev
+share a second one.** Production data can never reach QA/dev or vice versa.
 
 | | Production | QA | DEV |
 |---|---|---|---|
 | Branch | `main` | `qa` | `dev` |
 | URL | www.marrelay.com | qa.marrelay.com | dev.marrelay.com |
-| Database | existing Neon | **new, separate** | **new, separate** |
+| Database | `web-database` (`ep-hidden-dust-…`) | `marrelay-qa` (`ep-noisy-rain-…`) | same as QA |
+| Reads env var | `DATABASE_URL` | `QA_DATABASE_URL` | `DEV_DATABASE_URL` |
 | `NEXT_PUBLIC_APP_ENV` | *(unset)* | `qa` | `dev` |
 | Indexed by Google | Yes | **No** | **No** |
 | Admin banner | none | amber "QA" | blue "Development" |
-| GTM / GA4 | from its own DB | from its own DB | from its own DB |
 
-Everything defaults to production. `NEXT_PUBLIC_APP_ENV` unset = today's exact
-behaviour, which is why merging this changed nothing on the live site.
+Everything defaults to production: `NEXT_PUBLIC_APP_ENV` is unset there, so the
+live site behaves exactly as it always has.
 
----
-
-## What is already done
-
-- Branches `qa` and `dev` created from `main` (identical code today).
-- Environment module `lib/env.ts` — safe default of `production`.
-- QA/DEV blocked from search engines three ways: `robots.txt` disallow-all,
-  `X-Robots-Tag: noindex` header on every response, and `<meta name="robots">`.
-- Admin shows a coloured environment ribbon naming the connected database, and
-  the browser tab reads `[QA] Marrelay Admin`.
-- `environment` pushed into every dataLayer event (`production` / `qa` / `dev`).
-- `scripts/clone-db.sh` — guarded copy of one database into another.
-- Old working branch `qa/admin-backend` renamed to `work/admin-backend`
-  (git cannot have both `qa` and `qa/...`). It was fully merged; nothing lost.
+**QA and dev cannot silently fall back to production.** If `QA_DATABASE_URL` or
+`DEV_DATABASE_URL` is ever missing, that environment throws an error instead of
+connecting to the production database.
 
 ---
 
-## What you need to do
-
-### 1. Create two Neon databases (5 min)
-
-Vercel dashboard → **Storage** → **Create Database** → Neon. Do this twice:
-
-- name it `marrelay-qa`
-- name it `marrelay-dev`
-
-**Important:** when Vercel asks which environments to connect it to, choose
-**"Do not connect"** / clear all environments. You will wire the variable up
-manually in step 3 — otherwise Vercel may overwrite the production
-`DATABASE_URL`, which is the one thing that must not change.
-
-Copy each connection string somewhere safe.
-
-### 2. Copy production data into QA (5 min)
-
-From the repo root, with `pg_dump` v16+ installed:
-
-```bash
-./scripts/clone-db.sh "<PRODUCTION_DATABASE_URL>" "<QA_DATABASE_URL>"
-```
-
-It refuses to run if the two are the same, refuses targets that look like
-production, and asks you to type the target host to confirm. Repeat for dev if
-you want dev seeded too (or leave dev empty — it self-creates its schema on
-first boot).
-
-> The copy contains real customer data. Treat QA access with the same care as
-> production, or clear the leads table there once you have confirmed things work.
-
-### 3. Add branch-scoped environment variables (10 min)
-
-Vercel → project **martek_website** → **Settings → Environment Variables**.
-
-For each variable below: set **Environment = Preview**, then click
-**"Specific Git Branch"** and enter the branch name. This is what keeps QA and
-DEV values from ever reaching production.
-
-**Branch `qa`:**
-
-| Key | Value |
-|---|---|
-| `DATABASE_URL` | *(the marrelay-qa connection string)* |
-| `NEXT_PUBLIC_APP_ENV` | `qa` |
-| `NEXT_PUBLIC_SITE_URL` | `https://qa.marrelay.com` |
-
-**Branch `dev`:**
-
-| Key | Value |
-|---|---|
-| `DATABASE_URL` | *(the marrelay-dev connection string)* |
-| `NEXT_PUBLIC_APP_ENV` | `dev` |
-| `NEXT_PUBLIC_SITE_URL` | `https://dev.marrelay.com` |
-
-**Do not touch the existing Production variables.** Production has no
-`NEXT_PUBLIC_APP_ENV` and that is deliberate — absent means production.
-
-### 4. Point the subdomains at the branches (10 min)
-
-Vercel → **Settings → Domains** → **Add**:
-
-- add `qa.marrelay.com`, then set **Git Branch = `qa`**
-- add `dev.marrelay.com`, then set **Git Branch = `dev`**
-
-Vercel shows the DNS record to create. In your DNS provider add two `CNAME`
-records:
-
-```
-qa    CNAME  cname.vercel-dns.com
-dev   CNAME  cname.vercel-dns.com
-```
-
-SSL is issued automatically within a few minutes.
-
-### 5. Turn off deployment protection for those branches (2 min)
-
-Vercel → **Settings → Deployment Protection**. Preview deployments are
-password-gated by default. To let your team open qa.marrelay.com directly,
-either disable protection for preview deployments or add the two domains to
-**Protection Bypass**. Skip this if you would rather keep them gated.
-
-### 6. Give QA its own GTM / GA4 (15 min)
-
-Nothing to configure in code — container IDs come from the database, so QA
-already reads whatever its own database says.
-
-1. In Google Tag Manager, create a **new container** for QA.
-2. In GA4, create a **new property** (or a new data stream) for QA.
-3. Open **qa.marrelay.com/admin → Analytics & SEO** and enter the QA container
-   there. It only affects QA.
-
-Production keeps its existing container untouched.
-
-Optionally, in your production GTM add a trigger exception on
-`environment != "production"` — the dataLayer now carries that key, so any
-stray non-production hit can be dropped.
-
----
-
-## Daily workflow
+## Promotion flow
 
 ```
 work/*  ──►  dev  ──►  qa  ──►  main
- build      try it    team     live
-            quickly   tests
+ build      try it    pre-prod   live
+            fast      sign-off
 ```
 
 ```bash
-# start a change
+# 1. Build on dev
 git checkout dev && git pull
-# ...edit...
-git commit -am "..." && git push          # dev.marrelay.com updates
+#    ...make changes...
+git commit -am "what changed" && git push        # dev.marrelay.com updates
 
-# promote to QA when it is worth testing
+# 2. Promote to QA for final checks
 git checkout qa && git pull && git merge dev && git push
 
-# promote to production once QA signs off
+# 3. Publish to production once QA looks right
 git checkout main && git pull && git merge qa && git push
 ```
 
-Because all three run the same code, a promotion is just a fast-forward merge.
+Each promotion is a fast-forward merge — same code, just moving forward. Nothing
+is rebuilt or re-tested from scratch, so what you signed off on in QA is exactly
+what goes live.
+
+Since dev and QA share a database, data you create on dev shows up on QA. That
+is intentional: it means QA is testing against realistic content rather than an
+empty shell.
+
+---
+
+## Copying production data into QA
+
+QA starts empty. To load a snapshot of real production data:
+
+### One-time setup (macOS)
+
+```bash
+brew install libpq
+echo 'export PATH="/opt/homebrew/opt/libpq/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
+pg_dump --version        # should print 16.x or newer
+```
+
+(Intel Macs: the path is `/usr/local/opt/libpq/bin`.)
+
+### Run the copy
+
+```bash
+cd "~/Documents/Jainam Personal Projects/Martek Group"
+
+./scripts/clone-db.sh \
+  "postgresql://…@ep-hidden-dust-auihsu8i-pooler.c-10.us-east-1.aws.neon.tech/neondb?sslmode=require" \
+  "postgresql://…@ep-noisy-rain-aukihy4w-pooler.c-10.us-east-1.aws.neon.tech/neondb?sslmode=require"
+```
+
+First argument is the **source** (production), second is the **target** (QA).
+Get both connection strings from Vercel → Storage → the database → `.env.local`
+tab → Show secret.
+
+The script refuses to run if the two are the same database, refuses targets that
+look like production, and makes you type the target host to confirm. It prints
+row counts at the end so you can see it worked.
+
+Re-run it any time you want to refresh QA with current production data — it
+replaces the target completely.
+
+> The copy contains real customer leads. QA is publicly reachable, so either
+> treat QA access as carefully as production, or delete the leads in the QA
+> admin once you have finished testing.
+
+### If you would rather not install anything
+
+Log into qa.marrelay.com/admin and it creates an empty schema plus a fresh admin
+user on first boot. You lose the real data but get a clean environment
+immediately, which is fine for testing features that do not depend on existing
+records.
+
+---
+
+## Analytics: QA and dev get their own
+
+Container IDs come from the database, not from code. Because QA/dev use a
+different database, they already read their own tracking configuration.
+
+1. Create a new GTM container and GA4 property for non-production.
+2. Enter it at **qa.marrelay.com/admin → Analytics & SEO**.
+
+Production's container is untouched. Every dataLayer event also carries
+`environment` (`production` / `qa` / `dev`), so you can add a trigger exception
+in production GTM on `environment != "production"` to drop stray hits.
 
 ---
 
 ## Schema changes
 
-Tables are created idempotently on boot (`ensureDb()` in `lib/admin/db.ts`),
-and migrations are `ADD COLUMN IF NOT EXISTS`. So a new column appears in each
-environment automatically the first time that environment runs the new code.
-Add migrations to the `alters` array in that file, never as a one-off manual
-`ALTER` — otherwise environments drift.
+Tables are created idempotently on boot (`ensureDb()` in `lib/admin/db.ts`) and
+migrations are `ADD COLUMN IF NOT EXISTS`. A new column appears in each
+environment the first time that environment runs the new code. Add migrations to
+the `alters` array in that file — never as a manual one-off `ALTER`, or the
+environments will drift.
 
 ---
 
 ## Verifying isolation
 
-After setup, confirm the wall holds:
-
-1. Open `qa.marrelay.com/admin` — the amber ribbon should name the **QA**
-   database, not the production one. This is the single most important check.
+1. Open `qa.marrelay.com/admin` — the amber ribbon should read
+   `db: ep-noisy-rain-…`, not `ep-hidden-dust-…`. This is the single most
+   important check.
 2. Submit a test lead on qa.marrelay.com. It must appear in the QA admin and
    **not** in production's.
-3. `curl -I https://qa.marrelay.com` → expect `x-robots-tag: noindex, ...`.
-4. `curl https://qa.marrelay.com/robots.txt` → expect `Disallow: /`.
-5. `curl -I https://www.marrelay.com` → expect **no** `x-robots-tag` header,
-   confirming production is still fully indexable.
+3. `curl -I https://qa.marrelay.com` → expect `x-robots-tag: noindex, …`
+4. `curl https://qa.marrelay.com/robots.txt` → expect `Disallow: /`
+5. `curl -I https://www.marrelay.com` → expect **no** `x-robots-tag`, confirming
+   production is still fully indexable.
+
+---
+
+## Access
+
+Vercel Authentication is off, so qa/dev are publicly reachable by URL — required
+for teammates without Vercel accounts. They are hard-blocked from search engines,
+and the admin panel still requires a login. To lock them down again: Settings →
+Deployment Protection → Require Log In (note: password protection needs a Pro
+plan).
 
 ---
 
 ## Rollback
 
-Nothing here changes production behaviour, so there is nothing to undo. If you
-ever want to remove the environments entirely: delete the `qa` and `dev`
-domains in Vercel, delete the two branch-scoped variable sets, and optionally
-delete the branches. Production is unaffected at every step.
+Production is unaffected by all of this. To remove the environments: delete the
+`qa`/`dev` domains, delete the branch-scoped variables, optionally delete the
+branches. Production keeps running throughout.
