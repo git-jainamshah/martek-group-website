@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { Download, BarChart3, Megaphone, Trash2, Sparkles } from 'lucide-react'
 import LeadFilters from '@/components/admin/LeadFilters'
 import { fmtDateTime } from '@/lib/admin/dates'
+import { isProduction } from '@/lib/env'
 import { useLeads, LeadDrawer, extraOf, STATUSES, STATUS_COLORS, STATUS_LABELS, FORM_LABELS, serviceNames, Lead, useSelection, BulkDeleteBar, SelectHeaderCell, SelectRowCell } from '@/components/admin/leads-shared'
 
 export default function LeadsPage() {
@@ -45,7 +46,9 @@ export default function LeadsPage() {
           </p>
         </div>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-          {role === 'admin' && (
+          {/* Demo data is a QA/DEV testing aid. Never offered on production, where
+              the leads table holds real customer records. */}
+          {role === 'admin' && !isProduction && (
             <button onClick={seedDemo} disabled={seeding} className="ad-btn-ghost" title="Generate 50 fake leads for testing">
               <Sparkles size={14} /> {seeding ? 'Adding demo data…' : 'Demo data'}
             </button>
