@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { TrendCard, AreaChart, HBarChart, ShareBar, Donut, Panel } from '@/components/admin/charts'
 import { fmtDateTime, fmtRelative } from '@/lib/admin/dates'
+import CloneFromProduction from '@/components/admin/CloneFromProduction'
+import { isProduction, envLabel } from '@/lib/env'
 
 type Stats = {
   kpis: {
@@ -190,6 +192,9 @@ export default function DashboardView({ firstName }: { firstName: string }) {
           </div>
         )}
       </Panel>
+
+      {/* Non-production only: pull a fresh copy of production data */}
+      {!isProduction && <CloneFromProduction envLabel={envLabel} />}
 
       {/* System row */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
