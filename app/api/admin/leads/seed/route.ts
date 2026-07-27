@@ -3,6 +3,7 @@ import { ensureDb, audit, generateLeadPublicId } from '@/lib/admin/db'
 import { run, insertReturningId } from '@/lib/admin/pg'
 import { requireAdmin } from '@/lib/admin/auth'
 import { budgetToRange } from '@/lib/admin/leads'
+import { isProduction } from '@/lib/env'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -12,6 +13,10 @@ export const dynamic = 'force-dynamic'
  * the tables, filters, and dashboard can be tested without real traffic.
  * Every demo record is tagged extra.demo=true, so they are easy to find
  * (search notes/message for "demo") and bulk-delete later.
+ *
+ * QA/DEV only. Hiding the button is not enough - this refuses to run on
+ * production so fake records can never land among real customer leads,
+ * whatever calls it.
  */
 
 const pick = <T,>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)]
@@ -73,6 +78,13 @@ function pickScenario(): Scenario {
 }
 
 export async function POST(req: NextRequest) {
+  if (isProduction) {
+    return NextResponse.json(
+      { error: 'Demo data is disabled on production.' },
+      { status: 403 }
+    )
+  }
+
   const auth = await requireAdmin()
   if ('error' in auth) return auth.error
   await ensureDb()
