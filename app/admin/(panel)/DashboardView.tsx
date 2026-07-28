@@ -4,6 +4,10 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { TrendCard, AreaChart, HBarChart, ShareBar, Donut, Panel } from '@/components/admin/charts'
 import { fmtDateTime, fmtRelative } from '@/lib/admin/dates'
+import { isProduction, envLabel, SITE_URL } from '@/lib/env'
+
+/** Host of the site this admin panel manages, e.g. "qa.marrelay.com". */
+const SITE_HOST = SITE_URL.replace(/^https?:\/\//, '').replace(/\/$/, '')
 
 type Stats = {
   kpis: {
@@ -39,7 +43,9 @@ export default function DashboardView({ firstName }: { firstName: string }) {
   const [err, setErr] = useState('')
 
   useEffect(() => {
-    fetch('/api/admin/dashboard')
+    // no-store: the route is already force-dynamic server-side, this stops the
+    // browser serving a cached copy after a back/forward navigation.
+    fetch('/api/admin/dashboard', { cache: 'no-store' })
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error('Could not load dashboard data.'))))
       .then(setS)
       .catch((e) => setErr(e.message))
@@ -79,9 +85,20 @@ export default function DashboardView({ firstName }: { firstName: string }) {
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">{greeting}, {firstName}</h1>
+          {/* Name the site this data actually came from. Hardcoding marrelay.com
+              made QA and DEV claim to be showing production while reading their
+              own database - the fastest way to act on the wrong numbers. */}
           <p className="text-sm ad-mut mt-1">
-            Here is how marrelay.com is doing. All times shown in Eastern.
+            Here is how {SITE_HOST} is doing. All times shown in Eastern.
           </p>
+          {/* Deliberately no database name here: this is a client component and
+              the connection string is server-only. The env ribbon at the top of
+              the page already shows which database is connected. */}
+          {!isProduction && (
+            <p className="text-xs ad-mut mt-1" style={{ fontFamily: 'var(--mono)' }}>
+              {envLabel} data · not the live site
+            </p>
+          )}
         </div>
         <Link href="/admin/leads" className="ad-btn">View all leads</Link>
       </div>
