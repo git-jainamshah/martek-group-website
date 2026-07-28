@@ -28,7 +28,7 @@ export const SEARCH_INDEX: SearchDoc[] = [
     keywords: ['contact', 'quote', 'get in touch', 'enquiry', 'book a call', 'email', 'phone'],
   },
   {
-    title: 'Pricing', url: '/#pricing', section: 'Pricing',
+    title: 'Pricing', url: '/pricing', section: 'Pricing',
     description: 'Fixed-price packages and what each one includes.',
     keywords: ['pricing', 'cost', 'packages', 'price', 'quote', 'rates', 'budget'],
   },
