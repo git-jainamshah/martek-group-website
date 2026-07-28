@@ -239,7 +239,7 @@ export default function CaseStudyPage({ data, media }: { data: CaseStudyData; me
                 Book a discovery call
                 <ArrowSvg />
               </Link>
-              <Link href="/#pricing" className="btn btn-ghost">See pricing</Link>
+              <Link href="/pricing" className="btn btn-ghost">See pricing</Link>
             </div>
           </div>
         </div>
