@@ -9,6 +9,13 @@ export const dynamic = 'force-dynamic'
 
 const num = (v: unknown) => Number(v) || 0
 
+/**
+ * Deleting a lead is a SOFT delete: it sets deleted_at and moves the row to the
+ * Delete Folder. The leads table filters these out, so every count here must do
+ * the same or the dashboard keeps reporting leads the user believes they removed.
+ */
+const LIVE = 'deleted_at IS NULL'
+
 /** Percentage change, guarding division by zero. */
 function delta(current: number, previous: number): number | null {
   if (previous === 0) return current > 0 ? 100 : null
@@ -29,8 +36,8 @@ export async function GET() {
 
   // ---- headline counts ----
   const [totalLeads, newLeads, mediaFiles, activeScripts, tagManagers, activeUsers] = await Promise.all([
-    count('SELECT COUNT(*)::int AS c FROM leads'),
-    count(`SELECT COUNT(*)::int AS c FROM leads WHERE status = 'new'`),
+    count(`SELECT COUNT(*)::int AS c FROM leads WHERE ${LIVE}`),
+    count(`SELECT COUNT(*)::int AS c FROM leads WHERE ${LIVE} AND status = 'new'`),
     count('SELECT COUNT(*)::int AS c FROM media'),
     count('SELECT COUNT(*)::int AS c FROM scripts WHERE enabled = 1'),
     count('SELECT COUNT(*)::int AS c FROM tag_managers WHERE enabled = 1'),
@@ -38,18 +45,18 @@ export async function GET() {
   ])
 
   // ---- week over week ----
-  const last7 = await count(`SELECT COUNT(*)::int AS c FROM leads WHERE created_at >= now() - interval '7 days'`)
+  const last7 = await count(`SELECT COUNT(*)::int AS c FROM leads WHERE ${LIVE} AND created_at >= now() - interval '7 days'`)
   const prev7 = await count(
-    `SELECT COUNT(*)::int AS c FROM leads WHERE created_at >= now() - interval '14 days' AND created_at < now() - interval '7 days'`
+    `SELECT COUNT(*)::int AS c FROM leads WHERE ${LIVE} AND created_at >= now() - interval '14 days' AND created_at < now() - interval '7 days'`
   )
-  const last30 = await count(`SELECT COUNT(*)::int AS c FROM leads WHERE created_at >= now() - interval '30 days'`)
+  const last30 = await count(`SELECT COUNT(*)::int AS c FROM leads WHERE ${LIVE} AND created_at >= now() - interval '30 days'`)
   const prev30 = await count(
-    `SELECT COUNT(*)::int AS c FROM leads WHERE created_at >= now() - interval '60 days' AND created_at < now() - interval '30 days'`
+    `SELECT COUNT(*)::int AS c FROM leads WHERE ${LIVE} AND created_at >= now() - interval '60 days' AND created_at < now() - interval '30 days'`
   )
 
   // ---- daily series (last 30 days, grouped in Eastern time) ----
   const rawDays = (await q<{ created_at: any }>(
-    `SELECT created_at FROM leads WHERE created_at >= now() - interval '30 days'`
+    `SELECT created_at FROM leads WHERE ${LIVE} AND created_at >= now() - interval '30 days'`
   )) ?? []
   const dayCounts = new Map<string, number>()
   for (const r of rawDays) {
@@ -86,19 +93,20 @@ export async function GET() {
   }
 
   const byStatus = await group(
-    `SELECT status AS label, COUNT(*)::int AS value FROM leads GROUP BY status`, 'new'
+    `SELECT status AS label, COUNT(*)::int AS value FROM leads WHERE ${LIVE} GROUP BY status`, 'new'
   )
   const byForm = await group(
-    `SELECT form_type AS label, COUNT(*)::int AS value FROM leads GROUP BY form_type`, 'other'
+    `SELECT form_type AS label, COUNT(*)::int AS value FROM leads WHERE ${LIVE} GROUP BY form_type`, 'other'
   )
   const byPage = await group(
-    `SELECT source_page AS label, COUNT(*)::int AS value FROM leads GROUP BY source_page`, '(unknown)', 8
+    `SELECT source_page AS label, COUNT(*)::int AS value FROM leads WHERE ${LIVE} GROUP BY source_page`, '(unknown)', 8
   )
 
   // Channel comes from the marketing snapshot table; tolerate it being empty.
   const byChannel = await group(
-    `SELECT session_channel_group AS label, COUNT(*)::int AS value
-     FROM leads_marketing GROUP BY session_channel_group`, 'Direct', 8
+    `SELECT m.session_channel_group AS label, COUNT(*)::int AS value
+     FROM leads_marketing m JOIN leads l ON l.id = m.lead_id
+     WHERE l.${LIVE} GROUP BY m.session_channel_group`, 'Direct', 8
   )
 
   // ---- blog reads ----
@@ -118,12 +126,12 @@ export async function GET() {
   const recent =
     (await q(
       `SELECT id, name, email, form_type, source_page, status, created_at
-       FROM leads ORDER BY id DESC LIMIT 6`
+       FROM leads WHERE ${LIVE} ORDER BY id DESC LIMIT 6`
     )) ?? []
 
   // ---- unactioned leads (still 'new' after 48h) ----
   const stale = await count(
-    `SELECT COUNT(*)::int AS c FROM leads WHERE status = 'new' AND created_at < now() - interval '48 hours'`
+    `SELECT COUNT(*)::int AS c FROM leads WHERE ${LIVE} AND status = 'new' AND created_at < now() - interval '48 hours'`
   )
 
   return NextResponse.json({
