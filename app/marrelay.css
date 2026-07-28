@@ -1429,3 +1429,15 @@ footer.mk .bottom{margin-top:48px; padding-top:24px; border-top:1px solid rgba(2
   .bp-featured,.bl-featured{padding:22px}
   .bp-cta{padding:24px}
 }
+
+/* ---------- pricing page FAQ (static, not the accordion) ---------- */
+.pfaq-grid{
+  display:grid; grid-template-columns:repeat(2,1fr); gap:32px 48px; margin-top:48px;
+}
+@media (max-width:880px){.pfaq-grid{grid-template-columns:1fr; gap:28px}}
+.pfaq-item{border-top:1px solid var(--rule); padding-top:20px}
+.pfaq-item h3{
+  font-family:var(--display); font-style:italic; font-weight:400;
+  font-size:21px; line-height:1.25; color:var(--ink); margin-bottom:10px;
+}
+.pfaq-item p{font-size:15px; color:var(--ink-2); line-height:1.65}

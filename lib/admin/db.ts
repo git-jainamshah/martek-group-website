@@ -332,6 +332,23 @@ async function migrateAndSeed() {
     }
   } catch { /* ok */ }
 
+  // ---- One-time: /#pricing -> /pricing in already-stored settings ----
+  // Pricing used to exist twice: a section at /#pricing on the homepage and a
+  // separate /pricing page. They are now one URL. Announcement-bar CTAs are
+  // admin-managed and live in the DB, so changing the seed above is not enough
+  // for environments that were already seeded.
+  try {
+    const done = await q1<{ key: string }>(`SELECT key FROM settings WHERE key = 'pricing_url_v1'`)
+    if (!done) {
+      const rows = await q<{ key: string; value: string }>('SELECT key, value FROM settings')
+      for (const r of rows) {
+        const nv = r.value.split('/#pricing').join('/pricing')
+        if (nv !== r.value) await run('UPDATE settings SET value = $1 WHERE key = $2', [nv, r.key])
+      }
+      await run(`INSERT INTO settings (key, value) VALUES ('pricing_url_v1', '"done"') ON CONFLICT (key) DO NOTHING`)
+    }
+  } catch { /* ok */ }
+
   // ---- Seed first admin ----
   const userCount = await q1<{ c: string }>('SELECT COUNT(*)::int AS c FROM users')
   if (Number(userCount?.c) === 0) {
@@ -382,7 +399,7 @@ async function migrateAndSeed() {
         pill: 'New',
         text: 'We just launched a **fixed-price startup sprint**: a landing page in 14 days.',
         ctaLabel: 'See sprint pricing',
-        ctaHref: '/#pricing',
+        ctaHref: '/pricing',
         contactHref: '/contact',
       },
       overrides: [
