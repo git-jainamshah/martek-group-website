@@ -67,7 +67,7 @@ export default function CaseStudiesPageView({ bannerImage }: { bannerImage: stri
                   Start your project
                   <ArrowSvg />
                 </Link>
-                <Link href="/#pricing" className="btn btn-ghost">See pricing</Link>
+                <Link href="/pricing" className="btn btn-ghost">See pricing</Link>
               </div>
             </div>
 

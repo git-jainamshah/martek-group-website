@@ -25,7 +25,12 @@ export default async function robots(): Promise<MetadataRoute.Robots> {
       // '/admin' is intentionally NOT listed here - listing it in robots.txt would
       // advertise its existence. It's protected by auth + X-Robots-Tag + meta noindex
       // and excluded from the sitemap instead.
-      disallow: ['/api/', '/_next/', ...extraDisallow],
+      //
+      // '/_next/' must NOT be blocked. Google needs the CSS and JS bundles under
+      // /_next/static/ to render the page; blocking them makes Googlebot evaluate a
+      // partially-rendered page and shows up as "Blocked by robots.txt" in Search
+      // Console. /_next/image is the image optimiser, needed for Google Images.
+      disallow: ['/api/', ...extraDisallow],
     },
     sitemap: `${SITE_URL}/sitemap.xml`,
   }

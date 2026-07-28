@@ -56,7 +56,7 @@ const defaultBar = {
     </>
   ),
   ctaLabel: 'See sprint pricing',
-  ctaHref: '/#pricing',
+  ctaHref: '/pricing',
   contactHref: '/contact',
 }
 
@@ -290,7 +290,7 @@ export default function Navbar() {
             <div className="nav-cta">
               <SiteSearch />
               <SocialLinks variant="nav" socials={socials ?? undefined} />
-              <Link href="/#pricing" className="btn btn-ghost">
+              <Link href="/pricing" className="btn btn-ghost">
                 Pricing
               </Link>
               <Link href={bar.contactHref} className="btn btn-primary">
@@ -349,7 +349,7 @@ export default function Navbar() {
               </span>
             </Link>
           ))}
-          <Link href="/#pricing" onClick={close}>
+          <Link href="/pricing" onClick={close}>
             <span>Pricing</span>
             <span className="ar">
               <ArrowSvg strokeWidth={1.7} />

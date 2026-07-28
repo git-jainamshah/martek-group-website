@@ -9,8 +9,21 @@ const H3S: React.ReactNode[] = [
 ]
 const VARIANTS = ['c-starter', 'c-growth', 'c-scale']
 
-export default async function PricingSection() {
-  const cards = await getPackageOverrides('home')
+/**
+ * The single pricing view for the whole site, rendered at /pricing.
+ *
+ * `as` only changes the heading tag, never the styling: a standalone page needs
+ * an <h1> for search engines, while embedding this in another page needs an
+ * <h2> so the document outline stays valid. Visual output is identical.
+ */
+export default async function PricingSection({
+  pageKey = 'home',
+  as: Heading = 'h2',
+}: {
+  pageKey?: string
+  as?: 'h1' | 'h2'
+} = {}) {
+  const cards = await getPackageOverrides(pageKey)
 
   return (
     <section className="price" id="pricing">
@@ -18,11 +31,11 @@ export default async function PricingSection() {
         <div className="price-head" data-reveal>
           <div>
             <span className="kicker">Pricing</span>
-            <h2 style={{ marginTop: 14 }}>
+            <Heading style={{ marginTop: 14 }}>
               Three ways
               <br />
               to <span className="it">start small</span>.
-            </h2>
+            </Heading>
           </div>
           <div className="note">
             <b>No sales calls required.</b> Pick a starting point, tell us about the project, and we&apos;ll send a
