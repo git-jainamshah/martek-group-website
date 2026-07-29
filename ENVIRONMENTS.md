@@ -102,61 +102,58 @@ records.
 
 ---
 
-## User access syncs from production
+## Admin logins are shared with QA/dev
 
-Production is the single source of truth for who can sign in. QA and dev read the
-production `users` table **live**, so adding a user or revoking one on production
-applies everywhere on the very next request. Nothing is copied and nothing lags.
+One password, everywhere. When production changes the `users` table it applies
+the same change to the QA/dev database, so anyone who can sign in to the
+production admin can sign in to qa/dev with the identical email and password.
+Nobody has to be set up twice.
 
-| | Where it lives | Editable on QA/DEV |
-|---|---|---|
-| Production accounts | production `users` table | No - "Manage on production" |
-| QA/DEV-only accounts | that environment's own `users` table | Yes |
-| Sessions | always local to the environment | n/a |
+Synced automatically on every one of these:
 
-A QA session token is meaningless on production and vice versa. Only the `users`
-table crosses the boundary; leads, invoices and settings stay isolated.
+| On production | Effect on qa/dev |
+|---|---|
+| Add a user | Same account and temp password work there |
+| Change a role | Role changes there |
+| Revoke access | Revoked there, and their session is destroyed |
+| Restore access | Restored there |
+| Reset password | New temp password works there |
+| Edit name or email | Renamed there, no duplicate left behind |
+| User changes own password | New password works there |
 
-### One-time setup: read-only production role
+Direction is one way, production → qa/dev, and only the `users` table. Leads,
+invoices and settings stay isolated. QA/dev never write to production.
 
-QA/DEV must not be able to write to production, so give them a role that
-physically cannot. In **Neon → production project → SQL Editor**, run:
+### Setup
 
-```sql
-CREATE ROLE marrelay_auth_ro WITH LOGIN PASSWORD 'pick-a-strong-password';
-GRANT CONNECT ON DATABASE neondb TO marrelay_auth_ro;
-GRANT USAGE  ON SCHEMA public     TO marrelay_auth_ro;
-GRANT SELECT ON TABLE users       TO marrelay_auth_ro;
-```
-
-Create the role **via SQL, not the Neon console** - console-created roles are
-granted `neon_superuser`, which defeats the point.
-
-Then in Vercel add `AUTH_DATABASE_URL` for the `qa` and `dev` branches only:
+In Vercel, add `SYNC_USERS_DATABASE_URL` to the **production** environment only,
+set to the **QA** database connection string (`ep-noisy-rain-…`):
 
 ```
-postgresql://marrelay_auth_ro:pick-a-strong-password@ep-hidden-dust-auihsu8i-pooler.c-10.us-east-1.aws.neon.tech/neondb?sslmode=require
+postgresql://…@ep-noisy-rain-aukihy4w-pooler.c-10.us-east-1.aws.neon.tech/neondb?sslmode=require
 ```
 
-Do **not** add it to production. Production ignores the variable even if set,
-but leaving it off keeps the intent obvious.
+That is deliberately the reverse of what you might expect: production holds a
+QA credential, not the other way round. If qa/dev were ever compromised it has
+no route back into production.
 
-### Behaviour
+On the next production deploy every existing user is pushed across
+automatically, so there is nothing to run by hand.
 
-- **Add a user on production** → they can sign in to QA/DEV immediately, same
-  password, same role.
-- **Revoke on production** → their QA/DEV session is destroyed on their next
-  request and further logins are refused.
-- **Change a role on production** → applied on the next QA/DEV request.
-- **Production unreachable** → QA/DEV keep working with whoever is already
-  signed in, and local accounts still work. A production outage does not lock
-  you out of QA.
-- **`AUTH_DATABASE_URL` not set** → sync is simply off; QA/DEV use their own
-  local users, exactly as before.
+### Notes
 
-> Because credentials are shared, a QA login *is* a production login. qa/dev are
-> publicly reachable by URL (Deployment Protection is off). Either turn it on, or
-> treat QA access as production access.
+- **qa/dev can still have their own local accounts.** They are untouched by the
+  sync; only emails that exist on production are overwritten.
+- **Matched on email, never on id.** The two databases have separate id
+  sequences and will never line up.
+- **Best effort.** If qa/dev is unreachable the production change still succeeds
+  and is logged. The next production cold start re-pushes the whole user list,
+  so drift repairs itself.
+- **Without `SYNC_USERS_DATABASE_URL`, syncing is simply off.**
+
+> A production login is now also a qa/dev login, and qa/dev are publicly
+> reachable by URL. Either enable Deployment Protection on those branches, or
+> treat qa/dev access as production access.
 
 ---
 

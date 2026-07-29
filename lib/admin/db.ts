@@ -266,11 +266,6 @@ async function migrateAndSeed() {
     `ALTER TABLE leads ADD COLUMN IF NOT EXISTS deleted_at TIMESTAMPTZ`,
     `ALTER TABLE expenses ADD COLUMN IF NOT EXISTS marketing_type TEXT`,
     `ALTER TABLE expenses ADD COLUMN IF NOT EXISTS marketing_platform TEXT`,
-    // 'local'      - created in this environment, editable here, never synced.
-    // 'production' - a shadow of a production user, kept only so sessions have
-    //                a row to point at. Authority always stays with production.
-    // On production every row is 'local', which is the pre-existing behaviour.
-    `ALTER TABLE users ADD COLUMN IF NOT EXISTS origin TEXT NOT NULL DEFAULT 'local'`,
   ]
   for (const sql of alters) { try { await run(sql) } catch { /* column exists */ } }
   try { await run(`CREATE UNIQUE INDEX IF NOT EXISTS leads_public_id_idx ON leads (public_id)`) } catch { /* exists */ }
@@ -362,6 +357,23 @@ async function migrateAndSeed() {
        VALUES ($1, $2, $3, $4, 'admin', 0)`,
       ['Jainam', 'Shah', 'email.jainam@gmail.com', hashPassword('Password@023!')]
     )
+  }
+
+  // ---- Push the user list to qa/dev ----
+  // Runs once per production cold start. Backfills accounts that existed before
+  // syncing was switched on, and repairs any drift from a change made while
+  // qa/dev was unreachable. Every individual change syncs at the time it happens;
+  // this is the safety net. No-op outside production or without the env var.
+  try {
+    const { userSyncEnabled, syncAllUsers } = require('./user-sync') as typeof import('./user-sync')
+    if (userSyncEnabled()) {
+      const all = await q<any>(
+        `SELECT first_name, last_name, email, password_hash, role, active, must_change_password FROM users`
+      )
+      await syncAllUsers(all)
+    }
+  } catch (e) {
+    console.error('user backfill to qa/dev failed', e)
   }
 
   // ---- Seed media index from the build-time manifest ----
