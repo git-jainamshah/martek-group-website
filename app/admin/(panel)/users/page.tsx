@@ -16,11 +16,7 @@ const ROLES: { value: string; label: string; blurb: string }[] = [
 type User = {
   id: number; first_name: string; last_name: string; email: string; role: string
   active: number; must_change_password: number; created_at: string; last_login: string | null
-  /** 'production' rows are owned by the live site and read-only here. */
-  origin?: string
 }
-
-const isSynced = (u: User) => u.origin === 'production'
 
 export default function UsersPage() {
   const [users, setUsers] = useState<User[]>([])
@@ -135,21 +131,12 @@ export default function UsersPage() {
             {users.map((u) => (
               <tr key={u.id} className="border-b border-[#E2D9C4] last:border-0">
                 <td className="px-4 py-3">
-                  <div className="font-medium">
-                    {u.first_name} {u.last_name}
-                    {isSynced(u) && (
-                      <span className="ad-badge blue" style={{ marginLeft: 8, verticalAlign: 'middle' }}>
-                        From production
-                      </span>
-                    )}
-                  </div>
+                  <div className="font-medium">{u.first_name} {u.last_name}</div>
                   <div className="ad-soft text-xs">{u.email}</div>
                 </td>
                 <td className="px-4 py-3">
                   <select className="ad-input ad-select-sm" style={{ minWidth: 132 }}
-                    value={u.role} disabled={isSynced(u)}
-                    title={isSynced(u) ? 'Managed on production' : undefined}
-                    onChange={(e) => setRole(u.id, e.target.value)}>
+                    value={u.role} onChange={(e) => setRole(u.id, e.target.value)}>
                     {ROLES.map((r) => <option key={r.value} value={r.value}>{r.label}</option>)}
                   </select>
                 </td>
@@ -162,32 +149,26 @@ export default function UsersPage() {
                 </td>
                 <td className="px-4 py-3 ad-soft text-xs">{u.last_login ? fmtDateTime(u.last_login) : 'Never'}</td>
                 <td className="px-4 py-3">
-                  {isSynced(u) ? (
-                    <div className="ad-soft text-xs" style={{ textAlign: 'right' }}>
-                      Manage on production
-                    </div>
-                  ) : (
-                    <div className="flex gap-2 justify-end">
-                      <button onClick={() => openEdit(u)} title="Edit name / email" className="ad-icon-btn">
-                        <Pencil className="w-4 h-4" />
+                  <div className="flex gap-2 justify-end">
+                    <button onClick={() => openEdit(u)} title="Edit name / email" className="ad-icon-btn">
+                      <Pencil className="w-4 h-4" />
+                    </button>
+                    <button onClick={() => act(u.id, 'reset-password')} title="Reset password (issues a new temp password)"
+                      className="ad-icon-btn">
+                      <KeyRound className="w-4 h-4" />
+                    </button>
+                    {u.active ? (
+                      <button onClick={() => act(u.id, 'revoke')} title="Revoke access"
+                        className="ad-icon-btn danger">
+                        <UserX className="w-4 h-4" />
                       </button>
-                      <button onClick={() => act(u.id, 'reset-password')} title="Reset password (issues a new temp password)"
+                    ) : (
+                      <button onClick={() => act(u.id, 'restore')} title="Restore access"
                         className="ad-icon-btn">
-                        <KeyRound className="w-4 h-4" />
+                        <UserCheck className="w-4 h-4" />
                       </button>
-                      {u.active ? (
-                        <button onClick={() => act(u.id, 'revoke')} title="Revoke access"
-                          className="ad-icon-btn danger">
-                          <UserX className="w-4 h-4" />
-                        </button>
-                      ) : (
-                        <button onClick={() => act(u.id, 'restore')} title="Restore access"
-                          className="ad-icon-btn">
-                          <UserCheck className="w-4 h-4" />
-                        </button>
-                      )}
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </td>
               </tr>
             ))}
