@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { ensureDb, audit, generateTempPassword } from '@/lib/admin/db'
 import { q, q1, run } from '@/lib/admin/pg'
 import { requireAdmin, hashPassword } from '@/lib/admin/auth'
+import { listProductionUsers, usesSyncedUsers } from '@/lib/admin/authdb'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -10,10 +11,23 @@ export async function GET() {
   const auth = await requireAdmin()
   if ('error' in auth) return auth.error
   await ensureDb()
-  const users = await q(
-    'SELECT id, first_name, last_name, email, role, active, must_change_password, created_at, last_login FROM users ORDER BY id'
+  const local = await q<any>(
+    'SELECT id, first_name, last_name, email, role, active, must_change_password, created_at, last_login, origin FROM users ORDER BY id'
   )
-  return NextResponse.json({ users })
+
+  // On QA/DEV, also list production accounts that have never signed in here yet,
+  // so the page shows who *can* get in rather than only who already has.
+  const seen = new Set(local.map((u) => String(u.email).toLowerCase()))
+  const pending = (await listProductionUsers())
+    .filter((p) => !seen.has(p.email.toLowerCase()))
+    .map((p, i) => ({
+      id: -(i + 1), // negative: not a local row, nothing here can act on it
+      first_name: p.first_name, last_name: p.last_name, email: p.email,
+      role: p.role, active: p.active, must_change_password: p.must_change_password,
+      created_at: null, last_login: null, origin: 'production',
+    }))
+
+  return NextResponse.json({ users: [...local, ...pending], syncedFromProduction: usesSyncedUsers() })
 }
 
 /** Add a user: name, email, and access level. Email becomes the username; a temp password is generated. */

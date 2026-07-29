@@ -102,6 +102,64 @@ records.
 
 ---
 
+## User access syncs from production
+
+Production is the single source of truth for who can sign in. QA and dev read the
+production `users` table **live**, so adding a user or revoking one on production
+applies everywhere on the very next request. Nothing is copied and nothing lags.
+
+| | Where it lives | Editable on QA/DEV |
+|---|---|---|
+| Production accounts | production `users` table | No - "Manage on production" |
+| QA/DEV-only accounts | that environment's own `users` table | Yes |
+| Sessions | always local to the environment | n/a |
+
+A QA session token is meaningless on production and vice versa. Only the `users`
+table crosses the boundary; leads, invoices and settings stay isolated.
+
+### One-time setup: read-only production role
+
+QA/DEV must not be able to write to production, so give them a role that
+physically cannot. In **Neon → production project → SQL Editor**, run:
+
+```sql
+CREATE ROLE marrelay_auth_ro WITH LOGIN PASSWORD 'pick-a-strong-password';
+GRANT CONNECT ON DATABASE neondb TO marrelay_auth_ro;
+GRANT USAGE  ON SCHEMA public     TO marrelay_auth_ro;
+GRANT SELECT ON TABLE users       TO marrelay_auth_ro;
+```
+
+Create the role **via SQL, not the Neon console** - console-created roles are
+granted `neon_superuser`, which defeats the point.
+
+Then in Vercel add `AUTH_DATABASE_URL` for the `qa` and `dev` branches only:
+
+```
+postgresql://marrelay_auth_ro:pick-a-strong-password@ep-hidden-dust-auihsu8i-pooler.c-10.us-east-1.aws.neon.tech/neondb?sslmode=require
+```
+
+Do **not** add it to production. Production ignores the variable even if set,
+but leaving it off keeps the intent obvious.
+
+### Behaviour
+
+- **Add a user on production** → they can sign in to QA/DEV immediately, same
+  password, same role.
+- **Revoke on production** → their QA/DEV session is destroyed on their next
+  request and further logins are refused.
+- **Change a role on production** → applied on the next QA/DEV request.
+- **Production unreachable** → QA/DEV keep working with whoever is already
+  signed in, and local accounts still work. A production outage does not lock
+  you out of QA.
+- **`AUTH_DATABASE_URL` not set** → sync is simply off; QA/DEV use their own
+  local users, exactly as before.
+
+> Because credentials are shared, a QA login *is* a production login. qa/dev are
+> publicly reachable by URL (Deployment Protection is off). Either turn it on, or
+> treat QA access as production access.
+
+---
+
 ## Analytics: QA and dev get their own
 
 Container IDs come from the database, not from code. Because QA/dev use a

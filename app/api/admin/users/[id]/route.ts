@@ -19,6 +19,16 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   const target = await q1<any>('SELECT * FROM users WHERE id = $1', [id])
   if (!target) return NextResponse.json({ error: 'User not found.' }, { status: 404 })
 
+  // Production-owned accounts are read-only outside production. The connection
+  // to production is a read-only role, so the change could not propagate; it
+  // would only edit the local shadow row and silently drift from the real one.
+  if (target.origin === 'production') {
+    return NextResponse.json(
+      { error: 'This account is managed on production. Change it in the production admin panel and it will apply here immediately.' },
+      { status: 403 }
+    )
+  }
+
   const b = await req.json().catch(() => ({}))
   const { action, role } = b
 
