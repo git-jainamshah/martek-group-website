@@ -447,11 +447,10 @@ export default function ContactLeadForm() {
           </svg>
         </div>
         <h3>
-          Thanks, <span className="it">{firstName}</span>, got it.
+          Thanks, <span className="it">{firstName}</span>!
         </h3>
         <p>
-          Your project brief just landed in our inbox. A real human will reply within a few hours (work hours) with a
-          couple of times for the call.
+          Your project brief just landed in our inbox. Someone from our team will reach out to you shortly.
         </p>
       </div>
     </form>
