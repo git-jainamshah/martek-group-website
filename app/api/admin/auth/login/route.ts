@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { ensureDb, audit } from '@/lib/admin/db'
 import { q1, run } from '@/lib/admin/pg'
-import { verifyPassword, createSession, SESSION_COOKIE, sessionCookieOptions, upsertShadowUser } from '@/lib/admin/auth'
-import { findProductionUser } from '@/lib/admin/authdb'
+import { verifyPassword, createSession, SESSION_COOKIE, sessionCookieOptions } from '@/lib/admin/auth'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -24,43 +23,12 @@ export async function POST(req: NextRequest) {
 
   try {
     await ensureDb()
-    const addr = String(email).trim()
+    const user = await q1<any>(
+      'SELECT * FROM users WHERE lower(email) = lower($1) AND active = 1',
+      [String(email).trim()]
+    )
 
-    // Production is the source of truth for who may sign in. On QA/DEV we check
-    // it first, so a production account works here with the same password and a
-    // revoked one is refused even if a stale shadow row still exists locally.
-    // On production findProductionUser() always returns null and this is a no-op.
-    const synced = await findProductionUser(addr)
-
-    let user: any = null
-    if (synced) {
-      if (!synced.active) {
-        attempts.set(ip, { n: (a?.n ?? 0) + 1, ts: Date.now() })
-        return NextResponse.json({ error: 'Invalid email or password.' }, { status: 401 })
-      }
-      if (verifyPassword(password, synced.password_hash)) {
-        const id = await upsertShadowUser({
-          first_name: synced.first_name, last_name: synced.last_name, email: synced.email,
-          password_hash: synced.password_hash, role: synced.role,
-          must_change_password: synced.must_change_password,
-        })
-        user = { ...synced, id }
-      }
-    }
-
-    // Not a production account (or wrong password there): try this
-    // environment's own users, which QA/DEV can still create locally.
-    if (!user) {
-      const localUser = await q1<any>(
-        'SELECT * FROM users WHERE lower(email) = lower($1) AND active = 1',
-        [addr]
-      )
-      if (localUser && localUser.origin !== 'production' && verifyPassword(password, localUser.password_hash)) {
-        user = localUser
-      }
-    }
-
-    if (!user) {
+    if (!user || !verifyPassword(password, user.password_hash)) {
       attempts.set(ip, { n: (a?.n ?? 0) + 1, ts: Date.now() })
       return NextResponse.json({ error: 'Invalid email or password.' }, { status: 401 })
     }
