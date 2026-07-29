@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { audit } from '@/lib/admin/db'
 import { q1, run } from '@/lib/admin/pg'
 import { requireUser, hashPassword, verifyPassword, destroyUserSessions, createSession, SESSION_COOKIE, sessionCookieOptions } from '@/lib/admin/auth'
+import { syncUser } from '@/lib/admin/user-sync'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -27,6 +28,11 @@ export async function POST(req: NextRequest) {
 
   await run('UPDATE users SET password_hash = $1, must_change_password = 0 WHERE id = $2',
     [hashPassword(String(newPassword)), user.id])
+
+  // Their new password must work on qa/dev too, or they would be stuck on the
+  // old temp one there. No-op outside production.
+  const fresh = await q1<any>('SELECT * FROM users WHERE id = $1', [user.id])
+  if (fresh) await syncUser(fresh)
 
   // Discard temp-password sessions; issue a fresh one
   await destroyUserSessions(user.id)

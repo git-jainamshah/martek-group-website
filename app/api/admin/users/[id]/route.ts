@@ -2,6 +2,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import { audit, generateTempPassword } from '@/lib/admin/db'
 import { q1, run } from '@/lib/admin/pg'
 import { requireAdmin, hashPassword, destroyUserSessions } from '@/lib/admin/auth'
+import { syncUser, syncUserEmailChange } from '@/lib/admin/user-sync'
+
+/** Re-read the row after a change and mirror it to qa/dev. No-op outside production. */
+async function mirror(id: number) {
+  const u = await q1<any>('SELECT * FROM users WHERE id = $1', [id])
+  if (u) await syncUser(u)
+}
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -19,16 +26,6 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   const target = await q1<any>('SELECT * FROM users WHERE id = $1', [id])
   if (!target) return NextResponse.json({ error: 'User not found.' }, { status: 404 })
 
-  // Production-owned accounts are read-only outside production. The connection
-  // to production is a read-only role, so the change could not propagate; it
-  // would only edit the local shadow row and silently drift from the real one.
-  if (target.origin === 'production') {
-    return NextResponse.json(
-      { error: 'This account is managed on production. Change it in the production admin panel and it will apply here immediately.' },
-      { status: 403 }
-    )
-  }
-
   const b = await req.json().catch(() => ({}))
   const { action, role } = b
 
@@ -42,12 +39,14 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     }
     await run('UPDATE users SET active = 0 WHERE id = $1', [id])
     await destroyUserSessions(id)
+    await mirror(id)   // revokes on qa/dev and kills their sessions there too
     await audit(auth.user.email, 'user_revoke', target.email)
     return NextResponse.json({ ok: true })
   }
 
   if (action === 'restore') {
     await run('UPDATE users SET active = 1 WHERE id = $1', [id])
+    await mirror(id)
     await audit(auth.user.email, 'user_restore', target.email)
     return NextResponse.json({ ok: true })
   }
@@ -63,6 +62,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
       }
     }
     await run('UPDATE users SET role = $1 WHERE id = $2', [role, id])
+    await mirror(id)
     await audit(auth.user.email, 'user_set_role', `${target.email} → ${role}`)
     return NextResponse.json({ ok: true })
   }
@@ -76,6 +76,12 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     const dup = await q1<{ id: number }>('SELECT id FROM users WHERE email = $1 AND id <> $2', [email, id])
     if (dup) return NextResponse.json({ error: 'That email is already in use.' }, { status: 400 })
     await run('UPDATE users SET first_name = $1, last_name = $2, email = $3 WHERE id = $4', [firstName, lastName, email, id])
+    const updated = await q1<any>('SELECT * FROM users WHERE id = $1', [id])
+    if (updated) {
+      // If the email changed, remove the old qa/dev row instead of leaving a duplicate.
+      if (String(target.email).toLowerCase() !== email) await syncUserEmailChange(target.email, updated)
+      else await syncUser(updated)
+    }
     await audit(auth.user.email, 'user_update_profile', `${target.email} → ${firstName} ${lastName} (${email})`)
     return NextResponse.json({ ok: true })
   }
@@ -85,6 +91,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     await run('UPDATE users SET password_hash = $1, must_change_password = 1 WHERE id = $2',
       [hashPassword(tempPassword), id])
     await destroyUserSessions(id)
+    await mirror(id)   // same new temp password works on qa/dev
     await audit(auth.user.email, 'user_reset_password', target.email)
     return NextResponse.json({ ok: true, firstName: target.first_name, username: target.email, tempPassword })
   }

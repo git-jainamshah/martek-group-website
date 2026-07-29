@@ -47,81 +47,18 @@ export async function destroyUserSessions(userId: number): Promise<void> {
   await run('DELETE FROM sessions WHERE user_id = $1', [userId])
 }
 
-/**
- * Mirror a production user into the local users table and return its local id.
- *
- * Sessions reference users(id), so a production-authenticated login still needs
- * a local row to point at. This row is a shadow, never an authority: role and
- * active are refreshed from production on every request in getSessionUser().
- */
-export async function upsertShadowUser(p: {
-  first_name: string; last_name: string; email: string
-  password_hash: string; role: string; must_change_password: number
-}): Promise<number> {
-  const existing = await q1<{ id: number }>(
-    'SELECT id FROM users WHERE lower(email) = lower($1)', [p.email]
-  )
-  if (existing) {
-    await run(
-      `UPDATE users SET first_name = $1, last_name = $2, password_hash = $3, role = $4,
-              must_change_password = $5, active = 1, origin = 'production'
-       WHERE id = $6`,
-      [p.first_name, p.last_name, p.password_hash, p.role, p.must_change_password, existing.id]
-    )
-    return existing.id
-  }
-  const row = await q1<{ id: number }>(
-    `INSERT INTO users (first_name, last_name, email, password_hash, role,
-                        must_change_password, active, origin)
-     VALUES ($1, $2, $3, $4, $5, $6, 1, 'production') RETURNING id`,
-    [p.first_name, p.last_name, p.email, p.password_hash, p.role, p.must_change_password]
-  )
-  return Number(row?.id)
-}
-
-/**
- * Server-side: get the logged-in user from the request cookie, or null.
- *
- * On QA/DEV with user sync enabled, any session belonging to a production-origin
- * user is re-validated against production on every request. That is what makes a
- * revoke on production take effect here immediately rather than whenever the
- * 7-day session happens to expire.
- */
+/** Server-side: get the logged-in user from the request cookie, or null. */
 export async function getSessionUser(): Promise<SessionUser | null> {
   const { ensureDb } = require('./db') as typeof import('./db')
   await ensureDb()
   const token = cookies().get(SESSION_COOKIE)?.value
   if (!token) return null
-
-  const local = await q1<SessionUser & { origin?: string }>(
-    `SELECT u.id, u.first_name, u.last_name, u.email, u.role, u.must_change_password, u.origin
+  return q1<SessionUser>(
+    `SELECT u.id, u.first_name, u.last_name, u.email, u.role, u.must_change_password
      FROM sessions s JOIN users u ON u.id = s.user_id
      WHERE s.token = $1 AND s.expires_at > now() AND u.active = 1`,
     [token]
   )
-  if (!local) return null
-  if (local.origin !== 'production') return local
-
-  // Production-owned account: production decides if it is still valid.
-  const { findProductionUser, usesSyncedUsers } = require('./authdb') as typeof import('./authdb')
-  if (!usesSyncedUsers()) return local
-
-  const live = await findProductionUser(local.email)
-  if (live === null) return local // production unreachable - do not lock people out
-
-  if (!live.active) {
-    // Revoked upstream. Kill the session here and mark the shadow inactive.
-    await destroySession(token).catch(() => {})
-    await run('UPDATE users SET active = 0 WHERE id = $1', [local.id]).catch(() => {})
-    return null
-  }
-
-  // Role changes upstream apply immediately too.
-  if (live.role !== local.role) {
-    await run('UPDATE users SET role = $1 WHERE id = $2', [live.role, local.id]).catch(() => {})
-    local.role = live.role
-  }
-  return local
 }
 
 /** For API routes: returns user or a 401 response. Any signed-in role. */

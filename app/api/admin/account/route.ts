@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { requireUser } from '@/lib/admin/auth'
 import { ensureDb, audit } from '@/lib/admin/db'
-import { run } from '@/lib/admin/pg'
+import { q1, run } from '@/lib/admin/pg'
+import { syncUser } from '@/lib/admin/user-sync'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -24,6 +25,8 @@ export async function PATCH(req: NextRequest) {
   const lastName = String(b.lastName ?? '').trim().slice(0, 80)
   if (!firstName || !lastName) return NextResponse.json({ error: 'First and last name are required.' }, { status: 400 })
   await run('UPDATE users SET first_name = $1, last_name = $2 WHERE id = $3', [firstName, lastName, auth.user.id])
+  const fresh = await q1<any>('SELECT * FROM users WHERE id = $1', [auth.user.id])
+  if (fresh) await syncUser(fresh)
   await audit(auth.user.email, 'account_update_name', `${firstName} ${lastName}`)
   return NextResponse.json({ ok: true })
 }
