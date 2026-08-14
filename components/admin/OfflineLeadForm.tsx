@@ -26,7 +26,7 @@ const empty = {
 }
 
 /** Shared manual-entry form for Offline Leads and Pitches. */
-export default function OfflineLeadForm({ kind, onAdded }: { kind: 'offline' | 'pitch'; onAdded?: () => void }) {
+export default function OfflineLeadForm({ kind, onAdded }: { kind: 'offline' | 'pitch'; onAdded?: (name: string) => void }) {
   const methods = kind === 'pitch' ? METHODS_PITCH : METHODS_OFFLINE
   const [f, setF] = useState({ ...empty, contactMethod: methods[0] })
   const [services, setServices] = useState<string[]>([])
@@ -36,16 +36,28 @@ export default function OfflineLeadForm({ kind, onAdded }: { kind: 'offline' | '
 
   async function submit() {
     setMsg(null); setBusy(true)
-    const res = await fetch('/api/admin/leads/offline', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ lead: { ...f, kind, services } }),
-    })
-    const d = await res.json()
-    setBusy(false)
-    if (!res.ok) return setMsg({ kind: 'err', text: d.error || 'Could not save the lead.' })
-    setMsg({ kind: 'ok', text: `${f.name.trim()} added${kind === 'pitch' ? ' as a pitch lead' : ''}. It now appears in Leads and the dashboard.` })
-    setF({ ...empty, contactMethod: methods[0] }); setServices([])
-    onAdded?.()
+    const name = f.name.trim()
+    try {
+      const res = await fetch('/api/admin/leads/offline', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ lead: { ...f, kind, services } }),
+      })
+      // A 500 returns an HTML error page, not JSON. Parsing that threw and
+      // escaped the function, so setBusy(false) never ran and the button sat
+      // on "Saving..." forever. Never let response parsing decide that.
+      const d = await res.json().catch(() => ({} as any))
+      if (!res.ok) {
+        setMsg({ kind: 'err', text: d.error || `Could not save the lead (server error ${res.status}).` })
+        return
+      }
+      setF({ ...empty, contactMethod: methods[0] }); setServices([])
+      onAdded?.(name)
+    } catch {
+      setMsg({ kind: 'err', text: 'Could not reach the server. The lead was not saved - please try again.' })
+    } finally {
+      // finally, so the button always recovers even if something above throws.
+      setBusy(false)
+    }
   }
 
   return (
