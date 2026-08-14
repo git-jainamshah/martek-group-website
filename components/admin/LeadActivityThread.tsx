@@ -132,9 +132,16 @@ function Composer({
   }
 
   return (
-    <div style={{ position: 'relative' }}>
+    // Same event guard as NoteEditor: the drawer closes on backdrop click and
+    // the leads row selects on click, so events must not escape the composer.
+    <div
+      style={{ position: 'relative' }}
+      onMouseDown={(e) => e.stopPropagation()}
+      onClick={(e) => e.stopPropagation()}
+    >
       <textarea
         ref={ref} rows={3} className="ad-input" placeholder={placeholder} value={text}
+        style={{ resize: 'vertical', minHeight: 74 }}
         autoFocus={autoFocus}
         onChange={(e) => onChange(e.target.value)} onKeyDown={onKeyDown}
       />
@@ -172,19 +179,22 @@ function Composer({
 /**
  * Inline note editor.
  *
- * Holds the draft in its own state rather than the thread's. When the draft
- * lived in the parent, every keystroke re-rendered the whole thread, and
- * because NoteCard was declared inside the parent it was a new component type
- * each render - React unmounted and remounted the textarea on every character,
- * so it lost focus and the edit appeared not to work.
+ * The textarea is UNCONTROLLED on purpose. A controlled textarea re-renders on
+ * every keystroke, and any interference from an ancestor render can reset its
+ * value mid-typing - which shows up as a jumping caret, dropped characters, or
+ * a box that simply will not accept text. Here the browser owns the text and
+ * React never touches it while you type; the value is only read on save.
+ *
+ * The wrapper also stops mousedown/click/keydown from reaching ancestors: the
+ * lead drawer closes on a backdrop click, and the leads table selects a row on
+ * click, so events escaping this editor have somewhere unhelpful to land.
  */
 function NoteEditor({
   initial, busy, onSave, onCancel,
 }: { initial: string; busy: boolean; onSave: (body: string) => void; onCancel: () => void }) {
-  const [draft, setDraft] = useState(initial)
   const ref = useRef<HTMLTextAreaElement>(null)
 
-  // Focus and put the caret at the end, so editing starts where you left off.
+  // Focus with the caret at the end, so editing continues where you left off.
   useEffect(() => {
     const el = ref.current
     if (!el) return
@@ -192,22 +202,32 @@ function NoteEditor({
     el.setSelectionRange(el.value.length, el.value.length)
   }, [])
 
+  const save = () => {
+    const body = (ref.current?.value ?? '').trim()
+    if (!body || busy) return
+    onSave(body)
+  }
+
   return (
-    <div style={{ marginTop: 6 }}>
+    <div
+      style={{ marginTop: 6 }}
+      onMouseDown={(e) => e.stopPropagation()}
+      onClick={(e) => e.stopPropagation()}
+      onKeyDown={(e) => e.stopPropagation()}
+    >
       <textarea
-        ref={ref} rows={3} className="ad-input" value={draft}
-        onChange={(e) => setDraft(e.target.value)}
+        ref={ref} rows={4} className="ad-input" defaultValue={initial}
+        style={{ resize: 'vertical', minHeight: 90 }}
         onKeyDown={(e) => {
           if (e.key === 'Escape') { e.preventDefault(); onCancel() }
-          if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); if (draft.trim()) onSave(draft.trim()) }
+          if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); save() }
         }}
       />
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 6 }}>
-        <span className="ad-soft" style={{ fontSize: 11 }}>Esc to cancel</span>
+        <span className="ad-soft" style={{ fontSize: 11 }}>Esc to cancel · ⌘/Ctrl+Enter to save</span>
         <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }}>
           <button className="ad-btn-ghost" onClick={onCancel}>Cancel</button>
-          <button className="ad-btn" disabled={busy || !draft.trim() || draft.trim() === initial.trim()}
-            onClick={() => onSave(draft.trim())}>
+          <button className="ad-btn" disabled={busy} onClick={save}>
             {busy ? 'Saving…' : 'Save'}
           </button>
         </div>
