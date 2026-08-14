@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Download, BarChart3, Megaphone, Trash2, Sparkles } from 'lucide-react'
 import LeadFilters from '@/components/admin/LeadFilters'
@@ -11,6 +12,19 @@ import { useLeads, LeadDrawer, extraOf, STATUSES, STATUS_COLORS, STATUS_LABELS, 
 export default function LeadsPage() {
   const { filters, setFilters, leads, loading, load, qs, role, canEdit } = useLeads()
   const [selected, setSelected] = useState<Lead | null>(null)
+  const searchParams = useSearchParams()
+  const openedFromUrl = useRef(false)
+
+  /* Deep link from a notification: /admin/leads?lead=123 opens that lead's
+     drawer once the list has loaded. Guarded by a ref so re-renders (or the
+     user closing the drawer) do not keep re-opening it. */
+  useEffect(() => {
+    if (openedFromUrl.current) return
+    const id = Number(searchParams?.get('lead'))
+    if (!id || !leads.length) return
+    const hit = leads.find((l) => l.id === id)
+    if (hit) { setSelected(hit); openedFromUrl.current = true }
+  }, [searchParams, leads])
   const sel = useSelection()
   const [bulkMsg, setBulkMsg] = useState('')
   const [seeding, setSeeding] = useState(false)
