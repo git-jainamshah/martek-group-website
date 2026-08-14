@@ -91,9 +91,6 @@ export default function Sidebar({ userName, userEmail, role = 'admin' }: { userN
             <small title={userEmail}>{userName}</small>
           </div>
         )}
-        {/* Bell lives here rather than floating over the page, where it
-            collided with each page's own action buttons. */}
-        <NotificationBell />
         <button onClick={toggle} className="ad-collapse-btn" style={{ width: 'auto', padding: 6 }}
           title={collapsed ? 'Expand menu' : 'Collapse menu'}>
           {collapsed ? <PanelLeftOpen size={16} /> : <PanelLeftClose size={16} />}
@@ -101,6 +98,7 @@ export default function Sidebar({ userName, userEmail, role = 'admin' }: { userN
       </div>
 
       <nav className="ad-nav">
+        <NotificationBell collapsed={collapsed} />
         {GROUPS.map((rawGroup) => {
           const isLeads = (h: string) => h.startsWith('/admin/leads')
           const isFinance = (h: string) => h.startsWith('/admin/finance')
@@ -108,9 +106,9 @@ export default function Sidebar({ userName, userEmail, role = 'admin' }: { userN
           if (role === 'admin') {
             // sees everything
           } else if (role === 'manager') {
-            items = items.filter((i) => isLeads(i.href) || isFinance(i.href))
+            items = items.filter((i) => i.href === '/admin' || isLeads(i.href) || isFinance(i.href))
           } else if (role === 'leads_view' || role === 'leads_edit') {
-            items = items.filter((i) => isLeads(i.href))
+            items = items.filter((i) => i.href === '/admin' || isLeads(i.href))
           } else {
             // editor / viewer: everything except Access Management and Finance
             items = items.filter((i) => i.href !== '/admin/users' && !isFinance(i.href))

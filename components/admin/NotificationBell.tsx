@@ -27,7 +27,7 @@ type Item = {
 }
 type Waiting = { lead_id: number; since: string; lead_name: string; lead_public_id: string }
 
-export default function NotificationBell() {
+export default function NotificationBell({ collapsed = false }: { collapsed?: boolean }) {
   const [open, setOpen] = useState(false)
   const [items, setItems] = useState<Item[]>([])
   const [waiting, setWaiting] = useState<Waiting[]>([])
@@ -83,14 +83,22 @@ export default function NotificationBell() {
   }
 
   return (
+    /* Rendered as a nav row rather than squeezed into the sidebar header:
+       at 264px the header could not fit the logo, the wordmark, this button
+       and the collapse toggle without truncating the brand. */
     <div className="ad-bell" ref={wrapRef}>
       <button
-        className="ad-bell-btn" onClick={() => setOpen((o) => !o)}
+        className="ad-nav-item ad-bell-row" onClick={() => setOpen((o) => !o)}
         aria-label={unread ? `Notifications, ${unread} unread` : 'Notifications'}
         aria-expanded={open}
+        title={collapsed ? 'Notifications' : undefined}
       >
-        <Bell size={16} />
-        {unread > 0 && <span className="ad-bell-count">{unread > 9 ? '9+' : unread}</span>}
+        <span style={{ position: 'relative', display: 'inline-flex', flex: 'none' }}>
+          <Bell />
+          {unread > 0 && <span className="ad-bell-count">{unread > 9 ? '9+' : unread}</span>}
+        </span>
+        {!collapsed && <span>Notifications</span>}
+        {!collapsed && unread > 0 && <span className="ad-bell-pill">{unread}</span>}
       </button>
 
       {open && (
