@@ -20,6 +20,9 @@ type Note = {
   body: string
   created_at: string
   mentions: Mention[]
+  deleted: boolean
+  edited: boolean
+  mine: boolean
 }
 type ThreadNote = Note & { replies: Note[] }
 type Teammate = { id: number; first_name: string; last_name: string; role: string }
@@ -129,9 +132,16 @@ function Composer({
   }
 
   return (
-    <div style={{ position: 'relative' }}>
+    // Same event guard as NoteEditor: the drawer closes on backdrop click and
+    // the leads row selects on click, so events must not escape the composer.
+    <div
+      style={{ position: 'relative' }}
+      onMouseDown={(e) => e.stopPropagation()}
+      onClick={(e) => e.stopPropagation()}
+    >
       <textarea
         ref={ref} rows={3} className="ad-input" placeholder={placeholder} value={text}
+        style={{ resize: 'vertical', minHeight: 74 }}
         autoFocus={autoFocus}
         onChange={(e) => onChange(e.target.value)} onKeyDown={onKeyDown}
       />
@@ -165,6 +175,122 @@ function Composer({
   )
 }
 
+
+/**
+ * Inline note editor.
+ *
+ * The textarea is UNCONTROLLED on purpose. A controlled textarea re-renders on
+ * every keystroke, and any interference from an ancestor render can reset its
+ * value mid-typing - which shows up as a jumping caret, dropped characters, or
+ * a box that simply will not accept text. Here the browser owns the text and
+ * React never touches it while you type; the value is only read on save.
+ *
+ * The wrapper also stops mousedown/click/keydown from reaching ancestors: the
+ * lead drawer closes on a backdrop click, and the leads table selects a row on
+ * click, so events escaping this editor have somewhere unhelpful to land.
+ */
+function NoteEditor({
+  initial, busy, onSave, onCancel,
+}: { initial: string; busy: boolean; onSave: (body: string) => void; onCancel: () => void }) {
+  const ref = useRef<HTMLTextAreaElement>(null)
+
+  // Focus with the caret at the end, so editing continues where you left off.
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    el.focus()
+    el.setSelectionRange(el.value.length, el.value.length)
+  }, [])
+
+  const save = () => {
+    const body = (ref.current?.value ?? '').trim()
+    if (!body || busy) return
+    onSave(body)
+  }
+
+  return (
+    <div
+      style={{ marginTop: 6 }}
+      onMouseDown={(e) => e.stopPropagation()}
+      onClick={(e) => e.stopPropagation()}
+      onKeyDown={(e) => e.stopPropagation()}
+    >
+      <textarea
+        ref={ref} rows={4} className="ad-input" defaultValue={initial}
+        style={{ resize: 'vertical', minHeight: 90 }}
+        onKeyDown={(e) => {
+          if (e.key === 'Escape') { e.preventDefault(); onCancel() }
+          if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); save() }
+        }}
+      />
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 6 }}>
+        <span className="ad-soft" style={{ fontSize: 11 }}>Esc to cancel · ⌘/Ctrl+Enter to save</span>
+        <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }}>
+          <button className="ad-btn-ghost" onClick={onCancel}>Cancel</button>
+          <button className="ad-btn" disabled={busy} onClick={save}>
+            {busy ? 'Saving…' : 'Save'}
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/**
+ * A single note. Declared at module scope so its component identity is stable
+ * across renders - defining it inside the thread made React remount every note
+ * on each state change.
+ */
+function NoteCard({
+  n, isReply, canEdit, busy, isEditing, isReplying, onStartEdit, onCancelEdit,
+  onSaveEdit, onDelete, onToggleReply,
+}: {
+  n: Note; isReply?: boolean; canEdit: boolean; busy: boolean
+  isEditing: boolean; isReplying: boolean
+  onStartEdit: () => void; onCancelEdit: () => void
+  onSaveEdit: (body: string) => void; onDelete: () => void; onToggleReply: () => void
+}) {
+  if (n.deleted) {
+    return (
+      <div className={`ad-note${isReply ? ' reply' : ''}`} style={{ opacity: 0.7 }}>
+        <div className="ad-soft" style={{ fontSize: 12.5, fontStyle: 'italic' }}>This note was deleted.</div>
+      </div>
+    )
+  }
+  return (
+    <div className={`ad-note${isReply ? ' reply' : ''}`}>
+      <Avatar name={n.author_name || n.author_email || '?'} size={isReply ? 22 : 26} />
+      <div style={{ minWidth: 0, flex: 1 }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, flexWrap: 'wrap' }}>
+          <b style={{ fontSize: 12.5 }}>{n.author_name || n.author_email}</b>
+          <span className="ad-soft" style={{ fontSize: 11 }} title={fmtDateTime(n.created_at)}>
+            {fmtRelative(n.created_at)}
+          </span>
+          {n.edited && <span className="ad-soft" style={{ fontSize: 10.5 }}>(edited)</span>}
+        </div>
+
+        {isEditing ? (
+          <NoteEditor initial={n.body} busy={busy} onSave={onSaveEdit} onCancel={onCancelEdit} />
+        ) : (
+          <div style={{ fontSize: 13, marginTop: 3 }}>
+            <Body text={n.body} mentions={n.mentions} />
+          </div>
+        )}
+
+        {canEdit && !isEditing && (
+          <div style={{ display: 'flex', gap: 12 }}>
+            {!isReply && (
+              <button className="ad-link-btn" onClick={onToggleReply}>{isReplying ? 'Cancel' : 'Reply'}</button>
+            )}
+            {n.mine && <button className="ad-link-btn" onClick={onStartEdit}>Edit</button>}
+            {n.mine && <button className="ad-link-btn" onClick={onDelete}>Delete</button>}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
 export default function LeadActivityThread({
   leadId, canEdit, intakeNote,
 }: { leadId: number; canEdit: boolean; intakeNote?: string | null }) {
@@ -172,6 +298,7 @@ export default function LeadActivityThread({
   const [teammates, setTeammates] = useState<Teammate[]>([])
   const [busy, setBusy] = useState(false)
   const [replyTo, setReplyTo] = useState<number | null>(null)
+  const [editing, setEditing] = useState<number | null>(null)
   const [err, setErr] = useState('')
   const [meta, setMeta] = useState<{ lastActivityAt: string | null; oldestOpenMention: { at: string; who: string } | null }>(
     { lastActivityAt: null, oldestOpenMention: null }
@@ -213,27 +340,22 @@ export default function LeadActivityThread({
     }
   }
 
-  const NoteCard = ({ n, isReply }: { n: Note; isReply?: boolean }) => (
-    <div className={`ad-note${isReply ? ' reply' : ''}`}>
-      <Avatar name={n.author_name || n.author_email || '?'} size={isReply ? 22 : 26} />
-      <div style={{ minWidth: 0, flex: 1 }}>
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, flexWrap: 'wrap' }}>
-          <b style={{ fontSize: 12.5 }}>{n.author_name || n.author_email}</b>
-          <span className="ad-soft" style={{ fontSize: 11 }} title={fmtDateTime(n.created_at)}>
-            {fmtRelative(n.created_at)}
-          </span>
-        </div>
-        <div style={{ fontSize: 13, marginTop: 3 }}>
-          <Body text={n.body} mentions={n.mentions} />
-        </div>
-        {!isReply && canEdit && (
-          <button className="ad-link-btn" onClick={() => setReplyTo(replyTo === n.id ? null : n.id)}>
-            {replyTo === n.id ? 'Cancel' : 'Reply'}
-          </button>
-        )}
-      </div>
-    </div>
-  )
+  async function noteAction(noteId: number, action: 'delete' | 'edit', body?: string) {
+    if (action === 'delete' && !confirm('Delete this note? It will show as deleted and replies will remain.')) return
+    setBusy(true); setErr('')
+    try {
+      const r = await fetch(`/api/admin/leads/${leadId}/notes/${noteId}`, {
+        method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action, body }),
+      })
+      const d = await r.json().catch(() => ({}))
+      if (!r.ok) { setErr(d.error || `Could not ${action} the note.`); return }
+      setEditing(null)
+      await load()
+    } catch {
+      setErr('Could not reach the server.')
+    } finally { setBusy(false) }
+  }
 
   return (
     <>
@@ -279,8 +401,26 @@ export default function LeadActivityThread({
 
         {thread.map((n) => (
           <div key={n.id} className="ad-note-group">
-            <NoteCard n={n} />
-            {n.replies.map((r) => <NoteCard key={r.id} n={r} isReply />)}
+            <NoteCard
+              n={n} canEdit={canEdit} busy={busy}
+              isEditing={editing === n.id} isReplying={replyTo === n.id}
+              onStartEdit={() => setEditing(n.id)}
+              onCancelEdit={() => setEditing(null)}
+              onSaveEdit={(body) => noteAction(n.id, 'edit', body)}
+              onDelete={() => noteAction(n.id, 'delete')}
+              onToggleReply={() => setReplyTo(replyTo === n.id ? null : n.id)}
+            />
+            {n.replies.map((r) => (
+              <NoteCard
+                key={r.id} n={r} isReply canEdit={canEdit} busy={busy}
+                isEditing={editing === r.id} isReplying={false}
+                onStartEdit={() => setEditing(r.id)}
+                onCancelEdit={() => setEditing(null)}
+                onSaveEdit={(body) => noteAction(r.id, 'edit', body)}
+                onDelete={() => noteAction(r.id, 'delete')}
+                onToggleReply={() => {}}
+              />
+            ))}
             {replyTo === n.id && (
               <div style={{ marginLeft: 34, marginTop: 8 }}>
                 <Composer

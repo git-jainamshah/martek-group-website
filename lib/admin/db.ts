@@ -297,6 +297,13 @@ async function migrateAndSeed() {
     // existing note stays top-level and unchanged.
     `ALTER TABLE lead_notes ADD COLUMN IF NOT EXISTS parent_id INTEGER`,
     `ALTER TABLE lead_notes ADD COLUMN IF NOT EXISTS author_user_id INTEGER`,
+    // Pipeline owner. NULL = unassigned, which is what every existing lead
+    // stays until someone assigns it - nothing is silently reassigned.
+    `ALTER TABLE leads ADD COLUMN IF NOT EXISTS owner_user_id INTEGER`,
+    // Notes are soft-deleted and edits are marked, never silently rewritten -
+    // this thread is an accountability record, so history has to survive.
+    `ALTER TABLE lead_notes ADD COLUMN IF NOT EXISTS deleted_at TIMESTAMPTZ`,
+    `ALTER TABLE lead_notes ADD COLUMN IF NOT EXISTS edited_at TIMESTAMPTZ`,
   ]
   for (const sql of alters) { try { await run(sql) } catch { /* column exists */ } }
   try { await run(`CREATE UNIQUE INDEX IF NOT EXISTS leads_public_id_idx ON leads (public_id)`) } catch { /* exists */ }
@@ -307,6 +314,7 @@ async function migrateAndSeed() {
     `CREATE INDEX IF NOT EXISTS lead_notes_lead_idx ON lead_notes (lead_id)`,
     `CREATE INDEX IF NOT EXISTS lead_note_mentions_user_idx ON lead_note_mentions (user_id, resolved_at)`,
     `CREATE INDEX IF NOT EXISTS notifications_user_idx ON notifications (user_id, read_at)`,
+    `CREATE INDEX IF NOT EXISTS leads_owner_idx ON leads (owner_user_id)`,
   ]) { try { await run(sql) } catch { /* exists */ } }
 
   // Backfill: consent paper trail for pre-existing leads (submitted before the checkbox existed)

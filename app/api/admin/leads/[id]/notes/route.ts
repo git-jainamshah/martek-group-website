@@ -25,6 +25,8 @@ type NoteRow = {
   author_user_id: number | null
   body: string
   created_at: string
+  deleted_at: string | null
+  edited_at: string | null
 }
 
 export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
@@ -34,7 +36,8 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
   const leadId = Number(params.id)
 
   const rows = await q<NoteRow>(
-    `SELECT id, parent_id, author_name, author_email, author_user_id, body, created_at
+    `SELECT id, parent_id, author_name, author_email, author_user_id, body, created_at,
+            deleted_at, edited_at
        FROM lead_notes WHERE lead_id = $1 ORDER BY id ASC`,
     [leadId]
   )
@@ -53,7 +56,23 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
     byNote.set(m.note_id, list)
   }
 
-  const decorate = (n: NoteRow) => ({ ...n, mentions: byNote.get(n.id) ?? [] })
+  /* Deleted notes are returned as tombstones rather than dropped: their
+     replies still need somewhere to hang, and a gap in a thread reads as data
+     loss. The body is withheld so a delete is a real delete to readers. */
+  const decorate = (n: NoteRow) => ({
+    id: n.id,
+    parent_id: n.parent_id,
+    author_name: n.deleted_at ? null : n.author_name,
+    author_email: n.deleted_at ? null : n.author_email,
+    body: n.deleted_at ? '' : n.body,
+    created_at: n.created_at,
+    deleted: !!n.deleted_at,
+    edited: !!n.edited_at,
+    mine: n.author_user_id
+      ? n.author_user_id === auth.user.id
+      : (n.author_email ?? '').toLowerCase() === auth.user.email.toLowerCase(),
+    mentions: n.deleted_at ? [] : (byNote.get(n.id) ?? []),
+  })
   const parents = rows.filter((n) => !n.parent_id)
   const replies = rows.filter((n) => n.parent_id)
 
@@ -66,7 +85,8 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
     .reverse()
 
   // How long this lead has gone without anyone writing anything.
-  const last = rows.length ? rows[rows.length - 1].created_at : null
+  const live = rows.filter((r) => !r.deleted_at)
+  const last = live.length ? live[live.length - 1].created_at : null
   // Oldest unresolved mention drives the "waiting on someone" badge.
   const oldestOpen = await q1<{ created_at: string; first_name: string; last_name: string }>(
     `SELECT m.created_at, u.first_name, u.last_name
