@@ -8,7 +8,7 @@ import {
   LayoutDashboard, Image as ImageIcon, HardDrive, BarChart3, DollarSign,
   Megaphone, Users, Inbox, LogOut, Globe, Building2, Share2, ScrollText,
   PanelLeftClose, PanelLeftOpen, LineChart, PhoneCall, Presentation,
-  Wallet, Receipt, PieChart, TrendingUp, FileText, Briefcase, UserCog,
+  Wallet, Receipt, PieChart, TrendingUp, FileText, Briefcase, UserCog, Workflow,
 } from 'lucide-react'
 import NotificationBell from './NotificationBell'
 
@@ -32,6 +32,7 @@ const GROUPS: { label: string; items: { href: string; label: string; icon: any }
     items: [
       { href: '/admin/leads/dashboard', label: 'Leads Dashboard', icon: BarChart3 },
       { href: '/admin/leads', label: 'Leads', icon: Inbox },
+      { href: '/admin/leads/pipeline', label: 'Pipeline', icon: Workflow },
       { href: '/admin/leads/marketing', label: 'Lead Marketing', icon: Megaphone },
       { href: '/admin/leads/offline', label: 'Offline Leads', icon: PhoneCall },
       { href: '/admin/leads/pitches', label: 'Pitches', icon: Presentation },

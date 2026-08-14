@@ -131,12 +131,12 @@ function validate(d: LeadInput): { ok: true; v: any } | { ok: false; error: stri
   }
 }
 
-async function insertLead(v: any, addedBy: string) {
+async function insertLead(v: any, addedBy: string, ownerId: number | null = null) {
   const atIso = v.date.toISOString()
   const range = budgetToRange(v.budget ?? '')
   const leadId = await insertReturningId(
-    `INSERT INTO leads (name, email, phone, company, message, source_page, form_type, extra, public_id, consent, consent_at, status, notes, created_at)
-     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,1,$10,$11,$12,$10) RETURNING id`,
+    `INSERT INTO leads (name, email, phone, company, message, source_page, form_type, extra, public_id, consent, consent_at, status, notes, created_at, owner_user_id)
+     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,1,$10,$11,$12,$10,$13) RETURNING id`,
     [
       v.name, v.email, v.phone, v.company, v.message, null, v.kind,
       JSON.stringify({
@@ -144,7 +144,7 @@ async function insertLead(v: any, addedBy: string) {
         companyUrl: v.companyUrl ?? undefined, companyCountry: v.companyCountry ?? undefined,
         companyProvince: v.companyProvince ?? undefined, companyRemote: v.companyRemote ?? undefined,
       }),
-      generateLeadPublicId(), atIso, v.status, v.notes,
+      generateLeadPublicId(), atIso, v.status, v.notes, ownerId,
     ]
   )
   const source = v.contactMethod.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
@@ -238,11 +238,25 @@ export async function POST(req: NextRequest) {
   const addedBy = `${auth.user.first_name} ${auth.user.last_name}`
   const body = await req.json().catch(() => ({}))
 
+  // Same default owner as public captures, so every route into the pipeline
+  // lands on someone. Failure here must never block adding the lead.
+  let defaultOwner: number | null = null
+  try {
+    const { getSetting } = require('@/lib/admin/db') as typeof import('@/lib/admin/db')
+    const { DEFAULT_OWNER_KEY } = require('@/lib/admin/pipeline') as typeof import('@/lib/admin/pipeline')
+    const { q1 } = require('@/lib/admin/pg') as typeof import('@/lib/admin/pg')
+    const configured = await getSetting<number>(DEFAULT_OWNER_KEY)
+    if (configured) {
+      const owner = await q1<{ id: number }>('SELECT id FROM users WHERE id = $1 AND active = 1', [configured])
+      defaultOwner = owner?.id ?? null
+    }
+  } catch { /* ignore */ }
+
   // ---- single lead (form) ----
   if (body.lead) {
     const res = validate(body.lead)
     if (!res.ok) return NextResponse.json({ error: res.error }, { status: 400 })
-    const id = await insertLead(res.v, addedBy)
+    const id = await insertLead(res.v, addedBy, defaultOwner)
     await audit(auth.user.email, 'lead_add_' + res.v.kind, `${res.v.name} (#${id})`)
     return NextResponse.json({ ok: true, id })
   }
@@ -274,7 +288,7 @@ export async function POST(req: NextRequest) {
         status: get('status'), message: get('message'), notes: get('notes'),
       })
       if (!res.ok) { skipped.push({ row: i + 1, reason: res.error }); continue }
-      try { await insertLead(res.v, addedBy); added++ }
+      try { await insertLead(res.v, addedBy, defaultOwner); added++ }
       catch (e: any) { skipped.push({ row: i + 1, reason: e?.message || 'database error' }) }
     }
     await audit(auth.user.email, 'leads_batch_import', `${added} added, ${skipped.length} skipped`)
