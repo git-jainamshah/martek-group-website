@@ -87,7 +87,7 @@ export default function LeadsPage() {
         <table className="ad-table" style={{ minWidth: 900 }}>
           <thead>
             <tr>
-              <SelectHeaderCell show={canEdit} visibleIds={leads.map((l) => l.id)} selected={sel.selected} selectAll={sel.selectAll} clear={sel.clear} /><th>Lead</th><th>Services</th><th>Budget</th><th>Channel</th><th>Form</th><th>Received</th><th>Status</th>
+              <SelectHeaderCell show={canEdit} visibleIds={leads.map((l) => l.id)} selected={sel.selected} selectAll={sel.selectAll} clear={sel.clear} /><th>Lead</th><th>Services</th><th>Budget</th><th>Channel</th><th>Form</th><th>Owner</th><th>Received</th><th>Status</th>
             </tr>
           </thead>
           <tbody>
@@ -105,6 +105,9 @@ export default function LeadsPage() {
                   <td className="ad-mut" style={{ fontSize: 12.5 }}>{ex.budget || '-'}</td>
                   <td style={{ fontSize: 12 }}>{l.session_channel_group ? <span className="ad-badge grey">{l.session_channel_group}</span> : '-'}</td>
                   <td className="ad-mut" style={{ fontSize: 12.5 }}>{FORM_LABELS[l.form_type] ?? l.form_type}</td>
+                  <td style={{ fontSize: 12.5, whiteSpace: 'nowrap' }}>
+                    {l.owner_name || <span className="ad-soft">Unassigned</span>}
+                  </td>
                   <td className="ad-soft" style={{ fontSize: 12, whiteSpace: 'nowrap' }}>{fmtDateTime(l.created_at)}</td>
                   <td onClick={(e) => e.stopPropagation()}>
                     {canEdit ? (

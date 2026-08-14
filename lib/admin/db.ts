@@ -300,6 +300,10 @@ async function migrateAndSeed() {
     // Pipeline owner. NULL = unassigned, which is what every existing lead
     // stays until someone assigns it - nothing is silently reassigned.
     `ALTER TABLE leads ADD COLUMN IF NOT EXISTS owner_user_id INTEGER`,
+    // Notes are soft-deleted and edits are marked, never silently rewritten -
+    // this thread is an accountability record, so history has to survive.
+    `ALTER TABLE lead_notes ADD COLUMN IF NOT EXISTS deleted_at TIMESTAMPTZ`,
+    `ALTER TABLE lead_notes ADD COLUMN IF NOT EXISTS edited_at TIMESTAMPTZ`,
   ]
   for (const sql of alters) { try { await run(sql) } catch { /* column exists */ } }
   try { await run(`CREATE UNIQUE INDEX IF NOT EXISTS leads_public_id_idx ON leads (public_id)`) } catch { /* exists */ }

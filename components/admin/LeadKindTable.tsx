@@ -66,7 +66,7 @@ export default function LeadKindTable({ kind, reloadKey = 0 }: { kind: 'offline'
           <thead>
             <tr>
               <SelectHeaderCell show={canEdit} visibleIds={leads.map((l) => l.id)} selected={sel.selected} selectAll={sel.selectAll} clear={sel.clear} />
-              <th>Lead</th><th>{kind === 'pitch' ? 'Pitched Via' : 'Reached Via'}</th><th>Services</th><th>Budget</th><th>Date</th><th>Status</th>
+              <th>Lead</th><th>{kind === 'pitch' ? 'Pitched Via' : 'Reached Via'}</th><th>Services</th><th>Budget</th><th>Owner</th><th>Date</th><th>Status</th>
             </tr>
           </thead>
           <tbody>
@@ -82,6 +82,9 @@ export default function LeadKindTable({ kind, reloadKey = 0 }: { kind: 'offline'
                   <td className="ad-mut" style={{ fontSize: 12.5 }}>{l.contact_method || '-'}</td>
                   <td className="ad-mut" style={{ fontSize: 12.5 }}>{serviceNames(ex.services) || '-'}</td>
                   <td className="ad-mut" style={{ fontSize: 12.5 }}>{ex.budget || '-'}</td>
+                  <td style={{ fontSize: 12.5, whiteSpace: 'nowrap' }}>
+                    {l.owner_name || <span className="ad-soft">Unassigned</span>}
+                  </td>
                   <td className="ad-soft" style={{ fontSize: 12, whiteSpace: 'nowrap' }}>{fmtDateTime(l.created_at)}</td>
                   <td onClick={(e) => e.stopPropagation()}>
                     {canEdit ? (

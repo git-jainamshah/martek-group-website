@@ -3,6 +3,7 @@ import { ensureDb, getSetting, setSetting, audit } from '@/lib/admin/db'
 import { q } from '@/lib/admin/pg'
 import { requireUser, requireAdmin } from '@/lib/admin/auth'
 import { DEFAULT_OWNER_KEY, temperature, needsAction, daysSince } from '@/lib/admin/pipeline'
+import { isProduction } from '@/lib/env'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -121,6 +122,39 @@ export async function GET(_req: NextRequest) {
     canAssign: ['admin', 'editor', 'leads_edit', 'manager'].includes(auth.user.role),
     isAdmin: auth.user.role === 'admin',
   })
+}
+
+/**
+ * Bulk-assign every unassigned lead to the default owner.
+ *
+ * Blocked on production on purpose. Production ownership is being set lead by
+ * lead deliberately, and a single click that rewrites hundreds of live rows is
+ * exactly the kind of thing there is no undo for.
+ */
+export async function POST() {
+  const auth = await requireAdmin()
+  if ('error' in auth) return auth.error
+  if (isProduction) {
+    return NextResponse.json(
+      { error: 'Bulk assignment is disabled on production. Assign leads individually here.' },
+      { status: 403 }
+    )
+  }
+  await ensureDb()
+  const configured = await getSetting<number>(DEFAULT_OWNER_KEY)
+  if (!configured) {
+    return NextResponse.json({ error: 'Set a default assignee first.' }, { status: 400 })
+  }
+  const [owner] = await q<{ id: number }>('SELECT id FROM users WHERE id = $1 AND active = 1', [configured])
+  if (!owner) return NextResponse.json({ error: 'The default assignee is no longer active.' }, { status: 400 })
+
+  const updated = await q<{ id: number }>(
+    `UPDATE leads SET owner_user_id = $1, updated_at = now()
+      WHERE owner_user_id IS NULL AND deleted_at IS NULL RETURNING id`,
+    [owner.id]
+  )
+  await audit(auth.user.email, 'leads_bulk_assign', `${updated.length} leads → user ${owner.id}`)
+  return NextResponse.json({ ok: true, assigned: updated.length })
 }
 
 /** Admins set the default assignee for newly captured leads. */

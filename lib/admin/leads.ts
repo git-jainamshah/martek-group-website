@@ -90,14 +90,23 @@ export async function queryLeads(f: LeadFilters): Promise<any[]> {
       m.first_source, m.first_medium, m.first_campaign, m.first_term, m.first_content, m.first_channel_group, m.first_touch_at,
       m.session_source, m.session_medium, m.session_campaign, m.session_term, m.session_content, m.session_channel_group,
       m.referrer_url, m.landing_page, m.user_agent, m.budget_min, m.budget_max,
-      o.lead_kind, o.contact_method, o.added_by
+      o.lead_kind, o.contact_method, o.added_by,
+      ow.first_name AS owner_first_name, ow.last_name AS owner_last_name
     FROM leads l
     LEFT JOIN leads_marketing m ON m.lead_id = l.id
     LEFT JOIN leads_offline o ON o.lead_id = l.id
+    LEFT JOIN users ow ON ow.id = l.owner_user_id
     WHERE ${where.join(' AND ')}
     ORDER BY l.id DESC`
   const rows = await q(sql, params)
-  return rows.map((r) => ({ ...r, created_at: fmt(r.created_at), updated_at: fmt(r.updated_at), deleted_at: r.deleted_at ? fmt(r.deleted_at) : null }))
+  return rows.map((r) => ({
+    ...r,
+    // Flattened here so every leads screen shows the owner without each one
+    // having to join or format the name itself.
+    owner_name: r.owner_first_name ? `${r.owner_first_name} ${r.owner_last_name ?? ''}`.trim() : null,
+    created_at: fmt(r.created_at), updated_at: fmt(r.updated_at),
+    deleted_at: r.deleted_at ? fmt(r.deleted_at) : null,
+  }))
 }
 
 /**
