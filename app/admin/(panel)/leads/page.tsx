@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Download, BarChart3, Megaphone, Trash2, Sparkles } from 'lucide-react'
 import LeadFilters from '@/components/admin/LeadFilters'
@@ -11,6 +12,19 @@ import { useLeads, LeadDrawer, extraOf, STATUSES, STATUS_COLORS, STATUS_LABELS, 
 export default function LeadsPage() {
   const { filters, setFilters, leads, loading, load, qs, role, canEdit } = useLeads()
   const [selected, setSelected] = useState<Lead | null>(null)
+  const searchParams = useSearchParams()
+  const openedFromUrl = useRef(false)
+
+  /* Deep link from a notification: /admin/leads?lead=123 opens that lead's
+     drawer once the list has loaded. Guarded by a ref so re-renders (or the
+     user closing the drawer) do not keep re-opening it. */
+  useEffect(() => {
+    if (openedFromUrl.current) return
+    const id = Number(searchParams?.get('lead'))
+    if (!id || !leads.length) return
+    const hit = leads.find((l) => l.id === id)
+    if (hit) { setSelected(hit); openedFromUrl.current = true }
+  }, [searchParams, leads])
   const sel = useSelection()
   const [bulkMsg, setBulkMsg] = useState('')
   const [seeding, setSeeding] = useState(false)
@@ -73,7 +87,7 @@ export default function LeadsPage() {
         <table className="ad-table" style={{ minWidth: 900 }}>
           <thead>
             <tr>
-              <SelectHeaderCell show={canEdit} visibleIds={leads.map((l) => l.id)} selected={sel.selected} selectAll={sel.selectAll} clear={sel.clear} /><th>Lead</th><th>Services</th><th>Budget</th><th>Channel</th><th>Form</th><th>Received</th><th>Status</th>
+              <SelectHeaderCell show={canEdit} visibleIds={leads.map((l) => l.id)} selected={sel.selected} selectAll={sel.selectAll} clear={sel.clear} /><th>Lead</th><th>Services</th><th>Budget</th><th>Channel</th><th>Form</th><th>Owner</th><th>Received</th><th>Status</th>
             </tr>
           </thead>
           <tbody>
@@ -91,6 +105,9 @@ export default function LeadsPage() {
                   <td className="ad-mut" style={{ fontSize: 12.5 }}>{ex.budget || '-'}</td>
                   <td style={{ fontSize: 12 }}>{l.session_channel_group ? <span className="ad-badge grey">{l.session_channel_group}</span> : '-'}</td>
                   <td className="ad-mut" style={{ fontSize: 12.5 }}>{FORM_LABELS[l.form_type] ?? l.form_type}</td>
+                  <td style={{ fontSize: 12.5, whiteSpace: 'nowrap' }}>
+                    {l.owner_name || <span className="ad-soft">Unassigned</span>}
+                  </td>
                   <td className="ad-soft" style={{ fontSize: 12, whiteSpace: 'nowrap' }}>{fmtDateTime(l.created_at)}</td>
                   <td onClick={(e) => e.stopPropagation()}>
                     {canEdit ? (

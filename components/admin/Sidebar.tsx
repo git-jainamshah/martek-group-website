@@ -8,8 +8,9 @@ import {
   LayoutDashboard, Image as ImageIcon, HardDrive, BarChart3, DollarSign,
   Megaphone, Users, Inbox, LogOut, Globe, Building2, Share2, ScrollText,
   PanelLeftClose, PanelLeftOpen, LineChart, PhoneCall, Presentation,
-  Wallet, Receipt, PieChart, TrendingUp, FileText, Briefcase, UserCog,
+  Wallet, Receipt, PieChart, TrendingUp, FileText, Briefcase, UserCog, Workflow,
 } from 'lucide-react'
+import NotificationBell from './NotificationBell'
 
 const GROUPS: { label: string; items: { href: string; label: string; icon: any }[] }[] = [
   {
@@ -31,6 +32,7 @@ const GROUPS: { label: string; items: { href: string; label: string; icon: any }
     items: [
       { href: '/admin/leads/dashboard', label: 'Leads Dashboard', icon: BarChart3 },
       { href: '/admin/leads', label: 'Leads', icon: Inbox },
+      { href: '/admin/leads/pipeline', label: 'Pipeline', icon: Workflow },
       { href: '/admin/leads/marketing', label: 'Lead Marketing', icon: Megaphone },
       { href: '/admin/leads/offline', label: 'Offline Leads', icon: PhoneCall },
       { href: '/admin/leads/pitches', label: 'Pitches', icon: Presentation },
@@ -96,6 +98,7 @@ export default function Sidebar({ userName, userEmail, role = 'admin' }: { userN
       </div>
 
       <nav className="ad-nav">
+        <NotificationBell collapsed={collapsed} />
         {GROUPS.map((rawGroup) => {
           const isLeads = (h: string) => h.startsWith('/admin/leads')
           const isFinance = (h: string) => h.startsWith('/admin/finance')
@@ -103,9 +106,9 @@ export default function Sidebar({ userName, userEmail, role = 'admin' }: { userN
           if (role === 'admin') {
             // sees everything
           } else if (role === 'manager') {
-            items = items.filter((i) => isLeads(i.href) || isFinance(i.href))
+            items = items.filter((i) => i.href === '/admin' || isLeads(i.href) || isFinance(i.href))
           } else if (role === 'leads_view' || role === 'leads_edit') {
-            items = items.filter((i) => isLeads(i.href))
+            items = items.filter((i) => i.href === '/admin' || isLeads(i.href))
           } else {
             // editor / viewer: everything except Access Management and Finance
             items = items.filter((i) => i.href !== '/admin/users' && !isFinance(i.href))

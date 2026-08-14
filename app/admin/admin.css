@@ -40,7 +40,7 @@
   padding: 14px 8px; min-height: auto;
 }
 .ad-side-head img { width: 36px; height: 36px; border-radius: 9px; flex-shrink: 0; }
-.ad-side-title { white-space: nowrap; overflow: hidden; }
+.ad-side-title { white-space: nowrap; overflow: hidden; min-width: 0; }
 .ad-side-title b { font-family: var(--brand-font); font-size: 16px; }
 .ad-side-title b span { color: var(--brand); }
 .ad-side-title small { display: block; font-size: 11px; color: var(--ink-mut); max-width: 160px; overflow: hidden; text-overflow: ellipsis; }
@@ -227,6 +227,80 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 @media (prefers-reduced-motion: reduce) { .ad-toast { animation: none; } }
+
+/* ---------- activity thread ---------- */
+.ad-note-group { display: flex; flex-direction: column; gap: 8px; }
+.ad-note {
+  display: flex; gap: 10px;
+  background: var(--paper); border: 1px solid var(--rule);
+  border-radius: 10px; padding: 10px 12px;
+}
+/* Replies indent under their parent instead of nesting further. */
+.ad-note.reply { margin-left: 34px; background: #fffdf7; }
+.ad-link-btn {
+  background: none; border: 0; padding: 0; margin-top: 6px; cursor: pointer;
+  font-size: 11.5px; font-weight: 600; color: var(--ink-mut);
+}
+.ad-link-btn:hover { color: var(--brand-ink); text-decoration: underline; }
+
+/* "Waiting on X since Y" - the accountability line. */
+.ad-waiting {
+  background: #fdf3e3; border: 1px solid #e8cf9d; color: #7a5a1c;
+  border-radius: 10px; padding: 8px 12px; font-size: 12.5px; margin-bottom: 10px;
+}
+
+/* ---------- @mention picker ---------- */
+.ad-mention-pop {
+  position: absolute; z-index: 60; left: 0; right: 0; top: 100%; margin-top: 4px;
+  background: #fffdf7; border: 1px solid var(--rule-strong); border-radius: 11px;
+  box-shadow: 0 16px 40px -18px rgba(26, 26, 30, 0.45);
+  overflow: hidden;
+}
+.ad-mention-item {
+  display: flex; align-items: center; gap: 9px; width: 100%;
+  padding: 8px 11px; background: none; border: 0; cursor: pointer;
+  font-size: 13px; text-align: left; color: var(--ink);
+}
+.ad-mention-item.on { background: var(--paper-2); }
+
+/* ---------- notification bell ---------- */
+.ad-bell { position: relative; padding: 0 0 6px; }
+/* The bell is a nav row, so it inherits .ad-nav-item and only needs the
+   button reset plus room for the count badge on its icon. */
+.ad-bell-row { border: 0; background: transparent; cursor: pointer; text-align: left; }
+.ad-bell-row svg { width: 17px; height: 17px; }
+.ad-bell-count {
+  position: absolute; top: -6px; right: -7px; min-width: 15px; height: 15px;
+  padding: 0 4px; border-radius: 8px; background: var(--brand); color: #fff;
+  font-size: 9.5px; font-weight: 700; line-height: 15px; text-align: center;
+}
+/* Expanded sidebar: a count pill on the right of the row, like unread chats. */
+.ad-bell-pill {
+  margin-left: auto; min-width: 20px; padding: 1px 7px; border-radius: 999px;
+  background: var(--brand); color: #fff; font-size: 11px; font-weight: 700; text-align: center;
+}
+.ad-bell-pop {
+  /* Fixed, not absolute: the bell sits inside the sidebar, whose ancestors
+     scroll and would otherwise clip the popover. Viewport-anchored keeps it
+     fully visible whether the sidebar is expanded or collapsed. */
+  position: fixed; left: 14px; top: 58px; width: 340px; z-index: 130;
+  background: #fffdf7; border: 1px solid var(--rule-strong); border-radius: 13px;
+  box-shadow: 0 20px 50px -20px rgba(26, 26, 30, 0.5); overflow: hidden;
+}
+.ad-bell-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 11px 14px; border-bottom: 1px solid var(--rule); font-size: 12px;
+}
+.ad-bell-list { max-height: 340px; overflow-y: auto; }
+.ad-bell-item {
+  display: block; width: 100%; text-align: left; background: none; cursor: pointer;
+  border: 0; border-bottom: 1px solid var(--rule); padding: 10px 14px; font-size: 12.5px;
+  color: var(--ink);
+}
+.ad-bell-item:last-child { border-bottom: 0; }
+.ad-bell-item:hover { background: var(--paper-2); }
+.ad-bell-item.unread { background: #fdf3e3; }
+.ad-bell-item.unread:hover { background: #fbead0; }
 
 /* ---------- media tiles ---------- */
 .ad-tile { position: relative; background: #fffdf7; border: 1px solid var(--rule); border-radius: 16px; overflow: hidden; transition: box-shadow 0.15s, border-color 0.15s; }

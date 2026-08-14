@@ -46,9 +46,26 @@ export async function POST(req: NextRequest) {
     await ensureDb()
 
     const publicId = generateLeadPublicId()
+
+    /* Auto-assign to the configured default owner so a new enquiry always has
+       someone's name on it. Unset (or pointing at a deactivated user) leaves
+       the lead unassigned rather than guessing - it then shows up in the
+       pipeline's Unassigned count, which is the visible, fixable state. */
+    let ownerId: number | null = null
+    try {
+      const { getSetting } = require('@/lib/admin/db') as typeof import('@/lib/admin/db')
+      const { DEFAULT_OWNER_KEY } = require('@/lib/admin/pipeline') as typeof import('@/lib/admin/pipeline')
+      const { q1 } = require('@/lib/admin/pg') as typeof import('@/lib/admin/pg')
+      const configured = await getSetting<number>(DEFAULT_OWNER_KEY)
+      if (configured) {
+        const owner = await q1<{ id: number }>('SELECT id FROM users WHERE id = $1 AND active = 1', [configured])
+        ownerId = owner?.id ?? null
+      }
+    } catch { /* assignment must never block capturing the lead */ }
+
     const leadId = await insertReturningId(
-      `INSERT INTO leads (name, email, phone, company, message, source_page, form_type, package_interest, extra, public_id, consent, consent_at)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,1,now()) RETURNING id`,
+      `INSERT INTO leads (name, email, phone, company, message, source_page, form_type, package_interest, extra, public_id, consent, consent_at, owner_user_id)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,1,now(),$11) RETURNING id`,
       [
         name || null,
         email,
@@ -70,6 +87,7 @@ export async function POST(req: NextRequest) {
           companyRemote: ['Yes', 'No', 'Hybrid'].includes(body.companyRemote) ? body.companyRemote : undefined,
         }),
         publicId,
+        ownerId,
       ]
     )
 

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { X, Trash2, CheckSquare } from 'lucide-react'
 import LeadFilters, { LeadFilterState, EMPTY_FILTERS, filtersToQs } from '@/components/admin/LeadFilters'
 import { fmtDateTime, fmtDate, fmtRelative } from '@/lib/admin/dates'
+import LeadActivityThread from './LeadActivityThread'
 
 export type Lead = Record<string, any>
 
@@ -50,26 +51,14 @@ export function useLeads() {
 type LeadNote = { id: number; author_name: string; author_email: string; body: string; created_at: string }
 
 export function LeadDrawer({ lead, onClose, onSaved, canEdit = true }: { lead: Lead; onClose: () => void; onSaved: () => void; canEdit?: boolean }) {
-  const [thread, setThread] = useState<LeadNote[]>([])
-  const [draft, setDraft] = useState('')
-  const [posting, setPosting] = useState(false)
   const ex = extraOf(lead)
+  const [teammates, setTeammates] = useState<any[]>([])
+  useEffect(() => {
+    fetch('/api/admin/teammates', { cache: 'no-store' })
+      .then((r) => r.json()).then((d) => setTeammates(d.users || [])).catch(() => {})
+  }, [])
 
-  const loadNotes = useCallback(() => {
-    fetch(`/api/admin/leads/${lead.id}/notes`).then((r) => r.json()).then((d) => setThread(d.notes || [])).catch(() => {})
-  }, [lead.id])
-  useEffect(() => { loadNotes() }, [loadNotes])
 
-  async function addNote() {
-    const body = draft.trim()
-    if (!body) return
-    setPosting(true)
-    const res = await fetch(`/api/admin/leads/${lead.id}/notes`, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ body }),
-    })
-    setPosting(false)
-    if (res.ok) { setDraft(''); loadNotes() }
-  }
   const Row = ({ k, v }: { k: string; v: React.ReactNode }) => (
     <div style={{ display: 'flex', gap: 10, fontSize: 13 }}>
       <span className="ad-soft" style={{ width: 118, flexShrink: 0 }}>{k}</span>
@@ -138,41 +127,18 @@ export function LeadDrawer({ lead, onClose, onSaved, canEdit = true }: { lead: L
           <span className={STATUS_COLORS[lead.status] || 'ad-badge grey'}>{STATUS_LABELS[lead.status] ?? lead.status}</span>
         )}
 
-        <div className="ad-kicker" style={{ margin: '18px 0 8px' }}>Notes & Activity</div>
+        <div className="ad-kicker" style={{ margin: '18px 0 8px' }}>Owner</div>
         {canEdit ? (
-          <div style={{ marginBottom: 14 }}>
-            <textarea rows={3} className="ad-input" placeholder="Add an update - call outcome, next step, who to follow up..."
-              value={draft} onChange={(e) => setDraft(e.target.value)} />
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 8 }}>
-              <button className="ad-btn" disabled={posting || !draft.trim()} onClick={addNote}>
-                {posting ? 'Adding…' : 'Add note'}
-              </button>
-            </div>
-          </div>
+          <select className="ad-input ad-select-sm" value={lead.owner_user_id ?? 'none'}
+            onChange={(e) => save({ ownerUserId: e.target.value === 'none' ? null : Number(e.target.value) })}>
+            <option value="none">Unassigned</option>
+            {teammates.map((t: any) => <option key={t.id} value={t.id}>{t.first_name} {t.last_name}</option>)}
+          </select>
         ) : (
-          <p className="ad-soft" style={{ fontSize: 12, marginBottom: 10 }}>View-only access - you can read the activity log but not add notes.</p>
+          <div style={{ fontSize: 13 }}>{lead.owner_name || <span className="ad-soft">Unassigned</span>}</div>
         )}
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          {lead.notes && (
-            <div style={{ background: '#fffdf7', border: '1px solid var(--rule)', borderRadius: 10, padding: '10px 12px' }}>
-              <div className="ad-soft" style={{ fontSize: 11, marginBottom: 4 }}>Original note (at intake)</div>
-              <div style={{ fontSize: 13, whiteSpace: 'pre-wrap' }}>{lead.notes}</div>
-            </div>
-          )}
-          {thread.map((n) => (
-            <div key={n.id} style={{ background: 'var(--paper)', border: '1px solid var(--rule)', borderRadius: 10, padding: '10px 12px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, marginBottom: 4 }}>
-                <b style={{ fontSize: 12.5 }}>{n.author_name || n.author_email}</b>
-                <span className="ad-soft" style={{ fontSize: 11, whiteSpace: 'nowrap' }}>{fmtDateTime(n.created_at)}</span>
-              </div>
-              <div style={{ fontSize: 13, whiteSpace: 'pre-wrap' }}>{n.body}</div>
-            </div>
-          ))}
-          {thread.length === 0 && !lead.notes && (
-            <p className="ad-soft" style={{ fontSize: 13 }}>No notes yet. Add the first update to start the activity log.</p>
-          )}
-        </div>
+        <LeadActivityThread leadId={lead.id} canEdit={canEdit} intakeNote={lead.notes} />
       </div>
     </div>
   )

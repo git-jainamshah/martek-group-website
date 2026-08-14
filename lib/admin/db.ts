@@ -160,6 +160,33 @@ async function migrateAndSeed() {
     created_at TIMESTAMPTZ NOT NULL DEFAULT now()
   );
 
+  /* Who was @-mentioned in a note. Its own table rather than a column on
+     lead_notes so "everything waiting on me" is one indexed query, and so a
+     mention can be resolved independently of the note it came from. */
+  CREATE TABLE IF NOT EXISTS lead_note_mentions (
+    id SERIAL PRIMARY KEY,
+    note_id INTEGER NOT NULL REFERENCES lead_notes(id),
+    lead_id INTEGER NOT NULL REFERENCES leads(id),
+    user_id INTEGER NOT NULL REFERENCES users(id),
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    resolved_at TIMESTAMPTZ
+  );
+
+  /* In-app notifications. emailed_at is unused today and deliberately present
+     so email delivery can be added later without touching this table. */
+  CREATE TABLE IF NOT EXISTS notifications (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES users(id),
+    kind TEXT NOT NULL,
+    lead_id INTEGER REFERENCES leads(id),
+    note_id INTEGER REFERENCES lead_notes(id),
+    actor_user_id INTEGER REFERENCES users(id),
+    preview TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    read_at TIMESTAMPTZ,
+    emailed_at TIMESTAMPTZ
+  );
+
   CREATE TABLE IF NOT EXISTS billing_accounts (
     id SERIAL PRIMARY KEY,
     public_id TEXT,
@@ -266,9 +293,29 @@ async function migrateAndSeed() {
     `ALTER TABLE leads ADD COLUMN IF NOT EXISTS deleted_at TIMESTAMPTZ`,
     `ALTER TABLE expenses ADD COLUMN IF NOT EXISTS marketing_type TEXT`,
     `ALTER TABLE expenses ADD COLUMN IF NOT EXISTS marketing_platform TEXT`,
+    // Threaded replies: NULL parent_id means a top-level comment, so every
+    // existing note stays top-level and unchanged.
+    `ALTER TABLE lead_notes ADD COLUMN IF NOT EXISTS parent_id INTEGER`,
+    `ALTER TABLE lead_notes ADD COLUMN IF NOT EXISTS author_user_id INTEGER`,
+    // Pipeline owner. NULL = unassigned, which is what every existing lead
+    // stays until someone assigns it - nothing is silently reassigned.
+    `ALTER TABLE leads ADD COLUMN IF NOT EXISTS owner_user_id INTEGER`,
+    // Notes are soft-deleted and edits are marked, never silently rewritten -
+    // this thread is an accountability record, so history has to survive.
+    `ALTER TABLE lead_notes ADD COLUMN IF NOT EXISTS deleted_at TIMESTAMPTZ`,
+    `ALTER TABLE lead_notes ADD COLUMN IF NOT EXISTS edited_at TIMESTAMPTZ`,
   ]
   for (const sql of alters) { try { await run(sql) } catch { /* column exists */ } }
   try { await run(`CREATE UNIQUE INDEX IF NOT EXISTS leads_public_id_idx ON leads (public_id)`) } catch { /* exists */ }
+
+  // Indexes for the activity thread, mention queue, and notification bell -
+  // each is read on nearly every admin page load.
+  for (const sql of [
+    `CREATE INDEX IF NOT EXISTS lead_notes_lead_idx ON lead_notes (lead_id)`,
+    `CREATE INDEX IF NOT EXISTS lead_note_mentions_user_idx ON lead_note_mentions (user_id, resolved_at)`,
+    `CREATE INDEX IF NOT EXISTS notifications_user_idx ON notifications (user_id, read_at)`,
+    `CREATE INDEX IF NOT EXISTS leads_owner_idx ON leads (owner_user_id)`,
+  ]) { try { await run(sql) } catch { /* exists */ } }
 
   // Backfill: consent paper trail for pre-existing leads (submitted before the checkbox existed)
   try { await run(`UPDATE leads SET consent_at = created_at WHERE consent_at IS NULL`) } catch { /* ok */ }
