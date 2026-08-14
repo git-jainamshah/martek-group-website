@@ -52,6 +52,11 @@ type LeadNote = { id: number; author_name: string; author_email: string; body: s
 
 export function LeadDrawer({ lead, onClose, onSaved, canEdit = true }: { lead: Lead; onClose: () => void; onSaved: () => void; canEdit?: boolean }) {
   const ex = extraOf(lead)
+  const [teammates, setTeammates] = useState<any[]>([])
+  useEffect(() => {
+    fetch('/api/admin/teammates', { cache: 'no-store' })
+      .then((r) => r.json()).then((d) => setTeammates(d.users || [])).catch(() => {})
+  }, [])
 
 
   const Row = ({ k, v }: { k: string; v: React.ReactNode }) => (
@@ -120,6 +125,17 @@ export function LeadDrawer({ lead, onClose, onSaved, canEdit = true }: { lead: L
           </select>
         ) : (
           <span className={STATUS_COLORS[lead.status] || 'ad-badge grey'}>{STATUS_LABELS[lead.status] ?? lead.status}</span>
+        )}
+
+        <div className="ad-kicker" style={{ margin: '18px 0 8px' }}>Owner</div>
+        {canEdit ? (
+          <select className="ad-input ad-select-sm" value={lead.owner_user_id ?? 'none'}
+            onChange={(e) => save({ ownerUserId: e.target.value === 'none' ? null : Number(e.target.value) })}>
+            <option value="none">Unassigned</option>
+            {teammates.map((t: any) => <option key={t.id} value={t.id}>{t.first_name} {t.last_name}</option>)}
+          </select>
+        ) : (
+          <div style={{ fontSize: 13 }}>{lead.owner_name || <span className="ad-soft">Unassigned</span>}</div>
         )}
 
         <LeadActivityThread leadId={lead.id} canEdit={canEdit} intakeNote={lead.notes} />

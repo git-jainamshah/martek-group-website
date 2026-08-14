@@ -20,6 +20,9 @@ type Note = {
   body: string
   created_at: string
   mentions: Mention[]
+  deleted: boolean
+  edited: boolean
+  mine: boolean
 }
 type ThreadNote = Note & { replies: Note[] }
 type Teammate = { id: number; first_name: string; last_name: string; role: string }
@@ -172,6 +175,8 @@ export default function LeadActivityThread({
   const [teammates, setTeammates] = useState<Teammate[]>([])
   const [busy, setBusy] = useState(false)
   const [replyTo, setReplyTo] = useState<number | null>(null)
+  const [editing, setEditing] = useState<number | null>(null)
+  const [editText, setEditText] = useState('')
   const [err, setErr] = useState('')
   const [meta, setMeta] = useState<{ lastActivityAt: string | null; oldestOpenMention: { at: string; who: string } | null }>(
     { lastActivityAt: null, oldestOpenMention: null }
@@ -213,7 +218,32 @@ export default function LeadActivityThread({
     }
   }
 
-  const NoteCard = ({ n, isReply }: { n: Note; isReply?: boolean }) => (
+  async function noteAction(noteId: number, action: 'delete' | 'edit', body?: string) {
+    if (action === 'delete' && !confirm('Delete this note? It will show as deleted and replies will remain.')) return
+    setBusy(true); setErr('')
+    try {
+      const r = await fetch(`/api/admin/leads/${leadId}/notes/${noteId}`, {
+        method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action, body }),
+      })
+      const d = await r.json().catch(() => ({}))
+      if (!r.ok) { setErr(d.error || `Could not ${action} the note.`); return }
+      setEditing(null)
+      await load()
+    } catch {
+      setErr('Could not reach the server.')
+    } finally { setBusy(false) }
+  }
+
+  const NoteCard = ({ n, isReply }: { n: Note; isReply?: boolean }) => {
+    if (n.deleted) {
+      return (
+        <div className={`ad-note${isReply ? ' reply' : ''}`} style={{ opacity: 0.7 }}>
+          <div className="ad-soft" style={{ fontSize: 12.5, fontStyle: 'italic' }}>This note was deleted.</div>
+        </div>
+      )
+    }
+    return (
     <div className={`ad-note${isReply ? ' reply' : ''}`}>
       <Avatar name={n.author_name || n.author_email || '?'} size={isReply ? 22 : 26} />
       <div style={{ minWidth: 0, flex: 1 }}>
@@ -222,18 +252,42 @@ export default function LeadActivityThread({
           <span className="ad-soft" style={{ fontSize: 11 }} title={fmtDateTime(n.created_at)}>
             {fmtRelative(n.created_at)}
           </span>
+          {n.edited && <span className="ad-soft" style={{ fontSize: 10.5 }}>(edited)</span>}
         </div>
-        <div style={{ fontSize: 13, marginTop: 3 }}>
-          <Body text={n.body} mentions={n.mentions} />
-        </div>
-        {!isReply && canEdit && (
-          <button className="ad-link-btn" onClick={() => setReplyTo(replyTo === n.id ? null : n.id)}>
-            {replyTo === n.id ? 'Cancel' : 'Reply'}
-          </button>
+
+        {editing === n.id ? (
+          <div style={{ marginTop: 6 }}>
+            <textarea rows={3} className="ad-input" value={editText} onChange={(e) => setEditText(e.target.value)} />
+            <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end', marginTop: 6 }}>
+              <button className="ad-btn-ghost" onClick={() => setEditing(null)}>Cancel</button>
+              <button className="ad-btn" disabled={busy || !editText.trim()}
+                onClick={() => noteAction(n.id, 'edit', editText.trim())}>Save</button>
+            </div>
+          </div>
+        ) : (
+          <div style={{ fontSize: 13, marginTop: 3 }}>
+            <Body text={n.body} mentions={n.mentions} />
+          </div>
+        )}
+
+        {canEdit && editing !== n.id && (
+          <div style={{ display: 'flex', gap: 12 }}>
+            {!isReply && (
+              <button className="ad-link-btn" onClick={() => setReplyTo(replyTo === n.id ? null : n.id)}>
+                {replyTo === n.id ? 'Cancel' : 'Reply'}
+              </button>
+            )}
+            {n.mine && (
+              <button className="ad-link-btn" onClick={() => { setEditing(n.id); setEditText(n.body) }}>Edit</button>
+            )}
+            {n.mine && (
+              <button className="ad-link-btn" onClick={() => noteAction(n.id, 'delete')}>Delete</button>
+            )}
+          </div>
         )}
       </div>
     </div>
-  )
+  )}
 
   return (
     <>

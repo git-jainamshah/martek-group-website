@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Users, Flame, Snowflake, AlarmClock, UserPlus, Settings2 } from 'lucide-react'
 import { shortAge, COLD_AFTER_DAYS, STALE_AFTER_DAYS, HOT_BUDGET } from '@/lib/admin/pipeline'
+import { isProduction } from '@/lib/env'
 
 /**
  * Pipeline: who owns what, what is overdue, and what is going cold.
@@ -138,6 +139,21 @@ export default function PipelinePage() {
           <span className="ad-soft" style={{ fontSize: 11.5 }}>
             Applies to new leads only. Existing leads keep their current owner.
           </span>
+          {/* Bulk assign is non-production only - the API refuses it on
+              production too, so this is a convenience, not the guard. */}
+          {!isProduction && summary?.unassigned > 0 && (
+            <button className="ad-btn-ghost" style={{ marginLeft: 'auto' }} disabled={!defaultOwnerId}
+              title={defaultOwnerId ? undefined : 'Pick a default assignee first'}
+              onClick={async () => {
+                if (!confirm(`Assign all ${summary.unassigned} unassigned leads to the default owner?`)) return
+                const r = await fetch('/api/admin/leads/pipeline', { method: 'POST' })
+                const d = await r.json().catch(() => ({}))
+                setToast(r.ok ? `${d.assigned} leads assigned` : (d.error || 'Could not bulk assign'))
+                load()
+              }}>
+              Assign {summary.unassigned} unassigned
+            </button>
+          )}
         </div>
       )}
 
