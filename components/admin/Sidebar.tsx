@@ -10,6 +10,7 @@ import {
   PanelLeftClose, PanelLeftOpen, LineChart, PhoneCall, Presentation,
   Wallet, Receipt, PieChart, TrendingUp, FileText, Briefcase, UserCog,
 } from 'lucide-react'
+import NotificationBell from './NotificationBell'
 
 const GROUPS: { label: string; items: { href: string; label: string; icon: any }[] }[] = [
   {
@@ -89,6 +90,9 @@ export default function Sidebar({ userName, userEmail, role = 'admin' }: { userN
             <small title={userEmail}>{userName}</small>
           </div>
         )}
+        {/* Bell lives here rather than floating over the page, where it
+            collided with each page's own action buttons. */}
+        <NotificationBell />
         <button onClick={toggle} className="ad-collapse-btn" style={{ width: 'auto', padding: 6 }}
           title={collapsed ? 'Expand menu' : 'Collapse menu'}>
           {collapsed ? <PanelLeftOpen size={16} /> : <PanelLeftClose size={16} />}
