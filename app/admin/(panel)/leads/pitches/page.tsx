@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Inbox, List, UserPlus } from 'lucide-react'
 import OfflineLeadForm from '@/components/admin/OfflineLeadForm'
@@ -9,9 +9,23 @@ import LeadKindTable from '@/components/admin/LeadKindTable'
 export default function PitchesPage() {
   const [tab, setTab] = useState<'manage' | 'add'>('manage')
   const [reloadKey, setReloadKey] = useState(0)
+  const [toast, setToast] = useState('')
+
+  // Auto-dismiss, and clear the timer on unmount so it cannot fire into a
+  // component that is no longer mounted.
+  useEffect(() => {
+    if (!toast) return
+    const t = setTimeout(() => setToast(''), 4000)
+    return () => clearTimeout(t)
+  }, [toast])
 
   return (
     <div style={{ maxWidth: 1040 }}>
+      {toast && (
+        <div className="ad-toast" role="status" aria-live="polite">
+          <span className="dot" />{toast}
+        </div>
+      )}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 14, marginBottom: 20 }}>
         <div>
           <div className="ad-kicker">Growth</div>
@@ -37,7 +51,14 @@ export default function PitchesPage() {
         <LeadKindTable kind="pitch" reloadKey={reloadKey} />
       ) : (
         <div className="ad-card" style={{ padding: 22 }}>
-          <OfflineLeadForm kind="pitch" onAdded={() => { setReloadKey((k) => k + 1); setTab('manage') }} />
+          <OfflineLeadForm
+            kind="pitch"
+            onAdded={(name) => {
+              setReloadKey((k) => k + 1)
+              setTab('manage')
+              setToast(`Pitch added${name ? ` - ${name}` : ''}`)
+            }}
+          />
         </div>
       )}
     </div>

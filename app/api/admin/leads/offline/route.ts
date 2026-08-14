@@ -149,13 +149,18 @@ async function insertLead(v: any, addedBy: string) {
   )
   const source = v.contactMethod.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
   const channel = v.kind === 'pitch' ? 'Pitch' : 'Offline'
+  // first_touch_at is TEXT but created_at is TIMESTAMPTZ. Reusing one $5 for
+  // both made Postgres reject the statement with 42P08 ("inconsistent types
+  // deduced for parameter $5"), which failed AFTER the leads row was already
+  // inserted - so the lead saved but the request 500'd. They need separate
+  // placeholders so each parameter has exactly one inferred type.
   await run(
     `INSERT INTO leads_marketing (
       lead_id, first_source, first_medium, first_channel_group, first_touch_at,
       session_source, session_medium, session_channel_group,
       budget_min, budget_max, created_at
-    ) VALUES ($1,$2,$3,$4,$5,$2,$3,$4,$6,$7,$5)`,
-    [leadId, source, v.kind, channel, atIso, range.min, range.max]
+    ) VALUES ($1,$2,$3,$4,$5,$2,$3,$4,$6,$7,$8)`,
+    [leadId, source, v.kind, channel, atIso, range.min, range.max, atIso]
   )
   await run(
     `INSERT INTO leads_offline (lead_id, lead_kind, contact_method, added_by, created_at) VALUES ($1,$2,$3,$4,$5)`,
