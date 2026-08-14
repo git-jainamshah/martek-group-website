@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation'
 import { getSessionUser } from '@/lib/admin/auth'
 import Sidebar from '@/components/admin/Sidebar'
 import RoleGate from '@/components/admin/RoleGate'
+import NotificationBell from '@/components/admin/NotificationBell'
 
 export const dynamic = 'force-dynamic'
 
@@ -37,7 +38,14 @@ export default async function PanelLayout({ children }: { children: React.ReactN
     <div className="ad-shell">
       <RoleGate allowedPrefixes={allowedPrefixes} />
       <Sidebar userName={`${user.first_name} ${user.last_name}`} userEmail={user.email} role={user.role} />
-      <main className="ad-main">{children}</main>
+      <main className="ad-main">
+        {/* Bell floats above the page content so it is reachable from every
+            screen without each page having to render its own header. */}
+        <div style={{ position: 'sticky', top: 0, zIndex: 100, display: 'flex', justifyContent: 'flex-end', height: 0 }}>
+          <div style={{ transform: 'translateY(6px)' }}><NotificationBell /></div>
+        </div>
+        {children}
+      </main>
     </div>
   )
 }
