@@ -4,6 +4,8 @@ import { coreWebVitals } from './posts/core-web-vitals'
 import { cadFileFormats } from './posts/cad-file-formats'
 import { cheapestDigitalSetup } from './posts/cheapest-digital-setup'
 import { websiteCostComparison } from './posts/website-cost-comparison'
+import { redesignWithoutLosingSeo } from './posts/redesign-without-losing-seo'
+import { wordpressWebflowCustom } from './posts/wordpress-webflow-custom'
 
 export type { Post, Block } from './types'
 export { tocOf, blockText } from './types'
@@ -15,6 +17,8 @@ export const POSTS: Post[] = [
   cadFileFormats,
   cheapestDigitalSetup,
   websiteCostComparison,
+  redesignWithoutLosingSeo,
+  wordpressWebflowCustom,
 ].sort(
   (a, b) => (a.date < b.date ? 1 : -1)
 )
