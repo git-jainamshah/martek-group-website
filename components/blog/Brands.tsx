@@ -22,13 +22,21 @@ const MARKS: Partial<Record<BrandKey, { src: string; alt: string }>> = {
   openai: { src: '/assets/brands/openai-mark.png', alt: 'OpenAI' },
 }
 
-/** Short initials used when no official asset is available. */
-const CHIPS: Record<BrandKey, string> = {
-  openai: 'AI',
-  ga4: 'GA4',
-  gtm: 'GTM',
-  'google-ads': 'Ads',
-  'search-console': 'GSC',
+/**
+ * Fallback chips, used where we do not hold an official asset.
+ *
+ * Google does not publish Analytics or Tag Manager icons in its public
+ * logo list, and the rest of its brand assets sit behind Partner Marketing
+ * Hub approval. The "free logo download" sites are neither official nor
+ * reliably accurate, so these are colour-matched typographic chips instead:
+ * recognisable at a glance, and honest about not being the real mark.
+ */
+const CHIPS: Record<BrandKey, { text: string; color: string }> = {
+  openai: { text: 'AI', color: '#1A1A1E' },
+  ga4: { text: 'GA4', color: '#E37400' },
+  gtm: { text: 'GTM', color: '#246FDB' },
+  'google-ads': { text: 'Ads', color: '#3C8BD9' },
+  'search-console': { text: 'GSC', color: '#4285F4' },
 }
 
 export function BrandMark({ k, size = 22 }: { k: BrandKey; size?: number }) {
@@ -44,17 +52,18 @@ export function BrandMark({ k, size = 22 }: { k: BrandKey; size?: number }) {
       />
     )
   }
+  const chip = CHIPS[k]
   return (
     <span
       aria-hidden
       style={{
-        height: size, minWidth: size, padding: '0 6px', borderRadius: 6,
-        border: '1.5px solid var(--ink)', background: 'var(--paper)',
+        height: size, minWidth: size, padding: '0 7px', borderRadius: 6,
+        border: `1.5px solid ${chip.color}`, background: chip.color,
         display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
         fontFamily: 'var(--mono)', fontSize: size * 0.42, fontWeight: 700,
-        color: 'var(--ink)', flex: 'none', letterSpacing: '0.02em',
+        color: '#fff', flex: 'none', letterSpacing: '0.02em',
       }}
-    >{CHIPS[k]}</span>
+    >{chip.text}</span>
   )
 }
 
