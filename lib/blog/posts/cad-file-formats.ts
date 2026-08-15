@@ -26,6 +26,16 @@ export const cadFileFormats: Post = {
       text: 'CAD formats split into two families: files that describe shapes with perfect mathematical precision, and files that approximate shapes with millions of tiny triangles. Precision files can be edited and manufactured accurately. Triangle files can be printed and viewed but never truly re-engineered. Almost every mistake comes from sending one when they needed the other.',
     },
 
+    {
+      t: 'brands',
+      items: [
+        { key: 'autocad', label: 'AutoCAD' },
+        { key: 'inventor', label: 'Inventor' },
+        { key: 'fusion', label: 'Fusion' },
+        { key: 'solidworks', label: 'SOLIDWORKS' },
+      ],
+    },
+
     { t: 'h2', id: 'families', text: 'The two families' },
     {
       t: 'figure',
