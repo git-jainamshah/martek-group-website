@@ -292,3 +292,41 @@ export function OaiMeasureFlow() {
     </svg>
   )
 }
+
+/**
+ * CPM versus CPC, which is the change that actually matters to a small budget:
+ * one buys impressions, the other buys arrivals.
+ */
+export function CpmVsCpc() {
+  const bar = (y: number, label: string, sub: string, paidAt: string, fill: string, payX: number) => (
+    <g key={label}>
+      <text x="14" y={y - 10} fill={INK} fontSize="13.5" fontWeight="700">{label}</text>
+      <text x="86" y={y - 10} fill={MUT} fontSize="11.5">{sub}</text>
+      <rect x="14" y={y} width="600" height="30" rx="8" fill={PAPER} stroke={INK} strokeWidth="1.5" />
+      {/* the funnel inside the bar */}
+      {[
+        { x: 26, w: 150, t: 'Impression' },
+        { x: 190, w: 150, t: 'Click' },
+        { x: 354, w: 150, t: 'Landing page' },
+        { x: 518, w: 84, t: 'Lead' },
+      ].map((seg) => (
+        <g key={seg.t}>
+          <rect x={seg.x} y={y + 6} width={seg.w} height="18" rx="5"
+            fill={seg.x <= payX ? fill : 'transparent'} opacity={seg.x <= payX ? 0.55 : 1}
+            stroke={seg.x <= payX ? 'none' : 'var(--rule-strong)'} strokeDasharray="3 3" />
+          <text x={seg.x + seg.w / 2} y={y + 19} fill={MUT} fontSize="10.5"
+            fontFamily="var(--mono)" textAnchor="middle">{seg.t}</text>
+        </g>
+      ))}
+      <text x="626" y={y + 20} fill={fill} fontSize="11.5" fontWeight="700">{paidAt}</text>
+    </g>
+  )
+  return (
+    <svg viewBox="0 0 760 150" role="img"
+      aria-label="With CPM you pay at the impression; with CPC you pay only once someone clicks through"
+      style={{ width: '100%', height: 'auto' }}>
+      {bar(30, 'CPM', 'you pay for the impression', 'Paid here', BRAND, 26)}
+      {bar(100, 'CPC', 'you pay for the click', 'Paid here', 'var(--sage)', 190)}
+    </svg>
+  )
+}

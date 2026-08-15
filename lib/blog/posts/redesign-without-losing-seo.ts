@@ -237,6 +237,17 @@ export const redesignWithoutLosingSeo: Post = {
       ],
     },
 
+    {
+      t: 'sources',
+      title: 'Primary sources',
+      items: [
+        { label: 'Google Search Central: Site moves with URL changes', url: 'https://developers.google.com/search/docs/crawling-indexing/site-move-with-url-changes', note: 'the official migration guidance' },
+        { label: 'Google Search Central: Redirects and Google Search', url: 'https://developers.google.com/search/docs/crawling-indexing/301-redirects' },
+        { label: 'Google Search Console', url: 'https://search.google.com/search-console', note: 'the Pages report is your post-launch alarm' },
+        { label: 'PageSpeed Insights', url: 'https://pagespeed.web.dev/', note: 'check mobile speed before and after' },
+      ],
+    },
+
     { t: 'divider' },
     {
       t: 'p',
