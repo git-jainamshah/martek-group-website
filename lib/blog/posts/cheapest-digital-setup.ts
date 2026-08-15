@@ -107,6 +107,7 @@ export const cheapestDigitalSetup: Post = {
     {
       t: 'brands',
       items: [
+        { key: 'gmail', label: 'Gmail' },
         { key: 'google', label: 'Google Workspace' },
         { key: 'microsoft', label: 'Microsoft 365' },
         { key: 'outlook', label: 'Outlook' },
