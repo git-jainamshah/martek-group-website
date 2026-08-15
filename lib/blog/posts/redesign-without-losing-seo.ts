@@ -26,6 +26,15 @@ export const redesignWithoutLosingSeo: Post = {
       text: 'Google ranks URLs, not websites. If your URLs change and nothing tells Google where they went, you are not redesigning your site - you are launching a new one with no history.',
     },
 
+    {
+      t: 'brands',
+      items: [
+        { key: 'search-console', label: 'Search Console' },
+        { key: 'ga4', label: 'Google Analytics 4' },
+        { key: 'google', label: 'Google Search' },
+      ],
+    },
+
     { t: 'h2', id: 'why-traffic-drops', text: 'Why traffic drops after a redesign' },
     {
       t: 'p',
