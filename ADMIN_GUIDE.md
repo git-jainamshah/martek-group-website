@@ -1,12 +1,12 @@
 # Marrelay Admin Panel
 
-A hidden admin backend at **`/admin`**, backed by **Postgres** — works on Vercel (Neon),
+A hidden admin backend at **`/admin`**, backed by **Postgres** - works on Vercel (Neon),
 any hosted Postgres, or locally. One env var (`DATABASE_URL`) is the only configuration.
 
 ## One-time setup (Vercel)
 
 1. Vercel dashboard → your `martek_website` project → **Storage** → **Create Database** →
-   **Neon (Postgres)** — free tier is plenty.
+   **Neon (Postgres)** - free tier is plenty.
 2. Connect it to the project for **all environments** (Production, Preview, Development).
    Vercel injects `DATABASE_URL` automatically.
 3. Redeploy (or push any commit). The schema creates and seeds itself on first use.
@@ -36,7 +36,7 @@ The admin area is invisible to search engines: excluded from the sitemap, served
 |---|---|
 | Dashboard | Counts + latest leads at a glance |
 | Manage Media | Every media file linked on the live site, where it's used (file + line), one-click replace (same URL, old file archived) |
-| Storage | iPhone-style gallery — Photos / Videos tabs, sort by date added / modified / size / name, asc/desc, group by date. Delete blocked with an error popup if the file is linked on the site |
+| Storage | iPhone-style gallery - Photos / Videos tabs, sort by date added / modified / size / name, asc/desc, group by date. Delete blocked with an error popup if the file is linked on the site |
 | Analytics & SEO | Link GTM / Tealium per environment (production / qa / dev). Custom scripts with drag-to-reorder load order, placement (head / body / footer), fire before-or-after tag managers. robots.txt rules + Google/Bing verification |
 | Pricing & Packages | Edit every pricing card across Home, Pricing page, and all five service pages. Live within 60 seconds |
 | Announcements & Banners | Top black bar copy (default + per-page overrides, `**bold**` supported). Promo pop-up feature flag with 3 templates: simple copy, picture + buttons, sign-up form |
@@ -65,7 +65,7 @@ Planned upgrade: Vercel Blob storage for full media management in the cloud.
 
 ## Version control / rollback
 
-- Each admin module was committed separately on `qa/admin-backend` — any module can be
+- Each admin module was committed separately on `qa/admin-backend` - any module can be
   reverted individually.
 - All content lives in Postgres (Neon has point-in-time restore on paid tiers; free tier
   keeps daily backups). Media replacements archive the previous file automatically.

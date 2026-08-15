@@ -1,4 +1,4 @@
-# Marrelay — dataLayer Measurement Plan (v1, for review)
+# Marrelay - dataLayer Measurement Plan (v1, for review)
 
 > Draft for sign-off. **No tracking code is written yet.** Once you approve (or tweak) this, I'll implement it. Everything lives in the **`analytics/`** folder, alongside the existing `traffic-identification.js`.
 
@@ -11,7 +11,7 @@
 3. A **parallel GA4 Ecommerce funnel** so leads can be reported by **revenue / conversion value** (X in pipeline generated), and per-service value.
 4. **Hashed PII** attached to conversions client-side (SHA-256), so Google Ads / Meta enhanced conversions work **without you handling raw PII from Toronto**.
 5. **First-touch + session acquisition persisted in first-party cookies**, plus a stable **session_id** and **user_type (new/returning)** on every event.
-6. Events that **fire accurately** — deduped, once-per-trigger, SPA-route-aware.
+6. Events that **fire accurately** - deduped, once-per-trigger, SPA-route-aware.
 
 ---
 
@@ -20,8 +20,8 @@
 | File | Responsibility |
 |---|---|
 | `traffic-identification.js` *(exists)* | Acquisition + GA4 client/session IDs. Extended to **also write cookies**. |
-| `datalayer.js` *(new)* | `dlPush(event, params)` — ensures `window.dataLayer`, injects **base params** (§4), stamps `event_id`, dedupes. |
-| `identity.js` *(new)* | `client_id`, `session_id`, `ga_session_number`, `user_type` (new/returning), `user_id` (hashed), visit-count — read from GA4 cookies + our cookies. |
+| `datalayer.js` *(new)* | `dlPush(event, params)` - ensures `window.dataLayer`, injects **base params** (§4), stamps `event_id`, dedupes. |
+| `identity.js` *(new)* | `client_id`, `session_id`, `ga_session_number`, `user_type` (new/returning), `user_id` (hashed), visit-count - read from GA4 cookies + our cookies. |
 | `hash.js` *(new)* | SHA-256 via Web Crypto; normalizes email/phone/name before hashing. |
 | `service-catalog.js` *(new)* | Service → item map, currency, and **conversion value** logic (§9). |
 | `events.js` *(new)* | Named helpers: `trackLead()`, `trackEcom()`, `trackNav()`, `trackCta()`, etc. |
@@ -68,7 +68,7 @@ language, viewport, device_type (mobile/tablet/desktop)
 
 ## 5. PII hashing (client-side, SHA-256)
 
-On lead conversion we attach a `user_data` object with **hashed** values only (never raw) — normalized first (email → lowercased/trimmed; phone → E.164 digits; names → lowercased/trimmed):
+On lead conversion we attach a `user_data` object with **hashed** values only (never raw) - normalized first (email → lowercased/trimmed; phone → E.164 digits; names → lowercased/trimmed):
 
 ```
 user_data: {
@@ -78,19 +78,19 @@ user_data: {
 }
 ```
 
-Keys are named to drop straight into **Google Ads Enhanced Conversions** and **Meta CAPI**. `user_id` is also set to `sha256_email`. Raw PII still flows to your own DB via `/api/leads` (first-party, unchanged) — only the dataLayer gets hashes.
+Keys are named to drop straight into **Google Ads Enhanced Conversions** and **Meta CAPI**. `user_id` is also set to `sha256_email`. Raw PII still flows to your own DB via `/api/leads` (first-party, unchanged) - only the dataLayer gets hashes.
 
 ---
 
-## 6. Consent — LOCKED
+## 6. Consent - LOCKED
 
 Scope is the **dataLayer only**. GTM owns tag firing / consent gating; we do **not** build Consent Mode, a banner, or any backend/platform forwarding.
 
-- Every event carries a **`consent` param** (`true`/`false`, from the form's consent box) so your GTM tags can trigger/except on it — "no consent → your tag doesn't fire."
-- **Hashed PII (`user_data`) is always present** on the conversion events so your GTM tags can read it. This is safe because **the lead forms require the consent checkbox to submit** — a `generate_lead`/`purchase` cannot fire without `consent === true`, so hashed PII is inherently post-consent.
-- No raw PII ever enters the dataLayer — hashes only.
+- Every event carries a **`consent` param** (`true`/`false`, from the form's consent box) so your GTM tags can trigger/except on it - "no consent → your tag doesn't fire."
+- **Hashed PII (`user_data`) is always present** on the conversion events so your GTM tags can read it. This is safe because **the lead forms require the consent checkbox to submit** - a `generate_lead`/`purchase` cannot fire without `consent === true`, so hashed PII is inherently post-consent.
+- No raw PII ever enters the dataLayer - hashes only.
 
-## Decisions — LOCKED
+## Decisions - LOCKED
 - **Currency:** CAD.
 - **Value:** budget-tier midpoint, split across selected services (§9).
 - **Consent:** as above (dataLayer only; GTM gates firing).
@@ -113,7 +113,7 @@ Scope is the **dataLayer only**. GTM owns tag firing / consent gating; we do **n
 | `social_click` | footer social icons | platform |
 | `case_study_interaction` | interactive widgets (motor explode, dashboard toggle, before/after) | widget, action, value |
 | `form_view` | a lead form scrolls into view (once) | form_id, form_type, form_location |
-| `search`? | n/a (no site search) | — |
+| `search`? | n/a (no site search) | - |
 
 ---
 
@@ -121,11 +121,11 @@ Scope is the **dataLayer only**. GTM owns tag firing / consent gating; we do **n
 
 Ordered funnel, each step a distinct event so drop-off is measurable:
 
-1. `view_service` — service or case-study page view *(page_view + `funnel_step:'service_view'`, `service`)*
-2. `form_view` — lead form enters viewport
-3. `form_start` — first interaction (focus) with any field *(once per form)*
-4. `form_error` — validation blocks submit *(params: `error_fields[]`)*
-5. **`generate_lead`** — successful submit *(GA4 recommended conversion)*
+1. `view_service` - service or case-study page view *(page_view + `funnel_step:'service_view'`, `service`)*
+2. `form_view` - lead form enters viewport
+3. `form_start` - first interaction (focus) with any field *(once per form)*
+4. `form_error` - validation blocks submit *(params: `error_fields[]`)*
+5. **`generate_lead`** - successful submit *(GA4 recommended conversion)*
    - params: `value`, `currency`, `lead_type` (contact / home / promo-banner), `services[]`, `budget`, `timeline`, `lead_id`/`public_id` (if API returns it), `company_country/region/remote`, full acquisition, **`user_data` (hashed)**, `user_id`.
 
 `generate_lead` is the primary GA4 conversion. The ecommerce `purchase` (below) fires **in parallel** for revenue reporting.
@@ -146,7 +146,7 @@ Services are modeled as **items** so GA4 Monetization reports light up and you c
 | seo | SEO & Ads | Service |
 | engineering | Engineering & CAD | Service |
 
-**Conversion value** — proposed: derive from the lead's **budget tier midpoint** (best signal we collect), split across selected services:
+**Conversion value** - proposed: derive from the lead's **budget tier midpoint** (best signal we collect), split across selected services:
 
 | budget | value (CAD) |
 |---|---|
@@ -156,7 +156,7 @@ Services are modeled as **items** so GA4 Monetization reports light up and you c
 | `40k+` | 50,000 |
 | `unsure` / none | 3,000 (default est.) |
 
-`item.price` = value ÷ number of selected services; `quantity` = 1. *(All numbers configurable — see decisions.)*
+`item.price` = value ÷ number of selected services; `quantity` = 1. *(All numbers configurable - see decisions.)*
 
 **Ecommerce events:**
 
@@ -167,7 +167,7 @@ Services are modeled as **items** so GA4 Monetization reports light up and you c
 | `view_item` | a `/services/*` page view | that one service (price = its est. value) |
 | `add_to_cart` | user ticks service chip(s) in contact form | selected service items |
 | `begin_checkout` | `form_start` on contact form | selected items + running `value` |
-| `add_shipping_info`* | not used | — |
+| `add_shipping_info`* | not used | - |
 | **`purchase`** | successful lead submit | `transaction_id` = lead `public_id`, `value`, `currency`, `items[]`, plus hashed `user_data` |
 
 `purchase` uses the lead as the "transaction" so revenue = **pipeline value generated**. This is a deliberate modeling choice (common for lead-gen); `generate_lead` remains the clean conversion, `purchase` is the revenue lens. Both fire.
@@ -200,7 +200,7 @@ Compact-encoded to stay well under the 4KB cookie limit. `/api/leads` will read 
 
 ## 12. Decisions I need from you (the rest I'll default sensibly)
 
-1. **Currency** — CAD assumed (Toronto). OK?
-2. **Conversion value basis** — budget-tier midpoints (above), or fixed per-service values, or flat value per lead?
-3. **Consent gating** — fire analytics for all, attach hashed PII/ads only on consented submits (proposed). Add Google **Consent Mode v2** now, or later?
-4. **Ecommerce `purchase` mirror** — you asked for revenue events, so I'll include `purchase` alongside `generate_lead`. Confirm you're OK using GA4 `purchase` for leads.
+1. **Currency** - CAD assumed (Toronto). OK?
+2. **Conversion value basis** - budget-tier midpoints (above), or fixed per-service values, or flat value per lead?
+3. **Consent gating** - fire analytics for all, attach hashed PII/ads only on consented submits (proposed). Add Google **Consent Mode v2** now, or later?
+4. **Ecommerce `purchase` mirror** - you asked for revenue events, so I'll include `purchase` alongside `generate_lead`. Confirm you're OK using GA4 `purchase` for leads.

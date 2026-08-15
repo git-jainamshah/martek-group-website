@@ -97,6 +97,11 @@ export const redesignWithoutLosingSeo: Post = {
       caption: 'A redirect map is just this, one row per URL. Every old address needs a decision.',
     },
     {
+      t: 'figure',
+      kind: 'redirect-map',
+      caption: 'The whole idea in one picture: a 301 carries the page\'s history to its new address, a 404 strands it.',
+    },
+    {
       t: 'p',
       text: 'Use 301 (permanent), not 302 (temporary). A 301 tells Google the move is final and to transfer the page\'s accumulated authority to the new address. A 302 says "check back later", and Google keeps the old URL in its index waiting for a return that never comes.',
     },
@@ -163,6 +168,11 @@ export const redesignWithoutLosingSeo: Post = {
     {
       t: 'p',
       text: 'A small dip in the first two weeks is normal. Google has to recrawl, follow your redirects, and re-evaluate. What matters is the direction of travel by week three.',
+    },
+    {
+      t: 'figure',
+      kind: 'redesign-recovery',
+      caption: 'The normal shape of a recovery. A dip in week one is expected; still being down at week four is not.',
     },
     {
       t: 'table',
