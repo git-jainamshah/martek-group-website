@@ -26,6 +26,15 @@ export const consentModeV2: Post = {
       text: 'Business owners and marketers who have a website, run Google Ads or GA4, and were told to "add consent mode" without being told how. You do not need to be a developer to follow this, but you will need access to your tag manager or site code.',
     },
 
+    {
+      t: 'brands',
+      items: [
+        { key: 'gtm', label: 'Google Tag Manager' },
+        { key: 'ga4', label: 'Google Analytics 4' },
+        { key: 'google-ads', label: 'Google Ads' },
+      ],
+    },
+
     { t: 'h2', id: 'what-it-is', text: 'What Consent Mode actually does (in one minute)' },
     {
       t: 'p',
@@ -294,5 +303,15 @@ function consentAnalyticsOnly() {
       t: 'p',
       text: 'Set deny-by-default before any Google tag loads. Update the signals when the visitor chooses, and remember that choice. Wire it into your platform in the right position, then verify with Tag Assistant that the before state reads denied. That is Consent Mode v2, and it takes an afternoon rather than a project.',
     },
+    {
+      t: 'sources',
+      title: 'Primary sources',
+      items: [
+        { label: 'Google: Consent Mode overview', url: 'https://developers.google.com/tag-platform/security/concepts/consent-mode', note: 'the canonical reference' },
+        { label: 'Google: Set up consent mode with Tag Manager', url: 'https://developers.google.com/tag-platform/security/guides/consent', note: 'implementation guide' },
+        { label: 'Google Tag Assistant', url: 'https://tagassistant.google.com/', note: 'verify your tags actually fire' },
+      ],
+    },
+
   ],
 }

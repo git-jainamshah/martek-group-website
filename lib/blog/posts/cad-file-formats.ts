@@ -181,5 +181,15 @@ export const cadFileFormats: Post = {
       t: 'p',
       text: 'STEP for precise 3D and anything being manufactured. DXF for 2D cutting. STL or 3MF only for 3D printing. Always pair 3D geometry with a dimensioned PDF, because tolerances live in the drawing, not the model. And never let native files be your only copy.',
     },
+    {
+      t: 'sources',
+      title: 'Format references',
+      items: [
+        { label: 'ISO 10303 (STEP)', url: 'https://www.iso.org/standard/63141.html', note: 'the standard behind .step and .stp' },
+        { label: 'Autodesk: About DWG', url: 'https://www.autodesk.com/products/dwg', note: 'the native AutoCAD format' },
+        { label: '3MF Consortium', url: 'https://3mf.io/', note: 'the modern alternative to STL for 3D printing' },
+      ],
+    },
+
   ],
 }
