@@ -210,5 +210,15 @@ export const websiteCostComparison: Post = {
       t: 'p',
       text: 'DIY costs about $1,500 over five years plus dozens of your hours. A good freelancer lands near $4,000. A small studio lands near $9,000 and adds strategy and accountability. Ignore sticker prices, compare five-year totals, insist on owning everything, and pick the tier where a modest lift in results pays the cost back inside a year.',
     },
+    {
+      t: 'sources',
+      title: 'Check current prices yourself',
+      items: [
+        { label: 'PageSpeed Insights', url: 'https://pagespeed.web.dev/', note: 'test a studio\'s existing work before you hire them' },
+        { label: 'Google Search Console', url: 'https://search.google.com/search-console', note: 'free, and shows whether a site is actually found' },
+        { label: 'ICANN Lookup', url: 'https://lookup.icann.org/', note: 'confirm who really owns your domain' },
+      ],
+    },
+
   ],
 }
