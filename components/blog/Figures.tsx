@@ -131,9 +131,12 @@ export function RedirectMap() {
         <text x="30" y={y + 24} fill={MUT} fontSize="10.5" fontFamily="var(--mono)">OLD URL</text>
         <text x="30" y={y + 41} fill={INK} fontSize="12.5" fontFamily="var(--mono)">/services-web</text>
 
+        {/* Status pill sits ABOVE the arrow, not on it. At the same y the line
+            ran straight through the bottom of the badge. */}
         <line x1="216" y1={y + 26} x2="292" y2={y + 26} stroke={c} strokeWidth="2" markerEnd={`url(#rm-arrow-${ok ? 'ok' : 'no'})`} />
-        <rect x="238" y={y + 8} width={ok ? 42 : 46} height="20" rx="10" fill={c} />
-        <text x={ok ? 246 : 245} y={y + 22} fill={PAPER} fontSize="11" fontWeight="700" fontFamily="var(--mono)">{ok ? '301' : '404'}</text>
+        <rect x="234" y={y + 1} width="40" height="19" rx="9.5" fill={c} />
+        <text x="254" y={y + 14.5} fill={PAPER} fontSize="11" fontWeight="700"
+          fontFamily="var(--mono)" textAnchor="middle">{ok ? '301' : '404'}</text>
 
         <rect x="300" y={y} width="240" height="52" rx="12"
           fill={ok ? 'var(--paper-2)' : PAPER} stroke={ok ? INK : c}
