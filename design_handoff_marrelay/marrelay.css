@@ -10,7 +10,7 @@
   --rule:#E2D9C4;
   --rule-strong:#C9BEA3;
 
-  /* color quartet — one per service */
+  /* color quartet - one per service */
   --terra:#E07A5F;     /* web dev */
   --terra-soft:#F2BFA8;
   --sage:#6B9080;      /* data */
@@ -34,7 +34,7 @@
   --brand-ink:#C8141B;
   --brand-soft:#FBD9DA;
 
-  /* accent — overridden per service page */
+  /* accent - overridden per service page */
   --accent:var(--terra);
   --accent-soft:var(--terra-soft);
 }
@@ -306,7 +306,7 @@ h1.display .stamp{
 }
 .hero-cta .meta b{color:var(--ink); font-weight:600}
 
-/* hero illustration — collage of service tiles */
+/* hero illustration - collage of service tiles */
 .hero-illo{position:relative; width:100%; aspect-ratio:1/1; max-width:520px; margin-left:auto}
 .tile{
   position:absolute;
@@ -455,7 +455,7 @@ h1.display .stamp{
 .logo-row .lg.bold{font-family:var(--sans); font-weight:700; font-style:normal; font-size:18px; letter-spacing:-.02em}
 @media (max-width:760px){.logo-row{grid-template-columns:repeat(2,1fr)} .logo-row .lg{border-bottom:1px solid var(--rule)} .logo-row .lg:nth-child(odd){border-right:1px solid var(--rule)} .logo-row .lg:nth-child(even){border-right:0}}
 
-/* ---------- "what we do" — big illustrated tiles ---------- */
+/* ---------- "what we do" - big illustrated tiles ---------- */
 .what{padding:96px 0 80px; position:relative}
 .what-head{
   display:grid; grid-template-columns:1fr 1fr; gap:40px;
@@ -864,7 +864,7 @@ footer .bottom{margin-top:48px; padding-top:24px; border-top:1px solid rgba(251,
 .crumb .sep{opacity:.5}
 .crumb .here{color:var(--ink)}
 
-/* service hero — split: copy + big animated graphic */
+/* service hero - split: copy + big animated graphic */
 .svc-hero{padding:40px 0 72px; position:relative; overflow:hidden}
 .svc-hero-grid{display:grid; grid-template-columns:1.05fr .95fr; gap:56px; align-items:center}
 @media (max-width:960px){.svc-hero-grid{grid-template-columns:1fr; gap:40px}}

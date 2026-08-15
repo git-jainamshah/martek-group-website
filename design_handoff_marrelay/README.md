@@ -6,7 +6,7 @@ A complete website redesign for Marrelay, a 6-person digital studio offering web
 The design showcases a cinematic hero section, service cards, pricing tiers, lead generation form, and responsive mobile navigation. Built with semantic HTML, custom CSS, and vanilla JavaScript for scroll reveal, form validation, and mobile interactions.
 
 ## About the Design Files
-The bundled HTML/CSS/JS files are **design references and working prototypes**. The task is to **recreate this design in your target codebase** (Next.js, React, Vue, Remix, etc.) using its established patterns, component libraries, and build tools — not to copy the HTML directly.
+The bundled HTML/CSS/JS files are **design references and working prototypes**. The task is to **recreate this design in your target codebase** (Next.js, React, Vue, Remix, etc.) using its established patterns, component libraries, and build tools - not to copy the HTML directly.
 
 The prototypes show exact intended appearance, typography, spacing, interaction behavior, and responsive breakpoints. Reference them for visual fidelity and interaction timing.
 
@@ -16,10 +16,10 @@ The prototypes show exact intended appearance, typography, spacing, interaction 
 ---
 
 ## Key Files
-- `Marrelay Reimagined v2.html` — Main homepage with hero, services, pricing, and lead form
-- `marrelay.css` — Complete design tokens and component styles
-- `site.js` — Scroll reveal, form validation, mobile nav, FAQ accordion
-- `assets/` — Logo mark and placeholder images
+- `Marrelay Reimagined v2.html` - Main homepage with hero, services, pricing, and lead form
+- `marrelay.css` - Complete design tokens and component styles
+- `site.js` - Scroll reveal, form validation, mobile nav, FAQ accordion
+- `assets/` - Logo mark and placeholder images
 - Service pages: `web-development.html`, `data-analytics.html`, `social.html`, `seo-ads.html`, `engineering.html`
 
 ---
@@ -30,33 +30,33 @@ The prototypes show exact intended appearance, typography, spacing, interaction 
 All colors use oklch for consistency and accessibility:
 
 **Neutrals:**
-- `--paper: #FBF6EC` — Light cream background
-- `--paper-2: #F4EDDD` — Slightly darker cream
-- `--paper-3: #EBE3D0` — Cream accent
-- `--ink: #1A1A1E` — Dark charcoal text
-- `--ink-2: #2B2B30` — Medium dark text
-- `--ink-mut: #6E6A62` — Muted text
-- `--ink-soft: #A39E94` — Soft text
+- `--paper: #FBF6EC` - Light cream background
+- `--paper-2: #F4EDDD` - Slightly darker cream
+- `--paper-3: #EBE3D0` - Cream accent
+- `--ink: #1A1A1E` - Dark charcoal text
+- `--ink-2: #2B2B30` - Medium dark text
+- `--ink-mut: #6E6A62` - Muted text
+- `--ink-soft: #A39E94` - Soft text
 
 **Rules & Borders:**
-- `--rule: #E2D9C4` — Light border
-- `--rule-strong: #C9BEA3` — Stronger border
+- `--rule: #E2D9C4` - Light border
+- `--rule-strong: #C9BEA3` - Stronger border
 
 **Service Accents** (one per service):
-- `--terra: #E07A5F` — Web dev (warm orange-red)
-- `--terra-soft: #F2BFA8` — Web dev light
-- `--sage: #6B9080` — Data (muted green)
-- `--sage-soft: #B7CDC0` — Data light
-- `--butter: #F2CC8F` — Social (warm gold)
-- `--butter-soft: #F9E5BD` — Social light
-- `--peri: #8390C8` — SEO/Ads (soft blue)
-- `--peri-soft: #BFC6E2` — SEO/Ads light
-- `--plum: #8B5A8C` — Engineering (plum)
-- `--plum-soft: #C9A9CB` — Engineering light
+- `--terra: #E07A5F` - Web dev (warm orange-red)
+- `--terra-soft: #F2BFA8` - Web dev light
+- `--sage: #6B9080` - Data (muted green)
+- `--sage-soft: #B7CDC0` - Data light
+- `--butter: #F2CC8F` - Social (warm gold)
+- `--butter-soft: #F9E5BD` - Social light
+- `--peri: #8390C8` - SEO/Ads (soft blue)
+- `--peri-soft: #BFC6E2` - SEO/Ads light
+- `--plum: #8B5A8C` - Engineering (plum)
+- `--plum-soft: #C9A9CB` - Engineering light
 
 **Brand:**
-- `--brand: #ED1C24` — Marrelay brand red
-- `--brand-soft: #FBD9DA` — Brand light
+- `--brand: #ED1C24` - Marrelay brand red
+- `--brand-soft: #FBD9DA` - Brand light
 
 ### Typography
 - **Display**: Instrument Serif + Fraunces (serif, italic for emphasis)
@@ -278,18 +278,18 @@ All respect `@media (prefers-reduced-motion: no-preference)`:
 ## State Management
 
 **Form State**:
-- `.lead-form.done` — Form submitted, show success message
-- `.field.invalid` — Validation failed, show error message
-- `.chips input:checked` — Selected chip toggle
-- `.faq-item.open` — FAQ accordion open
+- `.lead-form.done` - Form submitted, show success message
+- `.field.invalid` - Validation failed, show error message
+- `.chips input:checked` - Selected chip toggle
+- `.faq-item.open` - FAQ accordion open
 
 **Navigation State**:
-- `body.m-open` — Mobile menu open
-- `body.over-hero` — Scrolled into hero section (nav style changes)
-- `drawer.setAttribute('aria-hidden', 'false')` — Menu visible
+- `body.m-open` - Mobile menu open
+- `body.over-hero` - Scrolled into hero section (nav style changes)
+- `drawer.setAttribute('aria-hidden', 'false')` - Menu visible
 
 **Reveal State**:
-- `[data-reveal].in` — Element has scrolled into view, add class to trigger animation
+- `[data-reveal].in` - Element has scrolled into view, add class to trigger animation
 
 ---
 
@@ -335,26 +335,26 @@ box-shadow: 8px 8px 0 var(--ink);   /* large cards, featured */
 
 ## Responsive Breakpoints
 
-- **Desktop**: ≥981px — Full nav + desktop layouts
-- **Tablet**: 720–980px — 2-column grids, nav collapses at 980px
-- **Mobile**: ≤719px — 1-column layouts, 20px padding
+- **Desktop**: ≥981px - Full nav + desktop layouts
+- **Tablet**: 720–980px - 2-column grids, nav collapses at 980px
+- **Mobile**: ≤719px - 1-column layouts, 20px padding
 
 Key breakpoints in CSS:
-- `@media (max-width: 980px)` — Nav collapses
-- `@media (max-width: 880px)` — 2-col grids → 1-col, text scales down
-- `@media (max-width: 720px)` — 2-col → 1-col, tight padding
-- `@media (max-width: 560px)` — Single column everything
+- `@media (max-width: 980px)` - Nav collapses
+- `@media (max-width: 880px)` - 2-col grids → 1-col, text scales down
+- `@media (max-width: 720px)` - 2-col → 1-col, tight padding
+- `@media (max-width: 560px)` - Single column everything
 
 ---
 
 ## Assets
 
 **Required**:
-- `assets/martek-mark.png` — Logo mark (40×40px, SVG or PNG)
+- `assets/martek-mark.png` - Logo mark (40×40px, SVG or PNG)
 
 **Used in Prototypes** (drop your own images):
-- `assets/hero-loop.mp4` — Background video for hero (optional, falls back to scrim)
-- `assets/` — Service page images for gallery/case studies (image-slot placeholders)
+- `assets/hero-loop.mp4` - Background video for hero (optional, falls back to scrim)
+- `assets/` - Service page images for gallery/case studies (image-slot placeholders)
 
 The design uses `<image-slot>` web component for drag-drop image uploads. Component already bundled in `image-slot.js`.
 
@@ -377,7 +377,7 @@ When adapting to your codebase, consider:
 ### CSS Architecture
 - CSS variables for all tokens (colors, fonts, spacing)
 - Utility-first where it makes sense (spacing, display), component-focused for cards/buttons
-- No CSS frameworks — vanilla CSS + Flexbox/Grid
+- No CSS frameworks - vanilla CSS + Flexbox/Grid
 - Media queries scoped per component
 
 ### JavaScript Approach

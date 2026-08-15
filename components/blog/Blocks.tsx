@@ -1,5 +1,5 @@
 import type { Block } from '@/lib/blog'
-import { ConsentFlow, CwvMeters, CadFormats } from './Figures'
+import { ConsentFlow, CwvMeters, CadFormats, RedirectMap, RedesignRecovery, PlatformTradeoff } from './Figures'
 
 /** Renders one authored content block. Server component: no client JS needed. */
 export function BlockView({ b }: { b: Block }) {
@@ -66,6 +66,9 @@ export function BlockView({ b }: { b: Block }) {
           {b.kind === 'consent-flow' && <ConsentFlow />}
           {b.kind === 'cwv-meters' && <CwvMeters />}
           {b.kind === 'cad-formats' && <CadFormats />}
+          {b.kind === 'redirect-map' && <RedirectMap />}
+          {b.kind === 'redesign-recovery' && <RedesignRecovery />}
+          {b.kind === 'platform-tradeoff' && <PlatformTradeoff />}
           <figcaption>{b.caption}</figcaption>
         </figure>
       )

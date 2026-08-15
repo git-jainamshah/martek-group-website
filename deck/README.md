@@ -10,7 +10,7 @@ Six ready decks, all built from one slide library. Every slide exists once in
 | `Marrelay-web-Deck.pptx` | 8 | Web development only |
 | `Marrelay-data-Deck.pptx` | 8 | Data & analytics only |
 | `Marrelay-engineering-Deck.pptx` | 7 | Engineering & CAD only |
-| `Marrelay-library-Deck.pptx` | 17 | **Every slide** — copy/paste to assemble your own |
+| `Marrelay-library-Deck.pptx` | 17 | **Every slide** - copy/paste to assemble your own |
 
 The library deck is the one to open when a pitch does not match a preset: copy
 the slides you want into a new file. They all share a layout, so slides moved
@@ -49,10 +49,10 @@ reference a slide name that does not exist, rather than silently skipping it.
 
 Two are new-business specific:
 
-- **`dayOne`** — what a new business should buy now vs. what can wait. It sells
+- **`dayOne`** - what a new business should buy now vs. what can wait. It sells
   by subtraction; telling someone what *not* to buy is what makes the rest
   credible.
-- **`launchPath`** — the five steps from nothing to live.
+- **`launchPath`** - the five steps from nothing to live.
 
 `problemNew` is the brand-new-business counterpart to `problem`. Use one or the
 other, never both.
@@ -61,12 +61,12 @@ other, never both.
 
 Edit the `THEME` block at the top and rebuild. Every colour, font and company
 name on every slide reads from it, so one edit re-themes all decks consistently.
-Three alternate palettes (Midnight, Forest, Monochrome) are commented in — paste
+Three alternate palettes (Midnight, Forest, Monochrome) are commented in - paste
 one over `palette`.
 
 ### Two things that will bite you
 
-- **Hex codes must not include `#`** — write `E8442E`, not `#E8442E`. A `#`
+- **Hex codes must not include `#`** - write `E8442E`, not `#E8442E`. A `#`
   produces a file PowerPoint refuses to open.
 - **Only use fonts installed on the presenting machine.** The defaults
   (Century Schoolbook, Calibri) ship with Office everywhere. Switching to
@@ -75,7 +75,7 @@ one over `palette`.
 
 ## Changing the words
 
-`CONTENT` holds the actual pitch — problems, services, process, timeline,
+`CONTENT` holds the actual pitch - problems, services, process, timeline,
 pricing, objections. Edit the text there and the layout reflows.
 
 ## Not included
