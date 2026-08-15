@@ -26,6 +26,15 @@ export const newWaysToAdvertise: Post = {
       text: 'Everything below about ChatGPT ads comes from OpenAI\'s own announcements and documentation, linked at the end. Nobody has years of performance data on this channel yet, including us, so treat any confident claims about results, including ours, with suspicion.',
     },
 
+    {
+      t: 'brands',
+      items: [
+        { key: 'openai', label: 'ChatGPT Ads' },
+        { key: 'google-ads', label: 'Google Ads' },
+        { key: 'ga4', label: 'Google Analytics 4' },
+      ],
+    },
+
     { t: 'h2', id: 'what-changed', text: 'What actually changed' },
     {
       t: 'p',
@@ -47,6 +56,11 @@ export const newWaysToAdvertise: Post = {
           body: 'A pixel and a Conversions API now exist, so you can see what happened after the click: a purchase, a lead, a signup. Advertisers get aggregated performance data, not access to anyone\'s conversation.',
         },
       ],
+    },
+    {
+      t: 'figure',
+      kind: 'cpm-vs-cpc',
+      caption: 'The change that matters on a small budget: CPM charges at the impression, CPC only once someone arrives.',
     },
     {
       t: 'p',
@@ -172,8 +186,14 @@ export const newWaysToAdvertise: Post = {
       text: 'If you want the mechanics rather than the strategy, our companion guide walks through installing the OpenAI Pixel, firing the right events, handling consent, and deduplicating browser and server conversions.',
     },
     {
-      t: 'p',
-      text: 'Sources: OpenAI, "New ways to buy ChatGPT ads" (5 May 2026); OpenAI Help Center, "Conversion Measurement"; OpenAI Developers, "Measurement Pixel" and "Conversions API".',
+      t: 'sources',
+      title: 'Primary sources',
+      items: [
+        { label: 'OpenAI: New ways to buy ChatGPT ads', url: 'https://openai.com/index/new-ways-to-buy-chatgpt-ads/', note: '5 May 2026 announcement' },
+        { label: 'OpenAI: Our approach to advertising', url: 'https://openai.com/index/our-approach-to-advertising-and-expanding-access/', note: 'the stated principles' },
+        { label: 'OpenAI Ads', url: 'https://ads.openai.com/', note: 'sign up for an advertiser account' },
+        { label: 'OpenAI Help Center: Conversion Measurement', url: 'https://help.openai.com/en/articles/20001409-conversion-measurement' },
+      ],
     },
   ],
 }

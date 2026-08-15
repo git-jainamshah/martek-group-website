@@ -1,5 +1,7 @@
 import type { Block } from '@/lib/blog'
-import { ConsentFlow, CwvMeters, CadFormats, RedirectMap, RedesignRecovery, PlatformTradeoff, OaiMeasureFlow } from './Figures'
+import CodeBlock from './CodeBlock'
+import { BrandRow } from './Brands'
+import { ConsentFlow, CwvMeters, CadFormats, RedirectMap, RedesignRecovery, PlatformTradeoff, OaiMeasureFlow, CpmVsCpc } from './Figures'
 
 /** Renders one authored content block. Server component: no client JS needed. */
 export function BlockView({ b }: { b: Block }) {
@@ -31,12 +33,7 @@ export function BlockView({ b }: { b: Block }) {
         </ol>
       )
     case 'code':
-      return (
-        <figure className="bp-code">
-          {b.caption && <figcaption>{b.caption}</figcaption>}
-          <pre><code>{b.code}</code></pre>
-        </figure>
-      )
+      return <CodeBlock code={b.code} lang={b.lang} caption={b.caption} />
     case 'callout':
       return (
         <aside className={`bp-callout ${b.kind}`}>
@@ -70,6 +67,7 @@ export function BlockView({ b }: { b: Block }) {
           {b.kind === 'redesign-recovery' && <RedesignRecovery />}
           {b.kind === 'platform-tradeoff' && <PlatformTradeoff />}
           {b.kind === 'oai-measure-flow' && <OaiMeasureFlow />}
+          {b.kind === 'cpm-vs-cpc' && <CpmVsCpc />}
           <figcaption>{b.caption}</figcaption>
         </figure>
       )
@@ -84,6 +82,22 @@ export function BlockView({ b }: { b: Block }) {
           ))}
         </div>
       )
+    case 'sources':
+      return (
+        <aside className="bp-sources">
+          <div className="bp-sources-title">{b.title ?? 'Reference'}</div>
+          <ul>
+            {b.items.map((s, n) => (
+              <li key={n}>
+                <a href={s.url} target="_blank" rel="noopener noreferrer">{s.label}</a>
+                {s.note && <span className="bp-sources-note">{s.note}</span>}
+              </li>
+            ))}
+          </ul>
+        </aside>
+      )
+    case 'brands':
+      return <BrandRow items={b.items} />
     case 'divider':
       return <hr className="bp-hr" />
     default:

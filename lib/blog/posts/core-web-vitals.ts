@@ -26,6 +26,14 @@ export const coreWebVitals: Post = {
       text: 'Core Web Vitals are a confirmed Google ranking signal, but the bigger cost is silent: visitors leave sites that feel sluggish before they ever see your offer. Speed is a conversion problem first and an SEO problem second.',
     },
 
+    {
+      t: 'brands',
+      items: [
+        { key: 'search-console', label: 'Search Console' },
+        { key: 'ga4', label: 'Google Analytics 4' },
+      ],
+    },
+
     { t: 'h2', id: 'the-three', text: 'The three numbers, in plain English' },
     {
       t: 'p',
@@ -209,5 +217,16 @@ export const coreWebVitals: Post = {
       t: 'p',
       text: 'Check your field data in Search Console, not the lab score. Compress and correctly size your hero image to fix LCP. Delete third-party scripts you no longer use to fix INP. Set dimensions on images and reserve space for injected elements to fix CLS. Then re-check in a month, because field data moves slowly.',
     },
+    {
+      t: 'sources',
+      title: 'Measure and read the numbers yourself',
+      items: [
+        { label: 'PageSpeed Insights', url: 'https://pagespeed.web.dev/', note: 'test any page in about a minute' },
+        { label: 'web.dev: Core Web Vitals', url: 'https://web.dev/articles/vitals', note: 'the definitions and thresholds' },
+        { label: 'Google Search Console', url: 'https://search.google.com/search-console', note: 'the Core Web Vitals report, on real visitors' },
+        { label: 'Chrome UX Report', url: 'https://developer.chrome.com/docs/crux', note: 'the field data Google actually uses' },
+      ],
+    },
+
   ],
 }

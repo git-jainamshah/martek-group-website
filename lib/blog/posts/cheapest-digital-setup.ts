@@ -247,5 +247,16 @@ export const cheapestDigitalSetup: Post = {
       t: 'p',
       text: 'Buy a domain for about fifteen dollars. Put one clear page on a free host. Get email on your domain, free if budget is tight. Take payments with a no-monthly-fee link. Connect Search Console and analytics on day one. Then stop buying things and go find customers, because no tool on this list will do that part for you.',
     },
+    {
+      t: 'sources',
+      title: 'Free tools worth starting with',
+      items: [
+        { label: 'Google Business Profile', url: 'https://www.google.com/business/', note: 'free, and often outperforms a new website locally' },
+        { label: 'Google Search Console', url: 'https://search.google.com/search-console', note: 'free search visibility data' },
+        { label: 'Google Analytics', url: 'https://analytics.google.com/', note: 'free traffic measurement' },
+        { label: 'ICANN Lookup', url: 'https://lookup.icann.org/', note: 'check a domain before buying' },
+      ],
+    },
+
   ],
 }

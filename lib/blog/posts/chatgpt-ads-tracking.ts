@@ -26,6 +26,15 @@ export const chatgptAdsTracking: Post = {
       text: 'Automatic advanced matching is already the default for new web pixels. On 17 August 2026 OpenAI also enables it for existing web pixels. If you have a pixel installed and have not reviewed what that means for your consent setup, look at it before that date rather than after.',
     },
 
+    {
+      t: 'brands',
+      items: [
+        { key: 'openai', label: 'ChatGPT Ads' },
+        { key: 'ga4', label: 'Google Analytics 4' },
+        { key: 'gtm', label: 'Tag Manager' },
+      ],
+    },
+
     { t: 'h2', id: 'what-you-need', text: 'What you need before you start' },
     {
       t: 'ul',
@@ -95,6 +104,14 @@ export const chatgptAdsTracking: Post = {
       kind: 'tip',
       title: 'Leave debug on while you test',
       text: 'debug: true logs Pixel activity to the browser console so you can watch events fire as you click through the site. Remove it before you finish, or you will ship console noise to every visitor.',
+    },
+
+    {
+      t: 'sources',
+      title: 'Primary source for this step',
+      items: [
+        { label: 'OpenAI Developers: Measurement Pixel', url: 'https://developers.openai.com/ads/measurement-pixel', note: 'install snippet and init options' },
+      ],
     },
 
     { t: 'h2', id: 'consent', text: 'Step 2: handle consent, before init' },
@@ -179,6 +196,14 @@ oaiq("measure", "order_created", {
   { type: "custom" },
   { custom_event_name: "quote_requested" }
 );`,
+    },
+
+    {
+      t: 'sources',
+      title: 'Event names and data shapes',
+      items: [
+        { label: 'OpenAI Developers: Supported events', url: 'https://developers.openai.com/ads/supported-events', note: 'the full list, with each event data shape' },
+      ],
     },
 
     { t: 'h2', id: 'dedup', text: 'Step 4: deduplicate, if you also send server-side' },
@@ -287,6 +312,18 @@ oaiq("measure", "order_created", {
           q: 'Why is my conversion count zero when I know there were sales?',
           a: 'Work through it in this order: is the Pixel firing at all (console with debug on), is a CSP blocking it, is oppref surviving to the conversion page, and is the event name one that your campaign is configured to count. In practice a stripped query parameter is the most common cause.',
         },
+      ],
+    },
+
+    {
+      t: 'sources',
+      title: 'Everything referenced in this guide',
+      items: [
+        { label: 'OpenAI Developers: Measurement Pixel', url: 'https://developers.openai.com/ads/measurement-pixel', note: 'install, consent, CSP, events' },
+        { label: 'OpenAI Developers: Conversions API', url: 'https://developers.openai.com/ads/conversions-api', note: 'server-side events and deduplication' },
+        { label: 'OpenAI Developers: Supported events', url: 'https://developers.openai.com/ads/supported-events' },
+        { label: 'OpenAI Help Center: Conversion Measurement', url: 'https://help.openai.com/en/articles/20001409-conversion-measurement', note: 'oppref, advanced matching, why totals differ' },
+        { label: 'OpenAI Help Center: ChatGPT Ads', url: 'https://help.openai.com/en/collections/20001223-chatgpt-ads', note: 'the wider help collection' },
       ],
     },
 
