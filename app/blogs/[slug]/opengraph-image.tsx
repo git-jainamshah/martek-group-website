@@ -58,13 +58,14 @@ export default function OgImage({ params }: { params: { slug: string } }) {
           >
             M
           </div>
-          <div style={{ fontSize: 26, fontWeight: 600, letterSpacing: -0.3 }}>Marrelay</div>
-          <div style={{ fontSize: 20, color: '#8A8A99' }}>Digital studio, Toronto</div>
+          <div style={{ display: 'flex', fontSize: 26, fontWeight: 600, letterSpacing: -0.3 }}>Marrelay</div>
+          <div style={{ display: 'flex', fontSize: 20, color: '#8A8A99' }}>Digital studio, Toronto</div>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 26 }}>
           <div
             style={{
+              display: 'flex',
               fontSize: 20,
               letterSpacing: 2,
               textTransform: 'uppercase',
@@ -76,6 +77,7 @@ export default function OgImage({ params }: { params: { slug: string } }) {
           </div>
           <div
             style={{
+              display: 'flex',
               fontSize: title.length > 52 ? 62 : 74,
               lineHeight: 1.1,
               fontWeight: 700,
@@ -88,9 +90,9 @@ export default function OgImage({ params }: { params: { slug: string } }) {
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 22, color: '#8A8A99' }}>
-          <div style={{ width: 40, height: 3, background: '#E4572E' }} />
-          <div>marrelay.com</div>
-          {minutes ? <div>· {minutes} min read</div> : null}
+          <div style={{ display: 'flex', width: 40, height: 3, background: '#E4572E' }} />
+          <div style={{ display: 'flex' }}>marrelay.com</div>
+          {minutes ? <div style={{ display: 'flex' }}>{`· ${minutes} min read`}</div> : null}
         </div>
       </div>
     ),
