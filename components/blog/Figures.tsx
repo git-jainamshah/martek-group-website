@@ -185,7 +185,7 @@ export function RedesignRecovery() {
       style={{ width: '100%', height: 'auto' }}>
       {/* baseline */}
       <line x1="30" y1="60" x2="730" y2="60" stroke={MUT} strokeWidth="1.2" strokeDasharray="5 5" />
-      <text x="620" y="52" fill={MUT} fontSize="11" fontFamily="var(--mono)">OLD BASELINE</text>
+      <text x="250" y="52" fill={MUT} fontSize="11" fontFamily="var(--mono)">OLD BASELINE</text>
 
       {/* danger zone */}
       <rect x="30" y="130" width="700" height="34" rx="8" fill="var(--brand-soft)" opacity="0.55" />
@@ -211,27 +211,29 @@ export function RedesignRecovery() {
  */
 export function PlatformTradeoff() {
   const items = [
-    { x: 150, y: 62, label: 'Webflow', note: 'Least upkeep, least control', fill: 'var(--butter)' },
-    { x: 380, y: 118, label: 'WordPress', note: 'Most flexible, most upkeep', fill: 'var(--sage-soft)' },
-    { x: 610, y: 70, label: 'Custom', note: 'Exactly what you specified', fill: 'var(--terra-soft)' },
+    { x: 175, y: 74, label: 'Webflow', note: 'Least upkeep, least control', fill: 'var(--butter)' },
+    { x: 400, y: 116, label: 'WordPress', note: 'Most flexible, most upkeep', fill: 'var(--sage-soft)' },
+    { x: 625, y: 68, label: 'Custom', note: 'Exactly what you specified', fill: 'var(--terra-soft)' },
   ]
   return (
-    <svg viewBox="0 0 760 230" role="img"
-      aria-label="Webflow has the least upkeep and least control, WordPress the most flexibility and most upkeep, custom builds sit between with the highest ceiling"
+    <svg viewBox="0 0 760 240" role="img"
+      aria-label="Webflow has the least upkeep and least control, WordPress the most flexibility and most upkeep, custom builds give the most control"
       style={{ width: '100%', height: 'auto' }}>
       {/* axes */}
-      <line x1="40" y1="180" x2="720" y2="180" stroke={INK} strokeWidth="1.5" />
-      <text x="40" y="204" fill={MUT} fontSize="11" fontFamily="var(--mono)">LESS CONTROL</text>
-      <text x="620" y="204" fill={MUT} fontSize="11" fontFamily="var(--mono)">MORE CONTROL</text>
-      <line x1="40" y1="180" x2="40" y2="30" stroke={INK} strokeWidth="1.5" />
-      <text x="52" y="26" fill={MUT} fontSize="11" fontFamily="var(--mono)">MORE MAINTENANCE ↑</text>
+      <line x1="60" y1="186" x2="720" y2="186" stroke={INK} strokeWidth="1.5" />
+      <line x1="60" y1="186" x2="60" y2="30" stroke={INK} strokeWidth="1.5" />
+      <text x="60" y="212" fill={MUT} fontSize="11" fontFamily="var(--mono)">LESS CONTROL</text>
+      <text x="720" y="212" fill={MUT} fontSize="11" fontFamily="var(--mono)" textAnchor="end">MORE CONTROL</text>
+      {/* Rotated so it runs along its own axis - horizontal, it collided with
+          the nearest plotted item. */}
+      <text x="42" y="108" fill={MUT} fontSize="11" fontFamily="var(--mono)"
+        textAnchor="middle" transform="rotate(-90 42 108)">MORE MAINTENANCE</text>
 
       {items.map((it) => (
         <g key={it.label}>
-          <line x1={it.x} y1={it.y + 26} x2={it.x} y2="180" stroke={MUT} strokeWidth="1" strokeDasharray="3 3" />
-          <circle cx={it.x} cy={it.y} r="24" fill={it.fill} stroke={INK} strokeWidth="1.5" />
-          <text x={it.x} y={it.y - 34} fill={INK} fontSize="14" fontWeight="700" textAnchor="middle">{it.label}</text>
-          <text x={it.x} y={it.y + 52} fill={MUT} fontSize="11.5" textAnchor="middle">{it.note}</text>
+          <circle cx={it.x} cy={it.y} r="26" fill={it.fill} stroke={INK} strokeWidth="1.5" />
+          <text x={it.x} y={it.y - 38} fill={INK} fontSize="14.5" fontWeight="700" textAnchor="middle">{it.label}</text>
+          <text x={it.x} y={it.y + 50} fill={MUT} fontSize="11.5" textAnchor="middle">{it.note}</text>
         </g>
       ))}
     </svg>
