@@ -6,6 +6,8 @@ import { cheapestDigitalSetup } from './posts/cheapest-digital-setup'
 import { websiteCostComparison } from './posts/website-cost-comparison'
 import { redesignWithoutLosingSeo } from './posts/redesign-without-losing-seo'
 import { wordpressWebflowCustom } from './posts/wordpress-webflow-custom'
+import { chatgptAdsTracking } from './posts/chatgpt-ads-tracking'
+import { newWaysToAdvertise } from './posts/new-ways-to-advertise'
 
 export type { Post, Block } from './types'
 export { tocOf, blockText } from './types'
@@ -19,6 +21,8 @@ export const POSTS: Post[] = [
   websiteCostComparison,
   redesignWithoutLosingSeo,
   wordpressWebflowCustom,
+  chatgptAdsTracking,
+  newWaysToAdvertise,
 ].sort(
   (a, b) => (a.date < b.date ? 1 : -1)
 )
