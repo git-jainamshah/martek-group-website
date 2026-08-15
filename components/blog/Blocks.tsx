@@ -1,5 +1,5 @@
 import type { Block } from '@/lib/blog'
-import { ConsentFlow, CwvMeters, CadFormats, RedirectMap, RedesignRecovery, PlatformTradeoff } from './Figures'
+import { ConsentFlow, CwvMeters, CadFormats, RedirectMap, RedesignRecovery, PlatformTradeoff, OaiMeasureFlow } from './Figures'
 
 /** Renders one authored content block. Server component: no client JS needed. */
 export function BlockView({ b }: { b: Block }) {
@@ -69,6 +69,7 @@ export function BlockView({ b }: { b: Block }) {
           {b.kind === 'redirect-map' && <RedirectMap />}
           {b.kind === 'redesign-recovery' && <RedesignRecovery />}
           {b.kind === 'platform-tradeoff' && <PlatformTradeoff />}
+          {b.kind === 'oai-measure-flow' && <OaiMeasureFlow />}
           <figcaption>{b.caption}</figcaption>
         </figure>
       )

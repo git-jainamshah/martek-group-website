@@ -240,3 +240,55 @@ export function PlatformTradeoff() {
     </svg>
   )
 }
+
+/**
+ * How a ChatGPT ad click becomes an attributed conversion. The chain is the
+ * thing people get wrong (usually by losing oppref), so it gets a picture.
+ */
+export function OaiMeasureFlow() {
+  const steps = [
+    { t: '1. Ad click', s: 'ChatGPT appends', m: '?oppref=...' },
+    { t: '2. Landing page', s: 'Pixel reads it, stores', m: '__oppref cookie' },
+    { t: '3. Conversion', s: 'Your event fires', m: 'oaiq("measure", ...)' },
+    { t: '4. Ads Manager', s: 'Matched to the click', m: 'Conversions' },
+  ]
+  const w = 168
+  const gap = 22
+  return (
+    <svg viewBox="0 0 760 200" role="img"
+      aria-label="An ad click appends oppref to the landing page URL, the Pixel stores it in a first-party cookie, a later conversion event fires, and Ads Manager matches it back to the click"
+      style={{ width: '100%', height: 'auto' }}>
+      <defs>
+        <marker id="oai-arrow" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L7,3 z" fill={INK} />
+        </marker>
+      </defs>
+
+      {steps.map((b, i) => {
+        const x = 12 + i * (w + gap)
+        const last = i === steps.length - 1
+        return (
+          <g key={i}>
+            <rect x={x} y="28" width={w} height="98" rx="14"
+              fill={last ? INK : PAPER} stroke={INK} strokeWidth="1.5" />
+            <text x={x + 16} y="56" fill={last ? PAPER : INK} fontSize="13.5" fontWeight="700">{b.t}</text>
+            <text x={x + 16} y="78" fill={last ? 'var(--paper-3)' : MUT} fontSize="11.5">{b.s}</text>
+            <text x={x + 16} y="102" fill={last ? BRAND : BRAND} fontSize="11.5" fontFamily="var(--mono)">{b.m}</text>
+            {!last && (
+              <line x1={x + w + 3} y1="77" x2={x + w + gap - 5} y2="77"
+                stroke={INK} strokeWidth="1.8" markerEnd="url(#oai-arrow)" />
+            )}
+          </g>
+        )
+      })}
+
+      {/* The failure mode, called out where it happens */}
+      <text x="12" y="160" fill={BRAND} fontSize="11.5" fontWeight="700">
+        Break the chain here and nothing is attributed:
+      </text>
+      <text x="12" y="180" fill={MUT} fontSize="11.5">
+        a redirect that drops the query string, or a Pixel that loads too late.
+      </text>
+    </svg>
+  )
+}
