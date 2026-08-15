@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { POSTS, sortByPopularity, formatPostDate } from '@/lib/blog'
 import { getViewCounts } from '@/lib/blog/views-server'
+import { plainText } from '@/lib/blog/richtext'
 
 export const revalidate = 300
 
@@ -51,7 +52,7 @@ export default async function BlogsPage() {
               <span>{featured.readMinutes} min</span>
             </div>
             <h2>{featured.title}</h2>
-            <p>{featured.excerpt}</p>
+            <p>{plainText(featured.excerpt)}</p>
             <span className="bl-more">
               Read the guide
               <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
@@ -67,7 +68,7 @@ export default async function BlogsPage() {
           <Link key={p.slug} href={`/blogs/${p.slug}`} className="bl-card">
             <span className="bl-cat">{p.category}</span>
             <h3>{p.cardTitle ?? p.title}</h3>
-            <p>{p.excerpt}</p>
+            <p>{plainText(p.excerpt)}</p>
             <span className="bl-card-foot">
               {formatPostDate(p.date)} · {p.readMinutes} min read
             </span>

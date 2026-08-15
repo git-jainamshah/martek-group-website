@@ -6,7 +6,7 @@ export const websiteCostComparison: Post = {
   cardTitle: 'What a Small Business Website Really Costs',
   seoTitle: 'Small Business Website Cost: DIY vs Freelancer vs Agency',
   excerpt:
-    'Quotes for the same website range from {{0}} to {{50000}} which makes them useless without context. Here is what each route actually costs over five years, including the fees nobody quotes you.',
+    'Quotes for the same website range from nothing to CA$50,000, which makes them useless without context. Here is what each route actually costs over five years, including the fees nobody quotes you.',
   description:
     'Real 2026 website costs across DIY builders, freelancers and agencies, with five-year totals and the fees most quotes leave out.',
   category: 'Buying guide',

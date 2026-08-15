@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { POSTS, sortByPopularity, formatPostDate } from '@/lib/blog'
 import { getViewCounts } from '@/lib/blog/views-server'
+import { plainText } from '@/lib/blog/richtext'
 
 /**
  * Tail-end blog strip for the homepage. Auto-sorted by real view counts
@@ -34,7 +35,7 @@ export default async function HomeBlogStrip({ limit = 3 }: { limit?: number }) {
             <Link key={p.slug} href={`/blogs/${p.slug}`} className="bl-card">
               <span className="bl-cat">{p.category}</span>
               <h3>{p.cardTitle ?? p.title}</h3>
-              <p>{p.excerpt}</p>
+              <p>{plainText(p.excerpt)}</p>
               <span className="bl-card-foot">
                 {formatPostDate(p.date)} · {p.readMinutes} min read
               </span>

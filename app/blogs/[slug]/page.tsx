@@ -8,7 +8,7 @@ import { BlockView } from '@/components/blog/Blocks'
 import ArticleClient, { ArticleCta } from '@/components/blog/ArticleClient'
 import { MoneyProvider, CurrencySwitcher } from '@/components/blog/Money'
 import { getRates } from '@/lib/money/rates'
-import { MONEY_RE } from '@/lib/blog/richtext'
+import { MONEY_RE, plainText } from '@/lib/blog/richtext'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL?.trim() || 'https://www.marrelay.com'
 
@@ -139,7 +139,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
             <span>{post.readMinutes} min read</span>
           </div>
           <h1>{post.title}</h1>
-          <p className="bp-excerpt">{post.excerpt}</p>
+          <p className="bp-excerpt">{plainText(post.excerpt)}</p>
           <div className="bp-author">
             <span className="bp-avatar" aria-hidden="true">M</span>
             <span>
@@ -190,7 +190,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
                 <Link key={r.slug} href={`/blogs/${r.slug}`} className="bp-card">
                   <span className="bp-card-cat">{r.category}</span>
                   <h3>{r.cardTitle ?? r.title}</h3>
-                  <p>{r.excerpt}</p>
+                  <p>{plainText(r.excerpt)}</p>
                   <span className="bp-card-meta">{r.readMinutes} min read</span>
                 </Link>
               ))}

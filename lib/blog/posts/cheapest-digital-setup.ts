@@ -6,7 +6,7 @@ export const cheapestDigitalSetup: Post = {
   cardTitle: 'The Cheapest Way to Start a Business Online',
   seoTitle: 'Cheapest Way to Start a Business Online in 2026',
   excerpt:
-    'You can be online, taking payments, and looking legitimate for under {{130}} in your first year. Here is the exact stack, what each piece costs, and the upgrades that are actually worth paying for later.',
+    'You can be online, taking payments, and looking legitimate for under CA$130 in your first year. Here is the exact stack, what each piece costs, and the upgrades that are actually worth paying for later.',
   description:
     'The cheapest digital setup for a new business in 2026: domain, website, email, payments and analytics, with free and paid options compared.',
   category: 'Starting out',
