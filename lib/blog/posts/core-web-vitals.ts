@@ -26,6 +26,14 @@ export const coreWebVitals: Post = {
       text: 'Core Web Vitals are a confirmed Google ranking signal, but the bigger cost is silent: visitors leave sites that feel sluggish before they ever see your offer. Speed is a conversion problem first and an SEO problem second.',
     },
 
+    {
+      t: 'brands',
+      items: [
+        { key: 'google', label: 'PageSpeed Insights' },
+        { key: 'search-console', label: 'Search Console' },
+      ],
+    },
+
     { t: 'h2', id: 'the-three', text: 'The three numbers, in plain English' },
     {
       t: 'p',

@@ -26,6 +26,16 @@ export const consentModeV2: Post = {
       text: 'Business owners and marketers who have a website, run Google Ads or GA4, and were told to "add consent mode" without being told how. You do not need to be a developer to follow this, but you will need access to your tag manager or site code.',
     },
 
+    {
+      t: 'brands',
+      items: [
+        { key: 'gtm', label: 'Tag Manager' },
+        { key: 'ga4', label: 'Google Analytics 4' },
+        { key: 'google-ads', label: 'Google Ads' },
+        { key: 'onetrust', label: 'OneTrust' },
+      ],
+    },
+
     { t: 'h2', id: 'what-it-is', text: 'What Consent Mode actually does (in one minute)' },
     {
       t: 'p',
@@ -167,7 +177,7 @@ function consentAnalyticsOnly() {
         },
         {
           title: 'Fire the update from your banner',
-          body: 'Most consent platforms (Cookiebot, CookieYes, Iubenda, Osano) have a native GTM template that handles the update for you. If you built your own banner, push a dataLayer event on click and use a Custom HTML tag with the Step 2 code, triggered by that event.',
+          body: 'Most consent platforms (OneTrust, Cookiebot, CookieYes, Iubenda, Osano) have a native GTM template that handles the update for you. If you built your own banner, push a dataLayer event on click and use a Custom HTML tag with the Step 2 code, triggered by that event.',
         },
         {
           title: 'Check each tag\'s consent settings',

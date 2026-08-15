@@ -105,6 +105,15 @@ export const cheapestDigitalSetup: Post = {
 
     { t: 'h2', id: 'email', text: 'Step 3: Business email ($0 to $84/year)' },
     {
+      t: 'brands',
+      items: [
+        { key: 'google', label: 'Google Workspace' },
+        { key: 'microsoft', label: 'Microsoft 365' },
+        { key: 'outlook', label: 'Outlook' },
+        { key: 'ms-teams', label: 'Teams' },
+      ],
+    },
+    {
       t: 'p',
       text: 'Sending quotes from a personal Gmail costs you deals you never hear about. Using your domain (you@yourbusiness.com) is the cheapest credibility upgrade that exists.',
     },
