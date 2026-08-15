@@ -117,3 +117,125 @@ export function CadFormats() {
     </svg>
   )
 }
+
+/**
+ * What a 301 redirect preserves and a 404 throws away. The single most
+ * important idea in a site migration, so it gets a picture.
+ */
+export function RedirectMap() {
+  const row = (y: number, ok: boolean) => {
+    const c = ok ? 'var(--sage)' : BRAND
+    return (
+      <g key={y}>
+        <rect x="14" y={y} width="196" height="52" rx="12" fill={PAPER} stroke={INK} strokeWidth="1.5" />
+        <text x="30" y={y + 24} fill={MUT} fontSize="10.5" fontFamily="var(--mono)">OLD URL</text>
+        <text x="30" y={y + 41} fill={INK} fontSize="12.5" fontFamily="var(--mono)">/services-web</text>
+
+        <line x1="216" y1={y + 26} x2="292" y2={y + 26} stroke={c} strokeWidth="2" markerEnd={`url(#rm-arrow-${ok ? 'ok' : 'no'})`} />
+        <rect x="238" y={y + 8} width={ok ? 42 : 46} height="20" rx="10" fill={c} />
+        <text x={ok ? 246 : 245} y={y + 22} fill={PAPER} fontSize="11" fontWeight="700" fontFamily="var(--mono)">{ok ? '301' : '404'}</text>
+
+        <rect x="300" y={y} width="240" height="52" rx="12"
+          fill={ok ? 'var(--paper-2)' : PAPER} stroke={ok ? INK : c}
+          strokeWidth="1.5" strokeDasharray={ok ? undefined : '5 4'} />
+        <text x="318" y={y + 24} fill={MUT} fontSize="10.5" fontFamily="var(--mono)">{ok ? 'NEW URL' : 'NOTHING'}</text>
+        <text x="318" y={y + 41} fill={ok ? INK : c} fontSize="12.5" fontFamily="var(--mono)">
+          {ok ? '/services/web-development' : 'Page not found'}
+        </text>
+
+        <text x="558" y={y + 24} fill={ok ? 'var(--sage)' : BRAND} fontSize="12.5" fontWeight="700">
+          {ok ? 'Rankings move' : 'Rankings lost'}
+        </text>
+        <text x="558" y={y + 41} fill={MUT} fontSize="11}">{''}</text>
+        <text x="558" y={y + 41} fill={MUT} fontSize="11">{ok ? 'Links still count' : 'Links point nowhere'}</text>
+      </g>
+    )
+  }
+  return (
+    <svg viewBox="0 0 760 170" role="img"
+      aria-label="A 301 redirect moves rankings to the new URL; without one the old URL 404s and its rankings are lost"
+      style={{ width: '100%', height: 'auto' }}>
+      <defs>
+        <marker id="rm-arrow-ok" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L7,3 z" fill="var(--sage)" />
+        </marker>
+        <marker id="rm-arrow-no" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L7,3 z" fill={BRAND} />
+        </marker>
+      </defs>
+      <text x="14" y="16" fill={MUT} fontSize="10.5" fontFamily="var(--mono)">WITH A REDIRECT MAP</text>
+      {row(26, true)}
+      <text x="14" y="106" fill={MUT} fontSize="10.5" fontFamily="var(--mono)">WITHOUT ONE</text>
+      {row(116, false)}
+    </svg>
+  )
+}
+
+/**
+ * The shape of a normal post-launch recovery, so a reader can tell an expected
+ * dip from a real problem instead of panicking (or waiting too long).
+ */
+export function RedesignRecovery() {
+  const pts = [[40, 60], [150, 108], [260, 96], [370, 74], [480, 58], [590, 48], [700, 44]]
+  const path = pts.map((p, i) => `${i ? 'L' : 'M'}${p[0]},${p[1]}`).join(' ')
+  const labels = ['Launch', 'Wk 1', 'Wk 2', 'Wk 3', 'Wk 4', 'Wk 6', 'Wk 8']
+  return (
+    <svg viewBox="0 0 760 200" role="img"
+      aria-label="Traffic dips for one to two weeks after launch, then recovers to the previous baseline by week four to eight"
+      style={{ width: '100%', height: 'auto' }}>
+      {/* baseline */}
+      <line x1="30" y1="60" x2="730" y2="60" stroke={MUT} strokeWidth="1.2" strokeDasharray="5 5" />
+      <text x="250" y="52" fill={MUT} fontSize="11" fontFamily="var(--mono)">OLD BASELINE</text>
+
+      {/* danger zone */}
+      <rect x="30" y="130" width="700" height="34" rx="8" fill="var(--brand-soft)" opacity="0.55" />
+      <text x="44" y="152" fill="var(--brand-ink)" fontSize="11.5" fontWeight="700">
+        Still down here at week 4? Something is broken, do not wait it out.
+      </text>
+
+      <path d={path} fill="none" stroke={INK} strokeWidth="2.5" strokeLinejoin="round" />
+      {pts.map((p, i) => (
+        <g key={i}>
+          <circle cx={p[0]} cy={p[1]} r="5" fill={i === 1 ? BRAND : INK} />
+          <text x={p[0]} y="186" fill={MUT} fontSize="11" fontFamily="var(--mono)" textAnchor="middle">{labels[i]}</text>
+        </g>
+      ))}
+      <text x="150" y="128" fill={BRAND} fontSize="11.5" fontWeight="700" textAnchor="middle">expected dip</text>
+    </svg>
+  )
+}
+
+/**
+ * The three platforms placed on the two axes that actually decide the choice:
+ * how much control you keep, and how much maintenance you take on.
+ */
+export function PlatformTradeoff() {
+  const items = [
+    { x: 175, y: 74, label: 'Webflow', note: 'Least upkeep, least control', fill: 'var(--butter)' },
+    { x: 400, y: 116, label: 'WordPress', note: 'Most flexible, most upkeep', fill: 'var(--sage-soft)' },
+    { x: 625, y: 68, label: 'Custom', note: 'Exactly what you specified', fill: 'var(--terra-soft)' },
+  ]
+  return (
+    <svg viewBox="0 0 760 240" role="img"
+      aria-label="Webflow has the least upkeep and least control, WordPress the most flexibility and most upkeep, custom builds give the most control"
+      style={{ width: '100%', height: 'auto' }}>
+      {/* axes */}
+      <line x1="60" y1="186" x2="720" y2="186" stroke={INK} strokeWidth="1.5" />
+      <line x1="60" y1="186" x2="60" y2="30" stroke={INK} strokeWidth="1.5" />
+      <text x="60" y="212" fill={MUT} fontSize="11" fontFamily="var(--mono)">LESS CONTROL</text>
+      <text x="720" y="212" fill={MUT} fontSize="11" fontFamily="var(--mono)" textAnchor="end">MORE CONTROL</text>
+      {/* Rotated so it runs along its own axis - horizontal, it collided with
+          the nearest plotted item. */}
+      <text x="42" y="108" fill={MUT} fontSize="11" fontFamily="var(--mono)"
+        textAnchor="middle" transform="rotate(-90 42 108)">MORE MAINTENANCE</text>
+
+      {items.map((it) => (
+        <g key={it.label}>
+          <circle cx={it.x} cy={it.y} r="26" fill={it.fill} stroke={INK} strokeWidth="1.5" />
+          <text x={it.x} y={it.y - 38} fill={INK} fontSize="14.5" fontWeight="700" textAnchor="middle">{it.label}</text>
+          <text x={it.x} y={it.y + 50} fill={MUT} fontSize="11.5" textAnchor="middle">{it.note}</text>
+        </g>
+      ))}
+    </svg>
+  )
+}

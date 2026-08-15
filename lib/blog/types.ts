@@ -18,7 +18,7 @@ export type Block =
   | { t: 'callout'; kind: 'tip' | 'warn' | 'note'; title?: string; text: string }
   | { t: 'quote'; text: string }
   | { t: 'table'; head: string[]; rows: string[][]; caption?: string }
-  | { t: 'figure'; kind: 'consent-flow' | 'cwv-meters' | 'cad-formats'; caption: string }
+  | { t: 'figure'; kind: 'consent-flow' | 'cwv-meters' | 'cad-formats' | 'redirect-map' | 'redesign-recovery' | 'platform-tradeoff'; caption: string }
   | { t: 'faq'; items: { q: string; a: string }[] }
   | { t: 'divider' }
 

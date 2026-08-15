@@ -44,6 +44,12 @@ export const wordpressWebflowCustom: Post = {
       text: 'The trade is roughly: WordPress gives you the most flexibility and the most maintenance; Webflow gives you the least maintenance and the least control; custom gives you exactly what you asked for and no path to change it without a developer.',
     },
 
+    {
+      t: 'figure',
+      kind: 'platform-tradeoff',
+      caption: 'The two axes that actually decide it: how much control you keep, and how much maintenance you take on.',
+    },
+
     { t: 'h2', id: 'real-costs', text: 'What each one really costs over three years' },
     {
       t: 'p',
