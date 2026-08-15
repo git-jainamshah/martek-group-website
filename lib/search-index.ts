@@ -65,6 +65,16 @@ export const SEARCH_INDEX: SearchDoc[] = [
     keywords: ['blog', 'guides', 'articles', 'how to', 'tutorial', 'insights', 'resources'],
   },
   {
+    title: 'Redesign Without Losing Your Rankings', url: '/blogs/website-redesign-without-losing-seo', section: 'Blog',
+    description: 'Build a redirect map, keep the pages that earn traffic, and catch a ranking drop in week one.',
+    keywords: ['website redesign', 'redesign seo', 'site migration', '301 redirect', 'redirect map', 'lost rankings', 'traffic drop', 'relaunch', 'search console'],
+  },
+  {
+    title: 'WordPress vs Webflow vs Custom', url: '/blogs/wordpress-vs-webflow-vs-custom-built', section: 'Blog',
+    description: 'Real three-year costs, who each option suits, and the questions that decide it.',
+    keywords: ['wordpress', 'webflow', 'custom website', 'cms', 'website platform', 'website cost', 'squarespace', 'wix', 'which platform', 'website builder'],
+  },
+  {
     title: 'Google Consent Mode v2 in 3 Steps', url: '/blogs/google-consent-mode-v2-in-3-steps', section: 'Blog',
     description: 'Implement Consent Mode v2 in GTM, Shopify, or plain HTML, with verification steps.',
     keywords: ['consent mode', 'consent mode v2', 'gtm', 'google tag manager', 'gdpr', 'cookie banner', 'privacy', 'ad_storage', 'analytics_storage', 'shopify'],
