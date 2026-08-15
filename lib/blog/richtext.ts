@@ -21,7 +21,17 @@
 
 export const LINK_RE = /\[([^\]]+)\]\(([^)\s]+)\)/g
 
+/**
+ * Prices are authored as {{1500}}, always a plain Canadian-dollar amount with
+ * no symbol, separators or decimals. The renderer converts and formats it for
+ * whichever currency the reader has chosen, so the authored text never commits
+ * to a symbol and there is one number to update rather than ten.
+ */
+export const MONEY_RE = /\{\{(\d+(?:\.\d+)?)\}\}/g
+
 /** Strip the markup so word counts, reading time and search snippets see prose. */
 export function plainText(text: string): string {
-  return text.replace(LINK_RE, '$1')
+  return text
+    .replace(LINK_RE, '$1')
+    .replace(MONEY_RE, (_m, n) => `CA$${Number(n).toLocaleString('en-CA')}`)
 }

@@ -6,6 +6,9 @@ import { blockText } from '@/lib/blog/types'
 import { getViewCounts } from '@/lib/blog/views-server'
 import { BlockView } from '@/components/blog/Blocks'
 import ArticleClient, { ArticleCta } from '@/components/blog/ArticleClient'
+import { MoneyProvider, CurrencySwitcher } from '@/components/blog/Money'
+import { getRates } from '@/lib/money/rates'
+import { MONEY_RE } from '@/lib/blog/richtext'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL?.trim() || 'https://www.marrelay.com'
 
@@ -46,6 +49,13 @@ export default async function ArticlePage({ params }: { params: { slug: string }
   if (!post) notFound()
 
   const views = await getViewCounts()
+  // Fetched server-side and cached for a day: see lib/money/rates.ts.
+  const rates = await getRates()
+  // Only articles that actually quote prices get a currency switcher.
+  // MONEY_RE is a global regex, so .test() would advance lastIndex between
+  // calls and skip matches. Search the serialised blocks once instead.
+  const hasPrices = MONEY_RE.test(JSON.stringify(post.blocks))
+  MONEY_RE.lastIndex = 0
   const related = relatedPosts(post.slug, 2, views)
   const toc = tocOf(post)
 
@@ -152,7 +162,10 @@ export default async function ArticlePage({ params }: { params: { slug: string }
           </aside>
 
           <article className="bp-article">
-            {post.blocks.map((b, i) => <BlockView key={i} b={b} />)}
+            <MoneyProvider rates={rates}>
+              {hasPrices && <CurrencySwitcher />}
+              {post.blocks.map((b, i) => <BlockView key={i} b={b} />)}
+            </MoneyProvider>
 
             <div className="bp-tags">
               {post.tags.map((t) => <span key={t}>{t}</span>)}

@@ -6,7 +6,7 @@ export const websiteCostComparison: Post = {
   cardTitle: 'What a Small Business Website Really Costs',
   seoTitle: 'Small Business Website Cost: DIY vs Freelancer vs Agency',
   excerpt:
-    'Quotes for the same website range from $0 to $50,000, which makes them useless without context. Here is what each route actually costs over five years, including the fees nobody quotes you.',
+    'Quotes for the same website range from {{0}} to {{50000}} which makes them useless without context. Here is what each route actually costs over five years, including the fees nobody quotes you.',
   description:
     'Real 2026 website costs across DIY builders, freelancers and agencies, with five-year totals and the fees most quotes leave out.',
   category: 'Buying guide',
@@ -42,7 +42,7 @@ export const websiteCostComparison: Post = {
       ],
     },
 
-    { t: 'h2', id: 'diy', text: 'Option 1: DIY builders ($0 to $400/year)' },
+    { t: 'h2', id: 'diy', text: 'Option 1: DIY builders' },
     {
       t: 'p',
       text: 'Wix, Squarespace, Shopify, or WordPress on a bought template. The platform hands you the tools and you do the work. If you are at the very start and want the cheapest setup that still looks credible, [we costed that separately](/blogs/cheapest-way-to-start-a-business-online).',
@@ -51,10 +51,10 @@ export const websiteCostComparison: Post = {
       t: 'table',
       head: ['', 'Typical cost', 'Reality'],
       rows: [
-        ['Platform subscription', '$16 to $30/mo', 'Forever, and it rises. Cancel and the site goes away.'],
-        ['Premium template', '$0 to $200 one-off', 'Optional; free ones are usually fine.'],
+        ['Platform subscription', '{{22}} to {{42}}/mo', 'Forever, and it rises. Cancel and the site goes away.'],
+        ['Premium template', '{{0}} to {{200}} one-off', 'Optional; free ones are usually fine.'],
         ['Your time', '20 to 60 hours', 'The real cost. At any sensible hourly value this dwarfs the subscription.'],
-        ['Five-year total', 'About $1,000 to $2,000', 'Plus 20 to 60 hours you will not get back.'],
+        ['Five-year total', 'About {{1000}} to {{2000}}', 'Plus 20 to 60 hours you will not get back.'],
       ],
     },
     {
@@ -68,7 +68,7 @@ export const websiteCostComparison: Post = {
       text: 'Site builders do not let you export a working site. Leaving means rebuilding from scratch. Your content and your domain are portable; the site itself is not. Factor that into any multi-year decision.',
     },
 
-    { t: 'h2', id: 'freelancer', text: 'Option 2: A freelancer ($800 to $8,000)' },
+    { t: 'h2', id: 'freelancer', text: 'Option 2: A freelancer' },
     {
       t: 'p',
       text: 'One person builds it for you. Wildly variable in quality, and easily the most common route for small businesses.',
@@ -77,9 +77,9 @@ export const websiteCostComparison: Post = {
       t: 'table',
       head: ['Tier', 'Typical price', 'What you get'],
       rows: [
-        ['Marketplace (Fiverr, Upwork budget end)', '$150 to $800', 'A template filled in with your text. Sometimes fine, often a rebuild waiting to happen.'],
-        ['Experienced freelancer', '$1,500 to $5,000', 'Proper discovery, custom design on a solid platform, decent performance and SEO basics.'],
-        ['Specialist / senior', '$5,000 to $15,000', 'Strategy, custom build, integrations, measurement, ongoing support.'],
+        ['Marketplace (Fiverr, Upwork budget end)', '{{150}} to {{800}}', 'A template filled in with your text. Sometimes fine, often a rebuild waiting to happen.'],
+        ['Experienced freelancer', '{{1500}} to {{5000}}', 'Proper discovery, custom design on a solid platform, decent performance and SEO basics.'],
+        ['Specialist / senior', '{{5000}} to {{15000}}', 'Strategy, custom build, integrations, measurement, ongoing support.'],
       ],
     },
     {
@@ -96,7 +96,7 @@ export const websiteCostComparison: Post = {
       ],
     },
 
-    { t: 'h2', id: 'agency', text: 'Option 3: An agency or studio ($5,000 to $50,000+)' },
+    { t: 'h2', id: 'agency', text: 'Option 3: An agency or studio' },
     {
       t: 'p',
       text: 'A team, covering strategy, design, build and testing, and sometimes content and ongoing marketing on top. Price scales with how many people are involved and how ambitious the brief is.',
@@ -105,9 +105,9 @@ export const websiteCostComparison: Post = {
       t: 'table',
       head: ['Type', 'Typical project', 'Best for'],
       rows: [
-        ['Small studio (2 to 8 people)', '$5,000 to $25,000', 'Serious small and mid-size business sites; senior attention without corporate overhead'],
-        ['Mid-size agency', '$25,000 to $100,000', 'Multi-stakeholder projects, brand work, complex integrations'],
-        ['Large agency', '$100,000+', 'Enterprise, compliance-heavy, multi-market'],
+        ['Small studio (2 to 8 people)', '{{5000}} to {{25000}}', 'Serious small and mid-size business sites; senior attention without corporate overhead'],
+        ['Mid-size agency', '{{25000}} to {{100000}}', 'Multi-stakeholder projects, brand work, complex integrations'],
+        ['Large agency', '{{100000}}+', 'Enterprise, compliance-heavy, multi-market'],
       ],
     },
     {
@@ -131,14 +131,14 @@ export const websiteCostComparison: Post = {
       caption: 'Recurring and easily forgotten costs.',
       head: ['Item', 'Typical cost', 'Notes'],
       rows: [
-        ['Domain', '$15/yr', 'Non-negotiable, cheap, must be in your name'],
-        ['Hosting', '$0 to $50/mo', 'Free tiers are genuinely fine for most brochure sites'],
-        ['SSL certificate', '$0', 'Free everywhere now. Being charged for it is a red flag'],
-        ['Content and copywriting', '$0 to $3,000', 'The most common cause of a stalled project'],
-        ['Photography', '$0 to $2,000', 'Stock photos are free-ish and look it'],
-        ['Maintenance and updates', '$0 to $200/mo', 'WordPress needs this. Static sites barely do'],
-        ['Changes after launch', '$75 to $200/hr', 'Ask about this before signing, not after'],
-        ['Email hosting', '$0 to $84/yr', 'Separate from the website'],
+        ['Domain', '{{15}}/yr', 'Non-negotiable, cheap, must be in your name'],
+        ['Hosting', '{{0}} to {{50}}/mo', 'Free tiers are genuinely fine for most brochure sites'],
+        ['SSL certificate', '{{0}}', 'Free everywhere now. Being charged for it is a red flag'],
+        ['Content and copywriting', '{{0}} to {{3000}}', 'The most common cause of a stalled project'],
+        ['Photography', '{{0}} to {{2000}}', 'Stock photos are free-ish and look it'],
+        ['Maintenance and updates', '{{0}} to {{200}}/mo', 'WordPress needs this. Static sites barely do'],
+        ['Changes after launch', '{{75}} to {{200}}/hr', 'Ask about this before signing, not after'],
+        ['Email hosting', '{{0}} to {{100}}/yr', 'Separate from the website'],
       ],
     },
 
@@ -152,11 +152,11 @@ export const websiteCostComparison: Post = {
       caption: 'Approximate five-year totals, including hosting and typical maintenance.',
       head: ['Route', 'Up front', 'Ongoing', '5-year total'],
       rows: [
-        ['DIY on Squarespace', '$0', 'About $300/yr', 'About $1,500 + your 40 hours'],
-        ['Budget marketplace freelancer', 'About $500', 'About $200/yr', 'About $1,500 (often plus a rebuild)'],
-        ['Experienced freelancer', 'About $3,000', 'About $200/yr', 'About $4,000'],
-        ['Small studio, fixed price', 'About $8,000', 'About $200/yr', 'About $9,000'],
-        ['Mid-size agency', 'About $30,000', 'About $2,400/yr', 'About $42,000'],
+        ['DIY on Squarespace', '{{0}}', 'About {{300}}/yr', 'About {{1500}} + your 40 hours'],
+        ['Budget marketplace freelancer', 'About {{500}}', 'About {{200}}/yr', 'About {{1500}} (often plus a rebuild)'],
+        ['Experienced freelancer', 'About {{3000}}', 'About {{200}}/yr', 'About {{4000}}'],
+        ['Small studio, fixed price', 'About {{8000}}', 'About {{200}}/yr', 'About {{9000}}'],
+        ['Mid-size agency', 'About {{30000}}', 'About {{2400}}/yr', 'About {{42000}}'],
       ],
     },
     {
@@ -176,7 +176,7 @@ export const websiteCostComparison: Post = {
     },
     {
       t: 'quote',
-      text: 'The right budget is the one where a modest improvement in results pays it back within a year. If your site drives $10,000 of business annually, a $30,000 build is not ambitious, it is a mistake. If it drives $500,000, spending $3,000 is leaving money on the table.',
+      text: 'The right budget is the one where a modest improvement in results pays it back within a year. If your site drives {{10000}} of business annually, a {{30000}} build is not ambitious, it is a mistake. If it drives {{500000}} spending {{3000}} is leaving money on the table.',
     },
 
     { t: 'h2', id: 'faq', text: 'Questions we get asked' },
@@ -184,7 +184,7 @@ export const websiteCostComparison: Post = {
       t: 'faq',
       items: [
         {
-          q: 'Why did one quote come in at $2,000 and another at $20,000 for the same brief?',
+          q: 'Why did one quote come in at {{2000}} and another at {{20000}} for the same brief?',
           a: 'Usually because they are quoting different work. The cheap quote is often a template populated with your content; the expensive one includes discovery, custom design, content help, integrations and testing. Ask each to itemise deliverables and the gap explains itself. If it does not, the expensive one may simply be overhead.',
         },
         {
@@ -209,7 +209,7 @@ export const websiteCostComparison: Post = {
     { t: 'h2', id: 'wrap', text: 'The short version' },
     {
       t: 'p',
-      text: 'Over five years, DIY runs to roughly $1,500 plus a few dozen hours of your own time, which is rarely counted and rarely free. A good freelancer lands near $4,000. A small studio sits closer to $9,000 and brings strategy and accountability with it. Ignore sticker prices, compare the five-year totals, insist on owning everything at the end, and then pick the tier where a modest improvement in results would pay the difference back inside a year.',
+      text: 'Over five years, DIY runs to roughly {{1500}} plus a few dozen hours of your own time, which is rarely counted and rarely free. A good freelancer lands near {{4000}}. A small studio sits closer to {{9000}} and brings strategy and accountability with it. Ignore sticker prices, compare the five-year totals, insist on owning everything at the end, and then pick the tier where a modest improvement in results would pay the difference back inside a year.',
     },
     {
       t: 'sources',

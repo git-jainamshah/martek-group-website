@@ -6,7 +6,7 @@ export const cheapestDigitalSetup: Post = {
   cardTitle: 'The Cheapest Way to Start a Business Online',
   seoTitle: 'Cheapest Way to Start a Business Online in 2026',
   excerpt:
-    'You can be online, taking payments, and looking legitimate for under $100 in your first year. Here is the exact stack, what each piece costs, and the upgrades that are actually worth paying for later.',
+    'You can be online, taking payments, and looking legitimate for under {{130}} in your first year. Here is the exact stack, what each piece costs, and the upgrades that are actually worth paying for later.',
   description:
     'The cheapest digital setup for a new business in 2026: domain, website, email, payments and analytics, with free and paid options compared.',
   category: 'Starting out',
@@ -24,7 +24,7 @@ export const cheapestDigitalSetup: Post = {
       t: 'callout',
       kind: 'note',
       title: 'The short answer',
-      text: 'Domain (about $15/year) plus a free website host plus a free email forwarder plus a no-monthly-fee payment link. Total first-year cost: roughly $15 to $95 depending on whether you want a proper business inbox. Everything else can wait until you have customers.',
+      text: 'Domain (about {{20}}/year) plus a free website host plus a free email forwarder plus a no-monthly-fee payment link. Total first-year cost: roughly {{20}} to {{120}} depending on whether you want a proper business inbox. Everything else can wait until you have customers.',
     },
 
     { t: 'h2', id: 'what-you-need', text: 'What you actually need (and what you do not)' },
@@ -46,7 +46,7 @@ export const cheapestDigitalSetup: Post = {
       ],
     },
 
-    { t: 'h2', id: 'domain', text: 'Step 1: The domain (about $15/year)' },
+    { t: 'h2', id: 'domain', text: 'Step 1: The domain' },
     {
       t: 'p',
       text: 'This one you cannot get free. You should not economise on it either, because a custom domain is what separates a business from a hobby in the eyes of someone deciding whether your email is worth a reply. It is also the only item on this page that is genuinely painful to change later, because every other thing you set up will end up pointing at it.',
@@ -54,7 +54,7 @@ export const cheapestDigitalSetup: Post = {
     {
       t: 'ul',
       items: [
-        'Expect $10 to $20 per year for a .com. Registrars that charge $2 for year one usually renew at $40 or more, so always check the renewal price, not the promo price.',
+        'Expect {{14}} to {{28}} per year for a .com. Registrars that dangle {{3}} for year one usually renew at {{55}} or more, so always check the renewal price rather than the promo price.',
         'Buy privacy protection only if it is free (most good registrars include it). It hides your personal address from public records.',
         'Prefer .com if available. Country domains like .ca signal local trust, which helps if you serve one country. Novelty endings look less trustworthy to a first-time visitor.',
         'Keep it short and typo-proof. If you have to spell it out loud on a call, it is too clever.',
@@ -67,7 +67,7 @@ export const cheapestDigitalSetup: Post = {
       text: 'Registrars make their margin on the add-ons after checkout: hosting, email, site builders, SEO packages. Every one of those has a better and cheaper alternative below. Buy the domain, decline everything else, and leave.',
     },
 
-    { t: 'h2', id: 'website', text: 'Step 2: The website ($0 to start)' },
+    { t: 'h2', id: 'website', text: 'Step 2: The website' },
     {
       t: 'p',
       text: 'You do not need to pay for hosting in 2026. Several genuinely good platforms will host a small site for nothing, custom domain and SSL certificate included, which was not true even a few years ago. The comparison, without the affiliate slant:',
@@ -77,11 +77,11 @@ export const cheapestDigitalSetup: Post = {
       caption: 'Website options, cheapest first. Prices are typical 2026 rates and change often, so check before committing.',
       head: ['Option', 'Cost', 'Good for', 'The catch'],
       rows: [
-        ['Free static host (Vercel, Netlify, Cloudflare Pages, GitHub Pages)', '$0', 'Fast, simple sites; custom domain and SSL included', 'You need a template or basic technical comfort to deploy'],
-        ['Carrd or similar one-pagers', '$0 to $19/yr', 'A single landing page, live in an hour', 'Limited to simple layouts; not built to grow'],
-        ['WordPress on cheap hosting', '$3 to $10/mo', 'Blogging, plugins, familiar to many', 'You maintain updates, security, backups; speed suffers if neglected'],
-        ['Squarespace / Wix', '$16 to $30/mo', 'Design-led sites with zero technical work', 'Roughly $200 to $360 per year, forever, and you cannot take the site elsewhere'],
-        ['Shopify', '$29+/mo', 'Selling physical products at real volume', 'Overkill and expensive until you have consistent orders'],
+        ['Free static host (Vercel, Netlify, Cloudflare Pages, GitHub Pages)', '{{0}}', 'Fast, simple sites; custom domain and SSL included', 'You need a template or basic technical comfort to deploy'],
+        ['Carrd or similar one-pagers', '{{0}} to {{27}}/yr', 'A single landing page, live in an hour', 'Limited to simple layouts; not built to grow'],
+        ['WordPress on cheap hosting', '{{4}} to {{14}}/mo', 'Blogging, plugins, familiar to many', 'You maintain updates, security, backups; speed suffers if neglected'],
+        ['Squarespace / Wix', '{{22}} to {{42}}/mo', 'Design-led sites with zero technical work', 'Roughly {{270}} to {{500}} per year, forever, and you cannot take the site elsewhere'],
+        ['Shopify', '{{40}}+/mo', 'Selling physical products at real volume', 'Overkill and expensive until you have consistent orders'],
         ['Custom built', 'One-off project fee', 'When the site is a serious sales channel', 'Not a day-one purchase; earn the revenue first'],
       ],
     },
@@ -104,7 +104,7 @@ export const cheapestDigitalSetup: Post = {
       ],
     },
 
-    { t: 'h2', id: 'email', text: 'Step 3: Business email ($0 to $84/year)' },
+    { t: 'h2', id: 'email', text: 'Step 3: Business email' },
     {
       t: 'brands',
       items: [
@@ -124,10 +124,10 @@ export const cheapestDigitalSetup: Post = {
       caption: 'Email options for a one-person business.',
       head: ['Option', 'Cost', 'Notes'],
       rows: [
-        ['Email forwarding (Cloudflare, ImprovMX)', '$0', 'you@yourdomain.com lands in your normal inbox. Sending as that address takes a little setup, but it works.'],
-        ['Zoho Mail free tier', '$0', 'A real mailbox on your domain for a single user. Excellent value at zero.'],
-        ['Google Workspace', 'About $84/yr', 'Worth it when you want reliable deliverability, Drive, and calendar in one place.'],
-        ['Microsoft 365 Business Basic', 'About $72/yr', 'Same idea; choose it if your clients live in Outlook and Teams.'],
+        ['Email forwarding (Cloudflare, ImprovMX)', '{{0}}', 'you@yourdomain.com lands in your normal inbox. Sending as that address takes a little setup, but it works.'],
+        ['Zoho Mail free tier', '{{0}}', 'A real mailbox on your domain for a single user. Excellent value at zero.'],
+        ['Google Workspace', 'About {{100}}/yr', 'Worth it when you want reliable deliverability, Drive, and calendar in one place.'],
+        ['Microsoft 365 Business Basic', 'About {{97}}/yr', 'Same idea; choose it if your clients live in Outlook and Teams.'],
       ],
     },
     {
@@ -137,7 +137,7 @@ export const cheapestDigitalSetup: Post = {
       text: 'If you send email from your domain, set up SPF, DKIM and DMARC records. Without them your quotes land in spam and you will assume clients are ignoring you. Most providers walk you through it in about ten minutes, and it is the difference between being unheard and being read.',
     },
 
-    { t: 'h2', id: 'payments', text: 'Step 4: Taking money ($0 upfront)' },
+    { t: 'h2', id: 'payments', text: 'Step 4: Taking money' },
     {
       t: 'p',
       text: 'You do not need a store. You certainly do not need a merchant account. Every major processor now hands out payment links with no monthly fee, and they work perfectly well from a phone in a van.',
@@ -156,7 +156,7 @@ export const cheapestDigitalSetup: Post = {
       text: 'Percentage fees feel expensive right up until you compare them with the alternative. They cost you nothing in a month where nothing sells, which is exactly the shape of risk a new business wants. A flat monthly platform fee does the reverse: it bills you hardest in the months you can least afford it.',
     },
 
-    { t: 'h2', id: 'analytics', text: 'Step 5: Knowing if it works ($0)' },
+    { t: 'h2', id: 'analytics', text: 'Step 5: Knowing if it works' },
     {
       t: 'p',
       text: 'Flying blind is the most expensive item on this page. It is also free to fix. Two tools, neither costing anything, will tell you almost everything worth knowing at this stage.',
@@ -181,13 +181,13 @@ export const cheapestDigitalSetup: Post = {
       caption: 'First-year cost of a complete, professional-looking setup.',
       head: ['Item', 'Cheapest', 'Comfortable'],
       rows: [
-        ['Domain', '$15/yr', '$15/yr'],
-        ['Website hosting', '$0 (free host)', '$0 to $200/yr'],
-        ['Business email', '$0 (forwarding or Zoho)', '$84/yr (Workspace)'],
-        ['Payments', '$0 + per-transaction fees', '$0 + fees'],
-        ['Analytics', '$0', '$0'],
-        ['Logo / brand', '$0 (a clean typeface)', '$50 to $300 one-off'],
-        ['TOTAL, YEAR ONE', 'About $15', 'About $100 to $600'],
+        ['Domain', '{{15}}/yr', '{{15}}/yr'],
+        ['Website hosting', '{{0}} (free host)', '{{0}} to {{200}}/yr'],
+        ['Business email', '{{0}} (forwarding or Zoho)', '{{100}}/yr (Workspace)'],
+        ['Payments', '{{0}} + per-transaction fees', '{{0}} + fees'],
+        ['Analytics', '{{0}}', '{{0}}'],
+        ['Logo / brand', '{{0}} (a clean typeface)', '{{50}} to {{300}} one-off'],
+        ['TOTAL, YEAR ONE', 'About {{15}}', 'About {{100}} to {{600}}'],
       ],
     },
     {
@@ -218,7 +218,7 @@ export const cheapestDigitalSetup: Post = {
     {
       t: 'ol',
       items: [
-        'Paying monthly for a site builder for years. Thirty dollars a month feels small and totals $1,800 over five years, with nothing you can take with you when you leave.',
+        'Paying monthly for a site builder for years. Thirty dollars a month feels small and totals {{1800}} over five years, with nothing you can take with you when you leave.',
         'Buying a ten-page site before knowing what customers ask. You end up rewriting all of it once you learn the real questions.',
         'Skipping the domain to save fifteen dollars. A free subdomain quietly signals "temporary" to every visitor.',
         'Installing analytics a year late. That is a year of decisions made on nothing and a year of history you cannot recover.',

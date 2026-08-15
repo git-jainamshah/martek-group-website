@@ -48,14 +48,14 @@ export function BlockView({ b }: { b: Block }) {
       return (
         <figure className="bp-tablewrap">
           <table className="bp-table">
-            <thead><tr>{b.head.map((h, n) => <th key={n}>{h}</th>)}</tr></thead>
+            <thead><tr>{b.head.map((h, n) => <th key={n}>{richText(h)}</th>)}</tr></thead>
             <tbody>
               {b.rows.map((r, n) => (
-                <tr key={n}>{r.map((c, m) => <td key={m}>{c}</td>)}</tr>
+                <tr key={n}>{r.map((c, m) => <td key={m}>{richText(c)}</td>)}</tr>
               ))}
             </tbody>
           </table>
-          {b.caption && <figcaption>{b.caption}</figcaption>}
+          {b.caption && <figcaption>{richText(b.caption)}</figcaption>}
         </figure>
       )
     case 'figure':
@@ -77,7 +77,7 @@ export function BlockView({ b }: { b: Block }) {
         <div className="bp-faq">
           {b.items.map((f, n) => (
             <details key={n}>
-              <summary>{f.q}</summary>
+              <summary>{richText(f.q)}</summary>
               <p>{richText(f.a)}</p>
             </details>
           ))}

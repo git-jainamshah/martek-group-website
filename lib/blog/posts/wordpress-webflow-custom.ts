@@ -60,8 +60,8 @@ export const wordpressWebflowCustom: Post = {
       t: 'table',
       head: ['', 'WordPress', 'Webflow', 'Custom-built'],
       rows: [
-        ['Typical build', '$2k - $15k', '$3k - $15k', '$10k - $45k'],
-        ['Platform / hosting', '$10 - $50 / mo', '$15 - $50+ / mo', '$0 - $20 / mo'],
+        ['Typical build', '{{2000}} - {{15000}}', '{{3000}} - {{15000}}', '{{10000}} - {{45000}}'],
+        ['Platform / hosting', '{{10}} - {{50}} / mo', '{{15}} - {{50}}+ / mo', '{{0}} - {{20}} / mo'],
         ['Ongoing maintenance', 'Updates required', 'Handled for you', 'Rarely needed'],
         ['Who can edit content', 'Anyone, after training', 'Anyone, after training', 'Only if a CMS was built in'],
         ['Cost to leave', 'Low - it is portable', 'High - needs rebuilding', 'Low - you own the code'],

@@ -1474,3 +1474,63 @@ footer.mk .bottom{margin-top:48px; padding-top:24px; border-top:1px solid rgba(2
 .bp-brand{display:inline-flex; align-items:center; gap:8px; padding:7px 13px 7px 9px;
   border:1.5px solid var(--rule-strong); border-radius:999px; background:var(--paper);
   font-size:13px; font-weight:500; color:var(--ink)}
+
+/* ---- Blog price switcher -------------------------------------------------
+   Prices are authored in Canadian dollars and converted client-side from
+   rates the server fetched. The switcher only appears on articles that
+   actually quote money. */
+
+.bp-fx {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 28px;
+  padding: 12px 14px;
+  border: 1px solid var(--line, #E6E2DA);
+  border-radius: 10px;
+  background: var(--paper-2, #FAF8F4);
+  font-family: var(--mono);
+  font-size: 12.5px;
+}
+
+.bp-fx label {
+  color: var(--ink-mut, #55505A);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.bp-fx select {
+  font-family: inherit;
+  font-size: 13px;
+  padding: 6px 10px;
+  border: 1px solid var(--line, #E6E2DA);
+  border-radius: 7px;
+  background: var(--paper, #fff);
+  color: var(--ink, #1A1A1E);
+  cursor: pointer;
+  /* Comfortably above the 44px touch target on the row as a whole. */
+  min-height: 34px;
+}
+
+.bp-fx select:focus-visible {
+  outline: 2px solid var(--brand, #E4572E);
+  outline-offset: 2px;
+}
+
+.bp-fx-note {
+  color: var(--ink-soft, #8A8A99);
+  font-size: 11.5px;
+}
+
+/* Converted amounts get a faint underline so it is visible that the figure is
+   derived rather than quoted. Suppressed in the base currency. */
+.bp-money {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 560px) {
+  .bp-fx { font-size: 12px; }
+  .bp-fx-note { width: 100%; }
+}
