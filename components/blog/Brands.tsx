@@ -30,6 +30,10 @@ export type BrandKey =
   | 'microsoft'
   | 'ms-teams'
   | 'outlook'
+  | 'gmail'
+  | 'bing'
+  | 'bing-ads'
+  | 'yahoo'
 
 /**
  * ratio is width / height of the trimmed artwork. Marks are laid out at a
@@ -59,16 +63,19 @@ const MARKS: Partial<Record<BrandKey, Mark>> = {
   microsoft: { src: '/assets/brands/microsoft-mark.png', alt: 'Microsoft', ratio: 122 / 128 },
   'ms-teams': { src: '/assets/brands/ms-teams-mark.png', alt: 'Microsoft Teams', ratio: 138 / 128 },
   outlook: { src: '/assets/brands/outlook-mark.png', alt: 'Microsoft Outlook', ratio: 137 / 128 },
+  gmail: { src: '/assets/brands/gmail-mark.png', alt: 'Gmail', ratio: 171 / 128 },
+  'search-console': { src: '/assets/brands/search-console-mark.png', alt: 'Google Search Console', ratio: 1 },
+  bing: { src: '/assets/brands/bing-mark.png', alt: 'Bing', ratio: 90 / 128 },
+  'bing-ads': { src: '/assets/brands/bing-ads-mark.png', alt: 'Bing Ads', ratio: 455 / 128, wordmark: true },
+  yahoo: { src: '/assets/brands/yahoo-mark.png', alt: 'Yahoo', ratio: 460 / 128, wordmark: true },
 }
 
 /**
- * Fallback chips, for products where we hold no official asset. Google does
- * not publish a Search Console icon in its public logo list, so it stays a
- * colour-matched chip: recognisable, and honest about not being the mark.
+ * Fallback chips, for products where we hold no official asset. Empty right
+ * now: every key above has real artwork. A key added without a MARKS entry
+ * degrades to an initials chip rather than breaking the row.
  */
-const CHIPS: Partial<Record<BrandKey, { text: string; color: string }>> = {
-  'search-console': { text: 'GSC', color: '#4285F4' },
-}
+const CHIPS: Partial<Record<BrandKey, { text: string; color: string }>> = {}
 
 export function BrandMark({ k, size = 22 }: { k: BrandKey; size?: number }) {
   const mark = MARKS[k]

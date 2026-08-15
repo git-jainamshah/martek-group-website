@@ -5,19 +5,32 @@ export const chatgptAdsTracking: Post = {
   title: 'ChatGPT Ads Conversion Tracking: A Practical Setup Guide',
   cardTitle: 'ChatGPT Ads Conversion Tracking',
   excerpt:
-    'The OpenAI Pixel, the oppref click reference, consent, and the deduplication step most people miss. A working setup in under an hour, written from the official documentation rather than guesswork.',
+    'Also called OpenAI Ads measurement or OpenAI tagging. The OpenAI Pixel, the oppref click reference, consent, and the deduplication step most people miss. A working setup in under an hour, written from the official documentation rather than guesswork.',
   description:
-    'Step-by-step setup for ChatGPT Ads conversion tracking: install the OpenAI Pixel, fire standard events, handle consent and CSP, and deduplicate browser and server events.',
+    'Step-by-step setup for ChatGPT Ads conversion tracking, also known as OpenAI Ads measurement or OpenAI tagging: install the OpenAI Pixel, fire standard events, handle consent and CSP, and deduplicate browser and server events.',
   category: 'Analytics',
   date: '2026-08-14',
   readMinutes: 13,
   author: { name: 'Marrelay', role: 'Digital studio, Toronto' },
-  tags: ['ChatGPT Ads', 'OpenAI Pixel', 'Conversion tracking', 'oaiq', 'Conversions API', 'Measurement'],
+  tags: [
+    'ChatGPT Ads',
+    'OpenAI Ads Measurement',
+    'OpenAI tagging',
+    'OpenAI Pixel',
+    'Conversion tracking',
+    'oaiq',
+    'Conversions API',
+    'Measurement',
+  ],
   seedViews: 0,
   blocks: [
     {
       t: 'lead',
       text: 'ChatGPT ads are new enough that most agencies have not set the measurement up yet, and old enough that you can no longer run them blind. This is the setup, in order, with the parts that are easy to get wrong called out. Everything here comes from OpenAI\'s own developer documentation, not from reverse engineering.',
+    },
+    {
+      t: 'p',
+      text: 'One naming note before we start, because the search results are split across several names for the same thing. ChatGPT Ads conversion tracking, also known as OpenAI Ads measurement, and often called OpenAI tagging by analytics teams, all describe the same setup: the OpenAI Pixel on your site, standard events describing what happened, and optionally the Conversions API sending the same events from your server. If you arrived here searching for any of those, you are in the right place.',
     },
     {
       t: 'callout',
