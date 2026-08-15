@@ -65,6 +65,16 @@ export const SEARCH_INDEX: SearchDoc[] = [
     keywords: ['blog', 'guides', 'articles', 'how to', 'tutorial', 'insights', 'resources'],
   },
   {
+    title: 'ChatGPT Ads Conversion Tracking', url: '/blogs/chatgpt-ads-conversion-tracking-setup', section: 'Blog',
+    description: 'Install the OpenAI Pixel, fire the right events, handle consent, and deduplicate conversions.',
+    keywords: ['chatgpt ads', 'openai pixel', 'oaiq', 'oppref', 'conversions api', 'conversion tracking', 'openai ads measurement', 'advanced matching', 'pixel id'],
+  },
+  {
+    title: 'New Ways to Advertise in 2026', url: '/blogs/new-ways-to-advertise-ai-assistants', section: 'Blog',
+    description: 'What ChatGPT advertising offers, and how to judge any new ad channel before funding it.',
+    keywords: ['chatgpt ads', 'ai advertising', 'new ad platforms', 'cpc bidding', 'ads manager', 'openai ads', 'media buying', 'where to advertise'],
+  },
+  {
     title: 'Redesign Without Losing Your Rankings', url: '/blogs/website-redesign-without-losing-seo', section: 'Blog',
     description: 'Build a redirect map, keep the pages that earn traffic, and catch a ranking drop in week one.',
     keywords: ['website redesign', 'redesign seo', 'site migration', '301 redirect', 'redirect map', 'lost rankings', 'traffic drop', 'relaunch', 'search console'],
