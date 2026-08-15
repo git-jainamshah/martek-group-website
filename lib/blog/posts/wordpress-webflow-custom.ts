@@ -235,6 +235,16 @@ export const wordpressWebflowCustom: Post = {
       ],
     },
 
+    {
+      t: 'sources',
+      title: 'Check the current numbers yourself',
+      items: [
+        { label: 'Webflow pricing', url: 'https://webflow.com/pricing', note: 'site and CMS plan tiers' },
+        { label: 'WordPress.org', url: 'https://wordpress.org/', note: 'the self-hosted software' },
+        { label: 'PageSpeed Insights', url: 'https://pagespeed.web.dev/', note: 'test any studio\'s existing work before hiring' },
+      ],
+    },
+
     { t: 'divider' },
     {
       t: 'p',

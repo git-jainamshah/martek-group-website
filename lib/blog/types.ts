@@ -18,8 +18,14 @@ export type Block =
   | { t: 'callout'; kind: 'tip' | 'warn' | 'note'; title?: string; text: string }
   | { t: 'quote'; text: string }
   | { t: 'table'; head: string[]; rows: string[][]; caption?: string }
-  | { t: 'figure'; kind: 'consent-flow' | 'cwv-meters' | 'cad-formats' | 'redirect-map' | 'redesign-recovery' | 'platform-tradeoff' | 'oai-measure-flow'; caption: string }
+  | { t: 'figure'; kind: 'consent-flow' | 'cwv-meters' | 'cad-formats' | 'redirect-map' | 'redesign-recovery' | 'platform-tradeoff' | 'oai-measure-flow' | 'cpm-vs-cpc'; caption: string }
   | { t: 'faq'; items: { q: string; a: string }[] }
+  /* External references. Rendered with the source name so a reader can see it
+     points at primary documentation rather than another blog. */
+  | { t: 'sources'; title?: string; items: { label: string; url: string; note?: string }[] }
+  /* A row of platform marks, used to show at a glance which tools a section
+     covers. `key` selects a mark we are licensed/permitted to display. */
+  | { t: 'brands'; items: { key: 'openai' | 'ga4' | 'gtm' | 'google-ads' | 'search-console'; label: string }[] }
   | { t: 'divider' }
 
 export type Post = {
