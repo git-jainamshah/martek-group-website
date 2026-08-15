@@ -34,6 +34,12 @@ export type BrandKey =
   | 'bing'
   | 'bing-ads'
   | 'yahoo'
+  | 'autocad'
+  | 'autodesk'
+  | 'inventor'
+  | 'fusion'
+  | 'solidworks'
+  | 'dassault'
 
 /**
  * ratio is width / height of the trimmed artwork. Marks are laid out at a
@@ -68,6 +74,12 @@ const MARKS: Partial<Record<BrandKey, Mark>> = {
   bing: { src: '/assets/brands/bing-mark.png', alt: 'Bing', ratio: 90 / 128 },
   'bing-ads': { src: '/assets/brands/bing-ads-mark.png', alt: 'Bing Ads', ratio: 455 / 128, wordmark: true },
   yahoo: { src: '/assets/brands/yahoo-mark.png', alt: 'Yahoo', ratio: 460 / 128, wordmark: true },
+  autocad: { src: '/assets/brands/autocad-mark.png', alt: 'Autodesk AutoCAD', ratio: 137 / 128 },
+  autodesk: { src: '/assets/brands/autodesk-mark.png', alt: 'Autodesk', ratio: 135 / 128 },
+  inventor: { src: '/assets/brands/inventor-mark.png', alt: 'Autodesk Inventor', ratio: 140 / 128 },
+  fusion: { src: '/assets/brands/fusion-mark.png', alt: 'Autodesk Fusion', ratio: 140 / 128 },
+  solidworks: { src: '/assets/brands/solidworks-mark.png', alt: 'SOLIDWORKS', ratio: 688 / 128, wordmark: true },
+  dassault: { src: '/assets/brands/dassault-mark.png', alt: 'Dassault Systemes', ratio: 121 / 128 },
 }
 
 /**
