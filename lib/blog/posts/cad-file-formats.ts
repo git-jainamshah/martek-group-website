@@ -4,10 +4,11 @@ export const cadFileFormats: Post = {
   slug: 'dwg-vs-step-vs-stl-cad-file-formats-explained',
   title: 'DWG vs STEP vs STL: CAD File Formats Explained Without the Jargon',
   cardTitle: 'DWG vs STEP vs STL Explained',
+  seoTitle: 'DWG vs STEP vs STL: CAD File Formats Explained',
   excerpt:
     'Someone asked you for "a STEP file" and you are not sure what you have. This is the plain-English map of which format does what, which one to send, and how to avoid the expensive mistakes.',
   description:
-    'A jargon-free guide to CAD file formats: what DWG, DXF, STEP, IGES, STL and 3MF actually are, when to use each, and which file to send your manufacturer or 3D printer.',
+    'What DWG, DXF, STEP, IGES, STL and 3MF actually are, when to use each, and which file to send your manufacturer or 3D printing service.',
   category: 'Engineering',
   date: '2026-07-24',
   readMinutes: 10,

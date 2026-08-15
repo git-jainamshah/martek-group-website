@@ -4,10 +4,11 @@ export const redesignWithoutLosingSeo: Post = {
   slug: 'website-redesign-without-losing-seo',
   title: 'How to Redesign Your Website Without Losing Your Google Rankings',
   cardTitle: 'Redesign Without Losing Your Rankings',
+  seoTitle: 'Website Redesign Without Losing Google Rankings',
   excerpt:
     'The traffic drop after a redesign is not bad luck. It is almost always the same handful of mistakes, made in the same order. Here is the checklist that prevents it, and how to tell within a week whether something went wrong.',
   description:
-    'A practical redesign checklist for business owners: build a redirect map, keep the pages that earn traffic, and catch a ranking drop in week one instead of month three.',
+    'A redesign checklist for business owners: build a redirect map, keep the pages that earn traffic, and catch a ranking drop in week one.',
   category: 'Web Development',
   date: '2026-08-14',
   readMinutes: 11,

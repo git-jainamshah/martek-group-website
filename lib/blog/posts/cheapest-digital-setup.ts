@@ -4,10 +4,11 @@ export const cheapestDigitalSetup: Post = {
   slug: 'cheapest-way-to-start-a-business-online',
   title: 'The Cheapest Way to Start a Business Online in 2026 (Real Costs, Nothing Hidden)',
   cardTitle: 'The Cheapest Way to Start a Business Online',
+  seoTitle: 'Cheapest Way to Start a Business Online in 2026',
   excerpt:
     'You can be online, taking payments, and looking legitimate for under $100 in your first year. Here is the exact stack, what each piece costs, and the upgrades that are actually worth paying for later.',
   description:
-    'A real cost breakdown of the minimum digital setup for a new business in 2026: domain, website, email, payments and analytics, with free and paid options compared.',
+    'The cheapest digital setup for a new business in 2026: domain, website, email, payments and analytics, with free and paid options compared.',
   category: 'Starting out',
   date: '2026-07-26',
   readMinutes: 12,

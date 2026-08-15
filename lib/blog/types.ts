@@ -7,6 +7,7 @@
  */
 
 import type { BrandKey } from '@/components/blog/Brands'
+import { plainText } from './richtext'
 
 export type Block =
   | { t: 'h2'; id: string; text: string }
@@ -35,8 +36,16 @@ export type Post = {
   title: string
   /** Short, punchy title for cards and nav. */
   cardTitle?: string
+  /**
+   * Title used in the <title> tag and search results, when the on-page H1 is
+   * too long to survive there. Google truncates around 60 characters, so a
+   * 78-character headline gets cut mid-phrase in the SERP. Keeping this
+   * separate lets the article keep the headline it deserves while the search
+   * listing stays whole. Falls back to `title`.
+   */
+  seoTitle?: string
   excerpt: string
-  /** Used for <meta description> - keep near 155 chars. */
+  /** Used for <meta description> - keep at or under 160 chars. */
   description: string
   category: string
   /** ISO date, e.g. 2026-07-24 */
@@ -52,6 +61,10 @@ export type Post = {
 
 /** Text of the block, used for reading-time and search snippets. */
 export function blockText(b: Block): string {
+  return plainText(rawBlockText(b))
+}
+
+function rawBlockText(b: Block): string {
   switch (b.t) {
     case 'h2':
     case 'h3':

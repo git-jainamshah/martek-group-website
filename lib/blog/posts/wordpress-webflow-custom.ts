@@ -4,10 +4,11 @@ export const wordpressWebflowCustom: Post = {
   slug: 'wordpress-vs-webflow-vs-custom-built',
   title: 'WordPress, Webflow, or Custom-Built? An Honest Answer for Small Businesses',
   cardTitle: 'WordPress vs Webflow vs Custom',
+  seoTitle: 'WordPress vs Webflow vs Custom: An Honest Comparison',
   excerpt:
     'Most comparisons are written by people who only sell one of the three. Here is what each option actually costs over three years, who each one genuinely suits, and the questions that decide it faster than any feature table.',
   description:
-    'A studio-neutral comparison of WordPress, Webflow and custom-built websites for small businesses: real three-year costs, who each suits, and how to decide without a feature checklist.',
+    'WordPress, Webflow or custom-built? Real three-year costs, who each option genuinely suits, and how to decide without a feature checklist.',
   category: 'Web Development',
   date: '2026-08-14',
   readMinutes: 12,

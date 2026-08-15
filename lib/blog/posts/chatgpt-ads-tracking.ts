@@ -7,7 +7,7 @@ export const chatgptAdsTracking: Post = {
   excerpt:
     'Also called OpenAI Ads measurement or OpenAI tagging. The OpenAI Pixel, the oppref click reference, consent, and the deduplication step most people miss. A working setup in under an hour, written from the official documentation rather than guesswork.',
   description:
-    'Step-by-step setup for ChatGPT Ads conversion tracking, also known as OpenAI Ads measurement or OpenAI tagging: install the OpenAI Pixel, fire standard events, handle consent and CSP, and deduplicate browser and server events.',
+    'Set up ChatGPT Ads conversion tracking, also called OpenAI Ads measurement: install the Pixel, fire events, handle consent, and deduplicate.',
   category: 'Analytics',
   date: '2026-08-14',
   readMinutes: 13,

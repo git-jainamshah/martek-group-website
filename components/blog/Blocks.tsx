@@ -1,5 +1,6 @@
 import type { Block } from '@/lib/blog'
 import CodeBlock from './CodeBlock'
+import { richText } from './RichText'
 import { BrandRow } from './Brands'
 import { ConsentFlow, CwvMeters, CadFormats, RedirectMap, RedesignRecovery, PlatformTradeoff, OaiMeasureFlow, CpmVsCpc } from './Figures'
 
@@ -11,13 +12,13 @@ export function BlockView({ b }: { b: Block }) {
     case 'h3':
       return <h3 className="bp-h3">{b.text}</h3>
     case 'lead':
-      return <p className="bp-lead">{b.text}</p>
+      return <p className="bp-lead">{richText(b.text)}</p>
     case 'p':
-      return <p className="bp-p">{b.text}</p>
+      return <p className="bp-p">{richText(b.text)}</p>
     case 'ul':
-      return <ul className="bp-ul">{b.items.map((i, n) => <li key={n}>{i}</li>)}</ul>
+      return <ul className="bp-ul">{b.items.map((i, n) => <li key={n}>{richText(i)}</li>)}</ul>
     case 'ol':
-      return <ol className="bp-ol">{b.items.map((i, n) => <li key={n}>{i}</li>)}</ol>
+      return <ol className="bp-ol">{b.items.map((i, n) => <li key={n}>{richText(i)}</li>)}</ol>
     case 'steps':
       return (
         <ol className="bp-steps">
@@ -26,7 +27,7 @@ export function BlockView({ b }: { b: Block }) {
               <span className="bp-step-n">{n + 1}</span>
               <div>
                 <b>{s.title}</b>
-                <span>{s.body}</span>
+                <span>{richText(s.body)}</span>
               </div>
             </li>
           ))}
@@ -38,7 +39,7 @@ export function BlockView({ b }: { b: Block }) {
       return (
         <aside className={`bp-callout ${b.kind}`}>
           {b.title && <b>{b.title}</b>}
-          <span>{b.text}</span>
+          <span>{richText(b.text)}</span>
         </aside>
       )
     case 'quote':
@@ -77,7 +78,7 @@ export function BlockView({ b }: { b: Block }) {
           {b.items.map((f, n) => (
             <details key={n}>
               <summary>{f.q}</summary>
-              <p>{f.a}</p>
+              <p>{richText(f.a)}</p>
             </details>
           ))}
         </div>

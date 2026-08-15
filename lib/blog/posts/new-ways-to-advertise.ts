@@ -4,10 +4,11 @@ export const newWaysToAdvertise: Post = {
   slug: 'new-ways-to-advertise-ai-assistants',
   title: 'New Ways to Advertise: What Changed When AI Assistants Started Selling Ads',
   cardTitle: 'New Ways to Advertise in 2026',
+  seoTitle: 'New Ways to Advertise in 2026: ChatGPT Ads Explained',
   excerpt:
     'ChatGPT now sells ads with CPC bidding, a self-serve manager and its own conversion measurement. Here is what is actually available, what it means for a small budget, and how to judge any new ad channel before you fund it.',
   description:
-    'What ChatGPT advertising actually offers in 2026, how buying and measurement work, and a framework for deciding whether a new ad platform deserves your budget.',
+    'What ChatGPT advertising offers in 2026, how buying and measurement work, and how to judge whether a new ad platform deserves your budget.',
   category: 'Advertising',
   date: '2026-08-14',
   readMinutes: 10,

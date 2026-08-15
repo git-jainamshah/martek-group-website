@@ -7,7 +7,7 @@ export const coreWebVitals: Post = {
   excerpt:
     'Three numbers decide whether your site feels fast or frustrating, and whether Google quietly ranks you lower. Here is how to read them, find what is broken, and tell someone exactly what to fix.',
   description:
-    'A plain-English guide to Core Web Vitals for business owners: what LCP, INP and CLS mean, how to measure yours in five minutes, and the fixes that actually move the numbers.',
+    'What LCP, INP and CLS mean in plain English, how to measure yours in five minutes, and the fixes that actually move the numbers.',
   category: 'Performance',
   date: '2026-07-24',
   readMinutes: 9,

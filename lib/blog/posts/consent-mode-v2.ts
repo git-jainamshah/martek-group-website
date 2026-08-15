@@ -4,10 +4,11 @@ export const consentModeV2: Post = {
   slug: 'google-consent-mode-v2-in-3-steps',
   title: 'Google Consent Mode v2 in 3 Steps (GTM, Shopify, or Plain HTML)',
   cardTitle: 'Google Consent Mode v2 in 3 Steps',
+  seoTitle: 'Google Consent Mode v2 in 3 Steps (GTM & Shopify)',
   excerpt:
     'Most guides explain what Consent Mode is and stop there. This one shows you the exact tags, the exact order, and how to prove it works, for three different setups.',
   description:
-    'A practical, no-jargon guide to implementing Google Consent Mode v2 in three steps, with the exact code and settings for Google Tag Manager, Shopify, and hardcoded sites.',
+    'Implement Google Consent Mode v2 in three steps, with the exact code and settings for Google Tag Manager, Shopify and hardcoded sites.',
   category: 'Analytics',
   date: '2026-07-24',
   readMinutes: 11,
