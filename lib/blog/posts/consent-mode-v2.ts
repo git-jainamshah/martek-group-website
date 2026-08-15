@@ -32,6 +32,7 @@ export const consentModeV2: Post = {
         { key: 'gtm', label: 'Google Tag Manager' },
         { key: 'ga4', label: 'Google Analytics 4' },
         { key: 'google-ads', label: 'Google Ads' },
+        { key: 'onetrust', label: 'OneTrust' },
       ],
     },
 
@@ -176,7 +177,7 @@ function consentAnalyticsOnly() {
         },
         {
           title: 'Fire the update from your banner',
-          body: 'Most consent platforms (Cookiebot, CookieYes, Iubenda, Osano) have a native GTM template that handles the update for you. If you built your own banner, push a dataLayer event on click and use a Custom HTML tag with the Step 2 code, triggered by that event.',
+          body: 'Most consent platforms (OneTrust, Cookiebot, CookieYes, Iubenda, Osano) have a native GTM template that handles the update for you. If you built your own banner, push a dataLayer event on click and use a Custom HTML tag with the Step 2 code, triggered by that event.',
         },
         {
           title: 'Check each tag\'s consent settings',

@@ -6,6 +6,8 @@
  * blocks), and stays safe to render.
  */
 
+import type { BrandKey } from '@/components/blog/Brands'
+
 export type Block =
   | { t: 'h2'; id: string; text: string }
   | { t: 'h3'; text: string }
@@ -25,7 +27,7 @@ export type Block =
   | { t: 'sources'; title?: string; items: { label: string; url: string; note?: string }[] }
   /* A row of platform marks, used to show at a glance which tools a section
      covers. `key` selects a mark we are licensed/permitted to display. */
-  | { t: 'brands'; items: { key: 'openai' | 'ga4' | 'gtm' | 'google-ads' | 'search-console'; label: string }[] }
+  | { t: 'brands'; items: { key: BrandKey; label: string }[] }
   | { t: 'divider' }
 
 export type Post = {

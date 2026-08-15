@@ -29,6 +29,7 @@ export const coreWebVitals: Post = {
     {
       t: 'brands',
       items: [
+        { key: 'google', label: 'PageSpeed Insights' },
         { key: 'search-console', label: 'Search Console' },
         { key: 'ga4', label: 'Google Analytics 4' },
       ],
