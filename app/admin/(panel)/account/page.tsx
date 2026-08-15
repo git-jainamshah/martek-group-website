@@ -54,7 +54,7 @@ export default function AccountPage() {
         <div className="ad-kicker" style={{ marginBottom: 14 }}>Profile</div>
         <Field label="Email / username">
           <input className="ad-input" value={me?.email || ''} disabled title="Only an admin can change your email" style={{ opacity: 0.65, cursor: 'not-allowed' }} />
-          <span className="ad-soft" style={{ fontSize: 11 }}>Only an admin can change your email. Role: {ROLE_LABELS[me?.role || ''] || me?.role || '—'}</span>
+          <span className="ad-soft" style={{ fontSize: 11 }}>Only an admin can change your email. Role: {ROLE_LABELS[me?.role || ''] || me?.role || ' - '}</span>
         </Field>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginTop: 14 }}>
           <Field label="First name"><input className="ad-input" value={firstName} onChange={(e) => setFirstName(e.target.value)} /></Field>

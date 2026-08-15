@@ -35,7 +35,7 @@ https://www.marrelay.com/blogs/dwg-vs-step-vs-stl-cad-file-formats-explained
 
 There's a daily quota (~10-12 requests), so this fits comfortably in one sitting.
 
-**What to expect:** "URL is not on Google" before you request — that's normal for brand-new
+**What to expect:** "URL is not on Google" before you request - that's normal for brand-new
 pages. Indexing takes anywhere from a few hours to two weeks. Requesting again doesn't speed
 it up, so do it once and leave it.
 
@@ -50,7 +50,7 @@ sitemap row's "..." menu and re-submit. This tells Google those pages changed.
 
 1. Publish (deploy).
 2. Search Console → top search bar → paste the new URL → **Request indexing**.
-3. That's it. No sitemap action needed — it regenerates automatically.
+3. That's it. No sitemap action needed - it regenerates automatically.
 
 Optional but effective: share the URL on LinkedIn the same day. External links are one of the
 fastest ways Google discovers a page.
@@ -63,25 +63,25 @@ fastest ways Google discovers a page.
 |---|---|
 | `sitemap.xml` includes all blog posts | Automatic, regenerates each deploy |
 | `robots.txt` allows crawling, points to sitemap | Done |
-| Canonical URL on every page | Fixed — `/pricing` etc. used to point at the homepage |
+| Canonical URL on every page | Fixed - `/pricing` etc. used to point at the homepage |
 | Unique title + meta description per post | Done, all follow `Marrelay - <Title>` |
 | Article schema (rich results) | Done |
 | FAQPage schema (can win FAQ rich snippets) | Done on all 5 posts |
 | BreadcrumbList schema (Home > Blog > Post in results) | Done |
 | Open Graph tags (link previews on LinkedIn/X) | Done |
 | Thin `/abstracts` page excluded from index | Set to noindex |
-| Blog posts pre-rendered as static HTML | Yes — fast, fully crawlable |
+| Blog posts pre-rendered as static HTML | Yes - fast, fully crawlable |
 | Internal links to each post (nav, footer, homepage, related) | Done |
 
 ---
 
 ## Checks worth running (5 minutes each, once)
 
-**Rich Results Test** — https://search.google.com/test/rich-results
+**Rich Results Test** - https://search.google.com/test/rich-results
 Paste any blog URL. Should detect Article, FAQ and Breadcrumbs. This confirms you're eligible
 for enhanced search listings.
 
-**Mobile usability / PageSpeed** — https://pagespeed.web.dev
+**Mobile usability / PageSpeed** - https://pagespeed.web.dev
 Paste the homepage and one blog post. Field data will be empty until you have traffic; that's
 expected on a new site.
 

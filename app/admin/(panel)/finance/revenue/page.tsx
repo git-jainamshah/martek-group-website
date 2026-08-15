@@ -35,7 +35,7 @@ export default function RevenueDashboard() {
         <StatCard label="Invoices" value={String(s.kpis.invoices)} sub={`${s.kpis.clients} clients · ${s.kpis.projects} projects`} />
       </div>
 
-      <Card title="Billed vs collected — last 12 months (CAD)">
+      <Card title="Billed vs collected - last 12 months (CAD)">
         <GroupedBars data={s.series12} />
         <div style={{ display: 'flex', gap: 16, marginTop: 10 }}>
           <Leg c="#ED1C24" l="Billed" /><Leg c="#6B9080" l="Collected" />

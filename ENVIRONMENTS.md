@@ -43,7 +43,7 @@ git checkout qa && git pull && git merge dev && git push
 git checkout main && git pull && git merge qa && git push
 ```
 
-Each promotion is a fast-forward merge — same code, just moving forward. Nothing
+Each promotion is a fast-forward merge - same code, just moving forward. Nothing
 is rebuilt or re-tested from scratch, so what you signed off on in QA is exactly
 what goes live.
 
@@ -86,7 +86,7 @@ The script refuses to run if the two are the same database, refuses targets that
 look like production, and makes you type the target host to confirm. It prints
 row counts at the end so you can see it worked.
 
-Re-run it any time you want to refresh QA with current production data — it
+Re-run it any time you want to refresh QA with current production data - it
 replaces the target completely.
 
 > The copy contains real customer leads. QA is publicly reachable, so either
@@ -176,14 +176,14 @@ in production GTM on `environment != "production"` to drop stray hits.
 Tables are created idempotently on boot (`ensureDb()` in `lib/admin/db.ts`) and
 migrations are `ADD COLUMN IF NOT EXISTS`. A new column appears in each
 environment the first time that environment runs the new code. Add migrations to
-the `alters` array in that file — never as a manual one-off `ALTER`, or the
+the `alters` array in that file - never as a manual one-off `ALTER`, or the
 environments will drift.
 
 ---
 
 ## Verifying isolation
 
-1. Open `qa.marrelay.com/admin` — the amber ribbon should read
+1. Open `qa.marrelay.com/admin` - the amber ribbon should read
    `db: ep-noisy-rain-…`, not `ep-hidden-dust-…`. This is the single most
    important check.
 2. Submit a test lead on qa.marrelay.com. It must appear in the QA admin and
@@ -197,7 +197,7 @@ environments will drift.
 
 ## Access
 
-Vercel Authentication is off, so qa/dev are publicly reachable by URL — required
+Vercel Authentication is off, so qa/dev are publicly reachable by URL - required
 for teammates without Vercel accounts. They are hard-blocked from search engines,
 and the admin panel still requires a login. To lock them down again: Settings →
 Deployment Protection → Require Log In (note: password protection needs a Pro

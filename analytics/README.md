@@ -10,7 +10,7 @@ agencies) find it in one place.
 ## How it flows
 
 1. `TrafficInit` (in `components/TrafficInit.tsx`) calls `initTraffic()` on every
-   page view — this is what persists first-touch (localStorage, forever) and
+   page view - this is what persists first-touch (localStorage, forever) and
    session-touch (sessionStorage, 30-min window).
 2. Every lead form (`components/ContactLeadForm.tsx`, `components/PromoBanner.tsx`)
    attaches `getTrafficData()` to its submission.
