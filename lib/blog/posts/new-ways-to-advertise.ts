@@ -18,7 +18,7 @@ export const newWaysToAdvertise: Post = {
   blocks: [
     {
       t: 'lead',
-      text: 'For about fifteen years, "running ads" meant Google and Meta, with LinkedIn for B2B. That list has just grown in a way that is worth understanding, because a new channel is briefly cheap before everyone arrives, and expensive forever afterwards.',
+      text: 'For about fifteen years, "running ads" meant Google and Meta, with LinkedIn thrown in if you sold to businesses. That list has just got longer, and it is worth understanding why, because every new channel goes through the same short window where it is cheap and underused before everyone else turns up and it is expensive from then on.',
     },
     {
       t: 'callout',
@@ -39,7 +39,7 @@ export const newWaysToAdvertise: Post = {
     { t: 'h2', id: 'what-changed', text: 'What actually changed' },
     {
       t: 'p',
-      text: 'OpenAI has moved ChatGPT advertising from a closed pilot with a handful of brands into something a small business can buy. Three changes matter.',
+      text: 'OpenAI has taken ChatGPT advertising from a closed pilot involving a handful of brands to something a small business can actually buy. Three changes matter.',
     },
     {
       t: 'steps',
@@ -65,17 +65,17 @@ export const newWaysToAdvertise: Post = {
     },
     {
       t: 'p',
-      text: 'You can also buy through agency partners including Dentsu, Omnicom, Publicis and WPP, and through technology partners including Adobe, Criteo, Kargo, Pacvue and StackAdapt. If you already run media through one of those, the channel may be reachable without any new account at all.',
+      text: 'There is also a route through agency partners, among them Dentsu, Omnicom, Publicis and WPP, and through technology partners including Adobe, Criteo, Kargo, Pacvue and StackAdapt. If your media already runs through one of those, the channel may be reachable without opening a single new account.',
     },
 
     { t: 'h2', id: 'why-different', text: 'Why the context is genuinely different' },
     {
       t: 'p',
-      text: 'A search ad reaches someone typing three words into a box. An ad in an assistant reaches someone part-way through explaining their problem in full sentences, often comparing options and deciding what to do next.',
+      text: 'A search ad catches someone typing three words into a box. An ad inside an assistant catches them halfway through explaining the actual problem in full sentences, usually while weighing up options and working out what to do about it.',
     },
     {
       t: 'p',
-      text: 'That is a real difference in intent, and it is OpenAI\'s stated reason for adding CPC: in a decision-oriented conversation, a click is a meaningful signal rather than an accident. Whether that converts better than search for your business is an empirical question nobody can answer for you yet.',
+      text: 'That is a real difference in intent, and it is the reason OpenAI gives for adding CPC in the first place: in a conversation aimed at making a decision, a click means something rather than being a stray thumb. Whether it converts better than search for your particular business is an empirical question, and nobody can answer it for you yet.',
     },
     {
       t: 'callout',
@@ -87,7 +87,7 @@ export const newWaysToAdvertise: Post = {
     { t: 'h2', id: 'worth-testing', text: 'Is it worth testing for you?' },
     {
       t: 'p',
-      text: 'A new channel is worth a test when the answer to most of these is yes.',
+      text: 'A new channel earns a test when most of these come back yes.',
     },
     {
       t: 'table',
@@ -132,7 +132,7 @@ export const newWaysToAdvertise: Post = {
     { t: 'h2', id: 'attribution', text: 'Expect the attribution to be messy' },
     {
       t: 'p',
-      text: 'Every ad platform counts conversions in its own favour, and every platform will report a different number from your analytics. This is not dishonesty, it is different attribution windows, time zones, deduplication rules and, increasingly, modelled conversions where a click could not be directly observed.',
+      text: 'Every ad platform counts conversions in a way that flatters itself, and every one of them will report a different number from your own analytics. Nobody is being dishonest. Attribution windows differ, time zones and date boundaries differ, deduplication rules differ, and platforms increasingly fold in modelled conversions to cover clicks they could not observe.',
     },
     {
       t: 'ul',
@@ -152,7 +152,7 @@ export const newWaysToAdvertise: Post = {
     { t: 'h2', id: 'not-yet', text: 'When to wait instead' },
     {
       t: 'p',
-      text: 'Not every business should be early to a channel. Wait if your existing campaigns still have room to improve, if you cannot measure conversions properly yet, if your budget is small enough that splitting it makes both halves unreadable, or if nobody has time to watch a new channel weekly. Being second is cheap. Being early and unmeasured is not.',
+      text: 'Being early is not a virtue in itself. Wait if your existing campaigns still have obvious room to improve, if your conversion tracking is not trustworthy yet, if the budget is small enough that splitting it leaves both halves too noisy to read, or if nobody has an hour a week to actually watch the thing. Being second costs very little. Being early and unmeasured costs a great deal.',
     },
 
     {
@@ -184,7 +184,7 @@ export const newWaysToAdvertise: Post = {
     { t: 'divider' },
     {
       t: 'p',
-      text: 'If you want the mechanics rather than the strategy, our companion guide walks through installing the OpenAI Pixel, firing the right events, handling consent, and deduplicating browser and server conversions.',
+      text: 'If you want the mechanics rather than the strategy, our [ChatGPT Ads conversion tracking guide](/blogs/chatgpt-ads-conversion-tracking-setup) covers installing the OpenAI Pixel, firing the right events, handling consent and deduplicating browser against server conversions.',
     },
     {
       t: 'sources',

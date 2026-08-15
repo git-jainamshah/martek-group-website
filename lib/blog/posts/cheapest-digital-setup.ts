@@ -18,7 +18,7 @@ export const cheapestDigitalSetup: Post = {
   blocks: [
     {
       t: 'lead',
-      text: 'Most "how to start an online business" articles are affiliate lists that quietly steer you toward the most expensive option. This is the opposite: the genuinely cheapest setup that still looks professional, what each piece actually costs in 2026, and where spending money is worth it. We build these for a living, so we will also tell you when not to hire someone like us.',
+      text: 'Most "how to start an online business" articles are affiliate lists in disguise, quietly steering you toward whichever option pays the best commission. This is the opposite of that: the genuinely cheapest setup that still looks like a real business, what each piece costs in 2026, and the few places where spending money earns it back. We build these for a living, which means we will also tell you when not to hire someone like us.',
     },
     {
       t: 'callout',
@@ -30,7 +30,7 @@ export const cheapestDigitalSetup: Post = {
     { t: 'h2', id: 'what-you-need', text: 'What you actually need (and what you do not)' },
     {
       t: 'p',
-      text: 'The single biggest waste of money for new businesses is buying the complete toolkit before having a single customer. Here is the honest split between essential on day one and safely deferred.',
+      text: 'The single biggest waste of money for a new business is buying the full toolkit before landing one customer. So here is the split, honestly drawn. What you need on day one. What can wait.',
     },
     {
       t: 'table',
@@ -49,7 +49,7 @@ export const cheapestDigitalSetup: Post = {
     { t: 'h2', id: 'domain', text: 'Step 1: The domain (about $15/year)' },
     {
       t: 'p',
-      text: 'This is the one thing you should not cheap out on and cannot get free. A custom domain is the difference between looking like a business and looking like a hobby. It is also the only piece here that is genuinely hard to change later, because it is what everything else points at.',
+      text: 'This one you cannot get free. You should not economise on it either, because a custom domain is what separates a business from a hobby in the eyes of someone deciding whether your email is worth a reply. It is also the only item on this page that is genuinely painful to change later, because every other thing you set up will end up pointing at it.',
     },
     {
       t: 'ul',
@@ -70,7 +70,7 @@ export const cheapestDigitalSetup: Post = {
     { t: 'h2', id: 'website', text: 'Step 2: The website ($0 to start)' },
     {
       t: 'p',
-      text: 'You do not need to pay for hosting in 2026. Several excellent platforms host small sites free, including a custom domain and an SSL certificate. Here is the honest comparison.',
+      text: 'You do not need to pay for hosting in 2026. Several genuinely good platforms will host a small site for nothing, custom domain and SSL certificate included, which was not true even a few years ago. The comparison, without the affiliate slant:',
     },
     {
       t: 'table',
@@ -87,7 +87,7 @@ export const cheapestDigitalSetup: Post = {
     },
     {
       t: 'p',
-      text: 'Our honest recommendation for month one: a single page on a free host. Not because cheap is virtuous, but because you will learn more from one live page and ten real conversations than from three weeks of building pages nobody has asked for yet.',
+      text: 'For month one, put a single page on a free host. This afternoon, not next week. Not because cheap is virtuous. Because one live page and ten real conversations will teach you more about what your site needs to say than three weeks spent building pages nobody has asked for. When you do outgrow it, [we have compared what a real website costs](/blogs/how-much-does-a-small-business-website-cost) across DIY, freelancers and agencies.',
     },
     {
       t: 'h3',
@@ -117,7 +117,7 @@ export const cheapestDigitalSetup: Post = {
     },
     {
       t: 'p',
-      text: 'Sending quotes from a personal Gmail costs you deals you never hear about. Using your domain (you@yourbusiness.com) is the cheapest credibility upgrade that exists.',
+      text: 'Sending quotes from a personal Gmail loses you work. You never find out, because nobody writes back to explain that they went with the firm that looked more established. Getting email on your own domain is the cheapest credibility upgrade available to anyone.',
     },
     {
       t: 'table',
@@ -140,7 +140,7 @@ export const cheapestDigitalSetup: Post = {
     { t: 'h2', id: 'payments', text: 'Step 4: Taking money ($0 upfront)' },
     {
       t: 'p',
-      text: 'You do not need a store or a merchant account. Every major processor now offers no-monthly-fee payment links that work from any device.',
+      text: 'You do not need a store. You certainly do not need a merchant account. Every major processor now hands out payment links with no monthly fee, and they work perfectly well from a phone in a van.',
     },
     {
       t: 'ul',
@@ -153,13 +153,13 @@ export const cheapestDigitalSetup: Post = {
     },
     {
       t: 'p',
-      text: 'Percentage fees feel expensive but cost nothing when you are not selling, which is exactly the right shape of risk for a new business. Flat monthly platform fees are the opposite.',
+      text: 'Percentage fees feel expensive right up until you compare them with the alternative. They cost you nothing in a month where nothing sells, which is exactly the shape of risk a new business wants. A flat monthly platform fee does the reverse: it bills you hardest in the months you can least afford it.',
     },
 
     { t: 'h2', id: 'analytics', text: 'Step 5: Knowing if it works ($0)' },
     {
       t: 'p',
-      text: 'Flying blind is the most expensive thing on this list. Two free tools tell you almost everything that matters at this stage.',
+      text: 'Flying blind is the most expensive item on this page. It is also free to fix. Two tools, neither costing anything, will tell you almost everything worth knowing at this stage.',
     },
     {
       t: 'ol',
@@ -192,13 +192,13 @@ export const cheapestDigitalSetup: Post = {
     },
     {
       t: 'p',
-      text: 'The cheapest column is not a compromise starter kit. Plenty of businesses run on exactly that stack for years, because customers judge you on clarity, responsiveness and proof, not on how much your tooling costs.',
+      text: 'Treat the cheapest column as a real answer, not a starter kit you are supposed to outgrow on schedule. Plenty of businesses run that exact stack for years and do fine. Customers are judging how clearly you explain what you do, how quickly you reply, and whether you can show them something similar you have already done. None of that shows up on an invoice from a software company.',
     },
 
     { t: 'h2', id: 'worth-paying', text: 'When it becomes worth paying for help' },
     {
       t: 'p',
-      text: 'We build websites for a living, so treat this as an honest boundary rather than a sales pitch. Do not hire anyone, including us, until at least one of these is true.',
+      text: 'We build websites for a living, so read the next bit as a boundary rather than a pitch. Do not hire anyone, us included, until at least one of these is true. If you are already past that point, the honest comparison of [WordPress, Webflow and custom builds](/blogs/wordpress-vs-webflow-vs-custom-built) is the next thing to read.',
     },
     {
       t: 'ul',
@@ -256,7 +256,7 @@ export const cheapestDigitalSetup: Post = {
     { t: 'h2', id: 'wrap', text: 'The short version' },
     {
       t: 'p',
-      text: 'Buy a domain for about fifteen dollars. Put one clear page on a free host. Get email on your domain, free if budget is tight. Take payments with a no-monthly-fee link. Connect Search Console and analytics on day one. Then stop buying things and go find customers, because no tool on this list will do that part for you.',
+      text: 'Buy the domain, about fifteen dollars. Put one clear page on a free host. Get email onto that domain, free if money is tight. Take payments through a link with no monthly fee, and connect Search Console and analytics on day one so you are not guessing in three months about what happened. Then stop buying things and go and find customers, because nothing on this list will do that part for you.',
     },
     {
       t: 'sources',

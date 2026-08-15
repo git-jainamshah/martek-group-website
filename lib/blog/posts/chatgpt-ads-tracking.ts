@@ -26,11 +26,11 @@ export const chatgptAdsTracking: Post = {
   blocks: [
     {
       t: 'lead',
-      text: 'ChatGPT ads are new enough that most agencies have not set the measurement up yet, and old enough that you can no longer run them blind. This is the setup, in order, with the parts that are easy to get wrong called out. Everything here comes from OpenAI\'s own developer documentation, not from reverse engineering.',
+      text: 'ChatGPT ads are new enough that most agencies have not set the measurement up yet, and old enough that running them blind has stopped being defensible. So: the setup, in order, with the parts that quietly break flagged as they come up. All of it comes from OpenAI\'s own developer documentation rather than from poking at the network tab and guessing.',
     },
     {
       t: 'p',
-      text: 'One naming note before we start, because the search results are split across several names for the same thing. ChatGPT Ads conversion tracking, also known as OpenAI Ads measurement, and often called OpenAI tagging by analytics teams, all describe the same setup: the OpenAI Pixel on your site, standard events describing what happened, and optionally the Conversions API sending the same events from your server. If you arrived here searching for any of those, you are in the right place.',
+      text: 'One naming note before we start, because the search results are split across several names for the same thing. ChatGPT Ads conversion tracking, also known as OpenAI Ads measurement, and often called OpenAI tagging by analytics teams, all describe the same setup: the OpenAI Pixel on your site, standard events describing what happened, and optionally the Conversions API sending the same events from your server. If you arrived here searching for any of those, you are in the right place. For the strategy side, whether the channel is worth funding at all, see [our guide to the new ad platforms](/blogs/new-ways-to-advertise-ai-assistants).',
     },
     {
       t: 'callout',
@@ -60,13 +60,13 @@ export const chatgptAdsTracking: Post = {
     },
     {
       t: 'p',
-      text: 'That last one takes five minutes and saves hours. Write down the two or three actions that actually matter (a form submission, a booking, a purchase) before touching any code. Sites that skip this end up measuring page views and calling it conversion tracking.',
+      text: 'That last one takes five minutes and saves an afternoon. Before touching any code, write down the two or three things a visitor can do that genuinely matter: a form submission, a booking, a purchase, whatever your version of that is. Skip it and you will end up measuring page views and calling it conversion tracking, which is a surprisingly popular way to spend money.',
     },
 
     { t: 'h2', id: 'how-it-connects', text: 'How a click becomes a conversion' },
     {
       t: 'p',
-      text: 'Understanding the chain makes every later step obvious, and explains why the common mistakes break things.',
+      text: 'Once you can see the whole chain, every later step explains itself. So do most of the ways it breaks.',
     },
     {
       t: 'figure',
@@ -75,7 +75,7 @@ export const chatgptAdsTracking: Post = {
     },
     {
       t: 'p',
-      text: 'When someone clicks your ad, OpenAI appends a click reference called oppref to your landing page URL. The Pixel reads it and stores it in a first-party cookie named __oppref, so a conversion that happens three pages later can still be tied back to the click that caused it.',
+      text: 'When someone clicks your ad, OpenAI appends a click reference called oppref to your landing page URL. The Pixel picks it up and stashes it in a first-party cookie named __oppref. That cookie is what lets a conversion three pages and ten minutes later still be traced back to the click that started it.',
     },
     {
       t: 'callout',
@@ -87,7 +87,7 @@ export const chatgptAdsTracking: Post = {
     { t: 'h2', id: 'install', text: 'Step 1: install the Pixel' },
     {
       t: 'p',
-      text: 'Add this near the top of the <head> on every page where a conversion could happen. Near the top matters: put it below a slow third-party script and you will lose conversions that fire before it loads.',
+      text: 'Add this near the top of the <head>, on every page where a conversion could happen. Near the top is not a style preference. Sit it below some slow third-party script and you will lose every conversion that fires before it finishes loading.',
     },
     {
       t: 'code',
@@ -130,7 +130,7 @@ export const chatgptAdsTracking: Post = {
     { t: 'h2', id: 'consent', text: 'Step 2: handle consent, before init' },
     {
       t: 'p',
-      text: 'If you operate anywhere that requires consent for measurement, this step is not optional and the order matters. The Pixel defaults consent to true, so if you do nothing it will start measuring immediately.',
+      text: 'If you operate anywhere that requires consent for measurement, this step is not optional. The order it runs in is the whole game. The Pixel defaults consent to true. Do nothing and it starts measuring the moment it loads. If you already run [Google Consent Mode v2](/blogs/google-consent-mode-v2-in-3-steps), this is the same idea with different function names, and the two should be driven from the same banner rather than wired up independently.',
     },
     {
       t: 'code',
@@ -147,13 +147,13 @@ oaiq("consent", true);`,
     },
     {
       t: 'p',
-      text: 'While consent is false the Pixel sends nothing. Granting consent later allows future events, but blocked events are not replayed, so anything that happened before the visitor accepted is gone. That is the correct behaviour, and it is worth knowing so the numbers do not surprise you.',
+      text: 'While consent is false the Pixel sends nothing at all. Granting it later opens the gate for future events, but blocked events are never replayed, so whatever happened before the visitor accepted is gone for good. That is the correct behaviour. Worth knowing anyway, so the gap in your numbers does not come as a surprise later.',
     },
 
     { t: 'h2', id: 'events', text: 'Step 3: fire the events that matter' },
     {
       t: 'p',
-      text: 'Use a standard event whenever one describes what happened. Standard events are understood by the optimisation system; custom events are not treated the same way, so reach for them only when nothing fits.',
+      text: 'Use a standard event whenever one describes what happened. The optimisation system understands those. Custom events do not get the same treatment, so reach for one only when nothing on the list fits.',
     },
     {
       t: 'table',
@@ -222,7 +222,7 @@ oaiq("measure", "order_created", {
     { t: 'h2', id: 'dedup', text: 'Step 4: deduplicate, if you also send server-side' },
     {
       t: 'p',
-      text: 'Running the Pixel and the Conversions API together is more resilient than either alone, because browser events are lost to ad blockers and network failures while server events are not. But send the same purchase twice without telling OpenAI they are the same and you will report double the revenue.',
+      text: 'Running the Pixel and the Conversions API together survives things that either one alone does not, because browser events get eaten by ad blockers and flaky networks while server events sail through regardless. The catch is obvious once stated. Send the same purchase twice without telling OpenAI the two are the same event and you will report double the revenue, then optimise against a number that never existed.',
     },
     {
       t: 'code',
@@ -249,7 +249,7 @@ oaiq("measure", "order_created", {
     { t: 'h2', id: 'csp', text: 'Step 5: content security policy, if you have one' },
     {
       t: 'p',
-      text: 'If your site sets a CSP, the Pixel will silently fail until you allow its domains. This is a common cause of "I installed it and nothing happened".',
+      text: 'If your site sets a Content Security Policy, the Pixel fails silently until you allow its domains. No error, no warning, nothing in the interface to suggest anything is wrong. It is far and away the most common cause of "I installed it and nothing happened".',
     },
     {
       t: 'table',
@@ -289,7 +289,7 @@ oaiq("measure", "order_created", {
     { t: 'h2', id: 'numbers-differ', text: 'Why your numbers will not match GA4' },
     {
       t: 'p',
-      text: 'They will differ, and that is expected rather than a bug. Attribution windows differ, time zones and date boundaries differ, deduplication behaves differently, and OpenAI may include modelled conversions where a click could not be directly observed.',
+      text: 'They will disagree, and that is expected rather than a fault. Attribution windows are set differently, time zones and date boundaries land differently, deduplication rules are not the same, and OpenAI may fold in modelled conversions for clicks it could not observe directly.',
     },
     {
       t: 'p',
@@ -343,7 +343,7 @@ oaiq("measure", "order_created", {
     { t: 'divider' },
     {
       t: 'p',
-      text: 'None of this is difficult. It is just new, and the documentation is spread across several pages. Set it up once, test it properly with a real navigation path, and you will know whether ChatGPT ads work for you rather than guessing.',
+      text: 'None of this is hard. It is new, that is all, and the documentation is scattered across half a dozen pages that each quietly assume you have read the other five. Set it up once, test it by actually clicking through your site the way a customer would rather than by refreshing the thank-you page, and you will know whether ChatGPT ads work for your business instead of having an opinion about it.',
     },
   ],
 }

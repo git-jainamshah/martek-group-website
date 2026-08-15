@@ -18,7 +18,7 @@ export const consentModeV2: Post = {
   blocks: [
     {
       t: 'lead',
-      text: 'If you run ads or analytics for visitors in the EU or UK, Google now requires Consent Mode v2. Get it wrong and you quietly lose conversion data and remarketing audiences. Get it right and you keep measuring, legally, even when people decline cookies. Here is the whole thing in three steps.',
+      text: 'If you run ads or analytics for anyone in the EU or UK, Google now requires Consent Mode v2. Get it wrong and the loss is quiet: conversion data thins out, remarketing audiences stop refilling, and nothing anywhere tells you why. Get it right and you carry on measuring, legally, even when people decline cookies. Three steps, all of it below.',
     },
     {
       t: 'callout',
@@ -40,15 +40,15 @@ export const consentModeV2: Post = {
     { t: 'h2', id: 'what-it-is', text: 'What Consent Mode actually does (in one minute)' },
     {
       t: 'p',
-      text: 'A normal cookie banner blocks Google tags entirely until someone clicks accept. That keeps you compliant, but it means everyone who declines becomes invisible: no conversions, no audiences, big gaps in your reporting.',
+      text: 'A normal cookie banner blocks Google tags outright until someone clicks accept. Compliant, certainly. It also means every person who declines simply vanishes from your reporting, taking their conversions and their audience membership with them.',
     },
     {
       t: 'p',
-      text: 'Consent Mode changes the deal. Instead of blocking the tags, your tags still load, but they load in a restricted state. When a visitor has not consented, Google receives no cookies and no identifiers, only anonymous, aggregated pings. Google then uses modelling to estimate the conversions you could not observe directly. You stay compliant and you keep a usable picture of performance.',
+      text: 'Consent Mode changes the deal. The tags still load, but in a restricted state: when a visitor has not consented, Google gets no cookies and no identifiers, just anonymous aggregated pings that carry no way to single anyone out. It then models the conversions it could not observe. You stay compliant, and your reporting stays usable rather than full of holes.',
     },
     {
       t: 'p',
-      text: 'Version 2 added two new signals on top of the original two. That is the entire difference, and it is why so many accounts started showing warnings.',
+      text: 'Version 2 bolted two new signals onto the original two. That is the whole difference, and it explains why a lot of accounts suddenly started showing warnings for something that had been working fine for years.',
     },
     {
       t: 'table',
@@ -76,7 +76,7 @@ export const consentModeV2: Post = {
     { t: 'h2', id: 'step-1', text: 'Step 1: Set your defaults (deny first)' },
     {
       t: 'p',
-      text: 'Before any Google tag runs, you tell Google "assume no consent". This is the safe default and it is what regulators expect. You grant permissions later, only if the visitor agrees.',
+      text: 'Before any Google tag runs, you tell Google to assume nothing has been agreed to. That is both the safe default and the one regulators expect to find. Permissions get granted afterwards, and only if the visitor actually says yes.',
     },
     {
       t: 'p',
@@ -117,13 +117,13 @@ export const consentModeV2: Post = {
     },
     {
       t: 'p',
-      text: 'Two settings worth understanding. `wait_for_update` tells Google to hold briefly (here 500ms) so a fast clicker does not get missed. `ads_data_redaction` strips ad identifiers while consent is denied, and `url_passthrough` passes click IDs through URLs so conversions can still be attributed without cookies.',
+      text: 'Two settings are worth understanding properly. `wait_for_update` tells Google to hold on briefly, 500ms here, so that someone who accepts the banner immediately does not get counted as a refusal. Then `ads_data_redaction` strips ad identifiers for as long as consent is denied, while `url_passthrough` carries click IDs in the URL instead of a cookie, which is what lets conversions still be attributed to the right campaign.',
     },
 
     { t: 'h2', id: 'step-2', text: 'Step 2: Update consent when the visitor chooses' },
     {
       t: 'p',
-      text: 'When someone interacts with your banner, you send an update with what they actually agreed to. Only send the signals that changed, and only ever in response to a real choice.',
+      text: 'When someone interacts with the banner, you send an update describing what they actually agreed to. Only the signals that changed. Only ever in response to a real choice.',
     },
     {
       t: 'code',
@@ -161,7 +161,7 @@ function consentAnalyticsOnly() {
     { t: 'h2', id: 'step-3', text: 'Step 3: Wire it up in your platform' },
     {
       t: 'p',
-      text: 'The first two steps are the same everywhere. What changes is where you paste them. Here are the three setups we see most.',
+      text: 'The first two steps are identical everywhere. All that changes is where the code goes, and that depends entirely on how your site was built. These are the three setups we run into most.',
     },
 
     { t: 'h3', text: 'A. Google Tag Manager' },
@@ -248,7 +248,7 @@ function consentAnalyticsOnly() {
     { t: 'h2', id: 'verify', text: 'How to prove it actually works' },
     {
       t: 'p',
-      text: 'This is the part almost every guide omits, and it is the only part that tells you whether you succeeded. Three checks, in increasing order of confidence.',
+      text: 'Almost every guide stops before this bit, which is unfortunate, because it is the only part that tells you whether any of the previous work actually took. Three checks, each one harder to fool than the last. The same discipline applies to any other pixel you run, including [the OpenAI Pixel used for ChatGPT Ads](/blogs/chatgpt-ads-conversion-tracking-setup), which defaults consent to true and will start measuring the moment it loads unless you tell it otherwise.',
     },
     {
       t: 'ol',
@@ -303,7 +303,7 @@ function consentAnalyticsOnly() {
     { t: 'h2', id: 'wrap', text: 'The short version' },
     {
       t: 'p',
-      text: 'Set deny-by-default before any Google tag loads. Update the signals when the visitor chooses, and remember that choice. Wire it into your platform in the right position, then verify with Tag Assistant that the before state reads denied. That is Consent Mode v2, and it takes an afternoon rather than a project.',
+      text: 'Deny by default, before any Google tag loads. Update the signals when the visitor chooses, and remember what they chose. Get the code into the right position for your platform, then open Tag Assistant and confirm the before state genuinely reads denied rather than assuming it does. That is the whole of Consent Mode v2. It is an afternoon, not a project, and the sites that get it wrong are almost always the ones that skipped the last sentence.',
     },
     {
       t: 'sources',

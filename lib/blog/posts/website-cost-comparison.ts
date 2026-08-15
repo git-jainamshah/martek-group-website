@@ -18,7 +18,7 @@ export const websiteCostComparison: Post = {
   blocks: [
     {
       t: 'lead',
-      text: 'Ask five people what a website costs and you will hear zero, five hundred, five thousand and fifty thousand dollars, all describing something they call "a website". None of them are lying. They are describing different things. This guide gives you the real numbers for each route, the five-year total rather than the sticker price, and a straight answer on which one fits your situation.',
+      text: 'Ask five people what a website costs and you will get zero, five hundred, five thousand and fifty thousand dollars, every one of them describing something they call "a website". Nobody is lying. They are describing genuinely different objects that happen to share a name. What follows is the real number for each route, the five-year total rather than the sticker price, and a straight answer about which one fits where you actually are.',
     },
     {
       t: 'callout',
@@ -30,7 +30,7 @@ export const websiteCostComparison: Post = {
     { t: 'h2', id: 'why-range', text: 'Why the price range is so absurd' },
     {
       t: 'p',
-      text: 'The word "website" covers a business card and a sales engine equally. Four things drive nearly all the price difference.',
+      text: 'The word "website" stretches to cover a digital business card and a machine that brings in most of a company\'s revenue. Four things account for nearly all the distance between them. Which platform you build on is a separate question, and one [we have answered at length](/blogs/wordpress-vs-webflow-vs-custom-built).',
     },
     {
       t: 'ul',
@@ -45,7 +45,7 @@ export const websiteCostComparison: Post = {
     { t: 'h2', id: 'diy', text: 'Option 1: DIY builders ($0 to $400/year)' },
     {
       t: 'p',
-      text: 'Wix, Squarespace, Shopify, WordPress with a template. You do the work; the platform provides the tools.',
+      text: 'Wix, Squarespace, Shopify, or WordPress on a bought template. The platform hands you the tools and you do the work. If you are at the very start and want the cheapest setup that still looks credible, [we costed that separately](/blogs/cheapest-way-to-start-a-business-online).',
     },
     {
       t: 'table',
@@ -59,7 +59,7 @@ export const websiteCostComparison: Post = {
     },
     {
       t: 'p',
-      text: 'DIY is genuinely the right answer when you are pre-revenue, testing an idea, or your customers will never judge you on your website. It is the wrong answer when the site is your main sales channel, because the ceiling on quality and speed is low and you cannot take the site with you.',
+      text: 'DIY is genuinely right when you are pre-revenue, testing whether the idea has legs, or working in a trade where customers were always going to judge you on the referral rather than the website. It becomes the wrong answer the moment the site turns into your main sales channel, because the ceiling on speed and quality sits lower than you would like and, on most of these platforms, you cannot take what you built anywhere else.',
     },
     {
       t: 'callout',
@@ -71,7 +71,7 @@ export const websiteCostComparison: Post = {
     { t: 'h2', id: 'freelancer', text: 'Option 2: A freelancer ($800 to $8,000)' },
     {
       t: 'p',
-      text: 'One person builds it for you. Enormously variable in quality, and the single most common route for small businesses.',
+      text: 'One person builds it for you. Wildly variable in quality, and easily the most common route for small businesses.',
     },
     {
       t: 'table',
@@ -84,7 +84,7 @@ export const websiteCostComparison: Post = {
     },
     {
       t: 'p',
-      text: 'The variance here is brutal, so the selection process matters more than the price. Ask for three live sites they built, then run those URLs through PageSpeed Insights yourself. If their own portfolio sites are slow, yours will be too.',
+      text: 'The variance here is brutal, which makes how you choose matter more than what you pay. Ask for three live sites they actually built, then put those URLs through PageSpeed Insights yourself rather than taking anyone\'s word for it. If the work in their own portfolio loads slowly, yours will too.',
     },
     {
       t: 'ul',
@@ -99,7 +99,7 @@ export const websiteCostComparison: Post = {
     { t: 'h2', id: 'agency', text: 'Option 3: An agency or studio ($5,000 to $50,000+)' },
     {
       t: 'p',
-      text: 'A team: strategy, design, build, testing, sometimes content and ongoing marketing. Price scales with the size of the team and the ambition of the project.',
+      text: 'A team, covering strategy, design, build and testing, and sometimes content and ongoing marketing on top. Price scales with how many people are involved and how ambitious the brief is.',
     },
     {
       t: 'table',
@@ -112,7 +112,7 @@ export const websiteCostComparison: Post = {
     },
     {
       t: 'p',
-      text: 'You are buying reliability and breadth: someone is accountable, work does not stop when one person is ill, and specialists handle design, build and measurement. You are also paying for overhead, which is why a small studio often lands in the sweet spot for an SMB.',
+      text: 'What you are buying is reliability and breadth. Somebody is accountable, the project does not stall because one person got flu, and the people doing design, build and measurement are each doing the thing they are good at. You are also paying for that team\'s overheads, which is precisely why a small studio tends to land in the sweet spot for a smaller business.',
     },
     {
       t: 'callout',
@@ -124,7 +124,7 @@ export const websiteCostComparison: Post = {
     { t: 'h2', id: 'hidden', text: 'The costs nobody puts in the quote' },
     {
       t: 'p',
-      text: 'This is where budgets actually break. Every route carries these, and they are routinely omitted from the headline number.',
+      text: 'This is where budgets actually break. Every route carries these. Almost nobody puts them in the quote.',
     },
     {
       t: 'table',
@@ -145,7 +145,7 @@ export const websiteCostComparison: Post = {
     { t: 'h2', id: 'five-year', text: 'The five-year comparison that actually matters' },
     {
       t: 'p',
-      text: 'Compare like for like: a small business site, roughly five to ten pages, contact form, decent design. Sticker prices mislead because subscriptions never stop and one-off builds do.',
+      text: 'Comparing like for like, then. A small business site, five to ten pages, contact form, design that does not embarrass anyone. Sticker prices mislead here for a simple reason, which is that subscriptions carry on charging you forever and one-off builds do not.',
     },
     {
       t: 'table',
@@ -161,7 +161,7 @@ export const websiteCostComparison: Post = {
     },
     {
       t: 'p',
-      text: 'The interesting line is the budget freelancer. It looks cheapest and frequently is not, because a meaningful share of those projects get rebuilt within two years. A rebuild means paying twice and losing the time between.',
+      text: 'Look closely at the budget freelancer line. It appears cheapest and often is not, because a meaningful share of those projects end up rebuilt inside two years. Paying twice is bad enough. The months in between, spent with a site you had already stopped trusting, cost more.',
     },
 
     { t: 'h2', id: 'which', text: 'So which should you choose?' },
@@ -209,7 +209,7 @@ export const websiteCostComparison: Post = {
     { t: 'h2', id: 'wrap', text: 'The short version' },
     {
       t: 'p',
-      text: 'DIY costs about $1,500 over five years plus dozens of your hours. A good freelancer lands near $4,000. A small studio lands near $9,000 and adds strategy and accountability. Ignore sticker prices, compare five-year totals, insist on owning everything, and pick the tier where a modest lift in results pays the cost back inside a year.',
+      text: 'Over five years, DIY runs to roughly $1,500 plus a few dozen hours of your own time, which is rarely counted and rarely free. A good freelancer lands near $4,000. A small studio sits closer to $9,000 and brings strategy and accountability with it. Ignore sticker prices, compare the five-year totals, insist on owning everything at the end, and then pick the tier where a modest improvement in results would pay the difference back inside a year.',
     },
     {
       t: 'sources',

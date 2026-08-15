@@ -17,7 +17,7 @@ export const coreWebVitals: Post = {
   blocks: [
     {
       t: 'lead',
-      text: 'You do not need to understand JavaScript to fix a slow website. You need to know which three numbers Google measures, what makes each one bad, and how to hand a developer a specific instruction instead of "the site feels slow". That is what this guide gives you.',
+      text: 'You do not need to understand JavaScript to fix a slow website. What you need is narrower than that: three numbers, what makes each one bad, and enough vocabulary to hand a developer a specific instruction instead of "the site feels slow", which is the kind of brief that comes back as an invoice and no improvement.',
     },
     {
       t: 'callout',
@@ -38,7 +38,7 @@ export const coreWebVitals: Post = {
     { t: 'h2', id: 'the-three', text: 'The three numbers, in plain English' },
     {
       t: 'p',
-      text: 'Google measures three things about how your page feels to a real person. Each one maps to a moment of frustration you have experienced yourself.',
+      text: 'Google measures three things about how a page feels to a real person. Each one is a moment of irritation you have already lived through without knowing it had a name.',
     },
     {
       t: 'figure',
@@ -51,7 +51,7 @@ export const coreWebVitals: Post = {
     },
     {
       t: 'p',
-      text: 'Largest Contentful Paint measures when the biggest visible thing (usually your hero image or headline) has finished loading. It is the moment a visitor stops staring at a blank screen. Aim for under 2.5 seconds.',
+      text: 'Largest Contentful Paint marks the moment the biggest visible thing on the page, usually your hero image or headline, has finished loading. In other words, the moment someone stops staring at nothing. Under 2.5 seconds.',
     },
     {
       t: 'h3',
@@ -59,7 +59,7 @@ export const coreWebVitals: Post = {
     },
     {
       t: 'p',
-      text: 'Interaction to Next Paint measures the delay between clicking something and the page visibly responding. It replaced the older FID metric because it measures every interaction, not just the first. That "did my tap register?" feeling is bad INP. Aim for under 200 milliseconds.',
+      text: 'Interaction to Next Paint measures the gap between tapping something and the page visibly doing anything about it. It replaced the older FID metric, which only ever looked at the first interaction and so missed most of the experience. That hesitant second tap, when you are not sure the first one registered, is bad INP. Under 200 milliseconds.',
     },
     {
       t: 'h3',
@@ -67,7 +67,7 @@ export const coreWebVitals: Post = {
     },
     {
       t: 'p',
-      text: 'Cumulative Layout Shift measures content moving while you are trying to read or click it. You go to press a button, an ad loads above it, and you press the wrong thing. Aim for under 0.1, which is a unitless score rather than a time.',
+      text: 'Cumulative Layout Shift measures content jumping around while you are trying to read or click it. You reach for a button, something loads above it, the page shunts down, and you tap the wrong thing. Under 0.1, and note that this one is a score rather than a time.',
     },
     {
       t: 'table',
@@ -83,7 +83,7 @@ export const coreWebVitals: Post = {
     { t: 'h2', id: 'measure', text: 'Measure yours in five minutes' },
     {
       t: 'p',
-      text: 'There are two kinds of data and confusing them is the most common mistake. Lab data is a simulated test run on demand. Field data is what actually happened to real visitors over the last 28 days. Google ranks on field data. Lab data is for diagnosing.',
+      text: 'There are two kinds of data here. Mixing them up is the most common mistake we see. Lab data is a simulation, run on demand, on a machine that is emphatically not your customer\'s four-year-old phone on a train. Field data is what actually happened to real visitors over the previous 28 days. Google ranks on the second one. The first is for working out why.',
     },
     {
       t: 'steps',
@@ -112,7 +112,7 @@ export const coreWebVitals: Post = {
     { t: 'h2', id: 'fix-lcp', text: 'Fixing slow loading (LCP)' },
     {
       t: 'p',
-      text: 'In our experience the cause is almost always one of four things, and the first one accounts for most cases.',
+      text: 'Four things cause almost all of it, and in the sites we have looked at, the first one on this list accounts for more than the other three put together. If your scores fell off a cliff rather than drifting, the cause is more likely to be [a recent redesign](/blogs/website-redesign-without-losing-seo) than any of these.',
     },
     {
       t: 'ul',
@@ -143,7 +143,7 @@ export const coreWebVitals: Post = {
     { t: 'h2', id: 'fix-inp', text: 'Fixing sluggish taps (INP)' },
     {
       t: 'p',
-      text: 'Poor INP nearly always means too much JavaScript competing for attention. The browser can only do one thing at a time on the main thread, so while a script is busy, your tap waits.',
+      text: 'Poor INP nearly always means too much JavaScript competing for the same attention. The browser does one thing at a time on the main thread, so while some script is busy doing whatever it was told to do, your visitor\'s tap simply waits its turn.',
     },
     {
       t: 'ul',
@@ -164,7 +164,7 @@ export const coreWebVitals: Post = {
     { t: 'h2', id: 'fix-cls', text: 'Fixing jumpy layouts (CLS)' },
     {
       t: 'p',
-      text: 'CLS is the easiest of the three to fix and the most annoying to visitors. Every cause comes down to the browser not knowing how much space something will need.',
+      text: 'CLS is the easiest of the three to fix and the one visitors complain about most. Every cause traces back to the same thing: the browser did not know how much room something was going to need, so it guessed, and then had to correct itself once the real content arrived.',
     },
     {
       t: 'ul',
@@ -179,7 +179,7 @@ export const coreWebVitals: Post = {
     { t: 'h2', id: 'brief', text: 'How to brief a developer (copy this)' },
     {
       t: 'p',
-      text: 'The difference between a fast fix and a vague back-and-forth is specificity. Rather than "can you make the site faster", send something like this.',
+      text: 'Whether this gets fixed in a day or turns into three weeks of email depends almost entirely on how you ask. So: not "can you make the site faster". Something closer to this.',
     },
     {
       t: 'quote',
@@ -187,7 +187,7 @@ export const coreWebVitals: Post = {
     },
     {
       t: 'p',
-      text: 'That paragraph names the metric, the measured value, the suspected cause, the requested change, and the target. It is the difference between a quote and a guess.',
+      text: 'That names the metric, the measured value, what you think is causing it, what you want changed and what number you are aiming for. A developer can quote that. They cannot quote "it feels slow".',
     },
 
     { t: 'h2', id: 'faq', text: 'Questions we get asked' },
@@ -216,7 +216,7 @@ export const coreWebVitals: Post = {
     { t: 'h2', id: 'wrap', text: 'The short version' },
     {
       t: 'p',
-      text: 'Check your field data in Search Console, not the lab score. Compress and correctly size your hero image to fix LCP. Delete third-party scripts you no longer use to fix INP. Set dimensions on images and reserve space for injected elements to fix CLS. Then re-check in a month, because field data moves slowly.',
+      text: 'Start with field data in Search Console rather than the lab score. For LCP, compress the hero image and serve it at the size it is actually displayed, which on most sites is the entire fix. For INP, delete the third-party scripts nobody has looked at in a year. For CLS, put dimensions on your images and reserve space for anything that gets injected after load. Then leave it a month before checking, because field data is a 28-day rolling window and will not reward you overnight.',
     },
     {
       t: 'sources',

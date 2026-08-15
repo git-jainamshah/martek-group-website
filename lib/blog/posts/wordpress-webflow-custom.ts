@@ -18,7 +18,7 @@ export const wordpressWebflowCustom: Post = {
   blocks: [
     {
       t: 'lead',
-      text: 'Almost every comparison of these three is written by an agency that builds on exactly one of them. We build custom sites and we also work on WordPress, and there are businesses we actively talk out of a custom build. This is the version of the conversation we have on a first call, written down.',
+      text: 'Almost every comparison of these three was written by an agency that happens to build on exactly one of them. We build custom sites, we also work on WordPress, and there is a type of business we talk out of a custom build more or less every month. What follows is the conversation we have on a first call, written down.',
     },
     {
       t: 'callout',
@@ -30,7 +30,7 @@ export const wordpressWebflowCustom: Post = {
     { t: 'h2', id: 'what-you-are-choosing', text: 'What you are actually choosing between' },
     {
       t: 'p',
-      text: 'These three are not the same kind of thing, which is why feature tables comparing them tend to mislead.',
+      text: 'These three are not the same category of thing. That is exactly why feature tables comparing them mislead so reliably: the columns line up, the products do not.',
     },
     {
       t: 'ul',
@@ -42,7 +42,7 @@ export const wordpressWebflowCustom: Post = {
     },
     {
       t: 'p',
-      text: 'The trade is roughly: WordPress gives you the most flexibility and the most maintenance; Webflow gives you the least maintenance and the least control; custom gives you exactly what you asked for and no path to change it without a developer.',
+      text: 'Roughly speaking: WordPress hands you the most flexibility and the most maintenance, Webflow the least maintenance and the least control, and a custom build gives you precisely what you specified along with no way to change it without a developer.',
     },
 
     {
@@ -54,7 +54,7 @@ export const wordpressWebflowCustom: Post = {
     { t: 'h2', id: 'real-costs', text: 'What each one really costs over three years' },
     {
       t: 'p',
-      text: 'Quoted build prices hide the real number. A cheap build with a costly platform can beat an expensive build over three years, or lose badly. Ranges below are indicative for a small business marketing site of roughly 5-15 pages, and vary widely by market and scope.',
+      text: 'Quoted build prices hide the number that matters. A cheap build sitting on an expensive platform can beat a pricier one over three years, or lose to it badly, and the quote tells you nothing about which. The ranges below assume a small business marketing site of five to fifteen pages, and they move a lot with market and scope. For the same question framed around who builds it rather than what it runs on, see [DIY versus freelancer versus agency](/blogs/how-much-does-a-small-business-website-cost).',
     },
     {
       t: 'table',
@@ -78,7 +78,7 @@ export const wordpressWebflowCustom: Post = {
     { t: 'h2', id: 'wordpress', text: 'WordPress: when it is the right answer' },
     {
       t: 'p',
-      text: 'WordPress runs a large share of the web for a reason. It is genuinely good at content, the talent pool is enormous, and you are never locked in to one supplier.',
+      text: 'WordPress runs a large share of the web, and not by accident. It is genuinely good at content, the pool of people who can work on it is enormous, and no single supplier ever has you cornered. It does need [keeping fast](/blogs/core-web-vitals-for-non-developers), which is not automatic on any platform.',
     },
     { t: 'h3', text: 'Choose it if' },
     {
@@ -109,7 +109,7 @@ export const wordpressWebflowCustom: Post = {
     { t: 'h2', id: 'webflow', text: 'Webflow: when it is the right answer' },
     {
       t: 'p',
-      text: 'Webflow removes an entire category of problem. There is nothing to update, nothing to get hacked through an abandoned plugin, and hosting is handled.',
+      text: 'Webflow deletes an entire category of problem. Nothing to update. Nothing to get compromised through a plugin somebody abandoned in 2021. Hosting is not your problem either.',
     },
     { t: 'h3', text: 'Choose it if' },
     {
@@ -135,7 +135,7 @@ export const wordpressWebflowCustom: Post = {
     { t: 'h2', id: 'custom', text: 'Custom-built: when it is the right answer (and when it is not)' },
     {
       t: 'p',
-      text: 'This is what we do most, so treat what follows with appropriate suspicion - including the part where we tell you when not to buy it.',
+      text: 'This is what we do most of. Read it with appropriate suspicion, including the part where we tell you not to buy it.',
     },
     { t: 'h3', text: 'Choose it if' },
     {
@@ -193,7 +193,7 @@ export const wordpressWebflowCustom: Post = {
     { t: 'h2', id: 'what-matters-more', text: 'What matters more than the platform' },
     {
       t: 'p',
-      text: 'Having built and rescued sites on all three, the platform is rarely what determines whether a site works. These are:',
+      text: 'We have built and rescued sites on all three. The platform is almost never what decides whether one works. These are:',
     },
     {
       t: 'ul',
@@ -249,7 +249,7 @@ export const wordpressWebflowCustom: Post = {
     { t: 'divider' },
     {
       t: 'p',
-      text: 'If you are choosing right now: write down the answers to the five questions above before you talk to anyone. Any studio worth hiring will reach the same recommendation you did - and if they recommend the one thing they happen to sell regardless of your answers, that tells you something too.',
+      text: 'If you are choosing right now, write down your answers to those five questions before you speak to anybody. Any studio worth hiring will land on roughly the recommendation you already reached. And if they recommend the one thing they happen to sell, regardless of what you said, that is also useful information.',
     },
   ],
 }

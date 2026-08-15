@@ -18,7 +18,7 @@ export const cadFileFormats: Post = {
   blocks: [
     {
       t: 'lead',
-      text: 'A supplier asks for a STEP file. Your designer sends a DWG. The 3D printing service wants an STL and rejects both. Nobody explains why, because in engineering everyone assumes you already know. Here is the whole landscape in one page, written for the person signing the invoice.',
+      text: 'A supplier asks for a STEP file. Your designer sends a DWG. The 3D printing service wants an STL and rejects both of them without much explanation, because in engineering everyone quietly assumes you already know this. So here is the whole landscape on one page, written for the person signing the invoice rather than the person operating the software.',
     },
     {
       t: 'callout',
@@ -49,7 +49,7 @@ export const cadFileFormats: Post = {
     },
     {
       t: 'p',
-      text: 'These store real mathematics: a circle is defined as a circle with a radius. Scale it a thousand times and it stays perfectly round. This is what manufacturers, machinists and engineers need, because you can measure, modify and machine from it. STEP, IGES and native CAD files live here.',
+      text: 'These store real mathematics. A circle is defined as a circle with a radius, so you can scale it a thousand times and it stays perfectly round. That is what manufacturers and machinists need, because you can measure from it, modify it and cut metal to it. STEP, IGES and native CAD files all live here.',
     },
     {
       t: 'h3',
@@ -57,7 +57,7 @@ export const cadFileFormats: Post = {
     },
     {
       t: 'p',
-      text: 'These approximate a shape with a skin of triangles. A cylinder becomes a many-sided prism. Zoom in far enough and you see the flat faces. Good enough for 3D printing and visualisation, useless for precision engineering, and effectively impossible to convert back into clean editable geometry. STL and 3MF live here.',
+      text: 'These wrap a shape in a skin of triangles and call it close enough. A cylinder becomes a many-sided prism; zoom in far enough and the flat faces are right there. Good enough for 3D printing and for showing someone what a thing looks like. Useless for precision work, and close to impossible to convert back into clean editable geometry once you have gone this way. STL and 3MF live here.',
     },
 
     { t: 'h2', id: 'formats', text: 'The formats, one by one' },
@@ -82,7 +82,7 @@ export const cadFileFormats: Post = {
     },
     {
       t: 'p',
-      text: 'AutoCAD\'s native format and the industry standard for 2D drawings: layouts, elevations, dimensioned shop drawings. It keeps layers, text, dimensions and title blocks. Because it is proprietary, other software reads it with varying fidelity, though support is now generally good.',
+      text: 'AutoCAD\'s native format, and the industry standard for 2D drawings of every kind: layouts, elevations, dimensioned shop drawings. It carries layers, text, dimensions and title blocks intact. It is also proprietary, which means every other program reading it is doing so by reverse engineering rather than by specification, and fidelity varies accordingly, although support has become good enough that this is rarely the thing that bites you.',
     },
     {
       t: 'h3',
@@ -90,7 +90,7 @@ export const cadFileFormats: Post = {
     },
     {
       t: 'p',
-      text: 'Created specifically so other programs could read AutoCAD geometry. Cutting services (laser, waterjet, plasma, CNC routers) almost always ask for DXF because they only need the flat outline to drive the machine.',
+      text: 'Created specifically so that other programs could read AutoCAD geometry without licensing it. Cutting services of all kinds, laser, waterjet, plasma and CNC routers, almost always ask for DXF, because all their machine needs is the flat outline.',
     },
     {
       t: 'h3',
@@ -98,7 +98,7 @@ export const cadFileFormats: Post = {
     },
     {
       t: 'p',
-      text: 'A neutral, open, precise 3D format that virtually every CAD system reads and writes. If a manufacturer, machinist or engineer asks for "a 3D file" without specifying, STEP is the safe answer. It preserves exact geometry and assembly structure. What it does not carry is your modelling history, so they get the finished shape rather than an editable recipe.',
+      text: 'A neutral, open, precise 3D format that essentially every CAD system on the market can read and write, which after thirty years of vendors trying to lock each other out is no small thing. When someone asks for "a 3D file" without saying which, STEP is the safe answer. It preserves exact geometry and assembly structure. What it deliberately leaves behind is your modelling history, so the recipient gets the finished shape rather than the recipe, which is usually what you want anyway.',
     },
     {
       t: 'h3',
@@ -106,7 +106,7 @@ export const cadFileFormats: Post = {
     },
     {
       t: 'p',
-      text: 'STEP\'s predecessor. Still used by some legacy systems and for complex surface work, but it is more prone to producing gaps and errors on import. Send it only when specifically requested.',
+      text: 'STEP\'s predecessor. Some legacy systems still want it, and it occasionally earns its place on complex surface work, but it is noticeably more prone to arriving with gaps and errors. Send it when asked and not otherwise.',
     },
     {
       t: 'h3',
@@ -114,7 +114,7 @@ export const cadFileFormats: Post = {
     },
     {
       t: 'p',
-      text: 'The long-standing 3D printing standard. It stores nothing but a triangle mesh: no units, no colour, no materials, no accuracy guarantee. The export resolution you choose decides whether a curved surface looks smooth or faceted. Fine for its job, wrong for manufacturing tolerances.',
+      text: 'The long-standing 3D printing standard, and a remarkably dumb file. It stores a triangle mesh and nothing else: no units, no colour, no materials, no promise about accuracy. Whatever export resolution you picked is what decides whether a curved surface comes out smooth or visibly faceted. Fine for the job it does. Wrong the moment tolerances matter.',
     },
     {
       t: 'h3',
@@ -122,7 +122,7 @@ export const cadFileFormats: Post = {
     },
     {
       t: 'p',
-      text: 'A modern replacement that carries units, colour, materials and print settings in one file, with fewer of STL\'s corruption problems. If your printer or service supports it, prefer it.',
+      text: 'The modern replacement, carrying units, colour, materials and print settings in a single file, with far fewer of STL\'s corruption problems. If your printer or print service supports it, use it.',
     },
     {
       t: 'callout',
@@ -190,7 +190,7 @@ export const cadFileFormats: Post = {
     { t: 'h2', id: 'wrap', text: 'The short version' },
     {
       t: 'p',
-      text: 'STEP for precise 3D and anything being manufactured. DXF for 2D cutting. STL or 3MF only for 3D printing. Always pair 3D geometry with a dimensioned PDF, because tolerances live in the drawing, not the model. And never let native files be your only copy.',
+      text: 'STEP for precise 3D and for anything being manufactured. DXF for 2D cutting. STL or 3MF only when something is being printed. Whatever you send, pair the 3D geometry with a dimensioned PDF, because tolerances live in the drawing rather than the model and no amount of geometry communicates them. And never, under any circumstances, let a native file be your only copy.',
     },
     {
       t: 'sources',

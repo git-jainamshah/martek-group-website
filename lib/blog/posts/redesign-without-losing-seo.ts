@@ -18,7 +18,7 @@ export const redesignWithoutLosingSeo: Post = {
   blocks: [
     {
       t: 'lead',
-      text: 'A redesign is the single most common way a small business loses its search traffic overnight. The design gets signed off, the site goes live, and six weeks later someone notices the phone stopped ringing. The good news: the causes are boring, repeatable, and almost entirely preventable with a day of preparation before launch.',
+      text: 'A redesign is the single most common way a small business loses its search traffic overnight. The design gets signed off, everyone is pleased, the site goes live, and about six weeks later somebody notices the phone has gone quiet. The reassuring part is that the causes are boring and repeatable, and a day of preparation before launch prevents nearly all of them.',
     },
     {
       t: 'callout',
@@ -39,11 +39,11 @@ export const redesignWithoutLosingSeo: Post = {
     { t: 'h2', id: 'why-traffic-drops', text: 'Why traffic drops after a redesign' },
     {
       t: 'p',
-      text: 'Every page that ranks has earned that position over time: links pointing at it, people clicking it in results, Google building confidence that the URL answers a particular question. None of that is attached to your logo or your layout. It is attached to the address.',
+      text: 'Every page that ranks earned that position slowly: links accumulating, people clicking it in the results, Google gradually building confidence that this particular URL answers a particular question well. None of that attaches to your logo or your layout. All of it attaches to the address.',
     },
     {
       t: 'p',
-      text: 'When /services-web-design becomes /what-we-do/web, Google sees the first address disappear and a brand new one appear. The new address has no history. The old one returns a 404. Whatever the first page had earned is stranded, and the replacement starts from nothing.',
+      text: 'So when /services-web-design becomes /what-we-do/web, what Google observes is one address vanishing and an unrelated new one turning up. The new one has no history at all. The old one now returns a 404. Everything the first page had earned is stranded there, and its replacement starts from zero.',
     },
     {
       t: 'ul',
@@ -59,7 +59,7 @@ export const redesignWithoutLosingSeo: Post = {
     { t: 'h2', id: 'before-you-start', text: 'Before anyone designs anything' },
     {
       t: 'p',
-      text: 'The work that protects your rankings happens before the first mockup. You are building an inventory of what you already have, so that nothing valuable gets thrown away by accident.',
+      text: 'The work that protects your rankings happens before anyone opens Figma. What you are building is an inventory of what you already have, so that nothing valuable gets thrown out by accident during a tidy-up.',
     },
     {
       t: 'steps',
@@ -92,7 +92,7 @@ export const redesignWithoutLosingSeo: Post = {
     { t: 'h2', id: 'redirect-map', text: 'The redirect map' },
     {
       t: 'p',
-      text: 'This is the single most important artefact of a redesign, and it is a spreadsheet. Two columns: every old URL, and the new URL that best replaces it. Build it before launch, not after.',
+      text: 'The single most important artefact of a redesign is a spreadsheet. Two columns. Every old URL, and the new URL that best replaces it. Build it before launch, not after, because after launch you are reconstructing it from memory and Search Console errors.',
     },
     {
       t: 'table',
@@ -113,7 +113,7 @@ export const redesignWithoutLosingSeo: Post = {
     },
     {
       t: 'p',
-      text: 'Use 301 (permanent), not 302 (temporary). A 301 tells Google the move is final and to transfer the page\'s accumulated authority to the new address. A 302 says "check back later", and Google keeps the old URL in its index waiting for a return that never comes.',
+      text: 'Use 301, which means permanent, rather than 302, which means temporary. A 301 tells Google the move is final and hands the page\'s accumulated authority to its new address. A 302 says "hold on, this is just for now", so Google keeps the old URL in its index and waits patiently for a return that is never coming.',
     },
     {
       t: 'callout',
@@ -123,13 +123,13 @@ export const redesignWithoutLosingSeo: Post = {
     },
     {
       t: 'p',
-      text: 'Letting a page 404 is a legitimate choice. A 2019 promotion or an empty tag archive should not be kept alive. The rule is simple: if it has traffic or links, redirect it; if it has neither, let it go.',
+      text: 'Letting a page 404 is a perfectly legitimate decision. A promotion from 2019 does not deserve life support. Neither does an empty tag archive. The rule is short: if it has traffic or links, redirect it. If it has neither, let it go.',
     },
 
     { t: 'h2', id: 'keep-the-words', text: 'Keep the words that made the page rank' },
     {
       t: 'p',
-      text: 'Redesigns tend to reduce text. Paragraphs become icons, headings become hero images, and a page that ranked for "engineering drawings Toronto" quietly stops containing either phrase in a form Google can read.',
+      text: 'Redesigns almost always reduce the amount of text on a page. Paragraphs turn into icons, headings turn into hero images, and a page that used to rank for "engineering drawings Toronto" quietly stops containing either phrase anywhere Google can read it.',
     },
     {
       t: 'ul',
@@ -144,7 +144,7 @@ export const redesignWithoutLosingSeo: Post = {
     { t: 'h2', id: 'launch-day', text: 'Launch day: the checks that take ten minutes' },
     {
       t: 'p',
-      text: 'The two failures below account for a large share of post-launch disasters, and both take under a minute to check.',
+      text: 'These two account for a startling share of post-launch disasters. Both take under a minute to check. A third, slower killer is a new design that loads badly on a phone, which is worth reading about in [our guide to Core Web Vitals](/blogs/core-web-vitals-for-non-developers).',
     },
     {
       t: 'steps',
@@ -177,7 +177,7 @@ export const redesignWithoutLosingSeo: Post = {
     { t: 'h2', id: 'first-month', text: 'The first month: what to watch, and when to worry' },
     {
       t: 'p',
-      text: 'A small dip in the first two weeks is normal. Google has to recrawl, follow your redirects, and re-evaluate. What matters is the direction of travel by week three.',
+      text: 'A small dip in the first fortnight is normal and not worth panicking about: Google has to recrawl the site, follow every redirect you set up and re-evaluate what it finds. What matters is which way the line is pointing by week three.',
     },
     {
       t: 'figure',
@@ -198,13 +198,13 @@ export const redesignWithoutLosingSeo: Post = {
     },
     {
       t: 'p',
-      text: 'The Search Console Pages report is your alarm. A sudden jump in "Not found (404)" means URLs you missed. "Blocked by robots.txt" or "Excluded by noindex tag" on pages that should rank means a staging setting shipped. Both are fixable in an afternoon if you catch them in week one, and expensive if you find them in month three.',
+      text: 'Your alarm is the Search Console Pages report. A sudden jump in "Not found (404)" means URLs you missed in the redirect map. "Blocked by robots.txt" or "Excluded by noindex tag" appearing on pages that ought to rank means a staging setting made it to production, which happens more often than anyone admits. Either is an afternoon\'s work in week one and a genuinely expensive problem by month three.',
     },
 
     { t: 'h2', id: 'ask-your-developer', text: 'Five questions to ask whoever builds it' },
     {
       t: 'p',
-      text: 'You do not need to do this work yourself. You do need to know whether the person doing it has thought about it. Ask these before signing anything.',
+      text: 'None of this has to be your job. Knowing whether the person doing it has thought about it, though, very much is. Ask these before you sign anything.',
     },
     {
       t: 'ol',
@@ -218,7 +218,7 @@ export const redesignWithoutLosingSeo: Post = {
     },
     {
       t: 'p',
-      text: 'A studio that answers these quickly has done redesigns before. One that says "SEO is a separate service we can quote for afterwards" is telling you the migration is not in scope - which is fine, as long as you know it before launch rather than after.',
+      text: 'A studio that answers these without hesitating has done migrations before. One that says "SEO is a separate service, we can quote for that afterwards" is telling you the migration is not in scope, which is a legitimate position, as long as you find out now rather than in six weeks.',
     },
 
     {
@@ -261,7 +261,7 @@ export const redesignWithoutLosingSeo: Post = {
     { t: 'divider' },
     {
       t: 'p',
-      text: 'A redesign should be the moment your site starts working harder, not the moment it disappears. The difference is a spreadsheet of redirects and ten minutes of checks on launch day.',
+      text: 'A redesign ought to be the moment your site starts pulling its weight, rather than the moment it quietly disappears from search. What separates those two outcomes is a spreadsheet of redirects and about ten minutes of checking on launch day.',
     },
   ],
 }
